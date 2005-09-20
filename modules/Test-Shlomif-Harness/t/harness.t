@@ -15,8 +15,8 @@ use strict;
 use Test::More tests => 2;
 
 BEGIN {
-    use_ok( 'Test::Harness' );
+    use_ok( 'Test::Shlomif::Harness::Obj' );
 }
 
-my $strap = Test::Harness->strap;
-isa_ok( $strap, 'Test::Harness::Straps' );
+my $strap = Test::Shlomif::Harness::Obj->strap;
+isa_ok( $strap, 'Test::Shlomif::Harness::Straps' );

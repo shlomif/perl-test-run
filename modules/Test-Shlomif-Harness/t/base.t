@@ -8,7 +8,7 @@ BEGIN {
 
 print "1..1\n";
 
-unless (eval 'require Test::Harness') {
+unless (eval 'require Test::Shlomif::Harness::Obj') {
   print "not ok 1\n";
 } else {
   print "ok 1\n";

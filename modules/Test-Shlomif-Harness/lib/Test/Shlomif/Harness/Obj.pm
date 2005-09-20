@@ -1,9 +1,9 @@
 # -*- Mode: cperl; cperl-indent-level: 4 -*-
 
-package Test::Harness;
+package Test::Shlomif::Harness::Obj;
 
 require 5.00405;
-use Test::Harness::Straps;
+use Test::Shlomif::Harness::Straps;
 use Test::Harness::Assert;
 use Exporter;
 use Benchmark;
@@ -39,7 +39,7 @@ Version 2.53_02
 
 =cut
 
-$VERSION = "2.53_02";
+$VERSION = "0.0100_00";
 
 # Backwards compatibility for exportable variable names.
 *verbose  = *Verbose;
@@ -47,12 +47,12 @@ $VERSION = "2.53_02";
 *debug    = *Debug;
 
 $ENV{HARNESS_ACTIVE} = 1;
-$ENV{HARNESS_VERSION} = $VERSION;
+$ENV{HARNESS_NG_VERSION} = $VERSION;
 
 END {
     # For VMS.
     delete $ENV{HARNESS_ACTIVE};
-    delete $ENV{HARNESS_VERSION};
+    delete $ENV{HARNESS_NG_VERSION};
 }
 
 # Some experimental versions of OS/2 build have broken $?
@@ -60,7 +60,7 @@ my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 
 my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
-$Strap = Test::Harness::Straps->new;
+$Strap = Test::Shlomif::Harness::Straps->new;
 
 sub strap { return $Strap };
 
@@ -349,7 +349,7 @@ sub _run_all_tests {
         $tot{files}++;
 
         $Strap->{_seen_header} = 0;
-        if ( $Test::Harness::Debug ) {
+        if ( $Test::Shlomif::Harness::Debug ) {
             print "# Running: ", $Strap->_command_line($tfile), "\n";
         }
         my $test_start_time = $Timer ? time : 0;

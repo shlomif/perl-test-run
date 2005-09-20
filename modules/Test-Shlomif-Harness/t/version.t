@@ -15,9 +15,13 @@ use strict;
 use Test::More tests => 3;
 
 BEGIN {
-    use_ok('Test::Harness');
+    # TEST
+    use_ok('Test::Shlomif::Harness::Obj');
 }
 
-my $ver = $ENV{HARNESS_VERSION} or die "HARNESS_VERSION not set";
-like( $ver, qr/^2.\d\d(_\d\d)?$/, "Version is proper format" );
-is( $ver, $Test::Harness::VERSION );
+my $ver = $ENV{HARNESS_NG_VERSION} or die "HARNESS_VERSION not set";
+# TEST
+like( $ver, qr/^\d.\d\d\d\d(_\d\d)?$/, "Version is proper format" );
+# TEST
+is( $ver, $Test::Shlomif::Harness::Obj::VERSION );
+

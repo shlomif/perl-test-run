@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::Harness;
+use Test::Shlomif::Harness::Obj;
 use Getopt::Long;
 use Pod::Usage 1.12;
 use File::Spec;
@@ -30,7 +30,7 @@ Getopt::Long::Configure( "no_ignore_case" );
 Getopt::Long::Configure( "bundling" );
 GetOptions(
     'b|blib'        => \$blib,
-    'd|debug'       => \$Test::Harness::debug,
+    'd|debug'       => \$Test::Shlomif::Harness::Obj::debug,
     'D|dry'         => \$dry,
     'h|help|?'      => sub {pod2usage({-verbose => 1}); exit},
     'H|man'         => sub {pod2usage({-verbose => 2}); exit},
@@ -40,13 +40,13 @@ GetOptions(
     's|shuffle'     => \$shuffle,
     't'             => sub { unshift @switches, "-t" }, # Always want -t up front
     'T'             => sub { unshift @switches, "-T" }, # Always want -T up front
-    'timer'         => \$Test::Harness::Timer,
-    'v|verbose'     => \$Test::Harness::verbose,
+    'timer'         => \$Test::Shlomif::Harness::Obj::Timer,
+    'v|verbose'     => \$Test::Shlomif::Harness::Obj::verbose,
     'V|version'     => sub { print_version(); exit; },
     'ext=s@'        => \@ext,
 ) or exit 1;
 
-$ENV{TEST_VERBOSE} = 1 if $Test::Harness::verbose;
+$ENV{TEST_VERBOSE} = 1 if $Test::Shlomif::Harness::Obj::verbose;
 
 # Build up extensions regex
 @ext = map { split /,/ } @ext;
@@ -72,8 +72,8 @@ if ( $lib ) {
 
 # Build up TH switches
 push( @switches, map { /\s/ && !/^".*"$/ ? qq["-I$_"] : "-I$_" } @includes );
-$Test::Harness::Switches = join( " ", @switches );
-print "# \$Test::Harness::Switches: $Test::Harness::Switches\n" if $Test::Harness::debug;
+$Test::Shlomif::Harness::Obj::Switches = join( " ", @switches );
+print "# \$Test::Shlomif::Harness::Obj::Switches: $Test::Shlomif::Harness::Obj::Switches\n" if $Test::Shlomif::Harness::Obj::debug;
 
 my @tests;
 @ARGV = File::Spec->curdir unless @ARGV;
@@ -84,7 +84,7 @@ if ( @tests ) {
     if ( $dry ) {
         print join( "\n", @tests, "" );
     } else {
-        print "# ", scalar @tests, " tests to run\n" if $Test::Harness::debug;
+        print "# ", scalar @tests, " tests to run\n" if $Test::Shlomif::Harness::Obj::debug;
         runtests(@tests);
     }
 }
@@ -127,8 +127,8 @@ sub shuffle {
 }
 
 sub print_version {
-    printf( "prove v%s, using Test::Harness v%s and Perl v%vd\n",
-        $VERSION, $Test::Harness::VERSION, $^V );
+    printf( "prove v%s, using Test::Shlomif::Harness::Obj v%s and Perl v%vd\n",
+        $VERSION, $Test::Shlomif::Harness::Obj::VERSION, $^V );
 }
 
 # Stolen directly from blib.pm

@@ -4,7 +4,7 @@ MANIFEST
 NOTES
 bin/prove
 examples/mini_harness.plx
-lib/Test/Harness.pm
+lib/Test/Shlomif/Harness/Obj.pm
 lib/Test/Harness/Assert.pm
 lib/Test/Harness/Iterator.pm
 lib/Test/Harness/Point.pm
@@ -12,21 +12,14 @@ lib/Test/Harness/Straps.pm
 lib/Test/Harness/TAP.pod
 
 t/00compile.t
-t/assert.t
 t/base.t
-t/callback.t
 t/harness.t
-t/from_line.t
 t/inc_taint.t
 t/nonumbers.t
 t/ok.t
 t/pod.t
-t/point.t
-t/point-parse.t
 t/prove-globbing.t
 t/prove-switches.t
-t/strap-analyze.t
-t/strap.t
 t/test-harness.t
 t/version.t
 

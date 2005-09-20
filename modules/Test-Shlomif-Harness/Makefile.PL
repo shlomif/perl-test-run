@@ -6,19 +6,18 @@ use ExtUtils::Command qw( touch rm_f );
 use constant FLAG_SKIP_PROVE => "t/SKIP-PROVE";
 
 my @files = qw(
-    Harness.pm
-    Harness/Iterator.pm
-    Harness/Assert.pm
-    Harness/Point.pm
-    Harness/Straps.pm
-    Harness/TAP.pod
+    Shlomif/Harness/Obj.pm
 );
 
 my %parms = (
-    NAME            => "Test::Harness",
-    VERSION_FROM    => "lib/Test/Harness.pm",
-    PM              => { map { ("lib/Test/$_" => "\$(INST_LIBDIR)/$_") } @files },
-    PREREQ_PM       => { File::Spec => 0.6 },
+    NAME            => "Test::Shlomif::Harness",
+    VERSION_FROM    => "lib/Test/Shlomif/Harness/Obj.pm",
+    # PM              => { map { ("lib/Test/$_" => "\$(INST_LIBDIR)/$_") } @files },
+    PREREQ_PM       => 
+    {
+        'File::Spec' => 0.6,
+        'Test::Harness' => "2.53",
+    },
     INSTALLDIRS     => 'perl',
     clean           => { FILES => join( " ", FLAG_SKIP_PROVE, 'Test-Harness-*', '*~' ) },
 );

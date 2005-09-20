@@ -489,9 +489,9 @@ my %samples = (
 
 plan tests => (keys(%samples) * 7);
 
-use Test::Harness;
+use Test::Shlomif::Harness::Obj;
 my @_INC = map { qq{"-I$_"} } @INC;
-$Test::Harness::Switches = "@_INC -Mstrict";
+$Test::Shlomif::Harness::Obj::Switches = "@_INC -Mstrict";
 
 tie *NULL, 'Dev::Null' or die $!;
 
@@ -511,7 +511,7 @@ SKIP: {
         select NULL;    # _run_all_tests() isn't as quiet as it should be.
         local $SIG{__WARN__} = sub { $warning .= join '', @_; };
         ($totals, $failed) = 
-          Test::Harness::_run_all_tests($test_path);
+          Test::Shlomif::Harness::Obj::_run_all_tests($test_path);
     };
     select STDOUT;
 
@@ -526,7 +526,7 @@ SKIP: {
     SKIP: {
         skip "don't apply to a bailout", 5 if $test eq 'bailout';
         is( $@, '' );
-        is( Test::Harness::_all_ok($totals), $expect->{all_ok},
+        is( Test::Shlomif::Harness::Obj::_all_ok($totals), $expect->{all_ok},
                                                   "$test - all ok" );
         ok( defined $expect->{total},             "$test - has total" );
         is_deeply( {map { $_=>$totals->{$_} } keys %{$expect->{total}}},

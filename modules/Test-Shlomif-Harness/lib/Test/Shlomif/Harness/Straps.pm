@@ -1,5 +1,5 @@
 # -*- Mode: cperl; cperl-indent-level: 4 -*-
-package Test::Harness::Straps;
+package Test::Shlomif::Harness::Straps;
 
 use strict;
 use vars qw($VERSION);
@@ -282,7 +282,7 @@ sub analyze_file {
     }
 
     local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
-    if ( $Test::Harness::Debug ) {
+    if ( $Test::Shlomif::Harness::Obj::Debug ) {
         local $^W=0; # ignore undef warnings
         print "# PERL5LIB=$ENV{PERL5LIB}\n";
     }
@@ -373,7 +373,7 @@ Formats and returns the switches necessary to run the test.
 sub _switches {
     my($self, $file) = @_;
 
-    my @existing_switches = $self->_cleaned_switches( $Test::Harness::Switches, $ENV{HARNESS_PERL_SWITCHES} );
+    my @existing_switches = $self->_cleaned_switches( $Test::Shlomif::Harness::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
     my @derived_switches;
 
     local *TEST;
