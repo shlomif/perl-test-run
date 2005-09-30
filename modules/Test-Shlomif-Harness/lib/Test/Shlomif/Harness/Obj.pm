@@ -239,7 +239,7 @@ sub runtests {
 
     my($tot, $failedtests) =
         $self->_run_all_tests('test_files' => $args{'test_files'});
-    _show_results($tot, $failedtests);
+    $self->_show_results($tot, $failedtests);
 
     my $ok = _all_ok($tot);
 
@@ -574,7 +574,7 @@ sub _leader_width {
 
 
 sub _show_results {
-    my($tot, $failedtests) = @_;
+    my($self, $tot, $failedtests) = @_;
 
     my $pct;
     my $bonusmsg = _bonusmsg($tot);
