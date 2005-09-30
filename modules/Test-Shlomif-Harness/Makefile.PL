@@ -23,6 +23,10 @@ my %parms = (
 );
 
 my $install_prove = eval "use Pod::Usage 1.12; 1";
+# Added by Shlomi Fish: Don't install prove since at the moment we don't
+# have anything like it and I don't want to override anything that
+# Test::Harness supplies.
+$install_prove = 0;
 if ( $install_prove ) {
     $parms{EXE_FILES} = [ 'bin/prove' ];
     local @ARGV = FLAG_SKIP_PROVE;
