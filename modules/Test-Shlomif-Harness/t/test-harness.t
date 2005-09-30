@@ -510,8 +510,9 @@ SKIP: {
     eval {
         select NULL;    # _run_all_tests() isn't as quiet as it should be.
         local $SIG{__WARN__} = sub { $warning .= join '', @_; };
+        my $obj = Test::Shlomif::Harness::Obj->new();
         ($totals, $failed) = 
-          Test::Shlomif::Harness::Obj::_run_all_tests($test_path);
+          $obj->_run_all_tests(test_files => [$test_path]);
     };
     select STDOUT;
 

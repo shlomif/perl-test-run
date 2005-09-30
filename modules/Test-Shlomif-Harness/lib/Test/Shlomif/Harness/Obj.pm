@@ -75,11 +75,29 @@ $Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
 $Columns--;             # Some shells have trouble with a full line of text.
 $Timer    = $ENV{HARNESS_TIMER} || 0;
 
+sub new
+{
+    my $class = shift;
+    my $self = {};
+    bless $self, $class;
+    $self->_initialize(@_);
+    return $self;
+}
+
+sub _initialize
+{
+    my $self = shift;
+
+    return 0;
+}
+
 =head1 SYNOPSIS
 
-  use Test::Harness;
+  use Test::Shlomif::Harness::Obj;
 
-  runtests(@test_files);
+  my $tester = Test::Shlomif::Harness::Obj->new();
+  $tester->runtests('test_files' => \@test_files);
+  
 
 =head1 DESCRIPTION
 
@@ -201,7 +219,7 @@ Test::Harness currently only has one function, here it is.
 
 =item B<runtests>
 
-  my $allok = runtests(@test_files);
+  my $allok = $self->runtests('test_files' => \@test_files);
 
 This runs all the given I<@test_files> and divines whether they passed
 or failed based on their output to STDOUT (details above).  It prints
@@ -214,11 +232,13 @@ one of the messages in the DIAGNOSTICS section.
 =cut
 
 sub runtests {
-    my(@tests) = @_;
+    my $self = shift;
+    my (%args) = (@_);
 
     local ($\, $,);
 
-    my($tot, $failedtests) = _run_all_tests(@tests);
+    my($tot, $failedtests) =
+        $self->_run_all_tests('test_files' => $args{'test_files'});
     _show_results($tot, $failedtests);
 
     my $ok = _all_ok($tot);
@@ -312,7 +332,10 @@ sub _autoflush {
 }
 
 sub _run_all_tests {
-    my @tests = @_;
+    my $self = shift;
+    my (%args) = @_;
+
+    my @tests = @{$args{'test_files'}};
 
     _autoflush(\*STDOUT);
     _autoflush(\*STDERR);
