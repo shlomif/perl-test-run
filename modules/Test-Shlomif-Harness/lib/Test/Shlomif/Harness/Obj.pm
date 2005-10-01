@@ -580,7 +580,7 @@ sub _show_results {
     my($self, $tot, $failedtests) = @_;
 
     my $pct;
-    my $bonusmsg = _bonusmsg($tot);
+    my $bonusmsg = $self->_bonusmsg($tot);
 
     if (_all_ok($tot)) {
         print "All tests successful$bonusmsg.\n";
@@ -703,7 +703,7 @@ sub _print_ml_less {
 }
 
 sub _bonusmsg {
-    my($tot) = @_;
+    my($self, $tot) = @_;
 
     my $bonusmsg = '';
     $bonusmsg = (" ($tot->{bonus} subtest".($tot->{bonus} > 1 ? 's' : '').
