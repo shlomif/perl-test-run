@@ -335,7 +335,7 @@ sub _run_all_tests {
     my $self = shift;
     my (%args) = @_;
 
-    my @tests = @{$args{'test_files'}};
+    my $tests = $args{'test_files'};
 
     _autoflush(\*STDOUT);
     _autoflush(\*STDERR);
@@ -350,7 +350,7 @@ sub _run_all_tests {
                 files    => 0,
                 bad      => 0,
                 good     => 0,
-                tests    => scalar @tests,
+                tests    => (scalar @$tests),
                 sub_skipped  => 0,
                 todo     => 0,
                 skipped  => 0,
@@ -361,8 +361,8 @@ sub _run_all_tests {
     @dir_files = _globdir $Files_In_Dir if defined $Files_In_Dir;
     my $run_start_time = new Benchmark;
 
-    my $width = _leader_width(@tests);
-    foreach my $tfile (@tests) {
+    my $width = $self->_leader_width('test_files' => $tests);
+    foreach my $tfile (@$tests) {
         $Last_ML_Print = 0;  # so each test prints at least once
         my($leader, $ml) = _mk_leader($tfile, $width);
         local $ML = $ml;
@@ -551,7 +551,7 @@ sub _mk_leader {
 
 =item B<_leader_width>
 
-  my($width) = _leader_width(@test_files);
+  my($width) = $self->_leader_width('test_files' => \@test_files);
 
 Calculates how wide the leader should be based on the length of the
 longest test name.
@@ -559,9 +559,12 @@ longest test name.
 =cut
 
 sub _leader_width {
+    my ($self, %args) = @_;
+    my $tests = $args{test_files};
+
     my $maxlen = 0;
     my $maxsuflen = 0;
-    foreach (@_) {
+    foreach (@$tests) {
         my $suf    = /\.(\w+)$/ ? $1 : '';
         my $len    = length;
         my $suflen = length $suf;
