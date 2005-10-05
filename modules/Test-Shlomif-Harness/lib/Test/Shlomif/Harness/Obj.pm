@@ -453,7 +453,7 @@ sub _run_all_tests {
             }
 
             if ($wstatus) {
-                $failedtests{$tfile} = _dubious_return(\%test, \%tot, 
+                $failedtests{$tfile} = $self->_dubious_return(\%test, \%tot, 
                                                        $estatus, $wstatus);
                 $failedtests{$tfile}{name} = $tfile;
             }
@@ -730,7 +730,7 @@ sub _bonusmsg {
 
 # Test program go boom.
 sub _dubious_return {
-    my($test, $tot, $estatus, $wstatus) = @_;
+    my($self, $test, $tot, $estatus, $wstatus) = @_;
     my ($failed, $canon, $percent) = ('??', '??');
 
     printf "$test->{ml}dubious\n\tTest returned status $estatus ".
