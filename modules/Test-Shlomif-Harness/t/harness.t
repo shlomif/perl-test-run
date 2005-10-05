@@ -18,5 +18,7 @@ BEGIN {
     use_ok( 'Test::Shlomif::Harness::Obj' );
 }
 
-my $strap = Test::Shlomif::Harness::Obj->strap;
+my $obj = Test::Shlomif::Harness::Obj->new();
+my $strap = $obj->Strap();
 isa_ok( $strap, 'Test::Shlomif::Harness::Straps' );
+

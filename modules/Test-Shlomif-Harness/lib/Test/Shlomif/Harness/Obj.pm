@@ -10,6 +10,8 @@ use Benchmark;
 use Config;
 use strict;
 
+use Class::Accessor;
+
 
 use vars qw(
     $VERSION 
@@ -20,7 +22,6 @@ use vars qw(
     $Columns 
     $Timer
     $ML $Last_ML_Print
-    $Strap
     $has_time_hires
 );
 
@@ -42,7 +43,7 @@ Version 2.53_02
 $VERSION = "0.0100_00";
 
 # Backwards compatibility for exportable variable names.
-*verbose  = *Verbose;
+# REMOVED *verbose  = *Verbose;
 *switches = *Switches;
 *debug    = *Debug;
 
@@ -60,21 +61,21 @@ my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 
 my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
-$Strap = Test::Shlomif::Harness::Straps->new;
-
-sub strap { return $Strap };
-
-@ISA = ('Exporter');
+@ISA = ('Exporter', 'Class::Accessor');
 @EXPORT    = qw(&runtests);
 @EXPORT_OK = qw($verbose $switches);
 
-$Verbose  = $ENV{HARNESS_VERBOSE} || 0;
+# REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
 $Debug    = $ENV{HARNESS_DEBUG} || 0;
 $Switches = "-w";
 $Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
 $Columns--;             # Some shells have trouble with a full line of text.
 $Timer    = $ENV{HARNESS_TIMER} || 0;
 
+__PACKAGE__->mk_accessors(qw(
+    Strap
+    Verbose
+));
 sub new
 {
     my $class = shift;
@@ -87,7 +88,13 @@ sub new
 sub _initialize
 {
     my $self = shift;
-
+    my (%args) = (@_);
+    if (exists($args{'Verbose'}))
+    {
+        $self->Verbose($args{'Verbose'});
+    }
+    $self->Strap(Test::Shlomif::Harness::Straps->new());
+    $self->Strap()->{callback} = \&strap_callback;
     return 0;
 }
 
@@ -126,6 +133,18 @@ test files.  So if you begin a test with:
 
 the test will be run with taint mode on.
 
+=head2 Object Parameters
+
+=over 4
+
+=item C<$self-E<gt>Verbose()>
+
+The object variable C<$self-E<gt>Verbose()> can be used to let C<runtests()> 
+display the standard output of the script without altering the behavior 
+otherwise.  The F<prove> utility's C<-v> flag will set this.
+
+=back 
+
 =head2 Configuration variables.
 
 These variables can be used to configure the behavior of
@@ -133,12 +152,6 @@ Test::Harness.  They are exported on request.
 
 =over 4
 
-=item C<$Test::Harness::Verbose>
-
-The package variable C<$Test::Harness::Verbose> is exportable and can be
-used to let C<runtests()> display the standard output of the script
-without altering the behavior otherwise.  The F<prove> utility's C<-v>
-flag will set this.
 
 =item C<$Test::Harness::switches>
 
@@ -275,7 +288,7 @@ compatibility on systems where C<glob()> doesn't work right.
 
 =cut
 
-sub _globdir { 
+sub _globdir {
     opendir DIRH, shift; 
     my @f = readdir DIRH; 
     closedir DIRH; 
@@ -372,13 +385,14 @@ sub _run_all_tests {
 
         $tot{files}++;
 
-        $Strap->{_seen_header} = 0;
+        $self->Strap()->{_seen_header} = 0;
         if ( $Test::Shlomif::Harness::Debug ) {
-            print "# Running: ", $Strap->_command_line($tfile), "\n";
+            print "# Running: ", $self->Strap()->_command_line($tfile), "\n";
         }
         my $test_start_time = $Timer ? time : 0;
-        my %results = $Strap->analyze_file($tfile) or
-          do { warn $Strap->{error}, "\n";  next };
+        $self->Strap()->Verbose($self->Verbose());
+        my %results = $self->Strap()->analyze_file($tfile) or
+          do { warn $self->Strap()->{error}, "\n";  next };
         my $elapsed;
         if ( $Timer ) {
             $elapsed = time - $test_start_time;
@@ -398,13 +412,13 @@ sub _run_all_tests {
                      1..@{$results{details}};
         my %test = (
                     ok          => $results{ok},
-                    'next'      => $Strap->{'next'},
+                    'next'      => $self->Strap()->{'next'},
                     max         => $results{max},
                     failed      => \@failed,
                     bonus       => $results{bonus},
                     skipped     => $results{skip},
                     skip_reason => $results{skip_reason},
-                    skip_all    => $Strap->{skip_all},
+                    skip_all    => $self->Strap()->{skip_all},
                     ml          => $ml,
                    );
 
@@ -518,7 +532,7 @@ sub _run_all_tests {
     } # foreach test
     $tot{bench} = timediff(new Benchmark, $run_start_time);
 
-    $Strap->_restore_PERL5LIB;
+    $self->Strap()->_restore_PERL5LIB;
 
     return(\%tot, \%failedtests);
 }
@@ -547,7 +561,7 @@ sub _mk_leader {
     my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 
-    if ( -t STDOUT and not $ENV{HARNESS_NOTTY} and not $Verbose ) {
+    if ( -t STDOUT and not $ENV{HARNESS_NOTTY} and not $self->Verbose()) {
         $ml = "\r" . (' ' x 77) . "\r$leader"
     }
 
@@ -631,10 +645,9 @@ my %Handlers = (
     bailout => \&bailout_handler,
 );
 
-$Strap->{callback} = \&strap_callback;
 sub strap_callback {
     my($self, $line, $type, $totals) = @_;
-    print $line if $Verbose;
+    print $line if $self->Verbose();
 
     my $meth = $Handlers{$type};
     $meth->($self, $line, $type, $totals) if $meth;

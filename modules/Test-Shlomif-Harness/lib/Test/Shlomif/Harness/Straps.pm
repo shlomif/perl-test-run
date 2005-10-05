@@ -2,13 +2,19 @@
 package Test::Shlomif::Harness::Straps;
 
 use strict;
-use vars qw($VERSION);
+use vars qw($VERSION @ISA);
 $VERSION = '0.24';
 
 use Config;
 use Test::Harness::Assert;
 use Test::Harness::Iterator;
 use Test::Harness::Point;
+
+use Class::Accessor;
+
+@ISA = (qw(Class::Accessor));
+
+__PACKAGE__->mk_accessors(qw(Verbose));
 
 # Flags used as return values from our methods.  Just for internal 
 # clarification.
