@@ -463,7 +463,7 @@ sub _run_all_tests {
                         $self->_canonfailed(
                             $test{max},
                             $test{skipped},
-                            @{$test{failed}}
+                            $test{failed}
                         );
                     print "$test{ml}$txt";
                     $failedtests{$tfile} = { canon   => $canon,
@@ -757,7 +757,7 @@ sub _dubious_return {
                 $self->_canonfailed(
                     $test->{max},
                     $test->{skipped},
-                    @{$test->{failed}}
+                    $test->{failed}
                 );
             $percent = 100*(scalar @{$test->{failed}})/$test->{max};
             print "DIED. ",$txt;
@@ -826,10 +826,10 @@ sub _create_fmts {
 }
 
 sub _canonfailed ($$@) {
-    my ($self, $max, $skipped, @failed) = @_;
+    my ($self, $max, $skipped, $failed_ref) = @_;
     my %seen;
-    @failed = sort {$a <=> $b} grep !$seen{$_}++, @failed;
-    my $failed = @failed;
+    my @failed = sort {$a <=> $b} grep !$seen{$_}++, @$failed_ref;
+    my $failed_num = @failed;
     my @result = ();
     my @canon = ();
     my $min;
@@ -852,16 +852,16 @@ sub _canonfailed ($$@) {
         $canon = $last;
     }
 
-    push @result, "\tFailed $failed/$max tests, ";
+    push @result, "\tFailed $failed_num/$max tests, ";
     if ($max) {
-        push @result, sprintf("%.2f",100*(1-$failed/$max)), "% okay";
+        push @result, sprintf("%.2f",100*(1-$failed_num/$max)), "% okay";
     }
     else {
         push @result, "?% okay";
     }
     my $ender = 's' x ($skipped > 1);
     if ($skipped) {
-        my $good = $max - $failed - $skipped;
+        my $good = $max - $failed_num - $skipped;
         my $skipmsg = " (less $skipped skipped test$ender: $good okay, ";
         if ($max) {
             my $goodper = sprintf("%.2f",100*($good/$max));
