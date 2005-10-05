@@ -30,4 +30,4 @@ my($tot, $failed) = $obj->_run_all_tests(
 select STDOUT;
 
 # TEST
-ok( Test::Shlomif::Harness::Obj::_all_ok($tot), 'tests with taint on preserve @INC' );
+ok( $obj->_all_ok($tot), 'tests with taint on preserve @INC' );

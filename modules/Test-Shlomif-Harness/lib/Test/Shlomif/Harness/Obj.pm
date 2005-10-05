@@ -241,7 +241,7 @@ sub runtests {
         $self->_run_all_tests('test_files' => $args{'test_files'});
     $self->_show_results($tot, $failedtests);
 
-    my $ok = _all_ok($tot);
+    my $ok = $self->_all_ok($tot);
 
     assert(($ok xor keys %$failedtests), 
            q{ok status jives with $failedtests});
@@ -253,14 +253,15 @@ sub runtests {
 
 =item B<_all_ok>
 
-  my $ok = _all_ok(\%tot);
+  my $ok = $self->_all_ok(\%tot);
 
 Tells you if this test run is overall successful or not.
 
 =cut
 
 sub _all_ok {
-    my($tot) = shift;
+    my $self = shift;
+    my $tot = shift;
 
     return $tot->{bad} == 0 && ($tot->{max} || $tot->{skipped}) ? 1 : 0;
 }
@@ -586,7 +587,7 @@ sub _show_results {
     my $pct;
     my $bonusmsg = $self->_bonusmsg($tot);
 
-    if (_all_ok($tot)) {
+    if ($self->_all_ok($tot)) {
         print "All tests successful$bonusmsg.\n";
     }
     elsif (!$tot->{tests}){

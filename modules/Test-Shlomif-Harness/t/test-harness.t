@@ -507,10 +507,11 @@ SKIP: {
     my $test_path = File::Spec->catfile($SAMPLE_TESTS, $test);
 
     print STDERR "# $test\n" if $ENV{TEST_VERBOSE};
+    my $obj;
     eval {
         select NULL;    # _run_all_tests() isn't as quiet as it should be.
         local $SIG{__WARN__} = sub { $warning .= join '', @_; };
-        my $obj = Test::Shlomif::Harness::Obj->new();
+        $obj = Test::Shlomif::Harness::Obj->new();
         ($totals, $failed) = 
           $obj->_run_all_tests(test_files => [$test_path]);
     };
@@ -527,7 +528,7 @@ SKIP: {
     SKIP: {
         skip "don't apply to a bailout", 5 if $test eq 'bailout';
         is( $@, '' );
-        is( Test::Shlomif::Harness::Obj::_all_ok($totals), $expect->{all_ok},
+        is( $obj->_all_ok($totals), $expect->{all_ok},
                                                   "$test - all ok" );
         ok( defined $expect->{total},             "$test - has total" );
         is_deeply( {map { $_=>$totals->{$_} } keys %{$expect->{total}}},
