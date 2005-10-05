@@ -364,7 +364,7 @@ sub _run_all_tests {
     my $width = $self->_leader_width('test_files' => $tests);
     foreach my $tfile (@$tests) {
         $Last_ML_Print = 0;  # so each test prints at least once
-        my($leader, $ml) = _mk_leader($tfile, $width);
+        my($leader, $ml) = $self->_mk_leader($tfile, $width);
         local $ML = $ml;
 
         print $leader;
@@ -524,7 +524,7 @@ sub _run_all_tests {
 
 =item B<_mk_leader>
 
-  my($leader, $ml) = _mk_leader($test_file, $width);
+  my($leader, $ml) = $self->_mk_leader($test_file, $width);
 
 Generates the 't/foo........' leader for the given C<$test_file> as well
 as a similar version which will overwrite the current line (by use of
@@ -536,7 +536,7 @@ The C<$width> is the width of the "yada/blah.." string.
 =cut
 
 sub _mk_leader {
-    my($te, $width) = @_;
+    my ($self, $te, $width) = @_;
     chomp($te);
     $te =~ s/\.\w+$/./;
 
