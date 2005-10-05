@@ -600,7 +600,7 @@ sub _show_results {
                               $tot->{max} - $tot->{ok}, $tot->{max}, 
                               $percent_ok;
 
-        my($fmt_top, $fmt) = _create_fmts($failedtests);
+        my($fmt_top, $fmt) = $self->_create_fmts($failedtests);
 
         # Now write to formats
         for my $script (sort keys %$failedtests) {
@@ -764,7 +764,7 @@ sub _dubious_return {
 
 
 sub _create_fmts {
-    my($failedtests) = @_;
+    my($self, $failedtests) = @_;
 
     my $failed_str = "Failed Test";
     my $middle_str = " Stat Wstat Total Fail  Failed  ";
