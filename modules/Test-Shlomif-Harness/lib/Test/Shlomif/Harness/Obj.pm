@@ -825,18 +825,25 @@ sub _create_fmts {
     return($fmt_top, $fmt);
 }
 
-sub _canonfailed ($$@) {
-    my ($self, $max, $skipped, $failed_ref) = @_;
+sub filter_failed
+{
+    my ($self, $failed_ref) = @_;
     my %seen;
-    my @failed = sort {$a <=> $b} grep !$seen{$_}++, @$failed_ref;
-    my $failed_num = @failed;
+    return [ sort {$a <=> $b} grep !$seen{$_}++, @$failed_ref ];
+}
+
+sub _canonfailed ($$@) {
+    my ($self, $max, $skipped, $failed_in) = @_;
+    my %seen;
+    my $failed = $self->filter_failed($failed_in); 
+    my $failed_num = @$failed;
     my @result = ();
     my @canon = ();
     my $min;
-    my $last = $min = shift @failed;
+    my $last = $min = shift @$failed;
     my $canon;
-    if (@failed) {
-        for (@failed, $failed[-1]) { # don't forget the last one
+    if (@$failed) {
+        for (@$failed, $failed->[-1]) { # don't forget the last one
             if ($_ > $last+1 || $_ == $last) {
                 push @canon, ($min == $last) ? $last : "$min-$last";
                 $min = $_;
