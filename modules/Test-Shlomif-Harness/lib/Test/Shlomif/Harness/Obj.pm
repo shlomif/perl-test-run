@@ -459,8 +459,12 @@ sub _run_all_tests {
             }
             elsif($results{seen}) {
                 if (@{$test{failed}} and $test{max}) {
-                    my ($txt, $canon) = _canonfailed($test{max},$test{skipped},
-                                                    @{$test{failed}});
+                    my ($txt, $canon) =
+                        $self->_canonfailed(
+                            $test{max},
+                            $test{skipped},
+                            @{$test{failed}}
+                        );
                     print "$test{ml}$txt";
                     $failedtests{$tfile} = { canon   => $canon,
                                              max     => $test{max},
@@ -749,7 +753,12 @@ sub _dubious_return {
         else {
             push @{$test->{failed}}, $test->{'next'}..$test->{max};
             $failed = @{$test->{failed}};
-            (my $txt, $canon) = _canonfailed($test->{max},$test->{skipped},@{$test->{failed}});
+            (my $txt, $canon) =
+                $self->_canonfailed(
+                    $test->{max},
+                    $test->{skipped},
+                    @{$test->{failed}}
+                );
             $percent = 100*(scalar @{$test->{failed}})/$test->{max};
             print "DIED. ",$txt;
         }
@@ -817,7 +826,7 @@ sub _create_fmts {
 }
 
 sub _canonfailed ($$@) {
-    my($max,$skipped,@failed) = @_;
+    my ($self, $max, $skipped, @failed) = @_;
     my %seen;
     @failed = sort {$a <=> $b} grep !$seen{$_}++, @failed;
     my $failed = @failed;
