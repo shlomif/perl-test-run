@@ -59,7 +59,7 @@ END {
 # Some experimental versions of OS/2 build have broken $?
 my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 
-my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
+# REMOVED: my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
 @ISA = ('Exporter', 'Class::Accessor');
 @EXPORT    = qw(&runtests);
@@ -74,8 +74,10 @@ $Timer    = $ENV{HARNESS_TIMER} || 0;
 
 __PACKAGE__->mk_accessors(qw(
     Debug
+    Leaked_Dir
     Strap
     Verbose
+    dir_files
     tot
 ));
 sub new
@@ -89,7 +91,7 @@ sub new
 
 sub _get_simple_params
 {
-    return [qw(Debug Verbose)];
+    return [qw(Debug Leaked_Dir Verbose)];
 }
 
 sub _initialize
@@ -103,6 +105,7 @@ sub _initialize
             $self->set($key, $args{$key});
         }
     }
+    $self->dir_files([]);
     $self->Strap(Test::Shlomif::Harness::Straps->new());
     $self->Strap()->{callback} = \&strap_callback;
     return 0;
@@ -355,6 +358,45 @@ sub _autoflush {
     select $old_fh;
 }
 
+sub _get_dir_files
+{
+    my $self = shift;
+    return [ _globdir($self->Leaked_Dir()) ];
+}
+
+sub _init_dir_files
+{
+    my $self = shift;
+    my @dir_files;
+    if (defined($self->Leaked_Dir()))
+    {
+        $self->dir_files($self->_get_dir_files());    
+    }  
+}
+
+sub _report_leaked_files
+{
+    my ($self, $files) = (@_);
+    my @f = sort @$files;
+    print "LEAKED FILES: @f\n";
+}
+
+sub _recheck_dir_files
+{
+    my $self = shift;
+    
+    if (defined $self->Leaked_Dir()) {
+        my $new_dir_files = $self->_get_dir_files();
+        if (@$new_dir_files != @{$self->dir_files()}) {
+            my %f;
+            @f{@$new_dir_files} = (1) x @$new_dir_files;
+            delete @f{@{$self->dir_files()}};
+            $self->_report_leaked_files([sort keys %f]);
+            $self->dir_files($new_dir_files);
+        }
+    }
+}
+
 sub _run_all_tests {
     my $self = shift;
     my (%args) = @_;
@@ -381,8 +423,7 @@ sub _run_all_tests {
                 bench    => 0,
             });
 
-    my @dir_files;
-    @dir_files = _globdir $Files_In_Dir if defined $Files_In_Dir;
+    $self->_init_dir_files();
     my $run_start_time = new Benchmark;
 
     my $width = $self->_leader_width('test_files' => $tests);
@@ -528,17 +569,7 @@ sub _run_all_tests {
             }
         }
 
-        if (defined $Files_In_Dir) {
-            my @new_dir_files = _globdir $Files_In_Dir;
-            if (@new_dir_files != @dir_files) {
-                my %f;
-                @f{@new_dir_files} = (1) x @new_dir_files;
-                delete @f{@dir_files};
-                my @f = sort keys %f;
-                print "LEAKED FILES: @f\n";
-                @dir_files = @new_dir_files;
-            }
-        }
+        $self->_recheck_dir_files();
     } # foreach test
     $self->tot()->{bench} = timediff(new Benchmark, $run_start_time);
 
