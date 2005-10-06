@@ -81,7 +81,9 @@ __PACKAGE__->mk_accessors(qw(
     dir_files
     failed_tests
     tot
+    width
 ));
+
 sub new
 {
     my $class = shift;
@@ -405,6 +407,155 @@ sub _recheck_dir_files
     }
 }
 
+sub _run_single_test
+{
+    my ($self, %args) = @_;
+    my $tfile = $args{'test_file'};
+
+    $Last_ML_Print = 0;  # so each test prints at least once
+    my($leader, $ml) = $self->_mk_leader($tfile, $self->width());
+    local $ML = $ml;
+
+    print $leader;
+
+    $self->tot()->{files}++;
+
+    $self->Strap()->{_seen_header} = 0;
+    if ( $self->Debug() ) {
+        print "# Running: ", $self->Strap()->_command_line($tfile), "\n";
+    }
+    my $test_start_time = $Timer ? time : 0;
+    $self->Strap()->Verbose($self->Verbose());
+    my %results = $self->Strap()->analyze_file($tfile) or
+      do { warn $self->Strap()->{error}, "\n";  next };
+    my $elapsed;
+    if ( $Timer ) {
+        $elapsed = time - $test_start_time;
+        if ( $has_time_hires ) {
+            $elapsed = sprintf( " %8.3fs", $elapsed );
+        }
+        else {
+            $elapsed = sprintf( " %8ss", $elapsed ? $elapsed : "<1" );
+        }
+    }
+    else {
+        $elapsed = "";
+    }
+
+    # state of the current test.
+    my @failed = grep { !$results{details}[$_-1]{ok} }
+                 1..@{$results{details}};
+    my %test = (
+                ok          => $results{ok},
+                'next'      => $self->Strap()->{'next'},
+                max         => $results{max},
+                failed      => \@failed,
+                bonus       => $results{bonus},
+                skipped     => $results{skip},
+                skip_reason => $results{skip_reason},
+                skip_all    => $self->Strap()->{skip_all},
+                ml          => $ml,
+               );
+
+    foreach my $type (qw(bonus max ok todo))
+    {
+        $self->tot()->{$type} += $results{$type};
+    }
+    $self->tot()->{sub_skipped} += $results{skip};
+
+    my($estatus, $wstatus) = @results{qw(exit wait)};
+
+    if ($results{passing}) {
+        # XXX Combine these first two
+        if ($test{max} and $test{skipped} + $test{bonus}) {
+            my @msg;
+            push(@msg, "$test{skipped}/$test{max} skipped: $test{skip_reason}")
+                if $test{skipped};
+            push(@msg, "$test{bonus}/$test{max} unexpectedly succeeded")
+                if $test{bonus};
+            print "$test{ml}ok$elapsed\n        ".join(', ', @msg)."\n";
+        }
+        elsif ( $test{max} ) {
+            print "$test{ml}ok$elapsed\n";
+        }
+        else {
+            print "skipped\n        all skipped: " . 
+                ((defined($test{skip_all}) && length($test{skip_all})) ?
+                    $test{skip_all} :
+                    "no reason given") .
+                    "\n";
+            $self->tot()->{skipped}++;
+        }
+        $self->tot()->{good}++;
+    }
+    else {
+        # List unrun tests as failures.
+        if ($test{'next'} <= $test{max}) {
+            push @{$test{failed}}, $test{'next'}..$test{max};
+        }
+        # List overruns as failures.
+        else {
+            my $details = $results{details};
+            foreach my $overrun ($test{max}+1..@$details) {
+                next unless ref $details->[$overrun-1];
+                push @{$test{failed}}, $overrun
+            }
+        }
+
+        if ($wstatus) {
+            $self->failed_tests()->{$tfile} = $self->_dubious_return(\%test, $self->tot(), 
+                                                   $estatus, $wstatus);
+            $self->failed_tests()->{$tfile}{name} = $tfile;
+        }
+        elsif($results{seen}) {
+            if (@{$test{failed}} and $test{max}) {
+                my ($txt, $canon) =
+                    $self->_canonfailed(
+                        $test{max},
+                        $test{skipped},
+                        $test{failed}
+                    );
+                print "$test{ml}$txt";
+                $self->failed_tests()->{$tfile} = { canon   => $canon,
+                                         max     => $test{max},
+                                         failed  => scalar @{$test{failed}},
+                                         name    => $tfile, 
+                                         percent => 100*(scalar @{$test{failed}})/$test{max},
+                                         estat   => '',
+                                         wstat   => '',
+                                       };
+            }
+            else {
+                print "Don't know which tests failed: got $test{ok} ok, ".
+                      "expected $test{max}\n";
+                $self->failed_tests()->{$tfile} = { canon   => '??',
+                                         max     => $test{max},
+                                         failed  => '??',
+                                         name    => $tfile, 
+                                         percent => undef,
+                                         estat   => '', 
+                                         wstat   => '',
+                                       };
+            }
+            $self->tot()->{bad}++;
+        }
+        else {
+            print "FAILED before any test output arrived\n";
+            $self->tot()->{bad}++;
+            $self->failed_tests()->{$tfile} = { canon       => '??',
+                                     max         => '??',
+                                     failed      => '??',
+                                     name        => $tfile,
+                                     percent     => undef,
+                                     estat       => '', 
+                                     wstat       => '',
+                                   };
+        }
+    }
+
+    $self->_recheck_dir_files();
+}
+
 sub _run_all_tests {
     my $self = shift;
     my (%args) = @_;
@@ -414,7 +565,7 @@ sub _run_all_tests {
     _autoflush(\*STDOUT);
     _autoflush(\*STDERR);
 
-    my(%failedtests);
+    $self->failed_tests({});
 
     # Test-wide totals.
     $self->tot({
@@ -434,156 +585,14 @@ sub _run_all_tests {
     $self->_init_dir_files();
     my $run_start_time = new Benchmark;
 
-    my $width = $self->_leader_width('test_files' => $tests);
-    foreach my $tfile (@$tests) {
-        $Last_ML_Print = 0;  # so each test prints at least once
-        my($leader, $ml) = $self->_mk_leader($tfile, $width);
-        local $ML = $ml;
-
-        print $leader;
-
-        $self->tot()->{files}++;
-
-        $self->Strap()->{_seen_header} = 0;
-        if ( $self->Debug() ) {
-            print "# Running: ", $self->Strap()->_command_line($tfile), "\n";
-        }
-        my $test_start_time = $Timer ? time : 0;
-        $self->Strap()->Verbose($self->Verbose());
-        my %results = $self->Strap()->analyze_file($tfile) or
-          do { warn $self->Strap()->{error}, "\n";  next };
-        my $elapsed;
-        if ( $Timer ) {
-            $elapsed = time - $test_start_time;
-            if ( $has_time_hires ) {
-                $elapsed = sprintf( " %8.3fs", $elapsed );
-            }
-            else {
-                $elapsed = sprintf( " %8ss", $elapsed ? $elapsed : "<1" );
-            }
-        }
-        else {
-            $elapsed = "";
-        }
-
-        # state of the current test.
-        my @failed = grep { !$results{details}[$_-1]{ok} }
-                     1..@{$results{details}};
-        my %test = (
-                    ok          => $results{ok},
-                    'next'      => $self->Strap()->{'next'},
-                    max         => $results{max},
-                    failed      => \@failed,
-                    bonus       => $results{bonus},
-                    skipped     => $results{skip},
-                    skip_reason => $results{skip_reason},
-                    skip_all    => $self->Strap()->{skip_all},
-                    ml          => $ml,
-                   );
-
-        foreach my $type (qw(bonus max ok todo))
-        {
-            $self->tot()->{$type} += $results{$type};
-        }
-        $self->tot()->{sub_skipped} += $results{skip};
-
-        my($estatus, $wstatus) = @results{qw(exit wait)};
-
-        if ($results{passing}) {
-            # XXX Combine these first two
-            if ($test{max} and $test{skipped} + $test{bonus}) {
-                my @msg;
-                push(@msg, "$test{skipped}/$test{max} skipped: $test{skip_reason}")
-                    if $test{skipped};
-                push(@msg, "$test{bonus}/$test{max} unexpectedly succeeded")
-                    if $test{bonus};
-                print "$test{ml}ok$elapsed\n        ".join(', ', @msg)."\n";
-            }
-            elsif ( $test{max} ) {
-                print "$test{ml}ok$elapsed\n";
-            }
-            else {
-                print "skipped\n        all skipped: " . 
-                    ((defined($test{skip_all}) && length($test{skip_all})) ?
-                        $test{skip_all} :
-                        "no reason given") .
-                        "\n";
-                $self->tot()->{skipped}++;
-            }
-            $self->tot()->{good}++;
-        }
-        else {
-            # List unrun tests as failures.
-            if ($test{'next'} <= $test{max}) {
-                push @{$test{failed}}, $test{'next'}..$test{max};
-            }
-            # List overruns as failures.
-            else {
-                my $details = $results{details};
-                foreach my $overrun ($test{max}+1..@$details) {
-                    next unless ref $details->[$overrun-1];
-                    push @{$test{failed}}, $overrun
-                }
-            }
-
-            if ($wstatus) {
-                $failedtests{$tfile} = $self->_dubious_return(\%test, $self->tot(), 
-                                                       $estatus, $wstatus);
-                $failedtests{$tfile}{name} = $tfile;
-            }
-            elsif($results{seen}) {
-                if (@{$test{failed}} and $test{max}) {
-                    my ($txt, $canon) =
-                        $self->_canonfailed(
-                            $test{max},
-                            $test{skipped},
-                            $test{failed}
-                        );
-                    print "$test{ml}$txt";
-                    $failedtests{$tfile} = { canon   => $canon,
-                                             max     => $test{max},
-                                             failed  => scalar @{$test{failed}},
-                                             name    => $tfile, 
-                                             percent => 100*(scalar @{$test{failed}})/$test{max},
-                                             estat   => '',
-                                             wstat   => '',
-                                           };
-                }
-                else {
-                    print "Don't know which tests failed: got $test{ok} ok, ".
-                          "expected $test{max}\n";
-                    $failedtests{$tfile} = { canon   => '??',
-                                             max     => $test{max},
-                                             failed  => '??',
-                                             name    => $tfile, 
-                                             percent => undef,
-                                             estat   => '', 
-                                             wstat   => '',
-                                           };
-                }
-                $self->tot()->{bad}++;
-            }
-            else {
-                print "FAILED before any test output arrived\n";
-                $self->tot()->{bad}++;
-                $failedtests{$tfile} = { canon       => '??',
-                                         max         => '??',
-                                         failed      => '??',
-                                         name        => $tfile,
-                                         percent     => undef,
-                                         estat       => '', 
-                                         wstat       => '',
-                                       };
-            }
-        }
-
-        $self->_recheck_dir_files();
+    $self->width($self->_leader_width('test_files' => $tests));
+    foreach my $tfile (@$tests) 
+    {
+        $self->_run_single_test('test_file' => $tfile);
     } # foreach test
     $self->tot()->{bench} = timediff(new Benchmark, $run_start_time);
 
     $self->Strap()->_restore_PERL5LIB;
-
-    $self->failed_tests(\%failedtests);
 
     # TODO: Eliminate this? -- Shlomi Fish
     return $self->failed_tests();
