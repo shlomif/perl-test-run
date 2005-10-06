@@ -496,12 +496,12 @@ sub _run_all_tests {
             elsif ( $test{max} ) {
                 print "$test{ml}ok$elapsed\n";
             }
-            elsif ( defined $test{skip_all} and length $test{skip_all} ) {
-                print "skipped\n        all skipped: $test{skip_all}\n";
-                $self->tot()->{skipped}++;
-            }
             else {
-                print "skipped\n        all skipped: no reason given\n";
+                print "skipped\n        all skipped: " . 
+                    ((defined($test{skip_all}) && length($test{skip_all})) ?
+                        $test{skip_all} :
+                        "no reason given") .
+                        "\n";
                 $self->tot()->{skipped}++;
             }
             $self->tot()->{good}++;
@@ -889,7 +889,7 @@ sub filter_failed
     return [ sort {$a <=> $b} grep !$seen{$_}++, @$failed_ref ];
 }
 
-sub _canonfailed ($$@) {
+sub _canonfailed ($$$@) {
     my ($self, $max, $skipped, $failed_in) = @_;
     my %seen;
     my $failed = $self->filter_failed($failed_in); 
