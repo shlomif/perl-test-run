@@ -21,7 +21,7 @@ use vars qw(
     $Curtest
     $Columns 
     $Timer
-    $ML $Last_ML_Print
+    $ML
     $has_time_hires
 );
 
@@ -321,7 +321,7 @@ sub _globdir {
 
 =item B<_run_all_tests>
 
-  my($total, $failed) = _run_all_tests(@test_files);
+  my($total, $failed) = _run_all_tests(test_files => \@test_files);
 
 Runs all the given C<@test_files> (as C<runtests()>) but does it
 quietly (no report).  $total is a hash ref summary of all the tests
@@ -412,7 +412,7 @@ sub _run_single_test
     my ($self, %args) = @_;
     my $tfile = $args{'test_file'};
 
-    $Last_ML_Print = 0;  # so each test prints at least once
+    $self->Strap()->last_test_print(0); # so each test prints at least once
     my($leader, $ml) = $self->_mk_leader($tfile, $self->width());
     local $ML = $ml;
 
@@ -779,7 +779,7 @@ sub test_handler {
     my $detail = $totals->{details}[-1];
 
     if( $detail->{ok} ) {
-        _print_ml_less("ok $curr/$max");
+        _print_ml_less($self, "ok $curr/$max");
 
         if( $detail->{type} eq 'skip' ) {
             $totals->{skip_reason} = $detail->{reason}
@@ -817,10 +817,11 @@ sub _print_ml {
 
 # Print updates only once per second.
 sub _print_ml_less {
+    my $self = shift;
     my $now = CORE::time;
-    if ( $Last_ML_Print != $now ) {
+    if ( $self->last_test_print() != $now ) {
         _print_ml(@_);
-        $Last_ML_Print = $now;
+        $self->last_test_print($now);
     }
 }
 

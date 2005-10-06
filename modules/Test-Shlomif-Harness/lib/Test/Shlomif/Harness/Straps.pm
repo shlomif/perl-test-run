@@ -14,7 +14,7 @@ use Class::Accessor;
 
 @ISA = (qw(Class::Accessor));
 
-__PACKAGE__->mk_accessors(qw(Verbose));
+__PACKAGE__->mk_accessors(qw(Verbose last_test_print));
 
 # Flags used as return values from our methods.  Just for internal 
 # clarification.
