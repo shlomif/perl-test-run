@@ -19,7 +19,7 @@ push @INC, 'we_added_this_lib';
 tie *NULL, 'Dev::Null' or die $!;
 select NULL;
 my $obj = Test::Shlomif::Harness::Obj->new();
-my($tot, $failed) = $obj->_run_all_tests(
+my($failed) = $obj->_run_all_tests(
     test_files =>
     [
            $ENV{PERL_CORE}
@@ -30,4 +30,4 @@ my($tot, $failed) = $obj->_run_all_tests(
 select STDOUT;
 
 # TEST
-ok( $obj->_all_ok($tot), 'tests with taint on preserve @INC' );
+ok( $obj->_all_ok($obj->tot()), 'tests with taint on preserve @INC' );

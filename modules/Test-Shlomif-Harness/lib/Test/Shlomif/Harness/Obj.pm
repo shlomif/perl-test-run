@@ -260,11 +260,11 @@ sub runtests {
 
     local ($\, $,);
 
-    my($tot, $failedtests) =
+    my($failedtests) =
         $self->_run_all_tests('test_files' => $args{'test_files'});
-    $self->_show_results($tot, $failedtests);
+    $self->_show_results($failedtests);
 
-    my $ok = $self->_all_ok($tot);
+    my $ok = $self->_all_ok($self->tot());
 
     assert(($ok xor keys %$failedtests), 
            q{ok status jives with $failedtests});
@@ -544,7 +544,7 @@ sub _run_all_tests {
 
     $self->Strap()->_restore_PERL5LIB;
 
-    return($self->tot(), \%failedtests);
+    return(\%failedtests);
 }
 
 =item B<_mk_leader>
@@ -606,7 +606,8 @@ sub _leader_width {
 
 
 sub _show_results {
-    my($self, $tot, $failedtests) = @_;
+    my($self, $failedtests) = @_;
+    my $tot = $self->tot();
 
     my $pct;
     my $bonusmsg = $self->_bonusmsg($tot);
