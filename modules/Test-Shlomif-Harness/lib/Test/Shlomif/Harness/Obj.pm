@@ -73,11 +73,13 @@ $Columns--;             # Some shells have trouble with a full line of text.
 $Timer    = $ENV{HARNESS_TIMER} || 0;
 
 __PACKAGE__->mk_accessors(qw(
+    _bonusmsg
     Debug
     Leaked_Dir
     Strap
     Verbose
     dir_files
+    failed_tests
     tot
 ));
 sub new
@@ -265,7 +267,7 @@ sub runtests {
 
     my($failedtests) =
         $self->_run_all_tests('test_files' => $args{'test_files'});
-    $self->_show_results($failedtests);
+    $self->_show_results();
 
     my $ok = $self->_all_ok($self->tot());
 
@@ -575,7 +577,10 @@ sub _run_all_tests {
 
     $self->Strap()->_restore_PERL5LIB;
 
-    return(\%failedtests);
+    $self->failed_tests(\%failedtests);
+
+    # TODO: Eliminate this? -- Shlomi Fish
+    return $self->failed_tests();
 }
 
 =item B<_mk_leader>
@@ -635,49 +640,79 @@ sub _leader_width {
     return $maxlen + 3 - $maxsuflen;
 }
 
+sub _report_success
+{
+    my $self = shift;
+    print "All tests successful" . $self->_get_bonusmsg() . ".\n";
+}
 
-sub _show_results {
-    my($self, $failedtests) = @_;
+sub _fail_no_tests_run
+{
+    die "FAILED--no tests were run for some reason.\n";
+}
+
+sub _fail_no_tests_output
+{
+    my $self = shift;
     my $tot = $self->tot();
+    my $blurb = $tot->{tests}==1 ? "script" : "scripts";
+    die "FAILED--$tot->{tests} test $blurb could be run, ".
+        "alas--no output ever seen\n";
+}
 
-    my $pct;
-    my $bonusmsg = $self->_bonusmsg($tot);
-
-    if ($self->_all_ok($tot)) {
-        print "All tests successful$bonusmsg.\n";
-    }
-    elsif (!$tot->{tests}){
-        die "FAILED--no tests were run for some reason.\n";
-    }
-    elsif (!$tot->{max}) {
-        my $blurb = $tot->{tests}==1 ? "script" : "scripts";
-        die "FAILED--$tot->{tests} test $blurb could be run, ".
-            "alas--no output ever seen\n";
-    }
-    else {
-        $pct = sprintf("%.2f", $tot->{good} / $tot->{tests} * 100);
-        my $percent_ok = 100*$tot->{ok}/$tot->{max};
-        my $subpct = sprintf " %d/%d subtests failed, %.2f%% okay.",
-                              $tot->{max} - $tot->{ok}, $tot->{max}, 
-                              $percent_ok;
-
-        my($fmt_top, $fmt) = $self->_create_fmts($failedtests);
-
-        # Now write to formats
-        for my $script (sort keys %$failedtests) {
-          $Curtest = $failedtests->{$script};
-          write;
-        }
-        if ($tot->{bad}) {
-            $bonusmsg =~ s/^,\s*//;
-            print "$bonusmsg.\n" if $bonusmsg;
-            die "Failed $tot->{bad}/$tot->{tests} test scripts, $pct% okay.".
-                "$subpct\n";
-        }
-    }
-
+sub _print_final_stats
+{
+    my ($self) = @_;
+    my $tot = $self->tot();
     printf("Files=%d, Tests=%d, %s\n",
            $tot->{files}, $tot->{max}, timestr($tot->{bench}, 'nop'));
+}
+
+sub _fail_other
+{
+    my $self = shift;
+    my $tot = $self->tot();
+    my $failed_tests = $self->failed_tests();
+
+    my $pct = sprintf("%.2f", $tot->{good} / $tot->{tests} * 100);
+    my $percent_ok = 100*$tot->{ok}/$tot->{max};
+    my $subpct = sprintf " %d/%d subtests failed, %.2f%% okay.",
+                          $tot->{max} - $tot->{ok}, $tot->{max}, 
+                          $percent_ok;
+
+    my($fmt_top, $fmt) = $self->_create_fmts($failed_tests);
+
+    # Now write to formats
+    for my $script (sort keys %$failed_tests) {
+      $Curtest = $failed_tests->{$script};
+      write;
+    }
+    if ($tot->{bad}) {
+        my $bonusmsg = $self->_bonusmsg();
+        $bonusmsg =~ s/^,\s*//;
+        print "$bonusmsg.\n" if $bonusmsg;
+        die "Failed $tot->{bad}/$tot->{tests} test scripts, $pct% okay.".
+            "$subpct\n";
+    }
+}
+
+sub _show_results {
+    my($self) = @_;
+    my $tot = $self->tot();
+
+    if ($self->_all_ok($tot)) {
+        $self->_report_success();
+    }
+    elsif (!$tot->{tests}){
+        $self->_fail_no_tests_run();
+    }
+    elsif (!$tot->{max}) {
+        $self->_fail_no_tests_output();
+    }
+    else {
+        $self->_fail_other();
+    }
+    $self->_print_final_stats();
 }
 
 
@@ -762,8 +797,14 @@ sub _print_ml_less {
     }
 }
 
-sub _bonusmsg {
-    my($self, $tot) = @_;
+sub _get_bonusmsg {
+    my($self) = @_;
+    my $tot = $self->tot();
+
+    if (defined($self->_bonusmsg()))
+    {
+        return $self->_bonusmsg();
+    }
 
     my $bonusmsg = '';
     $bonusmsg = (" ($tot->{bonus} subtest".($tot->{bonus} > 1 ? 's' : '').
@@ -784,6 +825,8 @@ sub _bonusmsg {
                      . ($tot->{sub_skipped} != 1 ? 's' : '')
                      . " skipped";
     }
+
+    $self->_bonusmsg($bonusmsg);
 
     return $bonusmsg;
 }
