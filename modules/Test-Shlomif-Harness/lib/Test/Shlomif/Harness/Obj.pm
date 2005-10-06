@@ -96,17 +96,23 @@ sub _get_simple_params
     return [qw(Debug Leaked_Dir Verbose)];
 }
 
+sub _init_simple_params
+{
+    my ($self, $args) = @_;
+    foreach my $key (@{$self->_get_simple_params()})
+    {
+        if (exists($args->{$key}))
+        {
+            $self->set($key, $args->{$key});
+        }
+    }
+}
+
 sub _initialize
 {
     my $self = shift;
     my (%args) = (@_);
-    foreach my $key (@{$self->_get_simple_params()})
-    {
-        if (exists($args{$key}))
-        {
-            $self->set($key, $args{$key});
-        }
-    }
+    $self->_init_simple_params(\%args);
     $self->dir_files([]);
     $self->Strap(Test::Shlomif::Harness::Straps->new());
     $self->Strap()->{callback} = \&strap_callback;
@@ -938,7 +944,7 @@ sub _canonfailed ($$$@) {
     }
     push @result, "\n";
     my $txt = join "", @result;
-    ($txt, $canon);
+    return ($txt, $canon);
 }
 
 =end _private
