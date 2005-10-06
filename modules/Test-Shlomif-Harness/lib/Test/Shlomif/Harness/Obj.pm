@@ -16,8 +16,8 @@ use Class::Accessor;
 use vars qw(
     $VERSION 
     @ISA @EXPORT @EXPORT_OK 
-    $Verbose $Switches $Debug
-    $verbose $switches $debug
+    $Switches
+    $switches
     $Curtest
     $Columns 
     $Timer
@@ -45,7 +45,7 @@ $VERSION = "0.0100_00";
 # Backwards compatibility for exportable variable names.
 # REMOVED *verbose  = *Verbose;
 *switches = *Switches;
-*debug    = *Debug;
+# REMOVED *debug    = *Debug;
 
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;
@@ -66,13 +66,14 @@ my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 @EXPORT_OK = qw($verbose $switches);
 
 # REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
-$Debug    = $ENV{HARNESS_DEBUG} || 0;
+# REMOVED $Debug    = $ENV{HARNESS_DEBUG} || 0;
 $Switches = "-w";
 $Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
 $Columns--;             # Some shells have trouble with a full line of text.
 $Timer    = $ENV{HARNESS_TIMER} || 0;
 
 __PACKAGE__->mk_accessors(qw(
+    Debug
     Strap
     Verbose
 ));
@@ -85,13 +86,21 @@ sub new
     return $self;
 }
 
+sub _get_simple_params
+{
+    return [qw(Debug Verbose)];
+}
+
 sub _initialize
 {
     my $self = shift;
     my (%args) = (@_);
-    if (exists($args{'Verbose'}))
+    foreach my $key (@{$self->_get_simple_params()})
     {
-        $self->Verbose($args{'Verbose'});
+        if (exists($args{$key}))
+        {
+            $self->set($key, $args{$key});
+        }
     }
     $self->Strap(Test::Shlomif::Harness::Straps->new());
     $self->Strap()->{callback} = \&strap_callback;
@@ -386,7 +395,7 @@ sub _run_all_tests {
         $tot{files}++;
 
         $self->Strap()->{_seen_header} = 0;
-        if ( $Test::Shlomif::Harness::Debug ) {
+        if ( $self->Debug() ) {
             print "# Running: ", $self->Strap()->_command_line($tfile), "\n";
         }
         my $test_start_time = $Timer ? time : 0;
