@@ -76,6 +76,7 @@ __PACKAGE__->mk_accessors(qw(
     Debug
     Strap
     Verbose
+    tot
 ));
 sub new
 {
@@ -366,7 +367,7 @@ sub _run_all_tests {
     my(%failedtests);
 
     # Test-wide totals.
-    my(%tot) = (
+    $self->tot({
                 bonus    => 0,
                 max      => 0,
                 ok       => 0,
@@ -378,7 +379,7 @@ sub _run_all_tests {
                 todo     => 0,
                 skipped  => 0,
                 bench    => 0,
-               );
+            });
 
     my @dir_files;
     @dir_files = _globdir $Files_In_Dir if defined $Files_In_Dir;
@@ -392,7 +393,7 @@ sub _run_all_tests {
 
         print $leader;
 
-        $tot{files}++;
+        $self->tot()->{files}++;
 
         $self->Strap()->{_seen_header} = 0;
         if ( $self->Debug() ) {
@@ -431,11 +432,11 @@ sub _run_all_tests {
                     ml          => $ml,
                    );
 
-        $tot{bonus}       += $results{bonus};
-        $tot{max}         += $results{max};
-        $tot{ok}          += $results{ok};
-        $tot{todo}        += $results{todo};
-        $tot{sub_skipped} += $results{skip};
+        foreach my $type (qw(bonus max ok todo))
+        {
+            $self->tot()->{$type} += $results{$type};
+        }
+        $self->tot()->{sub_skipped} += $results{skip};
 
         my($estatus, $wstatus) = @results{qw(exit wait)};
 
@@ -454,13 +455,13 @@ sub _run_all_tests {
             }
             elsif ( defined $test{skip_all} and length $test{skip_all} ) {
                 print "skipped\n        all skipped: $test{skip_all}\n";
-                $tot{skipped}++;
+                $self->tot()->{skipped}++;
             }
             else {
                 print "skipped\n        all skipped: no reason given\n";
-                $tot{skipped}++;
+                $self->tot()->{skipped}++;
             }
-            $tot{good}++;
+            $self->tot()->{good}++;
         }
         else {
             # List unrun tests as failures.
@@ -477,7 +478,7 @@ sub _run_all_tests {
             }
 
             if ($wstatus) {
-                $failedtests{$tfile} = $self->_dubious_return(\%test, \%tot, 
+                $failedtests{$tfile} = $self->_dubious_return(\%test, $self->tot(), 
                                                        $estatus, $wstatus);
                 $failedtests{$tfile}{name} = $tfile;
             }
@@ -511,11 +512,11 @@ sub _run_all_tests {
                                              wstat   => '',
                                            };
                 }
-                $tot{bad}++;
+                $self->tot()->{bad}++;
             }
             else {
                 print "FAILED before any test output arrived\n";
-                $tot{bad}++;
+                $self->tot()->{bad}++;
                 $failedtests{$tfile} = { canon       => '??',
                                          max         => '??',
                                          failed      => '??',
@@ -539,11 +540,11 @@ sub _run_all_tests {
             }
         }
     } # foreach test
-    $tot{bench} = timediff(new Benchmark, $run_start_time);
+    $self->tot()->{bench} = timediff(new Benchmark, $run_start_time);
 
     $self->Strap()->_restore_PERL5LIB;
 
-    return(\%tot, \%failedtests);
+    return($self->tot(), \%failedtests);
 }
 
 =item B<_mk_leader>
