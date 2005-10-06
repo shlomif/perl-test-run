@@ -693,8 +693,6 @@ sub _fail_other
 
     my $subpct = $self->_get_sub_percent_msg();
 
-    my($fmt_top, $fmt) = $self->_create_fmts($failed_tests);
-
     # Now write to formats
     for my $script (sort keys %$failed_tests) {
       $Curtest = $failed_tests->{$script};
@@ -882,60 +880,6 @@ sub _dubious_return {
              percent => $percent,
              estat => $estatus, wstat => $wstatus,
            };
-}
-
-
-sub _create_fmts {
-    my($self, $failedtests) = @_;
-
-    my $failed_str = "Failed Test";
-    my $middle_str = " Stat Wstat Total Fail  Failed  ";
-    my $list_str = "List of Failed";
-
-    # Figure out our longest name string for formatting purposes.
-    my $max_namelen = length($failed_str);
-    foreach my $script (keys %$failedtests) {
-        my $namelen = length $failedtests->{$script}->{name};
-        $max_namelen = $namelen if $namelen > $max_namelen;
-    }
-
-    my $list_len = $Columns - length($middle_str) - $max_namelen;
-    if ($list_len < length($list_str)) {
-        $list_len = length($list_str);
-        $max_namelen = $Columns - length($middle_str) - $list_len;
-        if ($max_namelen < length($failed_str)) {
-            $max_namelen = length($failed_str);
-            $Columns = $max_namelen + length($middle_str) + $list_len;
-        }
-    }
-
-    my $fmt_top = "format STDOUT_TOP =\n"
-                  . sprintf("%-${max_namelen}s", $failed_str)
-                  . $middle_str
-                  . $list_str . "\n"
-                  . "-" x $Columns
-                  . "\n.\n";
-
-    my $fmt = "format STDOUT =\n"
-              . "@" . "<" x ($max_namelen - 1)
-              . "  @>> @>>>> @>>>> @>>> ^##.##%  "
-              . "^" . "<" x ($list_len - 1) . "\n"
-              . '{ $Curtest->{name}, $Curtest->{estat},'
-              . '  $Curtest->{wstat}, $Curtest->{max},'
-              . '  $Curtest->{failed}, $Curtest->{percent},'
-              . '  $Curtest->{canon}'
-              . "\n}\n"
-              . "~~" . " " x ($Columns - $list_len - 2) . "^"
-              . "<" x ($list_len - 1) . "\n"
-              . '$Curtest->{canon}'
-              . "\n.\n";
-
-    eval $fmt_top;
-    die $@ if $@;
-    eval $fmt;
-    die $@ if $@;
-
-    return($fmt_top, $fmt);
 }
 
 sub filter_failed
