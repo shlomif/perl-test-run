@@ -668,17 +668,30 @@ sub _print_final_stats
            $tot->{files}, $tot->{max}, timestr($tot->{bench}, 'nop'));
 }
 
+sub _get_tests_good_percent
+{
+    my ($self) = @_;
+    return sprintf("%.2f", $self->tot()->{good} / $self->tot()->{tests} * 100);
+}
+
+sub _get_sub_percent_msg
+{
+    my $self = shift;
+    my $tot = $self->tot();
+    my $percent_ok = 100*$tot->{ok}/$tot->{max};
+    return sprintf(" %d/%d subtests failed, %.2f%% okay.",
+        $tot->{max} - $tot->{ok}, $tot->{max}, 
+        $percent_ok
+        );
+}
+
 sub _fail_other
 {
     my $self = shift;
     my $tot = $self->tot();
     my $failed_tests = $self->failed_tests();
 
-    my $pct = sprintf("%.2f", $tot->{good} / $tot->{tests} * 100);
-    my $percent_ok = 100*$tot->{ok}/$tot->{max};
-    my $subpct = sprintf " %d/%d subtests failed, %.2f%% okay.",
-                          $tot->{max} - $tot->{ok}, $tot->{max}, 
-                          $percent_ok;
+    my $subpct = $self->_get_sub_percent_msg();
 
     my($fmt_top, $fmt) = $self->_create_fmts($failed_tests);
 
@@ -691,7 +704,8 @@ sub _fail_other
         my $bonusmsg = $self->_bonusmsg();
         $bonusmsg =~ s/^,\s*//;
         print "$bonusmsg.\n" if $bonusmsg;
-        die "Failed $tot->{bad}/$tot->{tests} test scripts, $pct% okay.".
+        die "Failed $tot->{bad}/$tot->{tests} test scripts, " . 
+            $self->_get_tests_good_percent() . "% okay.".
             "$subpct\n";
     }
 }
