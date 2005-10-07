@@ -487,6 +487,29 @@ sub _failed_before_any_test_output
          };
 }
 
+sub _get_failed_struct
+{
+    my ($self, %args) = @_;
+    if ($args{'wstatus'}) {
+         return
+            $self->_dubious_return(
+                %args
+                );
+    }
+    elsif($args{'results'}->{seen}) {
+        return
+            $self->_failed_with_results_seen(
+                %args,
+            );
+    }
+    else {
+        return
+            $self->_failed_before_any_test_output(
+                %args,
+            );
+    }
+}
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -582,31 +605,15 @@ sub _run_single_test
                 push @{$test{failed}}, $overrun
             }
         }
-
-        if ($wstatus) {
-             $test_file_struct =
-                $self->_dubious_return(
-                    test_struct => \%test,
-                    estatus => $estatus,
-                    wstatus => $wstatus,
-                    filename => $tfile,
-                    );
-        }
-        elsif($results{seen}) {
-            $test_file_struct =
-                $self->_failed_with_results_seen(
-                    test_struct => \%test,
-                    filename => $tfile,
-                );
-        }
-        else {
-            $test_file_struct =
-                $self->_failed_before_any_test_output(
-                    test_struct => \%test,
-                    filename => $tfile,                    
-                );
-        }
-        $self->failed_tests()->{$tfile} = $test_file_struct;
+ 
+        $self->failed_tests()->{$tfile} = 
+            $self->_get_failed_struct(
+                test_struct => \%test,
+                estatus => $estatus,
+                wstatus => $wstatus,
+                filename => $tfile,
+                results => \%results,
+            );
     }
 
     $self->_recheck_dir_files();
