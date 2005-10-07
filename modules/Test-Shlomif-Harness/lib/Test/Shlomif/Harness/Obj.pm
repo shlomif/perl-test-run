@@ -468,6 +468,25 @@ sub _failed_with_results_seen
     }    
 }
 
+sub _failed_before_any_test_output
+{
+    my ($self, %args) = @_;
+    my $tfile = $args{'filename'};
+
+    print "FAILED before any test output arrived\n";
+    $self->_tot_inc('bad');
+    return 
+        +{ 
+            canon       => '??',
+            max         => '??',
+            failed      => '??',
+            name        => $tfile,
+            percent     => undef,
+            estat       => '', 
+            wstat       => '',
+         };
+}
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -578,19 +597,14 @@ sub _run_single_test
                 $self->_failed_with_results_seen(
                     test_struct => \%test,
                     filename => $tfile,
-                )
+                );
         }
         else {
-            print "FAILED before any test output arrived\n";
-            $self->_tot_inc('bad');
-            $test_file_struct = { canon       => '??',
-                                     max         => '??',
-                                     failed      => '??',
-                                     name        => $tfile,
-                                     percent     => undef,
-                                     estat       => '', 
-                                     wstat       => '',
-                                   };
+            $test_file_struct =
+                $self->_failed_before_any_test_output(
+                    test_struct => \%test,
+                    filename => $tfile,                    
+                );
         }
         $self->failed_tests()->{$tfile} = $test_file_struct;
     }
