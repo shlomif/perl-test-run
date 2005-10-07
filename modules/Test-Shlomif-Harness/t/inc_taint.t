@@ -18,8 +18,7 @@ push @INC, 'we_added_this_lib';
 
 tie *NULL, 'Dev::Null' or die $!;
 select NULL;
-my $obj = Test::Shlomif::Harness::Obj->new();
-my($failed) = $obj->_run_all_tests(
+my $obj = Test::Shlomif::Harness::Obj->new(    
     test_files =>
     [
            $ENV{PERL_CORE}
@@ -27,6 +26,8 @@ my($failed) = $obj->_run_all_tests(
             : 't/sample-tests/inc_taint'
     ],
 );
+
+my($failed) = $obj->_run_all_tests();
 select STDOUT;
 
 # TEST

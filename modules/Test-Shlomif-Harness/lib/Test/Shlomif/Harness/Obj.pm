@@ -80,6 +80,7 @@ __PACKAGE__->mk_accessors(qw(
     Verbose
     dir_files
     failed_tests
+    test_files
     tot
     width
 ));
@@ -95,7 +96,13 @@ sub new
 
 sub _get_simple_params
 {
-    return [qw(Debug Leaked_Dir Verbose)];
+    return
+        [qw(
+            Debug
+            Leaked_Dir
+            Verbose
+            test_files
+       )];
 }
 
 sub _init_simple_params
@@ -274,7 +281,7 @@ sub runtests {
     local ($\, $,);
 
     my($failedtests) =
-        $self->_run_all_tests('test_files' => $args{'test_files'});
+        $self->_run_all_tests();
     $self->_show_results();
 
     my $ok = $self->_all_ok($self->tot());
@@ -321,9 +328,9 @@ sub _globdir {
 
 =item B<_run_all_tests>
 
-  my($total, $failed) = _run_all_tests(test_files => \@test_files);
+  my($total, $failed) = _run_all_tests();
 
-Runs all the given C<@test_files> (as C<runtests()>) but does it
+Runs all the test_files defined for the object but does it
 quietly (no report).  $total is a hash ref summary of all the tests
 run.  Its keys and values are this:
 
@@ -556,31 +563,46 @@ sub _run_single_test
     $self->_recheck_dir_files();
 }
 
+sub _get_tot_counter_fields
+{
+    my $self = shift;
+    return [qw(bonus max ok files  bad  good sub_skipped todo skipped bench)];
+}
+
+sub _get_tot_counter_kv
+{
+    my $self = shift;
+    return [map { $_ => 0 } @{$self->_get_tot_counter_fields()}];
+}
+
+sub _get_tot_counter_tests
+{
+    my $self = shift;
+    return [tests => (scalar @{$self->test_files()})];
+}
+
+sub _init_tot
+{
+    my $self = shift;
+    # Test-wide totals.
+    $self->tot({
+            @{$self->_get_tot_counter_kv()},
+            @{$self->_get_tot_counter_tests()},
+            });
+}
+
 sub _run_all_tests {
     my $self = shift;
     my (%args) = @_;
 
-    my $tests = $args{'test_files'};
+    my $tests = $self->test_files();
 
     _autoflush(\*STDOUT);
     _autoflush(\*STDERR);
 
     $self->failed_tests({});
 
-    # Test-wide totals.
-    $self->tot({
-                bonus    => 0,
-                max      => 0,
-                ok       => 0,
-                files    => 0,
-                bad      => 0,
-                good     => 0,
-                tests    => (scalar @$tests),
-                sub_skipped  => 0,
-                todo     => 0,
-                skipped  => 0,
-                bench    => 0,
-            });
+    $self->_init_tot();
 
     $self->_init_dir_files();
     my $run_start_time = new Benchmark;
