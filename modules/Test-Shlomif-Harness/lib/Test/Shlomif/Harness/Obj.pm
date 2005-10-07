@@ -606,7 +606,6 @@ sub _run_single_test
         $self->_tot_inc('good');
     }
     else {
-        my $test_file_struct;
         # List unrun tests as failures.
         if ($test{'next'} <= $test{max}) {
             push @{$test{failed}}, $test{'next'}..$test{max};
