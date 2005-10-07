@@ -771,8 +771,10 @@ sub _print_final_stats
 {
     my ($self) = @_;
     my $tot = $self->tot();
-    printf("Files=%d, Tests=%d, %s\n",
-           $tot->{files}, $tot->{max}, timestr($tot->{bench}, 'nop'));
+    $self->output()->print_message(
+        sprintf("Files=%d, Tests=%d, %s",
+           $tot->{files}, $tot->{max}, timestr($tot->{bench}, 'nop'))
+       );
 }
 
 sub _get_tests_good_percent
