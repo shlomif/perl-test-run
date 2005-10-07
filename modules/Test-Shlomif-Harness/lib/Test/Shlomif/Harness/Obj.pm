@@ -414,6 +414,18 @@ sub _recheck_dir_files
     }
 }
 
+sub _tot_add
+{
+    my ($self, $field, $difference) = @_;
+    $self->tot()->{$field} += $difference;
+}
+
+sub _tot_inc
+{
+    my ($self, $field) = @_;
+    $self->_tot_add($field,1);
+}
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -425,7 +437,7 @@ sub _run_single_test
 
     print $leader;
 
-    $self->tot()->{files}++;
+    $self->_tot_inc('files');
 
     $self->Strap()->{_seen_header} = 0;
     if ( $self->Debug() ) {
@@ -466,9 +478,9 @@ sub _run_single_test
 
     foreach my $type (qw(bonus max ok todo))
     {
-        $self->tot()->{$type} += $results{$type};
+        $self->_tot_add($type => $results{$type});
     }
-    $self->tot()->{sub_skipped} += $results{skip};
+    $self->_tot_add(sub_skipped => $results{skip});
 
     my($estatus, $wstatus) = @results{qw(exit wait)};
 
@@ -491,9 +503,9 @@ sub _run_single_test
                     $test{skip_all} :
                     "no reason given") .
                     "\n";
-            $self->tot()->{skipped}++;
+            $self->_tot_inc('skipped');
         }
-        $self->tot()->{good}++;
+        $self->_tot_inc('good');
     }
     else {
         # List unrun tests as failures.
@@ -544,11 +556,11 @@ sub _run_single_test
                                          wstat   => '',
                                        };
             }
-            $self->tot()->{bad}++;
+            $self->_tot_inc('bad');
         }
         else {
             print "FAILED before any test output arrived\n";
-            $self->tot()->{bad}++;
+            $self->_tot_inc('bad');
             $self->failed_tests()->{$tfile} = { canon       => '??',
                                      max         => '??',
                                      failed      => '??',
@@ -566,7 +578,7 @@ sub _run_single_test
 sub _get_tot_counter_fields
 {
     my $self = shift;
-    return [qw(bonus max ok files  bad  good sub_skipped todo skipped bench)];
+    return [qw(bonus max ok files bad good sub_skipped todo skipped bench)];
 }
 
 sub _get_tot_counter_kv
