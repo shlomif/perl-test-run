@@ -13,7 +13,6 @@ use strict;
 
 use Class::Accessor;
 
-
 use vars qw(
     $VERSION 
     @ISA @EXPORT @EXPORT_OK 
@@ -904,15 +903,6 @@ sub bailout_handler {
     die "FAILED--Further testing stopped" .
       ($self->{bailout_reason} ? ": $self->{bailout_reason}\n" : ".\n");
 };
-
-
-sub _print_ml {
-    my $self = shift;
-    $self->output()->print_ml(@_);
-    print 
-}
-
-
 
 sub _get_bonusmsg {
     my($self) = @_;
