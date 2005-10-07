@@ -20,7 +20,6 @@ use vars qw(
     $switches
     $Curtest
     $Columns 
-    $Timer
     $has_time_hires
 );
 
@@ -69,13 +68,14 @@ my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 $Switches = "-w";
 $Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
 $Columns--;             # Some shells have trouble with a full line of text.
-$Timer    = $ENV{HARNESS_TIMER} || 0;
+# REMOVED $Timer    = $ENV{HARNESS_TIMER} || 0;
 
 __PACKAGE__->mk_accessors(qw(
     _bonusmsg
     Debug
     Leaked_Dir
     Strap
+    Timer
     Verbose
     dir_files
     failed_tests
@@ -101,6 +101,7 @@ sub _get_simple_params
             Debug
             Leaked_Dir
             Verbose
+            Timer
             test_files
        )];
 }
@@ -558,6 +559,26 @@ sub _tot_add_results
     $self->_tot_add(sub_skipped => $results->{skip});
 }
 
+sub _get_elapsed
+{
+    my $self = shift;
+    my (%args) = @_;
+
+    if ( $self->Timer() ) {
+        my $elapsed = time - $args{start_time};
+        if ( $has_time_hires ) {
+            return sprintf( " %8.3fs", $elapsed );
+        }
+        else {
+            return sprintf( " %8ss", $elapsed ? $elapsed : "<1" );
+        }
+    }
+    else {
+        return "";
+    }
+}
+
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -575,23 +596,11 @@ sub _run_single_test
     if ( $self->Debug() ) {
         $self->_print_message("# Running: " . $self->Strap()->_command_line($tfile));
     }
-    my $test_start_time = $Timer ? time : 0;
+    my $test_start_time = $self->Timer() ? time : 0;
     $self->Strap()->Verbose($self->Verbose());
     my %results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
-    my $elapsed;
-    if ( $Timer ) {
-        $elapsed = time - $test_start_time;
-        if ( $has_time_hires ) {
-            $elapsed = sprintf( " %8.3fs", $elapsed );
-        }
-        else {
-            $elapsed = sprintf( " %8ss", $elapsed ? $elapsed : "<1" );
-        }
-    }
-    else {
-        $elapsed = "";
-    }
+    my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);
 
     # state of the current test.
     my @failed = grep { !$results{details}[$_-1]{ok} }
