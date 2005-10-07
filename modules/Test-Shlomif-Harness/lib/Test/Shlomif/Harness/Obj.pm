@@ -546,6 +546,18 @@ sub _list_tests_as_failures
     }
 }
 
+sub _tot_add_results
+{
+    my $self = shift;
+    my $results = shift;
+
+    foreach my $type (qw(bonus max ok todo))
+    {
+        $self->_tot_add($type => $results->{$type});
+    }
+    $self->_tot_add(sub_skipped => $results->{skip});
+}
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -596,11 +608,7 @@ sub _run_single_test
                 ml          => $self->output()->ml(),
                );
 
-    foreach my $type (qw(bonus max ok todo))
-    {
-        $self->_tot_add($type => $results{$type});
-    }
-    $self->_tot_add(sub_skipped => $results{skip});
+    $self->_tot_add_results(\%results);
 
     my($estatus, $wstatus) = @results{qw(exit wait)};
 
