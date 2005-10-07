@@ -14,7 +14,7 @@ use Class::Accessor;
 
 @ISA = (qw(Class::Accessor));
 
-__PACKAGE__->mk_accessors(qw(Verbose last_test_print));
+__PACKAGE__->mk_accessors(qw(Verbose last_test_print output));
 
 # Flags used as return values from our methods.  Just for internal 
 # clarification.
@@ -74,7 +74,7 @@ sub new {
     my $class = shift;
     my $self  = bless {}, $class;
 
-    $self->_init;
+    $self->_init(@_);
 
     return $self;
 }
@@ -89,10 +89,13 @@ Initialize the internal state of a strap to make it ready for parsing.
 
 sub _init {
     my($self) = shift;
+    my (%args) = @_;
 
     $self->{_is_vms}   = ( $^O eq 'VMS' );
     $self->{_is_win32} = ( $^O =~ /^(MS)?Win32$/ );
     $self->{_is_macos} = ( $^O eq 'MacOS' );
+
+    $self->output($args{output}); 
 }
 
 =head1 ANALYSIS

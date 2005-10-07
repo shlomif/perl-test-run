@@ -4,6 +4,7 @@ package Test::Shlomif::Harness::Obj;
 
 require 5.00405;
 use Test::Shlomif::Harness::Straps;
+use Test::Shlomif::Harness::Output;
 use Test::Harness::Assert;
 use Exporter;
 use Benchmark;
@@ -21,7 +22,6 @@ use vars qw(
     $Curtest
     $Columns 
     $Timer
-    $ML
     $has_time_hires
 );
 
@@ -80,6 +80,7 @@ __PACKAGE__->mk_accessors(qw(
     Verbose
     dir_files
     failed_tests
+    output
     test_files
     tot
     width
@@ -117,13 +118,27 @@ sub _init_simple_params
     }
 }
 
+sub _get_new_output
+{
+    my $self = shift;
+    my $args = shift;
+    return Test::Shlomif::Harness::Output->new(
+        %$args,
+    );
+}
+
 sub _initialize
 {
     my $self = shift;
     my (%args) = (@_);
     $self->_init_simple_params(\%args);
     $self->dir_files([]);
-    $self->Strap(Test::Shlomif::Harness::Straps->new());
+    $self->output($self->_get_new_output(\%args));
+    $self->Strap(
+        Test::Shlomif::Harness::Straps->new(
+            output => $self->output(),
+        )
+    );
     $self->Strap()->{callback} = \&strap_callback;
     return 0;
 }
@@ -395,7 +410,7 @@ sub _report_leaked_files
 {
     my ($self, $files) = (@_);
     my @f = sort @$files;
-    print "LEAKED FILES: @f\n";
+    $self->_print_message("LEAKED FILES: @f");
 }
 
 sub _recheck_dir_files
@@ -440,7 +455,7 @@ sub _failed_with_results_seen
                 $test->{skipped},
                 $test->{failed}
             );
-        print "$test->{ml}$txt";
+        $self->_print_message("$test->{ml}$txt");
         return 
             +{
                 canon   => $canon,
@@ -453,8 +468,8 @@ sub _failed_with_results_seen
             };
     }
     else {
-        print "Don't know which tests failed: got $test->{ok} ok, ".
-              "expected $test->{max}\n";
+        $self->_print_message("Don't know which tests failed: got $test->{ok} ok, ".
+              "expected $test->{max}");
         return
             +{
                 canon   => '??',
@@ -473,7 +488,7 @@ sub _failed_before_any_test_output
     my ($self, %args) = @_;
     my $tfile = $args{'filename'};
 
-    print "FAILED before any test output arrived\n";
+    $self->_print_message("FAILED before any test output arrived");
     $self->_tot_inc('bad');
     return 
         +{ 
@@ -515,17 +530,17 @@ sub _run_single_test
     my ($self, %args) = @_;
     my $tfile = $args{'test_file'};
 
-    $self->Strap()->last_test_print(0); # so each test prints at least once
-    my($leader, $ml) = $self->_mk_leader($tfile, $self->width());
-    local $ML = $ml;
-
-    print $leader;
+    $self->output()->last_test_print(0); # so each test prints at least once
+    $self->output()->print_leader(
+        filename => $tfile,
+        width => $self->width(),
+    );
 
     $self->_tot_inc('files');
 
     $self->Strap()->{_seen_header} = 0;
     if ( $self->Debug() ) {
-        print "# Running: ", $self->Strap()->_command_line($tfile), "\n";
+        $self->_print_message("# Running: " . $self->Strap()->_command_line($tfile));
     }
     my $test_start_time = $Timer ? time : 0;
     $self->Strap()->Verbose($self->Verbose());
@@ -557,7 +572,7 @@ sub _run_single_test
                 skipped     => $results{skip},
                 skip_reason => $results{skip_reason},
                 skip_all    => $self->Strap()->{skip_all},
-                ml          => $ml,
+                ml          => $self->output()->ml(),
                );
 
     foreach my $type (qw(bonus max ok todo))
@@ -576,17 +591,17 @@ sub _run_single_test
                 if $test{skipped};
             push(@msg, "$test{bonus}/$test{max} unexpectedly succeeded")
                 if $test{bonus};
-            print "$test{ml}ok$elapsed\n        ".join(', ', @msg)."\n";
+            $self->_print_message("$test{ml}ok$elapsed\n        ".join(', ', @msg));
         }
         elsif ( $test{max} ) {
-            print "$test{ml}ok$elapsed\n";
+            $self->_print_message("$test{ml}ok$elapsed");
         }
         else {
-            print "skipped\n        all skipped: " . 
+            $self->_print_message("skipped\n        all skipped: " .
                 ((defined($test{skip_all}) && length($test{skip_all})) ?
                     $test{skip_all} :
-                    "no reason given") .
-                    "\n";
+                    "no reason given")
+                );
             $self->_tot_inc('skipped');
         }
         $self->_tot_inc('good');
@@ -736,7 +751,7 @@ sub _leader_width {
 sub _report_success
 {
     my $self = shift;
-    print "All tests successful" . $self->_get_bonusmsg() . ".\n";
+    $self->_print_message("All tests successful" . $self->_get_bonusmsg() . ".");
 }
 
 sub _fail_no_tests_run
@@ -794,7 +809,10 @@ sub _fail_other
     if ($tot->{bad}) {
         my $bonusmsg = $self->_bonusmsg();
         $bonusmsg =~ s/^,\s*//;
-        print "$bonusmsg.\n" if $bonusmsg;
+        if ($bonusmsg)
+        {
+            $self->_print_message("$bonusmsg.");
+        }
         die "Failed $tot->{bad}/$tot->{tests} test scripts, " . 
             $self->_get_tests_good_percent() . "% okay.".
             "$subpct\n";
@@ -857,7 +875,7 @@ sub test_handler {
     my $detail = $totals->{details}[-1];
 
     if( $detail->{ok} ) {
-        _print_ml_less($self, "ok $curr/$max");
+        $self->output()->print_ml_less("ok $curr/$max");
 
         if( $detail->{type} eq 'skip' ) {
             $totals->{skip_reason} = $detail->{reason}
@@ -867,15 +885,15 @@ sub test_handler {
         }
     }
     else {
-        _print_ml("NOK $curr");
+        $self->output()->print_ml("NOK $curr");
     }
 
     if( $curr > $next ) {
-        print "Test output counter mismatch [test $curr]\n";
+        $self->output()->print_message("Test output counter mismatch [test $curr]");
     }
     elsif( $curr < $next ) {
-        print "Confused test output: test $curr answered after ".
-              "test ", $next - 1, "\n";
+        $self->output()->print_message("Confused test output: test $curr answered after ".
+              "test ", $next - 1);
     }
 
 };
@@ -889,19 +907,12 @@ sub bailout_handler {
 
 
 sub _print_ml {
-    print join '', $ML, @_ if $ML;
-}
-
-
-# Print updates only once per second.
-sub _print_ml_less {
     my $self = shift;
-    my $now = CORE::time;
-    if ( $self->last_test_print() != $now ) {
-        _print_ml(@_);
-        $self->last_test_print($now);
-    }
+    $self->output()->print_ml(@_);
+    print 
 }
+
+
 
 sub _get_bonusmsg {
     my($self) = @_;
@@ -937,6 +948,29 @@ sub _get_bonusmsg {
     return $bonusmsg;
 }
 
+sub _print_message
+{
+    my $self = shift;
+    $self->output()->print_message(@_);
+}
+
+sub _print_dubious
+{
+    my $self = shift;
+    my (%args) = @_;
+    my $test = $args{test_struct};
+    my $estatus = $args{estatus};
+    $self->_print_message(
+        sprintf("$test->{ml}dubious\n\tTest returned status $estatus ".
+            "(wstat %d, 0x%x)",
+            (($args{'wstatus'}) x 2))
+        );
+    if ($^O eq "VMS")
+    {
+        $self->_print_message("\t\t(VMS status is $estatus)");
+    }        
+}
+
 # Test program go boom.
 sub _dubious_return {
     my ($self,%args) = @_;
@@ -948,16 +982,13 @@ sub _dubious_return {
     
     my ($failed, $canon, $percent) = ('??', '??');
 
-    printf "$test->{ml}dubious\n\tTest returned status $estatus ".
-           "(wstat %d, 0x%x)\n",
-           $wstatus,$wstatus;
-    print "\t\t(VMS status is $estatus)\n" if $^O eq 'VMS';
+    $self->_print_dubious(%args);
 
     $tot->{bad}++;
 
     if ($test->{max}) {
         if ($test->{'next'} == $test->{max} + 1 and not @{$test->{failed}}) {
-            print "\tafter all the subtests completed successfully\n";
+            $self->_print_message("\tafter all the subtests completed successfully");
             $percent = 0;
             $failed = 0;        # But we do not set $canon!
         }
@@ -971,7 +1002,7 @@ sub _dubious_return {
                     $test->{failed}
                 );
             $percent = 100*(scalar @{$test->{failed}})/$test->{max};
-            print "DIED. ",$txt;
+            $self->_print_message("DIED. ", $txt);
         }
     }
 
@@ -1037,7 +1068,6 @@ sub _canonfailed ($$$@) {
         }
         push @result, $skipmsg;
     }
-    push @result, "\n";
     my $txt = join "", @result;
     return ($txt, $canon);
 }

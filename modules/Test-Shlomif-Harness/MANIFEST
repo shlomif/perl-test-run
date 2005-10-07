@@ -1,6 +1,7 @@
 Changes
 examples/mini_harness.plx
 lib/Test/Shlomif/Harness/Obj.pm
+lib/Test/Shlomif/Harness/Output.pm
 lib/Test/Shlomif/Harness/Straps.pm
 Makefile.PL
 MANIFEST
