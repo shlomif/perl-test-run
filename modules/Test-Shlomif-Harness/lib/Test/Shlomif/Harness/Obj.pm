@@ -524,6 +524,28 @@ sub _get_failed_struct
     }
 }
 
+sub _list_tests_as_failures
+{
+    my $self = shift;
+    my (%args) = @_;
+
+    my $test = $args{test_struct};
+    my $results = $args{results};
+
+    # List unrun tests as failures.
+    if ($test->{'next'} <= $test->{max}) {
+        push @{$test->{failed}}, $test->{'next'}..$test->{max};
+    }
+    # List overruns as failures.
+    else {
+        my $details = $results->{details};
+        foreach my $overrun ($test->{max}+1..@$details) {
+            next unless ref $details->[$overrun-1];
+            push @{$test->{failed}}, $overrun
+        }
+    }
+}
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -606,19 +628,10 @@ sub _run_single_test
         $self->_tot_inc('good');
     }
     else {
-        # List unrun tests as failures.
-        if ($test{'next'} <= $test{max}) {
-            push @{$test{failed}}, $test{'next'}..$test{max};
-        }
-        # List overruns as failures.
-        else {
-            my $details = $results{details};
-            foreach my $overrun ($test{max}+1..@$details) {
-                next unless ref $details->[$overrun-1];
-                push @{$test{failed}}, $overrun
-            }
-        }
- 
+        $self->_list_tests_as_failures(
+            'test_struct' => \%test,
+            'results' => \%results,
+        ); 
         $self->failed_tests()->{$tfile} = 
             $self->_get_failed_struct(
                 test_struct => \%test,
