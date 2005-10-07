@@ -876,6 +876,32 @@ sub bailout_handler {
       ($self->{bailout_reason} ? ": $self->{bailout_reason}\n" : ".\n");
 };
 
+sub _get_s
+{
+    my ($self, $n) = @_;
+    return ($n != 1 ? 's' : '')
+}
+
+sub _get_skipped_bonusmsg
+{
+    my $self = shift;
+    my $tot = $self->tot();
+
+    my $sub_skipped_msg =
+        "$tot->{sub_skipped} subtest" . $self->_get_s($tot->{sub_skipped});
+    if ($tot->{skipped}) {
+        return 
+            ", $tot->{skipped} test" .
+            $self->_get_s($tot->{skipped}) .
+            ($tot->{sub_skipped} ? (" and " . $sub_skipped_msg) : "") .
+            ' skipped'
+            ;
+    }
+    elsif ($tot->{sub_skipped}) {
+        return "$sub_skipped_msg skipped";
+    }
+}
+
 sub _get_bonusmsg {
     my($self) = @_;
     my $tot = $self->tot();
@@ -890,20 +916,7 @@ sub _get_bonusmsg {
                " UNEXPECTEDLY SUCCEEDED)")
         if $tot->{bonus};
 
-    if ($tot->{skipped}) {
-        $bonusmsg .= ", $tot->{skipped} test"
-                     . ($tot->{skipped} != 1 ? 's' : '');
-        if ($tot->{sub_skipped}) {
-            $bonusmsg .= " and $tot->{sub_skipped} subtest"
-                         . ($tot->{sub_skipped} != 1 ? 's' : '');
-        }
-        $bonusmsg .= ' skipped';
-    }
-    elsif ($tot->{sub_skipped}) {
-        $bonusmsg .= ", $tot->{sub_skipped} subtest"
-                     . ($tot->{sub_skipped} != 1 ? 's' : '')
-                     . " skipped";
-    }
+    $bonusmsg .= $self->_get_skipped_bonusmsg();
 
     $self->_bonusmsg($bonusmsg);
 
