@@ -690,36 +690,6 @@ sub _run_all_tests {
     return $self->failed_tests();
 }
 
-=item B<_mk_leader>
-
-  my($leader, $ml) = $self->_mk_leader($test_file, $width);
-
-Generates the 't/foo........' leader for the given C<$test_file> as well
-as a similar version which will overwrite the current line (by use of
-\r and such).  C<$ml> may be empty if Test::Harness doesn't think you're
-on TTY.
-
-The C<$width> is the width of the "yada/blah.." string.
-
-=cut
-
-sub _mk_leader {
-    my ($self, $te, $width) = @_;
-    chomp($te);
-    $te =~ s/\.\w+$/./;
-
-    if ($^O eq 'VMS') {
-        $te =~ s/^.*\.t\./\[.t./s;
-    }
-    my $leader = "$te" . '.' x ($width - length($te));
-    my $ml = "";
-
-    if ( -t STDOUT and not $ENV{HARNESS_NOTTY} and not $self->Verbose()) {
-        $ml = "\r" . (' ' x 77) . "\r$leader"
-    }
-
-    return($leader, $ml);
-}
 
 =item B<_leader_width>
 

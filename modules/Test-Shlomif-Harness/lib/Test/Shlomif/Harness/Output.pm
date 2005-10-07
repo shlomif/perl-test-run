@@ -7,6 +7,13 @@ use base 'Class::Accessor';
 
 __PACKAGE__->mk_accessors(qw(Verbose last_test_print ml));
 
+=head1 NAME
+
+Test::Shlomif::Harness::Output - Base class for outputting messages to the user in a test
+harmess.
+
+=cut
+
 sub new
 {
     my $class = shift;
@@ -23,6 +30,12 @@ sub _initialize
     $self->Verbose($args{Verbose});
     return 0;
 }
+
+=head2 METHODS 
+
+=over 4
+
+=cut
 
 sub _print_message_raw
 {
@@ -72,6 +85,19 @@ sub print_ml_less {
     }
 }
 
+=item B<_mk_leader>
+
+  my($leader, $ml) = $self->_mk_leader($test_file, $width);
+
+Generates the 't/foo........' leader for the given C<$test_file> as well
+as a similar version which will overwrite the current line (by use of
+\r and such).  C<$ml> may be empty if Test::Harness doesn't think you're
+on TTY.
+
+The C<$width> is the width of the "yada/blah.." string.
+
+=cut
+
 sub _mk_leader {
     my ($self, $te, $width) = @_;
     chomp($te);
@@ -89,6 +115,14 @@ sub _mk_leader {
 
     return($leader, $ml);
 }
+
+=back
+
+=head1 AUTHOR
+
+Shlomi Fish (shlomif@iglu.org.il)
+
+=cut
 
 1;
 
