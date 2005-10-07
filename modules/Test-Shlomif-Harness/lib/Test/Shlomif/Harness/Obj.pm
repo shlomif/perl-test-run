@@ -522,9 +522,13 @@ sub _run_single_test
         }
 
         if ($wstatus) {
-            $self->failed_tests()->{$tfile} = $self->_dubious_return(\%test, $self->tot(), 
-                                                   $estatus, $wstatus);
-            $self->failed_tests()->{$tfile}{name} = $tfile;
+            $self->failed_tests()->{$tfile} =
+                $self->_dubious_return(
+                    test_struct => \%test,
+                    estatus => $estatus,
+                    wstatus => $wstatus,
+                    filename => $tfile,
+                    );
         }
         elsif($results{seen}) {
             if (@{$test{failed}} and $test{max}) {
@@ -895,7 +899,13 @@ sub _get_bonusmsg {
 
 # Test program go boom.
 sub _dubious_return {
-    my($self, $test, $tot, $estatus, $wstatus) = @_;
+    my ($self,%args) = @_;
+    my $test = $args{'test_struct'};
+    my $tot = $self->tot();
+    my $estatus = $args{'estatus'};
+    my $wstatus = $args{'wstatus'};
+    my $filename = $args{'filename'};
+    
     my ($failed, $canon, $percent) = ('??', '??');
 
     printf "$test->{ml}dubious\n\tTest returned status $estatus ".
@@ -926,9 +936,10 @@ sub _dubious_return {
     }
 
     return { canon => $canon,  max => $test->{max} || '??',
-             failed => $failed, 
+             failed => $failed,
              percent => $percent,
              estat => $estatus, wstat => $wstatus,
+             name => $filename,
            };
 }
 
