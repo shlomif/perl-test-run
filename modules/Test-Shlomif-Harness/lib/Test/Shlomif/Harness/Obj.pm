@@ -426,6 +426,48 @@ sub _tot_inc
     $self->_tot_add($field,1);
 }
 
+sub _failed_with_results_seen
+{
+    my ($self, %args) = @_;
+    my $test = $args{'test_struct'};
+    my $tfile = $args{'filename'};
+
+    $self->_tot_inc('bad'); 
+    if (@{$test->{failed}} and $test->{max}) {
+        my ($txt, $canon) =
+            $self->_canonfailed(
+                $test->{max},
+                $test->{skipped},
+                $test->{failed}
+            );
+        print "$test->{ml}$txt";
+        return 
+            +{
+                canon   => $canon,
+                max     => $test->{max},
+                failed  => scalar @{$test->{failed}},
+                name    => $tfile, 
+                percent => 100*(scalar @{$test->{failed}})/$test->{max},
+                estat   => '',
+                wstat   => '',
+            };
+    }
+    else {
+        print "Don't know which tests failed: got $test->{ok} ok, ".
+              "expected $test->{max}\n";
+        return
+            +{
+                canon   => '??',
+                max     => $test->{max},
+                failed  => '??',
+                name    => $tfile, 
+                percent => undef,
+                estat   => '', 
+                wstat   => '',
+           };
+    }    
+}
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -508,6 +550,7 @@ sub _run_single_test
         $self->_tot_inc('good');
     }
     else {
+        my $test_file_struct;
         # List unrun tests as failures.
         if ($test{'next'} <= $test{max}) {
             push @{$test{failed}}, $test{'next'}..$test{max};
@@ -522,7 +565,7 @@ sub _run_single_test
         }
 
         if ($wstatus) {
-            $self->failed_tests()->{$tfile} =
+             $test_file_struct =
                 $self->_dubious_return(
                     test_struct => \%test,
                     estatus => $estatus,
@@ -531,41 +574,16 @@ sub _run_single_test
                     );
         }
         elsif($results{seen}) {
-            if (@{$test{failed}} and $test{max}) {
-                my ($txt, $canon) =
-                    $self->_canonfailed(
-                        $test{max},
-                        $test{skipped},
-                        $test{failed}
-                    );
-                print "$test{ml}$txt";
-                $self->failed_tests()->{$tfile} = { canon   => $canon,
-                                         max     => $test{max},
-                                         failed  => scalar @{$test{failed}},
-                                         name    => $tfile, 
-                                         percent => 100*(scalar @{$test{failed}})/$test{max},
-                                         estat   => '',
-                                         wstat   => '',
-                                       };
-            }
-            else {
-                print "Don't know which tests failed: got $test{ok} ok, ".
-                      "expected $test{max}\n";
-                $self->failed_tests()->{$tfile} = { canon   => '??',
-                                         max     => $test{max},
-                                         failed  => '??',
-                                         name    => $tfile, 
-                                         percent => undef,
-                                         estat   => '', 
-                                         wstat   => '',
-                                       };
-            }
-            $self->_tot_inc('bad');
+            $test_file_struct =
+                $self->_failed_with_results_seen(
+                    test_struct => \%test,
+                    filename => $tfile,
+                )
         }
         else {
             print "FAILED before any test output arrived\n";
             $self->_tot_inc('bad');
-            $self->failed_tests()->{$tfile} = { canon       => '??',
+            $test_file_struct = { canon       => '??',
                                      max         => '??',
                                      failed      => '??',
                                      name        => $tfile,
@@ -574,6 +592,7 @@ sub _run_single_test
                                      wstat       => '',
                                    };
         }
+        $self->failed_tests()->{$tfile} = $test_file_struct;
     }
 
     $self->_recheck_dir_files();
