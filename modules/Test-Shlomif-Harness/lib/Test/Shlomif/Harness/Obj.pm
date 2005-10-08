@@ -578,6 +578,18 @@ sub _get_elapsed
     }
 }
 
+sub _time_single_test
+{
+    my $self = shift;
+    my $tfile = shift;
+
+    my $test_start_time = $self->Timer() ? time : 0;
+    $self->Strap()->Verbose($self->Verbose());
+    my %results = $self->Strap()->analyze_file($tfile) or
+      do { warn $self->Strap()->{error}, "\n";  next };
+    my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);
+    return (\%results, $elapsed);
+}
 
 sub _run_single_test
 {
@@ -596,32 +608,28 @@ sub _run_single_test
     if ( $self->Debug() ) {
         $self->_print_message("# Running: " . $self->Strap()->_command_line($tfile));
     }
-    my $test_start_time = $self->Timer() ? time : 0;
-    $self->Strap()->Verbose($self->Verbose());
-    my %results = $self->Strap()->analyze_file($tfile) or
-      do { warn $self->Strap()->{error}, "\n";  next };
-    my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);
+    my ($results, $elapsed) = $self->_time_single_test($tfile);
 
     # state of the current test.
-    my @failed = grep { !$results{details}[$_-1]{ok} }
-                 1..@{$results{details}};
+    my @failed = grep { !$results->{details}[$_-1]{ok} }
+                 1..@{$results->{details}};
     my %test = (
-                ok          => $results{ok},
+                ok          => $results->{ok},
                 'next'      => $self->Strap()->{'next'},
-                max         => $results{max},
+                max         => $results->{max},
                 failed      => \@failed,
-                bonus       => $results{bonus},
-                skipped     => $results{skip},
-                skip_reason => $results{skip_reason},
+                bonus       => $results->{bonus},
+                skipped     => $results->{skip},
+                skip_reason => $results->{skip_reason},
                 skip_all    => $self->Strap()->{skip_all},
                 ml          => $self->output()->ml(),
                );
 
-    $self->_tot_add_results(\%results);
+    $self->_tot_add_results($results);
 
-    my($estatus, $wstatus) = @results{qw(exit wait)};
+    my($estatus, $wstatus) = @{$results}{qw(exit wait)};
 
-    if ($results{passing}) {
+    if ($results->{passing}) {
         # XXX Combine these first two
         if ($test{max} and $test{skipped} + $test{bonus}) {
             my @msg;
@@ -647,7 +655,7 @@ sub _run_single_test
     else {
         $self->_list_tests_as_failures(
             'test_struct' => \%test,
-            'results' => \%results,
+            'results' => $results,
         ); 
         $self->failed_tests()->{$tfile} = 
             $self->_get_failed_struct(
@@ -655,7 +663,7 @@ sub _run_single_test
                 estatus => $estatus,
                 wstatus => $wstatus,
                 filename => $tfile,
-                results => \%results,
+                results => $results,
             );
     }
 
