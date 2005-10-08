@@ -629,24 +629,24 @@ sub _get_test_struct
     my $self = shift;
     my $results = shift;
 
-    # state of the current test.
-    my @failed = grep { !$results->{details}[$_-1]{ok} }
-                 1..@{$results->{details}};
-    my %test = (
-                ok          => $results->{ok},
-                'next'      => $self->Strap()->{'next'},
-                max         => $results->{max},
-                failed      => \@failed,
-                bonus       => $results->{bonus},
-                skipped     => $results->{skip},
-                skip_reason => $results->{skip_reason},
-                skip_all    => $self->Strap()->{skip_all},
-                ml          => $self->output()->ml(),
-               );
-
     $self->_tot_add_results($results);
 
-    return (\%test);
+    return 
+        {
+            ok          => $results->{ok},
+            'next'      => $self->Strap()->{'next'},
+            max         => $results->{max},
+            # state of the current test.
+            failed      => [
+                grep { !$results->{details}[$_-1]{ok} }
+                 (1 .. @{$results->{details}})
+                           ],
+            bonus       => $results->{bonus},
+            skipped     => $results->{skip},
+            skip_reason => $results->{skip_reason},
+            skip_all    => $self->Strap()->{skip_all},
+            ml          => $self->output()->ml(),
+        };
 }
 
 sub _run_single_test
