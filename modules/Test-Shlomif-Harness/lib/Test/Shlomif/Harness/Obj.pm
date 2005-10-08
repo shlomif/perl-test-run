@@ -591,6 +591,64 @@ sub _time_single_test
     return (\%results, $elapsed);
 }
 
+sub _process_passing_test
+{
+    my $self = shift;
+    my (%args) = @_;
+
+    my $test = $args{test_struct};
+    my $elapsed = $args{elapsed};
+
+    # XXX Combine these first two
+    if ($test->{max} and $test->{skipped} + $test->{bonus}) {
+        my @msg;
+        push(@msg, "$test->{skipped}/$test->{max} skipped: ". 
+            $test->{skip_reason})
+            if $test->{skipped};
+        push(@msg, "$test->{bonus}/$test->{max} unexpectedly succeeded")
+            if $test->{bonus};
+        $self->_print_message("$test->{ml}ok$elapsed\n        ".
+            join(', ', @msg));
+    }
+    elsif ( $test->{max} ) {
+        $self->_print_message("$test->{ml}ok$elapsed");
+    }
+    else {
+        $self->_print_message("skipped\n        all skipped: " .
+            ((defined($test->{skip_all}) && length($test->{skip_all})) ?
+                $test->{skip_all} :
+                "no reason given")
+            );
+        $self->_tot_inc('skipped');
+    }
+    $self->_tot_inc('good');
+}
+
+sub _get_test_struct
+{
+    my $self = shift;
+    my $results = shift;
+
+    # state of the current test.
+    my @failed = grep { !$results->{details}[$_-1]{ok} }
+                 1..@{$results->{details}};
+    my %test = (
+                ok          => $results->{ok},
+                'next'      => $self->Strap()->{'next'},
+                max         => $results->{max},
+                failed      => \@failed,
+                bonus       => $results->{bonus},
+                skipped     => $results->{skip},
+                skip_reason => $results->{skip_reason},
+                skip_all    => $self->Strap()->{skip_all},
+                ml          => $self->output()->ml(),
+               );
+
+    $self->_tot_add_results($results);
+
+    return (\%test);
+}
+
 sub _run_single_test
 {
     my ($self, %args) = @_;
@@ -610,56 +668,25 @@ sub _run_single_test
     }
     my ($results, $elapsed) = $self->_time_single_test($tfile);
 
-    # state of the current test.
-    my @failed = grep { !$results->{details}[$_-1]{ok} }
-                 1..@{$results->{details}};
-    my %test = (
-                ok          => $results->{ok},
-                'next'      => $self->Strap()->{'next'},
-                max         => $results->{max},
-                failed      => \@failed,
-                bonus       => $results->{bonus},
-                skipped     => $results->{skip},
-                skip_reason => $results->{skip_reason},
-                skip_all    => $self->Strap()->{skip_all},
-                ml          => $self->output()->ml(),
-               );
-
-    $self->_tot_add_results($results);
+    my $test = $self->_get_test_struct($results);
 
     my($estatus, $wstatus) = @{$results}{qw(exit wait)};
 
-    if ($results->{passing}) {
-        # XXX Combine these first two
-        if ($test{max} and $test{skipped} + $test{bonus}) {
-            my @msg;
-            push(@msg, "$test{skipped}/$test{max} skipped: $test{skip_reason}")
-                if $test{skipped};
-            push(@msg, "$test{bonus}/$test{max} unexpectedly succeeded")
-                if $test{bonus};
-            $self->_print_message("$test{ml}ok$elapsed\n        ".join(', ', @msg));
-        }
-        elsif ( $test{max} ) {
-            $self->_print_message("$test{ml}ok$elapsed");
-        }
-        else {
-            $self->_print_message("skipped\n        all skipped: " .
-                ((defined($test{skip_all}) && length($test{skip_all})) ?
-                    $test{skip_all} :
-                    "no reason given")
-                );
-            $self->_tot_inc('skipped');
-        }
-        $self->_tot_inc('good');
+    if ($results->{passing}) 
+    {
+        $self->_process_passing_test(
+            test_struct => $test,
+            elapsed => $elapsed,
+        );
     }
     else {
         $self->_list_tests_as_failures(
-            'test_struct' => \%test,
+            'test_struct' => $test,
             'results' => $results,
         ); 
         $self->failed_tests()->{$tfile} = 
             $self->_get_failed_struct(
-                test_struct => \%test,
+                test_struct => $test,
                 estatus => $estatus,
                 wstatus => $wstatus,
                 filename => $tfile,
