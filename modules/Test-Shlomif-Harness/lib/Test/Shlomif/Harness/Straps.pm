@@ -293,14 +293,14 @@ sub analyze_file {
     local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
     if ( $Test::Shlomif::Harness::Obj::Debug ) {
         local $^W=0; # ignore undef warnings
-        print "# PERL5LIB=$ENV{PERL5LIB}\n";
+        $self->output()->print_message("# PERL5LIB=$ENV{PERL5LIB}");
     }
 
     # *sigh* this breaks under taint, but open -| is unportable.
     my $line = $self->_command_line($file);
 
     unless ( open(FILE, "$line|" )) {
-        print "can't run $file. $!\n";
+        $self->output()->print_message("can't run $file. $!");
         return;
     }
 
@@ -386,9 +386,9 @@ sub _switches {
     my @derived_switches;
 
     local *TEST;
-    open(TEST, $file) or print "can't open $file. $!\n";
+    open(TEST, $file) or $self->output()->print_message("can't open $file. $!");
     my $shebang = <TEST>;
-    close(TEST) or print "can't close $file. $!\n";
+    close(TEST) or $self->output()->print_message("can't close $file. $!");
 
     my $taint = ( $shebang =~ /^#!.*\bperl.*\s-\w*([Tt]+)/ );
     push( @derived_switches, "-$1" ) if $taint;
