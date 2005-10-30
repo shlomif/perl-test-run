@@ -147,9 +147,8 @@ sub _initialize
 
   use Test::Shlomif::Harness::Obj;
 
-  my $tester = Test::Shlomif::Harness::Obj->new();
-  $tester->runtests('test_files' => \@test_files);
-  
+  my $tester = Test::Shlomif::Harness::Obj->new('test_files' => \@test_files);
+  $tester->runtests();
 
 =head1 DESCRIPTION
 

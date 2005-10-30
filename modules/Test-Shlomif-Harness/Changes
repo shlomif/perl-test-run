@@ -1,3 +1,6 @@
+    * Fixed a documentation problem with the test_files passed as an argument
+    to runtests.
+
 0.0100_02 Mon Oct 31 00:37:26 IST 2005
     * Changed the string Test::Harness to Test::Shlomif::Harness in 
     Test::Shlomif::Harness::Straps.
