@@ -23,13 +23,13 @@ my $NO    = !$YES;
 
 =head1 NAME
 
-Test::Harness::Straps - detailed analysis of test results
+Test::Shlomif::Harness::Straps - detailed analysis of test results
 
 =head1 SYNOPSIS
 
-  use Test::Harness::Straps;
+  use Test::Shlomif::Harness::Straps;
 
-  my $strap = Test::Harness::Straps->new;
+  my $strap = Test::Shlomif::Harness::Straps->new;
 
   # Various ways to interpret a test
   my %results = $strap->analyze($name, \@test_output);
@@ -52,7 +52,7 @@ in incompatible ways.  It is otherwise stable.
 Test::Harness is limited to printing out its results.  This makes
 analysis of the test results difficult for anything but a human.  To
 make it easier for programs to work with test results, we provide
-Test::Harness::Straps.  Instead of printing the results, straps
+Test::Shlomif::Harness::Straps.  Instead of printing the results, straps
 provide them as raw data.  You can also configure how the tests are to
 be run.
 
@@ -64,7 +64,7 @@ comments.
 
 =head2 new()
 
-  my $strap = Test::Harness::Straps->new;
+  my $strap = Test::Shlomif::Harness::Straps->new;
 
 Initialize a new strap.
 
@@ -367,7 +367,6 @@ sub _command {
     my $self = shift;
 
     return $ENV{HARNESS_PERL}           if defined $ENV{HARNESS_PERL};
-    return "MCR $^X"                    if $self->{_is_vms};
     return Win32::GetShortPathName($^X) if $self->{_is_win32};
     return $^X;
 }
@@ -674,12 +673,15 @@ See F<examples/mini_harness.plx> for an example of use.
 
 =head1 AUTHOR
 
-Michael G Schwern C<< <schwern@pobox.com> >>, currently maintained by
+Michael G Schwern C<< <schwern@pobox.com> >>, later maintained by
 Andy Lester C<< <andy@petdance.com> >>.
+
+Converted to Test::Shlomif::Harness::Straps by Shlomi Fish 
+C<< <shlomif@iglu.org.il> >>.
 
 =head1 SEE ALSO
 
-L<Test::Harness>
+L<Test::Shlomif::Harness>
 
 =cut
 
