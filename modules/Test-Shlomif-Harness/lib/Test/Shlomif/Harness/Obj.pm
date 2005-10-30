@@ -728,8 +728,6 @@ sub _run_all_tests {
     my $self = shift;
     my (%args) = @_;
 
-    my $tests = $self->test_files();
-
     _autoflush(\*STDOUT);
     _autoflush(\*STDERR);
 
@@ -740,8 +738,8 @@ sub _run_all_tests {
     $self->_init_dir_files();
     my $run_start_time = new Benchmark;
 
-    $self->width($self->_leader_width('test_files' => $tests));
-    foreach my $tfile (@$tests) 
+    $self->width($self->_leader_width());
+    foreach my $tfile (@{$self->test_files()}) 
     {
         $self->_run_single_test('test_file' => $tfile);
     } # foreach test
@@ -764,8 +762,8 @@ longest test name.
 =cut
 
 sub _leader_width {
-    my ($self, %args) = @_;
-    my $tests = $args{test_files};
+    my ($self) = @_;
+    my $tests = $self->test_files();
 
     my $maxlen = 0;
     my $maxsuflen = 0;
@@ -827,6 +825,60 @@ sub _get_sub_percent_msg
         );
 }
 
+sub _create_fmts {
+    my $self = shift;
+    my $failedtests = $self->failed_tests();
+
+    my $failed_str = "Failed Test";
+    my $middle_str = " Stat Wstat Total Fail  Failed  ";
+    my $list_str = "List of Failed";
+
+    # Figure out our longest name string for formatting purposes.
+    my $max_namelen = length($failed_str);
+    foreach my $script (keys %$failedtests) {
+        my $namelen = length $failedtests->{$script}->{name};
+        $max_namelen = $namelen if $namelen > $max_namelen;
+    }
+
+    my $list_len = $Columns - length($middle_str) - $max_namelen;
+    if ($list_len < length($list_str)) {
+        $list_len = length($list_str);
+        $max_namelen = $Columns - length($middle_str) - $list_len;
+        if ($max_namelen < length($failed_str)) {
+            $max_namelen = length($failed_str);
+            $Columns = $max_namelen + length($middle_str) + $list_len;
+        }
+    }
+
+    my $fmt_top = "format STDOUT_TOP =\n"
+                  . sprintf("%-${max_namelen}s", $failed_str)
+                  . $middle_str
+                  . $list_str . "\n"
+                  . "-" x $Columns
+                  . "\n.\n";
+
+    my $fmt = "format STDOUT =\n"
+              . "@" . "<" x ($max_namelen - 1)
+              . "  @>> @>>>> @>>>> @>>> ^##.##%  "
+              . "^" . "<" x ($list_len - 1) . "\n"
+              . '{ $Curtest->{name}, $Curtest->{estat},'
+              . '  $Curtest->{wstat}, $Curtest->{max},'
+              . '  $Curtest->{failed}, $Curtest->{percent},'
+              . '  $Curtest->{canon}'
+              . "\n}\n"
+              . "~~" . " " x ($Columns - $list_len - 2) . "^"
+              . "<" x ($list_len - 1) . "\n"
+              . '$Curtest->{canon}'
+              . "\n.\n";
+
+    eval $fmt_top;
+    die $@ if $@;
+    eval $fmt;
+    die $@ if $@;
+
+    return($fmt_top, $fmt);
+}
+
 sub _fail_other
 {
     my $self = shift;
@@ -835,13 +887,15 @@ sub _fail_other
 
     my $subpct = $self->_get_sub_percent_msg();
 
+    $self->_create_fmts();
+
     # Now write to formats
     for my $script (sort keys %$failed_tests) {
       $Curtest = $failed_tests->{$script};
       write;
     }
     if ($tot->{bad}) {
-        my $bonusmsg = $self->_bonusmsg();
+        my $bonusmsg = $self->_bonusmsg() || "";
         $bonusmsg =~ s/^,\s*//;
         if ($bonusmsg)
         {
