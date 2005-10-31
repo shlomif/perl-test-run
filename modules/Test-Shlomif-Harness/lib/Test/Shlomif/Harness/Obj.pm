@@ -825,18 +825,39 @@ sub _get_sub_percent_msg
         );
 }
 
-sub _create_fmts {
-    my $self = shift;
-    my $failedtests = $self->failed_tests();
+sub _get_format_failed_str
+{
+    return "Failed Test";
+}
 
-    my $failed_str = "Failed Test";
-    my $middle_str = " Stat Wstat Total Fail  Failed  ";
-    my $list_str = "List of Failed";
+sub _get_format_middle_str
+{
+    return " Stat Wstat Total Fail  Failed  ";
+}
+
+sub _get_format_list_str
+{
+    return "List of Failed";
+}
+
+sub _get_format_failed_str_len
+{
+    my $self = shift;
+    return length($self->_get_format_failed_str());
+}
+
+sub _get_format_widths
+{
+    my $self = shift;
+
+    my $middle_str = $self->_get_format_middle_str();
+    my $list_str = $self->_get_format_list_str();
 
     # Figure out our longest name string for formatting purposes.
-    my $max_namelen = length($failed_str);
-    foreach my $script (keys %$failedtests) {
-        my $namelen = length $failedtests->{$script}->{name};
+    my $max_namelen = $self->_get_format_failed_str_len();
+    foreach my $script_data (values(%{$self->failed_tests()}))
+    {
+        my $namelen = length($script_data->{name});
         $max_namelen = $namelen if $namelen > $max_namelen;
     }
 
@@ -844,16 +865,30 @@ sub _create_fmts {
     if ($list_len < length($list_str)) {
         $list_len = length($list_str);
         $max_namelen = $Columns - length($middle_str) - $list_len;
-        if ($max_namelen < length($failed_str)) {
-            $max_namelen = length($failed_str);
+        if ($max_namelen < $self->_get_format_failed_str_len()) {
+            $max_namelen = $self->_get_format_failed_str_len();
             $Columns = $max_namelen + length($middle_str) + $list_len;
         }
     }
+    return 
+        {
+            'list_len' => $list_len,
+            'max_namelen' => $max_namelen,
+        };
+}
+
+sub _create_fmts {
+    my $self = shift;
+    my $failedtests = $self->failed_tests();
+   
+    my ($widths) = $self->_get_format_widths();
+    my $max_namelen = $widths->{max_namelen};
+    my $list_len = $widths->{list_len};
 
     my $fmt_top = "format STDOUT_TOP =\n"
-                  . sprintf("%-${max_namelen}s", $failed_str)
-                  . $middle_str
-                  . $list_str . "\n"
+                  . sprintf("%-${max_namelen}s", $self->_get_format_failed_str())
+                  . $self->_get_format_middle_str()
+                  . $self->_get_format_list_str() . "\n"
                   . "-" x $Columns
                   . "\n.\n";
 
