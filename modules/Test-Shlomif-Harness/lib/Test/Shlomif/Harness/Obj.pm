@@ -846,13 +846,9 @@ sub _get_format_failed_str_len
     return length($self->_get_format_failed_str());
 }
 
-sub _get_format_widths
+sub _get_int_max_namelen
 {
     my $self = shift;
-
-    my $middle_str = $self->_get_format_middle_str();
-    my $list_str = $self->_get_format_list_str();
-
     # Figure out our longest name string for formatting purposes.
     my $max_namelen = $self->_get_format_failed_str_len();
     foreach my $script_data (values(%{$self->failed_tests()}))
@@ -860,6 +856,18 @@ sub _get_format_widths
         my $namelen = length($script_data->{name});
         $max_namelen = $namelen if $namelen > $max_namelen;
     }
+
+    return $max_namelen;    
+}
+
+sub _get_format_widths
+{
+    my $self = shift;
+
+    my $middle_str = $self->_get_format_middle_str();
+    my $list_str = $self->_get_format_list_str();
+
+    my $max_namelen = $self->_get_int_max_namelen();
 
     my $list_len = $Columns - length($middle_str) - $max_namelen;
     if ($list_len < length($list_str)) {
