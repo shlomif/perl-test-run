@@ -873,25 +873,44 @@ sub _get_initial_max_namelen
         );
 }
 
+sub _get_fmt_mid_str_len
+{
+    my $self = shift;
+    return length($self->_get_format_middle_str());
+}
+
+sub _get_fmt_list_str_len
+{
+    my $self = shift;
+    return length($self->_get_format_list_str());
+}
+
+sub _get_fmt_list_len
+{
+    my ($self, %args) = (@_);
+    my $max_nl_ref = $args{max_namelen};
+
+    my $list_len = $Columns - $self->_get_fmt_mid_str_len() - $$max_nl_ref;
+    if ($list_len < $self->_get_fmt_list_str_len()) {
+        $list_len = $self->_get_fmt_list_str_len();
+        $$max_nl_ref = $Columns - $self->_get_fmt_mid_str_len() - $list_len;
+        if ($$max_nl_ref < $self->_get_format_failed_str_len()) {
+            $$max_nl_ref = $self->_get_format_failed_str_len();
+            $Columns = $$max_nl_ref + $self->_get_fmt_mid_str_len() + $list_len;
+        }
+    }
+    return $list_len;
+}
+
 sub _get_format_widths
 {
     my $self = shift;
 
-    my $middle_str = $self->_get_format_middle_str();
-    my $list_str = $self->_get_format_list_str();
-
     my $max_namelen = $self->_get_initial_max_namelen();
 
-    my $list_len = $Columns - length($middle_str) - $max_namelen;
-    if ($list_len < length($list_str)) {
-        $list_len = length($list_str);
-        $max_namelen = $Columns - length($middle_str) - $list_len;
-        if ($max_namelen < $self->_get_format_failed_str_len()) {
-            $max_namelen = $self->_get_format_failed_str_len();
-            $Columns = $max_namelen + length($middle_str) + $list_len;
-        }
-    }
-    return 
+    my $list_len = $self->_get_fmt_list_len('max_namelen' => \$max_namelen);
+
+    return
         {
             'list_len' => $list_len,
             'max_namelen' => $max_namelen,
