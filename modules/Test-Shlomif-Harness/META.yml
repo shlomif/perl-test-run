@@ -1,7 +1,7 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Test-Shlomif-Harness
-version:      0.0100_01
+version:      0.0100_03
 version_from: lib/Test/Shlomif/Harness/Obj.pm
 installdirs:  perl
 requires:

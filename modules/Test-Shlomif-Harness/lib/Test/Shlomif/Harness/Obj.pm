@@ -37,7 +37,7 @@ Version 2.53_02
 
 =cut
 
-$VERSION = "0.0100_02";
+$VERSION = "0.0100_03";
 
 # Backwards compatibility for exportable variable names.
 # REMOVED *verbose  = *Verbose;
