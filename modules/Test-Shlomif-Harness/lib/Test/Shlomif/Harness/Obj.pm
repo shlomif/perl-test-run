@@ -15,7 +15,7 @@ use Class::Accessor;
 
 use vars qw(
     $VERSION 
-    @ISA @EXPORT @EXPORT_OK 
+    @ISA @EXPORT_OK 
     $Switches
     $switches
     $Curtest
@@ -60,7 +60,6 @@ my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 # REMOVED: my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
 @ISA = ('Exporter', 'Class::Accessor');
-@EXPORT    = qw(&runtests);
 @EXPORT_OK = qw($verbose $switches);
 
 # REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
@@ -79,6 +78,8 @@ __PACKAGE__->mk_accessors(qw(
     Verbose
     dir_files
     failed_tests
+    list_len
+    max_namelen
     output
     test_files
     tot
@@ -902,7 +903,7 @@ sub _get_fmt_list_len
     return $list_len;
 }
 
-sub _get_format_widths
+sub _calc_format_widths
 {
     my $self = shift;
 
@@ -910,20 +911,35 @@ sub _get_format_widths
 
     my $list_len = $self->_get_fmt_list_len('max_namelen' => \$max_namelen);
 
-    return
-        {
-            'list_len' => $list_len,
-            'max_namelen' => $max_namelen,
-        };
+    $self->max_namelen($max_namelen);
+    $self->list_len($list_len);
+
+    return 0;
+}
+
+sub _fail_other_print_top
+{
+    my $self = shift;
+
+    my $max_namelen = $self->max_namelen();
+
+    $self->_print_message(
+        sprintf("%-${max_namelen}s", $self->_get_format_failed_str()) .
+        $self->_get_format_middle_str() .
+        $self->_get_format_list_str()
+    );
+    $self->_print_message("-" x $Columns);
 }
 
 sub _create_fmts {
     my $self = shift;
     my $failedtests = $self->failed_tests();
    
-    my ($widths) = $self->_get_format_widths();
-    my $max_namelen = $widths->{max_namelen};
-    my $list_len = $widths->{list_len};
+    $self->_calc_format_widths();
+    my $max_namelen = $self->max_namelen();
+    my $list_len = $self->list_len();
+
+=begin comment
 
     my $fmt_top = "format STDOUT_TOP =\n"
                   . sprintf("%-${max_namelen}s", $self->_get_format_failed_str())
@@ -932,6 +948,10 @@ sub _create_fmts {
                   . "-" x $Columns
                   . "\n.\n";
 
+=end comment
+
+=cut
+    
     my $fmt = "format STDOUT =\n"
               . "@" . "<" x ($max_namelen - 1)
               . "  @>> @>>>> @>>>> @>>> ^##.##%  "
@@ -946,12 +966,10 @@ sub _create_fmts {
               . '$Curtest->{canon}'
               . "\n.\n";
 
-    eval $fmt_top;
-    die $@ if $@;
     eval $fmt;
     die $@ if $@;
 
-    return($fmt_top, $fmt);
+    return 0;
 }
 
 sub _fail_other
@@ -963,6 +981,8 @@ sub _fail_other
     my $subpct = $self->_get_sub_percent_msg();
 
     $self->_create_fmts();
+
+    $self->_fail_other_print_top();
 
     # Now write to formats
     for my $script (sort keys %$failed_tests) {
