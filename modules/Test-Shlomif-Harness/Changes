@@ -1,7 +1,9 @@
     * Fixed a documentation problem with the test_files passed as an argument
     to runtests.
     * Added a test to test against the presence of the per-test-file
-    statistics report. (implemnetd using formats for the time being.)
+    statistics report. (implemented using formats for the time being.)
+    * Eliminated the use of formats in the fail_other report(). Made a lot
+    of refactoring up to the point.
 
 0.0100_02 Mon Oct 31 00:37:26 IST 2005
     * Changed the string Test::Harness to Test::Shlomif::Harness in 

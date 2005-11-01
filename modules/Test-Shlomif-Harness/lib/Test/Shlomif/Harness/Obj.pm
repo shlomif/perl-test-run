@@ -18,7 +18,6 @@ use vars qw(
     @ISA @EXPORT_OK 
     $Switches
     $switches
-    $Curtest
     $Columns 
     $has_time_hires
 );
@@ -931,43 +930,67 @@ sub _fail_other_print_top
     $self->_print_message("-" x $Columns);
 }
 
-sub _create_fmts {
+sub _fail_other_get_canon_strings
+{
     my $self = shift;
-    my $failedtests = $self->failed_tests();
-   
-    $self->_calc_format_widths();
+    my $canon = shift;
+    my @ret = ();
+    my $string = shift(@$canon);
+    while (@$canon)
+    {
+        if (length($canon->[0]) + 1 + length($string)< $self->list_len())
+        {
+            $string .= " ".shift(@$canon);
+        }
+        else
+        {
+            push @ret, $string;
+            $string = shift(@$canon);
+        }
+    }
+    push @ret, $string;
+    return \@ret;
+}
+
+sub _fail_other_print_test
+{
+    my $self = shift;
+    my $script = shift;
+    my $test = $self->failed_tests()->{$script};
+
     my $max_namelen = $self->max_namelen();
     my $list_len = $self->list_len();
 
-=begin comment
+    my @canon = split(/\s+/, $test->{canon});
 
-    my $fmt_top = "format STDOUT_TOP =\n"
-                  . sprintf("%-${max_namelen}s", $self->_get_format_failed_str())
-                  . $self->_get_format_middle_str()
-                  . $self->_get_format_list_str() . "\n"
-                  . "-" x $Columns
-                  . "\n.\n";
-
-=end comment
-
-=cut
+    my $canon_strings = $self->_fail_other_get_canon_strings([@canon]);
     
-    my $fmt = "format STDOUT =\n"
-              . "@" . "<" x ($max_namelen - 1)
-              . "  @>> @>>>> @>>>> @>>> ^##.##%  "
-              . "^" . "<" x ($list_len - 1) . "\n"
-              . '{ $Curtest->{name}, $Curtest->{estat},'
-              . '  $Curtest->{wstat}, $Curtest->{max},'
-              . '  $Curtest->{failed}, $Curtest->{percent},'
-              . '  $Curtest->{canon}'
-              . "\n}\n"
-              . "~~" . " " x ($Columns - $list_len - 2) . "^"
-              . "<" x ($list_len - 1) . "\n"
-              . '$Curtest->{canon}'
-              . "\n.\n";
+    $self->_print_message(
+        sprintf(
+            ("%-" . $max_namelen . "s  " . 
+                "%3s %5s %5s %4s %6.2f%%  %s"),
+            $test->{name}, $test->{estat},
+            $test->{wstat}, $test->{max},
+            $test->{failed}, $test->{percent},
+            shift(@$canon_strings)
+        )
+    );
+    foreach my $c (@$canon_strings)
+    {
+        $self->_print_message(
+            sprintf((" " x ($Columns - $list_len) . 
+                "%s"),
+                $c
+            ),
+        );
+    }
+}
 
-    eval $fmt;
-    die $@ if $@;
+sub _create_fmts {
+    my $self = shift;
+    my $failedtests = $self->failed_tests();
+
+    $self->_calc_format_widths();
 
     return 0;
 }
@@ -986,8 +1009,7 @@ sub _fail_other
 
     # Now write to formats
     for my $script (sort keys %$failed_tests) {
-      $Curtest = $failed_tests->{$script};
-      write;
+      $self->_fail_other_print_test($script);
     }
     if ($tot->{bad}) {
         my $bonusmsg = $self->_bonusmsg() || "";
