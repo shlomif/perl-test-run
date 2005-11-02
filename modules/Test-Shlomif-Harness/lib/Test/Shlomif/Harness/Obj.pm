@@ -1281,15 +1281,14 @@ sub _canonfailed_get_canon
     return
         {
             'canon' => join(' ', @$canon),
-            'result' =>
-                $self->_get_failed_string($canon),
-            'failed_num' => $failed_num
+            'result' => $self->_get_failed_string($canon),
+            'failed_num' => $failed_num,
         };
 }
 
 sub _canonfailed ($$$@) {
     my ($self, $max, $skipped, $failed_in) = @_;
-    
+
     my $gc_ret = 
         $self->_canonfailed_get_canon(
             'failed_in' => $failed_in,
