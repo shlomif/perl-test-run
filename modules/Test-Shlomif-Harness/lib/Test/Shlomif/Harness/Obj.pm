@@ -1230,15 +1230,15 @@ sub filter_failed
     return [ sort {$a <=> $b} grep !$seen{$_}++, @$failed_ref ];
 }
 
-sub _canonfailed ($$$@) {
-    my ($self, $max, $skipped, $failed_in) = @_;
-    my $failed = $self->filter_failed($failed_in); 
+sub _canonfailed_get_canon
+{
+    my ($self, %args) = @_;
+    my $failed_in = $args{failed_in};
+    my $failed = $self->filter_failed($failed_in);
     my $failed_num = @$failed;
-    my @result = ();
-    my @canon = ();
-    my $min;
-    my $last = $min = shift @$failed;
-    my $canon;
+    my @canon;
+    my ($min, $last);
+    $last = $min = shift @$failed;
     if (@$failed) {
         for (@$failed, $failed->[-1]) { # don't forget the last one
             if ($_ > $last+1 || $_ == $last) {
@@ -1247,21 +1247,40 @@ sub _canonfailed ($$$@) {
             }
             $last = $_;
         }
-        local $" = ", ";
-        push @result, "FAILED tests @canon\n";
-        $canon = join ' ', @canon;
     }
     else {
-        push @result, "FAILED test $last\n";
-        $canon = $last;
+        @canon = ($last);
     }
 
-    push @result, "\tFailed $failed_num/$max tests, ";
+    return
+        {
+            'canon' => join(' ', @canon),
+            'result' => 
+                ("FAILED test" . ((@canon > 1) ? "s" : "") .
+                 " " .join(", ", @canon) . "\n"
+                ),
+            'failed_num' => $failed_num
+        };
+}
+
+sub _canonfailed ($$$@) {
+    my ($self, $max, $skipped, $failed_in) = @_;
+    
+    my $gc_ret = 
+        $self->_canonfailed_get_canon(
+            'failed_in' => $failed_in,
+        );
+
+    my $canon = $gc_ret->{'canon'};
+    my $result = [$gc_ret->{'result'}];
+    my $failed_num = $gc_ret->{'failed_num'};
+
+    push @$result, "\tFailed $failed_num/$max tests, ";
     if ($max) {
-        push @result, sprintf("%.2f",100*(1-$failed_num/$max)), "% okay";
+        push @$result, sprintf("%.2f",100*(1-$failed_num/$max)), "% okay";
     }
     else {
-        push @result, "?% okay";
+        push @$result, "?% okay";
     }
     my $ender = 's' x ($skipped > 1);
     if ($skipped) {
@@ -1274,9 +1293,9 @@ sub _canonfailed ($$$@) {
         else {
             $skipmsg .= "?%)";
         }
-        push @result, $skipmsg;
+        push @$result, $skipmsg;
     }
-    my $txt = join "", @result;
+    my $txt = join "", @$result;
     return ($txt, $canon);
 }
 
