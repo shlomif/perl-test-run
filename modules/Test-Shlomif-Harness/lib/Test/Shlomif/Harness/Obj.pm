@@ -1306,10 +1306,12 @@ sub _dubious_return {
 
     return 
         $self->_create_failed_obj_instance(
-            canon => $canon,  max => $test->max() || '??',
+            canon => $canon,
+            max => $test->max() || '??',
             failed => $failed,
             percent => $percent,
-            estat => $estatus, wstat => $wstatus,
+            estat => $estatus,
+            wstat => $wstatus,
             name => $filename,
         );
 }
