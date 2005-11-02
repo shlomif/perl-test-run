@@ -573,14 +573,14 @@ sub _list_tests_as_failures
 
     # List unrun tests as failures.
     if ($test->next() <= $test->max()) {
-        push @{$test->failed()}, $test->next()..$test->max();
+        $test->add_to_failed($test->next()..$test->max());
     }
     # List overruns as failures.
     else {
         my $details = $results->{details};
         foreach my $overrun ($test->max()+1..@$details) {
             next unless ref $details->[$overrun-1];
-            push @{$test->failed()}, $overrun
+            $test->add_to_failed($overrun);
         }
     }
 }
@@ -700,6 +700,12 @@ sub _initialize
             die "Called with undefined field \"$k\"";
         }
     }
+}
+
+sub add_to_failed
+{
+    my $self = shift;
+    push @{$self->failed()}, @_;
 }
 
 1;
@@ -1291,7 +1297,7 @@ sub _dubious_return {
             $failed = 0;        # But we do not set $canon!
         }
         else {
-            push @{$test->failed()}, $test->next()..$test->max();
+            $test->add_to_failed($test->next()..$test->max());
             $failed = @{$test->failed()};
             (my $txt, $canon) =
                 $self->_canonfailed(
