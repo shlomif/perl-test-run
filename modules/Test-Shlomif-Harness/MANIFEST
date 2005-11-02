@@ -1,5 +1,6 @@
 Changes
 examples/mini_harness.plx
+lib/Test/Shlomif/Harness/Base.pm
 lib/Test/Shlomif/Harness/Obj.pm
 lib/Test/Shlomif/Harness/Output.pm
 lib/Test/Shlomif/Harness/Straps.pm

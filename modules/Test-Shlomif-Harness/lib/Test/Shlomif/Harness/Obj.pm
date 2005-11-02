@@ -5,6 +5,7 @@ package Test::Shlomif::Harness::Obj;
 require 5.00405;
 use Test::Shlomif::Harness::Straps;
 use Test::Shlomif::Harness::Output;
+use Test::Shlomif::Harness::Base;
 use Test::Harness::Assert;
 use Exporter;
 use Benchmark;
@@ -58,7 +59,7 @@ my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 
 # REMOVED: my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
-@ISA = ('Exporter', 'Class::Accessor');
+@ISA = ('Test::Shlomif::Harness::Base', 'Exporter');
 @EXPORT_OK = qw($verbose $switches);
 
 # REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
@@ -85,14 +86,6 @@ __PACKAGE__->mk_accessors(qw(
     width
 ));
 
-sub new
-{
-    my $class = shift;
-    my $self = {};
-    bless $self, $class;
-    $self->_initialize(@_);
-    return $self;
-}
 
 sub _get_simple_params
 {
@@ -440,6 +433,55 @@ sub _tot_inc
     $self->_tot_add($field,1);
 }
 
+package Test::Shlomif::Harness::Obj::FailedObj;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Shlomif::Harness::Base));
+
+@fields = (qw(
+    canon
+    estat
+    failed
+    max
+    name
+    percent
+    wstat
+));
+
+%fields_map = (map { $_ => 1 } @fields);
+
+__PACKAGE__->mk_accessors(@fields);
+
+sub _initialize
+{
+    my $self = shift;
+    my (%args) = @_;
+
+    while (my ($k, $v) = each(%args))
+    {
+        if (exists($fields_map{$k}))
+        {
+            $self->set($k, $v);
+        }
+        else
+        {
+            die "Called with undefined field \"$k\"";
+        }
+    }
+}
+
+1;
+
+package Test::Shlomif::Harness::Obj;
+
+sub _create_failed_obj_instance
+{
+    my $self = shift;
+    return Test::Shlomif::Harness::Obj::FailedObj->new(
+        @_
+    );
+}
 sub _failed_with_results_seen
 {
     my ($self, %args) = @_;
@@ -447,38 +489,36 @@ sub _failed_with_results_seen
     my $tfile = $args{'filename'};
 
     $self->_tot_inc('bad'); 
-    if (@{$test->{failed}} and $test->{max}) {
+    if (@{$test->failed()} and $test->max()) {
         my ($txt, $canon) =
             $self->_canonfailed(
-                $test->{max},
-                $test->{skipped},
-                $test->{failed}
+                $test->max(),
+                $test->skipped(),
+                $test->failed()
             );
         $self->_print_message("$test->{ml}$txt");
-        return 
-            +{
+        return $self->_create_failed_obj_instance(
                 canon   => $canon,
-                max     => $test->{max},
-                failed  => scalar @{$test->{failed}},
+                max     => $test->max(),
+                failed  => scalar @{$test->failed()},
                 name    => $tfile, 
-                percent => 100*(scalar @{$test->{failed}})/$test->{max},
+                percent => 100*(scalar @{$test->failed()})/$test->max(),
                 estat   => '',
                 wstat   => '',
-            };
+            );
     }
     else {
-        $self->_print_message("Don't know which tests failed: got $test->{ok} ok, ".
-              "expected $test->{max}");
-        return
-            +{
+        $self->_print_message("Don't know which tests failed: got " . $test->ok() . " ok, ".
+              "expected " . $test->max());
+        return $self->_create_failed_obj_instance(
                 canon   => '??',
-                max     => $test->{max},
+                max     => $test->max(),
                 failed  => '??',
                 name    => $tfile, 
                 percent => undef,
                 estat   => '', 
                 wstat   => '',
-           };
+            );
     }    
 }
 
@@ -489,8 +529,7 @@ sub _failed_before_any_test_output
 
     $self->_print_message("FAILED before any test output arrived");
     $self->_tot_inc('bad');
-    return 
-        +{ 
+    return $self->_create_failed_obj_instance(
             canon       => '??',
             max         => '??',
             failed      => '??',
@@ -498,7 +537,7 @@ sub _failed_before_any_test_output
             percent     => undef,
             estat       => '', 
             wstat       => '',
-         };
+        );
 }
 
 sub _get_failed_struct
@@ -533,15 +572,15 @@ sub _list_tests_as_failures
     my $results = $args{results};
 
     # List unrun tests as failures.
-    if ($test->{'next'} <= $test->{max}) {
-        push @{$test->{failed}}, $test->{'next'}..$test->{max};
+    if ($test->next() <= $test->max()) {
+        push @{$test->failed()}, $test->next()..$test->max();
     }
     # List overruns as failures.
     else {
         my $details = $results->{details};
-        foreach my $overrun ($test->{max}+1..@$details) {
+        foreach my $overrun ($test->max()+1..@$details) {
             next unless ref $details->[$overrun-1];
-            push @{$test->{failed}}, $overrun
+            push @{$test->failed()}, $overrun
         }
     }
 }
@@ -599,28 +638,78 @@ sub _process_passing_test
     my $elapsed = $args{elapsed};
 
     # XXX Combine these first two
-    if ($test->{max} and $test->{skipped} + $test->{bonus}) {
+    if ($test->max() and $test->skipped() + $test->bonus()) {
         my @msg;
-        push(@msg, "$test->{skipped}/$test->{max} skipped: ". 
-            $test->{skip_reason})
-            if $test->{skipped};
-        push(@msg, "$test->{bonus}/$test->{max} unexpectedly succeeded")
-            if $test->{bonus};
-        $self->_print_message("$test->{ml}ok$elapsed\n        ".
+        push(@msg, $test->skipped()."/".$test->max()." skipped: ". 
+            $test->skip_reason())
+            if $test->skipped();
+        push(@msg, $test->bonus()."/".$test->max()." unexpectedly succeeded")
+            if $test->bonus();
+        $self->_print_message($test->ml()."ok$elapsed\n        ".
             join(', ', @msg));
     }
-    elsif ( $test->{max} ) {
-        $self->_print_message("$test->{ml}ok$elapsed");
+    elsif ( $test->max() ) {
+        $self->_print_message($test->ml()."ok$elapsed");
     }
     else {
         $self->_print_message("skipped\n        all skipped: " .
-            ((defined($test->{skip_all}) && length($test->{skip_all})) ?
-                $test->{skip_all} :
+            ((defined($test->skip_all()) && length($test->skip_all())) ?
+                $test->skip_all() :
                 "no reason given")
             );
         $self->_tot_inc('skipped');
     }
     $self->_tot_inc('good');
+}
+
+package Test::Shlomif::Harness::Obj::TestObj;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Shlomif::Harness::Base));
+
+@fields = (qw(
+    ok
+    next
+    max
+    failed
+    bonus
+    skipped
+    skip_reason
+    skip_all
+    ml
+));
+
+%fields_map = (map { $_ => 1 } @fields);
+
+__PACKAGE__->mk_accessors(@fields);
+
+sub _initialize
+{
+    my $self = shift;
+    my (%args) = @_;
+
+    while (my ($k, $v) = each(%args))
+    {
+        if (exists($fields_map{$k}))
+        {
+            $self->set($k, $v);
+        }
+        else
+        {
+            die "Called with undefined field \"$k\"";
+        }
+    }
+}
+
+1;
+
+package Test::Shlomif::Harness::Obj;
+
+sub _create_test_obj_instance
+{
+    my $self = shift;
+    return Test::Shlomif::Harness::Obj::TestObj->new(@_);
 }
 
 sub _get_test_struct
@@ -631,7 +720,7 @@ sub _get_test_struct
     $self->_tot_add_results($results);
 
     return 
-        {
+        $self->_create_test_obj_instance(
             ok          => $results->{ok},
             'next'      => $self->Strap()->{'next'},
             max         => $results->{max},
@@ -645,7 +734,7 @@ sub _get_test_struct
             skip_reason => $results->{skip_reason},
             skip_all    => $self->Strap()->{skip_all},
             ml          => $self->output()->ml(),
-        };
+        );
 }
 
 sub _run_single_test
@@ -961,7 +1050,7 @@ sub _fail_other_print_test
     my $max_namelen = $self->max_namelen();
     my $list_len = $self->list_len();
 
-    my @canon = split(/\s+/, $test->{canon});
+    my @canon = split(/\s+/, $test->canon());
 
     my $canon_strings = $self->_fail_other_get_canon_strings([@canon]);
     
@@ -969,9 +1058,9 @@ sub _fail_other_print_test
         sprintf(
             ("%-" . $max_namelen . "s  " . 
                 "%3s %5s %5s %4s %6.2f%%  %s"),
-            $test->{name}, $test->{estat},
-            $test->{wstat}, $test->{max},
-            $test->{failed}, $test->{percent},
+            $test->name(), $test->estat(),
+            $test->wstat(), $test->max(),
+            $test->failed(), $test->percent(),
             shift(@$canon_strings)
         )
     );
@@ -1170,7 +1259,7 @@ sub _print_dubious
     my $test = $args{test_struct};
     my $estatus = $args{estatus};
     $self->_print_message(
-        sprintf("$test->{ml}dubious\n\tTest returned status $estatus ".
+        sprintf($test->ml()."dubious\n\tTest returned status $estatus ".
             "(wstat %d, 0x%x)",
             (($args{'wstatus'}) x 2))
         );
@@ -1195,32 +1284,34 @@ sub _dubious_return {
 
     $tot->{bad}++;
 
-    if ($test->{max}) {
-        if ($test->{'next'} == $test->{max} + 1 and not @{$test->{failed}}) {
+    if ($test->max()) {
+        if ($test->next() == $test->max() + 1 and not @{$test->failed()}) {
             $self->_print_message("\tafter all the subtests completed successfully");
             $percent = 0;
             $failed = 0;        # But we do not set $canon!
         }
         else {
-            push @{$test->{failed}}, $test->{'next'}..$test->{max};
-            $failed = @{$test->{failed}};
+            push @{$test->failed()}, $test->next()..$test->max();
+            $failed = @{$test->failed()};
             (my $txt, $canon) =
                 $self->_canonfailed(
-                    $test->{max},
-                    $test->{skipped},
-                    $test->{failed}
+                    $test->max(),
+                    $test->skipped(),
+                    $test->failed()
                 );
-            $percent = 100*(scalar @{$test->{failed}})/$test->{max};
+            $percent = 100*(scalar @{$test->failed()})/$test->max();
             $self->_print_message("DIED. ", $txt);
         }
     }
 
-    return { canon => $canon,  max => $test->{max} || '??',
-             failed => $failed,
-             percent => $percent,
-             estat => $estatus, wstat => $wstatus,
-             name => $filename,
-           };
+    return 
+        $self->_create_failed_obj_instance(
+            canon => $canon,  max => $test->max() || '??',
+            failed => $failed,
+            percent => $percent,
+            estat => $estatus, wstat => $wstatus,
+            name => $filename,
+        );
 }
 
 sub filter_failed
@@ -1289,7 +1380,7 @@ sub _canonfailed_get_canon
 sub _canonfailed ($$$@) {
     my ($self, $max, $skipped, $failed_in) = @_;
 
-    my $gc_ret = 
+    my $gc_ret =
         $self->_canonfailed_get_canon(
             'failed_in' => $failed_in,
         );
