@@ -291,7 +291,7 @@ sub runtests {
         $self->_run_all_tests();
     $self->_show_results();
 
-    my $ok = $self->_all_ok($self->tot());
+    my $ok = $self->_all_ok();
 
     assert(($ok xor keys %$failedtests), 
            q{ok status jives with $failedtests});
@@ -303,7 +303,7 @@ sub runtests {
 
 =item B<_all_ok>
 
-  my $ok = $self->_all_ok(\%tot);
+  my $ok = $self->_all_ok();
 
 Tells you if this test run is overall successful or not.
 
@@ -311,9 +311,14 @@ Tells you if this test run is overall successful or not.
 
 sub _all_ok {
     my $self = shift;
-    my $tot = shift;
+    my $tot = $self->tot();
 
-    return $tot->{bad} == 0 && ($tot->{max} || $tot->{skipped}) ? 1 : 0;
+    return (
+        (
+            ($tot->bad() == 0) &&
+            ($tot->max() || $tot->skipped())
+        ) ? 1 : 0
+    );
 }
 
 =item B<_globdir>
@@ -913,7 +918,7 @@ sub _run_all_tests {
     {
         $self->_run_single_test('test_file' => $tfile);
     } # foreach test
-    $self->tot()->{bench} = timediff(new Benchmark, $run_start_time);
+    $self->tot()->bench(timediff(new Benchmark, $run_start_time));
 
     $self->Strap()->_restore_PERL5LIB;
 
@@ -962,9 +967,9 @@ sub _fail_no_tests_run
 sub _fail_no_tests_output
 {
     my $self = shift;
-    my $tot = $self->tot();
-    my $blurb = $tot->{tests}==1 ? "script" : "scripts";
-    die "FAILED--$tot->{tests} test $blurb could be run, ".
+    my $num_tests = $self->tot()->tests();
+    my $blurb = $num_tests==1 ? "script" : "scripts";
+    die "FAILED--$num_tests test $blurb could be run, ".
         "alas--no output ever seen\n";
 }
 
@@ -974,23 +979,23 @@ sub _print_final_stats
     my $tot = $self->tot();
     $self->output()->print_message(
         sprintf("Files=%d, Tests=%d, %s",
-           $tot->{files}, $tot->{max}, timestr($tot->{bench}, 'nop'))
+           $tot->files(), $tot->max(), timestr($tot->bench(), 'nop'))
        );
 }
 
 sub _get_tests_good_percent
 {
     my ($self) = @_;
-    return sprintf("%.2f", $self->tot()->{good} / $self->tot()->{tests} * 100);
+    return sprintf("%.2f", $self->tot()->good() / $self->tot()->tests() * 100);
 }
 
 sub _get_sub_percent_msg
 {
     my $self = shift;
     my $tot = $self->tot();
-    my $percent_ok = 100*$tot->{ok}/$tot->{max};
+    my $percent_ok = 100*$tot->ok()/$tot->max();
     return sprintf(" %d/%d subtests failed, %.2f%% okay.",
-        $tot->{max} - $tot->{ok}, $tot->{max}, 
+        $tot->max() - $tot->ok(), $tot->max(), 
         $percent_ok
         );
 }
@@ -1181,14 +1186,16 @@ sub _fail_other
     for my $script (sort keys %$failed_tests) {
       $self->_fail_other_print_test($script);
     }
-    if ($tot->{bad}) {
+
+    if ($tot->bad())
+    {
         my $bonusmsg = $self->_bonusmsg() || "";
         $bonusmsg =~ s/^,\s*//;
         if ($bonusmsg)
         {
             $self->_print_message("$bonusmsg.");
         }
-        die "Failed $tot->{bad}/$tot->{tests} test scripts, " . 
+        die "Failed " . $tot->bad() . "/" . $tot->tests(). " test scripts, " . 
             $self->_get_tests_good_percent() . "% okay.".
             "$subpct\n";
     }
@@ -1198,13 +1205,16 @@ sub _show_results {
     my($self) = @_;
     my $tot = $self->tot();
 
-    if ($self->_all_ok($tot)) {
+    if ($self->_all_ok())
+    {
         $self->_report_success();
     }
-    elsif (!$tot->{tests}){
+    elsif (!$tot->tests())
+    {
         $self->_fail_no_tests_run();
     }
-    elsif (!$tot->{max}) {
+    elsif (!$tot->max())
+    {
         $self->_fail_no_tests_output();
     }
     else {
@@ -1290,25 +1300,30 @@ sub _get_skipped_bonusmsg
 {
     my $self = shift;
     my $tot = $self->tot();
+    my $sub_skipped = $tot->sub_skipped();
+    my $skipped = $tot->skipped();
 
     my $sub_skipped_msg =
-        "$tot->{sub_skipped} subtest" . $self->_get_s($tot->{sub_skipped});
-    if ($tot->{skipped}) {
+        "$sub_skipped subtest" . $self->_get_s($sub_skipped);
+
+    if ($skipped)
+    {
         return 
-            ", $tot->{skipped} test" .
-            $self->_get_s($tot->{skipped}) .
-            ($tot->{sub_skipped} ? (" and " . $sub_skipped_msg) : "") .
+            ", $skipped test" .
+            $self->_get_s($skipped) .
+            ($sub_skipped ? (" and " . $sub_skipped_msg) : "") .
             ' skipped'
             ;
     }
-    elsif ($tot->{sub_skipped}) {
+    elsif ($sub_skipped)
+    {
         return "$sub_skipped_msg skipped";
     }
 }
 
 sub _get_bonusmsg {
     my($self) = @_;
-    my $tot = $self->tot();
+    my $bonus = $self->tot()->bonus();
 
     if (defined($self->_bonusmsg()))
     {
@@ -1316,9 +1331,9 @@ sub _get_bonusmsg {
     }
 
     my $bonusmsg = '';
-    $bonusmsg = (" ($tot->{bonus} subtest".($tot->{bonus} > 1 ? 's' : '').
+    $bonusmsg = (" ($bonus subtest".($bonus > 1 ? 's' : '').
                " UNEXPECTEDLY SUCCEEDED)")
-        if $tot->{bonus};
+        if $bonus;
 
     $bonusmsg .= $self->_get_skipped_bonusmsg();
 
@@ -1354,7 +1369,6 @@ sub _print_dubious
 sub _dubious_return {
     my ($self,%args) = @_;
     my $test = $args{'test_struct'};
-    my $tot = $self->tot();
     my $estatus = $args{'estatus'};
     my $wstatus = $args{'wstatus'};
     my $filename = $args{'filename'};
@@ -1363,7 +1377,7 @@ sub _dubious_return {
 
     $self->_print_dubious(%args);
 
-    $tot->{bad}++;
+    $self->_tot_inc('bad');
 
     if ($test->max()) {
         if ($test->next() == $test->max() + 1 and not @{$test->failed()}) {
