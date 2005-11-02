@@ -496,7 +496,7 @@ sub _failed_with_results_seen
                 $test->skipped(),
                 $test->failed()
             );
-        $self->_print_message("$test->{ml}$txt");
+        $self->_print_message($test->ml().$txt);
         return $self->_create_failed_obj_instance(
                 canon   => $canon,
                 max     => $test->max(),
