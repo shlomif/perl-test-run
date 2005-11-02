@@ -1230,16 +1230,22 @@ sub filter_failed
     return [ sort {$a <=> $b} grep !$seen{$_}++, @$failed_ref ];
 }
 
-sub _canonfailed_get_canon
+sub _get_failed_string
 {
-    my ($self, %args) = @_;
-    my $failed_in = $args{failed_in};
-    my $failed = $self->filter_failed($failed_in);
-    my $failed_num = @$failed;
-    my @canon;
-    my ($min, $last);
-    $last = $min = shift @$failed;
+    my ($self, $canon) = @_;
+    return
+        ("FAILED test" . ((@$canon > 1) ? "s" : "") .
+         " " . join(", ", @$canon) . "\n"
+        );
+}
+
+sub _canonfailed_get_canon_helper
+{
+    my ($self, $failed) = @_;
+    my $min = shift @$failed;
+    my $last = $min;
     if (@$failed) {
+        my @canon;
         for (@$failed, $failed->[-1]) { # don't forget the last one
             if ($_ > $last+1 || $_ == $last) {
                 push @canon, ($min == $last) ? $last : "$min-$last";
@@ -1247,18 +1253,27 @@ sub _canonfailed_get_canon
             }
             $last = $_;
         }
+        return \@canon;
     }
     else {
-        @canon = ($last);
-    }
+        return [$last];
+    }    
+}
+
+sub _canonfailed_get_canon
+{
+    my ($self, %args) = @_;
+    my $failed_in = $args{failed_in};
+    my $failed = $self->filter_failed($failed_in);
+    my $failed_num = @$failed;
+
+    my $canon = $self->_canonfailed_get_canon_helper($failed);
 
     return
         {
-            'canon' => join(' ', @canon),
-            'result' => 
-                ("FAILED test" . ((@canon > 1) ? "s" : "") .
-                 " " .join(", ", @canon) . "\n"
-                ),
+            'canon' => join(' ', @$canon),
+            'result' =>
+                $self->_get_failed_string($canon),
             'failed_num' => $failed_num
         };
 }
