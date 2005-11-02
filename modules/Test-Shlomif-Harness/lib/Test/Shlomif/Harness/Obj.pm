@@ -1232,7 +1232,6 @@ sub filter_failed
 
 sub _canonfailed ($$$@) {
     my ($self, $max, $skipped, $failed_in) = @_;
-    my %seen;
     my $failed = $self->filter_failed($failed_in); 
     my $failed_num = @$failed;
     my @result = ();
