@@ -6,7 +6,7 @@ require 5.00405;
 use Test::Shlomif::Harness::Straps;
 use Test::Shlomif::Harness::Output;
 use Test::Shlomif::Harness::Base;
-use Test::Harness::Assert;
+use Test::Shlomif::Harness::Assert;
 use Exporter;
 use Benchmark;
 use Config;
@@ -30,7 +30,7 @@ BEGIN {
 
 =head1 NAME
 
-Test::Harness - Run Perl standard test scripts with statistics
+Test::Shlomif::Harness - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
@@ -146,24 +146,24 @@ sub _initialize
 =head1 DESCRIPTION
 
 B<STOP!> If all you want to do is write a test script, consider
-using Test::Simple.  Test::Harness is the module that reads the
+using Test::Simple.  Test::Shlomif::Harness is the module that reads the
 output from Test::Simple, Test::More and other modules based on
-Test::Builder.  You don't need to know about Test::Harness to use
+Test::Builder.  You don't need to know about Test::Shlomif::Harness to use
 those modules.
 
-Test::Harness runs tests and expects output from the test in a
+Test::Shlomif::Harness runs tests and expects output from the test in a
 certain format.  That format is called TAP, the Test Anything
-Protocol.  It is defined in L<Test::Harness::TAP>.
+Protocol.  It is defined in L<Test::Shlomif::Harness::TAP>.
 
-C<Test::Harness::runtests(@tests)> runs all the testscripts named
+C<Test::Shlomif::Harness::runtests(@tests)> runs all the testscripts named
 as arguments and checks standard output for the expected strings
 in TAP format.
 
-The F<prove> utility is a thin wrapper around Test::Harness.
+The F<prove> utility is a thin wrapper around Test::Shlomif::Harness.
 
 =head2 Taint mode
 
-Test::Harness will honor the C<-T> or C<-t> in the #! line on your
+Test::Shlomif::Harness will honor the C<-T> or C<-t> in the #! line on your
 test files.  So if you begin a test with:
 
     #!perl -T
@@ -185,18 +185,18 @@ otherwise.  The F<prove> utility's C<-v> flag will set this.
 =head2 Configuration variables.
 
 These variables can be used to configure the behavior of
-Test::Harness.  They are exported on request.
+Test::Shlomif::Harness.  They are exported on request.
 
 =over 4
 
 
-=item C<$Test::Harness::switches>
+=item C<$Test::Shlomif::Harness::switches>
 
-The package variable C<$Test::Harness::switches> is exportable and can be
+The package variable C<$Test::Shlomif::Harness::switches> is exportable and can be
 used to set perl command line options used for running the test
 script(s). The default value is C<-w>. It overrides C<HARNESS_SWITCHES>.
 
-=item C<$Test::Harness::Timer>
+=item C<$Test::Shlomif::Harness::Timer>
 
 If set to true, and C<Time::HiRes> is available, print elapsed seconds
 after each test file.
@@ -263,7 +263,7 @@ abbreviated (ie. 15-20 to indicate that tests 15, 16, 17, 18, 19 and
 
 =head2 Functions
 
-Test::Harness currently only has one function, here it is.
+Test::Shlomif::Harness currently only has one function, here it is.
 
 =over 4
 
@@ -1434,7 +1434,7 @@ __END__
 
 =head1 EXPORT
 
-C<&runtests> is exported by Test::Harness by default.
+C<&runtests> is exported by Test::Shlomif::Harness by default.
 
 C<$verbose>, C<$switches> and C<$debug> are exported upon request.
 
@@ -1473,7 +1473,7 @@ the script dies with this message.
 
 =head1 ENVIRONMENT VARIABLES THAT TEST::HARNESS SETS
 
-Test::Harness sets these before executing the individual tests.
+Test::Shlomif::Harness sets these before executing the individual tests.
 
 =over 4
 
@@ -1484,7 +1484,7 @@ are being executed through the harness or by any other means.
 
 =item C<HARNESS_VERSION>
 
-This is the version of Test::Harness.
+This is the version of Test::Shlomif::Harness.
 
 =back
 
@@ -1509,9 +1509,9 @@ directory!
 
 =item C<HARNESS_DEBUG>
 
-If true, Test::Harness will print debugging information about itself as
+If true, Test::Shlomif::Harness will print debugging information about itself as
 it runs the tests.  This is different from C<HARNESS_VERBOSE>, which prints
-the output from the test being run.  Setting C<$Test::Harness::Debug> will
+the output from the test being run.  Setting C<$Test::Shlomif::Harness::Debug> will
 override this, or you can use the C<-d> switch in the F<prove> utility.
 
 =item C<HARNESS_FILELEAK_IN_DIR>
@@ -1553,18 +1553,18 @@ run all tests with all warnings enabled.
 
 =item C<HARNESS_VERBOSE>
 
-If true, Test::Harness will output the verbose results of running
-its tests.  Setting C<$Test::Harness::verbose> will override this,
+If true, Test::Shlomif::Harness will output the verbose results of running
+its tests.  Setting C<$Test::Shlomif::Harness::verbose> will override this,
 or you can use the C<-v> switch in the F<prove> utility.
 
 =back
 
 =head1 EXAMPLE
 
-Here's how Test::Harness tests itself
+Here's how Test::Shlomif::Harness tests itself
 
   $ cd ~/src/devel/Test-Harness
-  $ perl -Mblib -e 'use Test::Harness qw(&runtests $verbose);
+  $ perl -Mblib -e 'use Test::Shlomif::Harness qw(&runtests $verbose);
     $verbose=0; runtests @ARGV;' t/*.t
   Using /home/schwern/src/devel/Test-Harness/blib
   t/base..............ok
@@ -1586,7 +1586,7 @@ analysis.
 Provide a way of running tests quietly (ie. no printing) for automated
 validation of tests.  This will probably take the form of a version
 of runtests() which rather than printing its output returns raw data
-on the state of the tests.  (Partially done in Test::Harness::Straps)
+on the state of the tests.  (Partially done in Test::Shlomif::Harness::Straps)
 
 Document the format.
 

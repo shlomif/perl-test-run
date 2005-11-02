@@ -91,8 +91,8 @@ sub print_ml_less {
 
 Generates the 't/foo........' leader for the given C<$test_file> as well
 as a similar version which will overwrite the current line (by use of
-\r and such).  C<$ml> may be empty if Test::Harness doesn't think you're
-on TTY.
+\r and such).  C<$ml> may be empty if Test::Shlomif::Harness doesn't think 
+you're on TTY.
 
 The C<$width> is the width of the "yada/blah.." string.
 

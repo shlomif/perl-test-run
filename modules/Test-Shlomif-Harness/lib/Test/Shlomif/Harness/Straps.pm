@@ -6,9 +6,9 @@ use vars qw($VERSION @ISA);
 $VERSION = '0.24';
 
 use Config;
-use Test::Harness::Assert;
-use Test::Harness::Iterator;
-use Test::Harness::Point;
+use Test::Shlomif::Harness::Assert;
+use Test::Shlomif::Harness::Iterator;
+use Test::Shlomif::Harness::Point;
 
 use Class::Accessor;
 
@@ -49,7 +49,7 @@ Test::Shlomif::Harness::Straps - detailed analysis of test results
 B<THIS IS ALPHA SOFTWARE> in that the interface is subject to change
 in incompatible ways.  It is otherwise stable.
 
-Test::Harness is limited to printing out its results.  This makes
+Test::Shlomif::Harness is limited to printing out its results.  This makes
 analysis of the test results difficult for anything but a human.  To
 make it easier for programs to work with test results, we provide
 Test::Shlomif::Harness::Straps.  Instead of printing the results, straps
@@ -116,7 +116,7 @@ newlines.
 sub analyze {
     my($self, $name, $test_output) = @_;
 
-    my $it = Test::Harness::Iterator->new($test_output);
+    my $it = Test::Shlomif::Harness::Iterator->new($test_output);
     return $self->_analyze_iterator($name, $it);
 }
 
@@ -165,7 +165,7 @@ sub _analyze_line {
     $self->{line}++;
 
     my $linetype;
-    my $point = Test::Harness::Point->from_test_line( $line );
+    my $point = Test::Shlomif::Harness::Point->from_test_line( $line );
     if ( $point ) {
         $linetype = 'test';
 
@@ -264,7 +264,7 @@ Like C<analyze>, but it reads from the given filehandle.
 sub analyze_fh {
     my($self, $name, $fh) = @_;
 
-    my $it = Test::Harness::Iterator->new($fh);
+    my $it = Test::Shlomif::Harness::Iterator->new($fh);
     return $self->_analyze_iterator($name, $it);
 }
 
