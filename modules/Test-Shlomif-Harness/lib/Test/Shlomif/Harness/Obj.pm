@@ -1239,25 +1239,34 @@ sub _get_failed_string
         );
 }
 
-sub _canonfailed_get_canon_helper
+sub _canonfailed_get_canon_ranges
 {
     my ($self, $failed) = @_;
     my $min = shift @$failed;
     my $last = $min;
-    if (@$failed) {
-        my @canon;
-        for (@$failed, $failed->[-1]) { # don't forget the last one
-            if ($_ > $last+1 || $_ == $last) {
-                push @canon, ($min == $last) ? $last : "$min-$last";
-                $min = $_;
-            }
-            $last = $_;
+    my @canon;
+    for my $test (@$failed, $failed->[-1]) # don't forget the last one
+    {
+        if ($test > $last+1 || $test == $last) {
+            push @canon, ($min == $last) ? $last : "$min-$last";
+            $min = $test;
         }
-        return \@canon;
+        $last = $test;
     }
-    else {
-        return [$last];
-    }    
+    return \@canon;
+}
+
+sub _canonfailed_get_canon_helper
+{
+    my ($self, $failed) = @_;
+    if (@$failed == 1)
+    {
+        return [ @$failed ];
+    }
+    else
+    {
+        return $self->_canonfailed_get_canon_ranges($failed);
+    }
 }
 
 sub _canonfailed_get_canon
