@@ -423,8 +423,8 @@ sub _recheck_dir_files
 
 sub _tot_add
 {
-    my ($self, $field, $difference) = @_;
-    $self->tot()->{$field} += $difference;
+    my ($self, $field, $diff) = @_;
+    $self->tot()->add($field, $diff);
 }
 
 sub _tot_inc
@@ -791,17 +791,86 @@ sub _run_single_test
     $self->_recheck_dir_files();
 }
 
-sub _get_tot_counter_fields
+package Test::Shlomif::Harness::Obj::TotObj;
+
+use vars qw(@ISA @fields %fields_map @counter_fields %counter_fields_map);
+
+@ISA = (qw(Test::Shlomif::Harness::Base));
+
+@counter_fields = (qw(
+    bad
+    bench
+    bonus
+    files
+    good
+    max
+    ok
+    skipped
+    sub_skipped
+    todo
+));
+
+@fields = (@counter_fields, 'tests');
+
+%fields_map = (map { $_ => 1 } @fields);
+%counter_fields_map = (map { $_ => 1 } @counter_fields);
+
+__PACKAGE__->mk_accessors(@fields);
+
+sub _pre_init
 {
     my $self = shift;
-    return [qw(bonus max ok files bad good sub_skipped todo skipped bench)];
+    foreach my $f (@counter_fields)
+    {
+        $self->set($f, 0);
+    }
+    return 0;
 }
 
-sub _get_tot_counter_kv
+sub _initialize
 {
     my $self = shift;
-    return [map { $_ => 0 } @{$self->_get_tot_counter_fields()}];
+    my (%args) = @_;
+
+    $self->_pre_init();
+
+    while (my ($k, $v) = each(%args))
+    {
+        if (exists($fields_map{$k}))
+        {
+            $self->set($k, $v);
+        }
+        else
+        {
+            die "Called with undefined field \"$k\"";
+        }
+    }
 }
+
+sub add
+{
+    my ($self, $field, $diff) = @_;
+    if (!exists($counter_fields_map{$field}))
+    {
+        die "Cannot add to field \"$field\"!";
+    }
+    $self->set($field, $self->get($field) + $diff);
+    return $self->get($field);
+}
+
+package Test::Shlomif::Harness::Obj;
+
+# sub _get_tot_counter_fields
+# {
+#     my $self = shift;
+#     return [];
+# }
+# 
+# sub _get_tot_counter_kv
+# {
+#     my $self = shift;
+#     return [map { $_ => 0 } @{$self->_get_tot_counter_fields()}];
+# }
 
 sub _get_tot_counter_tests
 {
@@ -809,14 +878,20 @@ sub _get_tot_counter_tests
     return [tests => (scalar @{$self->test_files()})];
 }
 
+sub _init_tot_obj_instance
+{
+    my $self = shift;
+    return Test::Shlomif::Harness::Obj::TotObj->new(
+        @{$self->_get_tot_counter_tests()},
+    );
+}
+
 sub _init_tot
 {
     my $self = shift;
-    # Test-wide totals.
-    $self->tot({
-            @{$self->_get_tot_counter_kv()},
-            @{$self->_get_tot_counter_tests()},
-            });
+    $self->tot(
+        $self->_init_tot_obj_instance()
+    );
 }
 
 sub _run_all_tests {
