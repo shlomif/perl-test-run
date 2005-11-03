@@ -8,7 +8,7 @@ package Test::Shlomif::Harness::Obj::FailedObj;
 
 use vars qw(@ISA @fields %fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base));
+@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
 
 @fields = (qw(
     canon
@@ -20,27 +20,12 @@ use vars qw(@ISA @fields %fields_map);
     wstat
 ));
 
-%fields_map = (map { $_ => 1 } @fields);
+sub _get_fields
+{
+    return [@fields];
+}
 
 __PACKAGE__->mk_accessors(@fields);
-
-sub _initialize
-{
-    my $self = shift;
-    my (%args) = @_;
-
-    while (my ($k, $v) = each(%args))
-    {
-        if (exists($fields_map{$k}))
-        {
-            $self->set($k, $v);
-        }
-        else
-        {
-            die "Called with undefined field \"$k\"";
-        }
-    }
-}
 
 1;
 
@@ -48,7 +33,7 @@ package Test::Shlomif::Harness::Obj::TestObj;
 
 use vars qw(@ISA @fields %fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base));
+@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
 
 @fields = (qw(
     ok
@@ -62,27 +47,12 @@ use vars qw(@ISA @fields %fields_map);
     ml
 ));
 
-%fields_map = (map { $_ => 1 } @fields);
+sub _get_fields
+{
+    return [@fields];
+}
 
 __PACKAGE__->mk_accessors(@fields);
-
-sub _initialize
-{
-    my $self = shift;
-    my (%args) = @_;
-
-    while (my ($k, $v) = each(%args))
-    {
-        if (exists($fields_map{$k}))
-        {
-            $self->set($k, $v);
-        }
-        else
-        {
-            die "Called with undefined field \"$k\"";
-        }
-    }
-}
 
 sub add_to_failed
 {
@@ -96,7 +66,7 @@ package Test::Shlomif::Harness::Obj::TotObj;
 
 use vars qw(@ISA @fields %fields_map @counter_fields %counter_fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base));
+@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
 
 @counter_fields = (qw(
     bad
@@ -113,7 +83,11 @@ use vars qw(@ISA @fields %fields_map @counter_fields %counter_fields_map);
 
 @fields = (@counter_fields, 'tests');
 
-%fields_map = (map { $_ => 1 } @fields);
+sub _get_fields
+{
+    return [@fields];
+}
+
 %counter_fields_map = (map { $_ => 1 } @counter_fields);
 
 __PACKAGE__->mk_accessors(@fields);
@@ -126,26 +100,6 @@ sub _pre_init
         $self->set($f, 0);
     }
     return 0;
-}
-
-sub _initialize
-{
-    my $self = shift;
-    my (%args) = @_;
-
-    $self->_pre_init();
-
-    while (my ($k, $v) = each(%args))
-    {
-        if (exists($fields_map{$k}))
-        {
-            $self->set($k, $v);
-        }
-        else
-        {
-            die "Called with undefined field \"$k\"";
-        }
-    }
 }
 
 sub add
