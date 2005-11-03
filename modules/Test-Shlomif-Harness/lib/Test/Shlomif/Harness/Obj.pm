@@ -551,9 +551,9 @@ sub _tot_add_results
 
     foreach my $type (qw(bonus max ok todo))
     {
-        $self->_tot_add($type => $results->{$type});
+        $self->_tot_add($type => $results->get($type));
     }
-    $self->_tot_add(sub_skipped => $results->{skip});
+    $self->_tot_add(sub_skipped => $results->skip());
 }
 
 sub _get_elapsed
@@ -582,10 +582,10 @@ sub _time_single_test
 
     my $test_start_time = $self->Timer() ? time : 0;
     $self->Strap()->Verbose($self->Verbose());
-    my %results = $self->Strap()->analyze_file($tfile) or
+    my $results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
     my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);
-    return (\%results, $elapsed);
+    return ($results, $elapsed);
 }
 
 sub _process_passing_test
@@ -636,17 +636,17 @@ sub _get_test_struct
 
     return 
         $self->_create_test_obj_instance(
-            ok          => $results->{ok},
+            ok          => $results->ok(),
             'next'      => $self->Strap()->{'next'},
-            max         => $results->{max},
+            max         => $results->max(),
             # state of the current test.
             failed      => [
-                grep { !$results->{details}[$_-1]{ok} }
-                 (1 .. @{$results->{details}})
+                grep { !$results->details()->[$_-1]{ok} }
+                 (1 .. @{$results->details()})
                            ],
-            bonus       => $results->{bonus},
-            skipped     => $results->{skip},
-            skip_reason => $results->{skip_reason},
+            bonus       => $results->bonus(),
+            skipped     => $results->skip(),
+            skip_reason => $results->skip_reason(),
             skip_all    => $self->Strap()->{skip_all},
             ml          => $self->output()->ml(),
         );
@@ -1096,8 +1096,10 @@ sub test_handler {
         $self->output()->print_message("Test output counter mismatch [test $curr]");
     }
     elsif( $curr < $next ) {
-        $self->output()->print_message("Confused test output: test $curr answered after ".
-              "test ", $next - 1);
+        $self->output()->print_message(
+            "Confused test output: test $curr answered after test " . 
+            ($next - 1)
+        );
     }
 
 };
@@ -1289,32 +1291,13 @@ sub _canonfailed_get_canon
 sub _canonfailed {
     my ($self, $test) = @_;
 
-    my $max = $test->max();
-    my $skipped = $test->skipped();
-    
-    # my ($self, $max, $skipped, $failed_in) = @_;
-
     my $canon_obj =
         $self->_canonfailed_get_canon(
             'failed_in' => $test->failed(),
         );
-    my $failed_num = $canon_obj->failed_num();
 
     $canon_obj->add_Failed($test);
-
-    my $ender = 's' x ($skipped > 1);
-    if ($skipped) {
-        my $good = $max - $failed_num - $skipped;
-        my $skipmsg = " (less $skipped skipped test$ender: $good okay, ";
-        if ($max) {
-            my $goodper = sprintf("%.2f",100*($good/$max));
-            $skipmsg .= "$goodper%)";
-        }
-        else {
-            $skipmsg .= "?%)";
-        }
-        $canon_obj->add_result($skipmsg);
-    }
+    $canon_obj->add_skipped($test);
 
     return ($canon_obj->get_ser_results(), $canon_obj->canon());
 }

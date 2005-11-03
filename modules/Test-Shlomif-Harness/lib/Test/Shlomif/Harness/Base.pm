@@ -61,6 +61,24 @@ sub _initialize
     }
 }
 
+sub inc_field
+{
+    my ($self, $field) = @_;
+    return $self->add_to_field($field, 1);
+}
+
+sub add_to_field
+{
+    my ($self, $field, $diff) = @_;
+    if (exists($self->_get_fields_map()->{$field}))
+    {
+        $self->set($field, $self->get($field)+$diff);
+    }
+    else
+    {
+        die "Trying to increment non-existent field \"$field\"";
+    }
+}
 
 1;
 

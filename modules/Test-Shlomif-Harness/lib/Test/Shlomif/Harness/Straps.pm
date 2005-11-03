@@ -9,6 +9,7 @@ use Config;
 use Test::Shlomif::Harness::Assert;
 use Test::Shlomif::Harness::Iterator;
 use Test::Shlomif::Harness::Point;
+use Test::Shlomif::Harness::Obj::Structs;
 
 use Class::Accessor;
 
@@ -102,10 +103,10 @@ sub _init {
 
 =head2 $strap->analyze( $name, \@output_lines )
 
-    my %results = $strap->analyze($name, \@test_output);
+    my $results = $strap->analyze($name, \@test_output);
 
 Analyzes the output of a single test, assigning it the given C<$name>
-for use in the total report.  Returns the C<%results> of the test.
+for use in the total report.  Returns the C<$results> of the test (an object).
 See L<Results>.
 
 C<@test_output> should be the raw output from the test, including
@@ -120,40 +121,44 @@ sub analyze {
     return $self->_analyze_iterator($name, $it);
 }
 
+sub _init_totals_obj_instance
+{
+    my $self = shift;
+    return Test::Shlomif::Harness::Straps::StrapsTotalsObj->new(@_);
+}
 
 sub _analyze_iterator {
     my($self, $name, $it) = @_;
 
     $self->_reset_file_state;
     $self->{file} = $name;
-    my %totals  = (
-                   max      => 0,
-                   seen     => 0,
+    my $totals = 
+        $self->_init_totals_obj_instance(
+            max      => 0,
+            seen     => 0,
 
-                   ok       => 0,
-                   todo     => 0,
-                   skip     => 0,
-                   bonus    => 0,
+            ok       => 0,
+            todo     => 0,
+            skip     => 0,
+            bonus    => 0,
 
-                   details  => []
-                  );
+            details  => [],
+        );
 
     # Set them up here so callbacks can have them.
-    $self->{totals}{$name}         = \%totals;
+    $self->{totals}{$name}         = $totals;
     while( defined(my $line = $it->next) ) {
-        $self->_analyze_line($line, \%totals);
+        $self->_analyze_line($line, $totals);
         last if $self->{saw_bailout};
     }
 
-    $totals{skip_all} = $self->{skip_all} if defined $self->{skip_all};
+    if (defined($self->{skip_all}))
+    {
+        $totals->skip_all($self->{skip_all}) 
+    }
+    $totals->determine_passing();
 
-    my $passed = ($totals{max} == 0 && defined $totals{skip_all}) ||
-                 ($totals{max} && $totals{seen} &&
-                  $totals{max} == $totals{seen} && 
-                  $totals{max} == $totals{ok});
-    $totals{passing} = $passed ? 1 : 0;
-
-    return %totals;
+    return $totals;
 }
 
 
@@ -169,7 +174,7 @@ sub _analyze_line {
     if ( $point ) {
         $linetype = 'test';
 
-        $totals->{seen}++;
+        $totals->inc_field('seen');
         $point->set_number( $self->{'next'} ) unless $point->number;
 
         # sometimes the 'not ' and the 'ok' are on different lines,
@@ -185,14 +190,20 @@ sub _analyze_line {
         }
 
         if ( $point->is_todo ) {
-            $totals->{todo}++;
-            $totals->{bonus}++ if $point->ok;
+            $totals->inc_field('todo');
+            if ($point->ok)
+            {
+                $totals->inc_field('bonus');
+            }
         }
         elsif ( $point->is_skip ) {
-            $totals->{skip}++;
+            $totals->inc_field('skip');
         }
 
-        $totals->{ok}++ if $point->pass;
+        if ($point->pass)
+        {
+            $totals->inc_field('ok');
+        }
 
         if ( ($point->number > 100_000) && ($point->number > ($self->{max}||100_000)) ) {
             if ( !$self->{too_many_tests}++ ) {
@@ -210,7 +221,7 @@ sub _analyze_line {
             };
 
             assert( defined( $details->{ok} ) && defined( $details->{actual_ok} ) );
-            $totals->{details}[$point->number - 1] = $details;
+            $totals->details()->[$point->number - 1] = $details;
         }
     } # test point
     elsif ( $line =~ /^not\s+$/ ) {
@@ -224,7 +235,7 @@ sub _analyze_line {
 
         $self->{saw_header}++;
 
-        $totals->{max} += $self->{max};
+        $totals->add_to_field('max', $self->{max});
     }
     elsif ( $self->_is_bail_out($line, \$self->{bailout_reason}) ) {
         $linetype = 'bailout';
@@ -232,7 +243,7 @@ sub _analyze_line {
     }
     elsif (my $diagnostics = $self->_is_diagnostic_line( $line )) {
         $linetype = 'other';
-        my $test = $totals->{details}[-1];
+        my $test = $totals->details()->[-1];
         $test->{diagnostics} ||=  '';
         $test->{diagnostics}  .= $diagnostics;
     }
@@ -255,7 +266,7 @@ sub _is_diagnostic_line {
 
 =head2 $strap->analyze_fh( $name, $test_filehandle )
 
-    my %results = $strap->analyze_fh($name, $test_filehandle);
+    my $results = $strap->analyze_fh($name, $test_filehandle);
 
 Like C<analyze>, but it reads from the given filehandle.
 
@@ -304,20 +315,20 @@ sub analyze_file {
         return;
     }
 
-    my %results = $self->analyze_fh($file, \*FILE);
+    my $results = $self->analyze_fh($file, \*FILE);
     my $exit    = close FILE;
-    $results{'wait'} = $?;
+    $results->wait($?);
     if( $? && $self->{_is_vms} ) {
         eval q{use vmsish "status"; $results{'exit'} = $?};
     }
     else {
-        $results{'exit'} = _wait2exit($?);
+        $results->exit(_wait2exit($?));
     }
-    $results{passing} = 0 unless $? == 0;
+    $results->passing(0) unless $? == 0;
 
     $self->_restore_PERL5LIB();
 
-    return %results;
+    return $results;
 }
 
 

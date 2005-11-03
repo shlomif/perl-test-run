@@ -159,7 +159,93 @@ sub add_Failed
         );
 }
 
+sub add_skipped
+{
+    my ($self, $test) = @_;
+
+    my $skipped = $test->skipped();
+    my $max = $test->max();
+
+    if ($skipped) {
+        my $good = $max - $self->failed_num() - $skipped;
+        my $ender = ($skipped > 1) ? "s" : "";
+        $self->add_result(
+            " (less $skipped skipped test$ender: $good okay, " .
+            ($max ? sprintf("%.2f%%)",100*($good/$max)) : "?%)")
+        );
+    }
+}
+
 __PACKAGE__->mk_accessors(@fields);
+
+1;
+
+package Test::Shlomif::Harness::Straps::StrapsTotalsObj;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+
+@fields = (qw(
+    bonus
+    details
+    exit
+    max
+    ok
+    passing
+    seen
+    skip
+    skip_all
+    skip_reason
+    todo
+    wait
+));
+
+sub _get_fields
+{
+    return [@fields];
+}
+
+__PACKAGE__->mk_accessors(@fields);
+
+sub _calc_passing
+{
+    my $self = shift;
+    return 
+    (
+        ($self->max() == 0 &&  defined $self->skip_all()) ||
+        (
+            $self->max() && $self->seen() &&
+            $self->max() == $self->seen() &&
+            $self->max() == $self->ok()
+        )
+    );
+}
+
+sub determine_passing
+{
+    my $self = shift;
+    $self->passing($self->_calc_passing() ? 1 : 0);
+}
+
+sub update_skip_reason
+{
+    my $self = shift;
+    my $detail = shift;
+
+    if( $detail->{type} eq 'skip' )
+    {
+        my $reason = $detail->{reason};
+        if (!defined($self->skip_reason()))
+        {
+            $self->skip_reason($reason);
+        }
+        elsif ($self->skip_reason() ne $reason)
+        {
+            $self->skip_reason('various reasons');
+        }
+    }
+}
 
 1;
 
