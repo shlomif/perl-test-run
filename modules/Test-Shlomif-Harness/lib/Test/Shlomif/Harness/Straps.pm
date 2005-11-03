@@ -16,6 +16,9 @@ use Test::Shlomif::Harness::Obj::Structs;
 
 __PACKAGE__->mk_accessors(qw(
     Verbose
+    _is_vms
+    _is_win32
+    _is_macos
     last_test_print
     next
     output
@@ -75,30 +78,13 @@ Initialize a new strap.
 
 =cut
 
-sub new {
-    my $class = shift;
-    my $self  = bless {}, $class;
-
-    $self->_init(@_);
-
-    return $self;
-}
-
-=head2 $strap->_init
-
-  $strap->_init;
-
-Initialize the internal state of a strap to make it ready for parsing.
-
-=cut
-
-sub _init {
-    my($self) = shift;
+sub _initialize {
+    my $self = shift;
     my (%args) = @_;
 
-    $self->{_is_vms}   = ( $^O eq 'VMS' );
-    $self->{_is_win32} = ( $^O =~ /^(MS)?Win32$/ );
-    $self->{_is_macos} = ( $^O eq 'MacOS' );
+    $self->_is_vms( $^O eq 'VMS' );
+    $self->_is_win32( $^O =~ /^(MS)?Win32$/ );
+    $self->_is_macos( $^O eq 'MacOS' );
 
     $self->output($args{output}); 
 }
@@ -325,7 +311,7 @@ sub analyze_file {
     my $results = $self->analyze_fh($file, \*FILE);
     my $exit    = close FILE;
     $results->wait($?);
-    if( $? && $self->{_is_vms} ) {
+    if( $? && $self->_is_vms() ) {
         eval q{use vmsish "status"; $results{'exit'} = $?};
     }
     else {
@@ -385,7 +371,7 @@ sub _command {
     my $self = shift;
 
     return $ENV{HARNESS_PERL}           if defined $ENV{HARNESS_PERL};
-    return Win32::GetShortPathName($^X) if $self->{_is_win32};
+    return Win32::GetShortPathName($^X) if $self->_is_win32();
     return $^X;
 }
 
@@ -413,7 +399,7 @@ sub _switches {
     # When taint mode is on, PERL5LIB is ignored.  So we need to put
     # all that on the command line as -Is.
     # MacPerl's putenv is broken, so it will not see PERL5LIB, tainted or not.
-    if ( $taint || $self->{_is_macos} ) {
+    if ( $taint || $self->_is_macos() ) {
 	my @inc = $self->_filtered_INC;
 	push @derived_switches, map { "-I$_" } @inc;
     }
@@ -422,7 +408,7 @@ sub _switches {
     # we're VMS, since VMS requires all parms quoted.  Also, don't quote
     # it if it's already quoted.
     for ( @derived_switches ) {
-	$_ = qq["$_"] if ((/\s/ || $self->{_is_vms}) && !/^".*"$/ );
+	$_ = qq["$_"] if ((/\s/ || $self->_is_vms()) && !/^".*"$/ );
     }
     return join( " ", @existing_switches, @derived_switches );
 }
@@ -480,13 +466,13 @@ sub _filtered_INC {
     my($self, @inc) = @_;
     @inc = @INC unless @inc;
 
-    if( $self->{_is_vms} ) {
+    if( $self->_is_vms() ) {
 	# VMS has a 255-byte limit on the length of %ENV entries, so
 	# toss the ones that involve perl_root, the install location
         @inc = grep !/perl_root/i, @inc;
 
     }
-    elsif ( $self->{_is_win32} ) {
+    elsif ( $self->_is_win32() ) {
 	# Lose any trailing backslashes in the Win32 paths
 	s/[\\\/+]$// foreach @inc;
     }
@@ -522,7 +508,7 @@ Necessary on VMS, otherwise a no-op.
 sub _restore_PERL5LIB {
     my($self) = shift;
 
-    return unless $self->{_is_vms};
+    return unless $self->_is_vms();
 
     if (defined $self->{_old5lib}) {
         $ENV{PERL5LIB} = $self->{_old5lib};
