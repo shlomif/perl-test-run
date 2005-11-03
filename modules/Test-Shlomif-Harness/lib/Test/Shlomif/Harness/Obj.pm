@@ -768,15 +768,11 @@ sub _leader_width {
     my ($self) = @_;
     my $tests = $self->test_files();
 
-    my $maxlen = 0;
-    my $maxsuflen = 0;
-    foreach (@$tests) {
-        my $suf    = /\.(\w+)$/ ? $1 : '';
-        my $len    = length;
-        my $suflen = length $suf;
-        $maxlen    = $len    if $len    > $maxlen;
-        $maxsuflen = $suflen if $suflen > $maxsuflen;
-    }
+    my $maxlen = 
+        $self->__max_num(map {length($_)} @$tests);
+    my $maxsuflen =
+        $self->__max_num(map {length(/\.(\w+)$/ ? $1 : '')} @$tests);
+
     # + 3 : we want three dots between the test name and the "ok"
     return $maxlen + 3 - $maxsuflen;
 }
@@ -1297,7 +1293,7 @@ sub _canonfailed_get_canon
     return
         {
             'canon' => join(' ', @$canon),
-            'result' => $self->_get_failed_string($canon),
+            'result' => [$self->_get_failed_string($canon)],
             'failed_num' => $failed_num,
         };
 }
@@ -1311,7 +1307,7 @@ sub _canonfailed ($$$@) {
         );
 
     my $canon = $gc_ret->{'canon'};
-    my $result = [$gc_ret->{'result'}];
+    my $result = $gc_ret->{'result'};
     my $failed_num = $gc_ret->{'failed_num'};
 
     push @$result, "\tFailed $failed_num/$max tests, ";
