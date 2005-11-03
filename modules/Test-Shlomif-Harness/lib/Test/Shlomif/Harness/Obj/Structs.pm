@@ -115,3 +115,51 @@ sub add
 
 1;
 
+package Test::Shlomif::Harness::Obj::CanonFailedObj;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+
+@fields = (qw(
+    canon
+    result
+    failed_num
+));
+
+sub _get_fields
+{
+    return [@fields];
+}
+
+sub add_result
+{
+    my $self = shift;
+    push @{$self->result()}, @_;
+}
+
+sub get_ser_results
+{
+    my $self = shift;
+    return join("", @{$self->result()});
+}
+
+sub add_Failed
+{
+    my ($self, $test) = @_;
+
+    my $max = $test->max();
+    my $failed_num = $self->failed_num();
+
+    $self->add_result("\tFailed $failed_num/$max tests, ");
+    $self->add_result(
+        $max ?
+            (sprintf("%.2f",100*(1-$failed_num/$max)),"% okay") :
+            "?% okay"
+        );
+}
+
+__PACKAGE__->mk_accessors(@fields);
+
+1;
+

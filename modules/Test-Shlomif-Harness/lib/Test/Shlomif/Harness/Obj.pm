@@ -454,12 +454,7 @@ sub _failed_with_results_seen
 
     $self->_tot_inc('bad'); 
     if (@{$test->failed()} and $test->max()) {
-        my ($txt, $canon) =
-            $self->_canonfailed(
-                $test->max(),
-                $test->skipped(),
-                $test->failed()
-            );
+        my ($txt, $canon) = $self->_canonfailed($test);
         $self->_print_message($test->ml().$txt);
         return $self->_create_failed_obj_instance(
                 canon   => $canon,
@@ -1212,12 +1207,7 @@ sub _dubious_return {
         else {
             $test->add_to_failed($test->next()..$test->max());
             $failed = @{$test->failed()};
-            (my $txt, $canon) =
-                $self->_canonfailed(
-                    $test->max(),
-                    $test->skipped(),
-                    $test->failed()
-                );
+            (my $txt, $canon) = $self->_canonfailed($test);
             $percent = 100*(scalar @{$test->failed()})/$test->max();
             $self->_print_message("DIED. ", $txt);
         }
@@ -1289,34 +1279,29 @@ sub _canonfailed_get_canon
     my $failed_num = @$failed;
 
     my $canon = $self->_canonfailed_get_canon_helper($failed);
-
-    return
-        {
-            'canon' => join(' ', @$canon),
-            'result' => [$self->_get_failed_string($canon)],
-            'failed_num' => $failed_num,
-        };
+    return Test::Shlomif::Harness::Obj::CanonFailedObj->new(
+        canon => join(' ', @$canon),
+        result => [$self->_get_failed_string($canon)],
+        failed_num => $failed_num,
+    );
 }
 
-sub _canonfailed ($$$@) {
-    my ($self, $max, $skipped, $failed_in) = @_;
+sub _canonfailed {
+    my ($self, $test) = @_;
 
-    my $gc_ret =
+    my $max = $test->max();
+    my $skipped = $test->skipped();
+    
+    # my ($self, $max, $skipped, $failed_in) = @_;
+
+    my $canon_obj =
         $self->_canonfailed_get_canon(
-            'failed_in' => $failed_in,
+            'failed_in' => $test->failed(),
         );
+    my $failed_num = $canon_obj->failed_num();
 
-    my $canon = $gc_ret->{'canon'};
-    my $result = $gc_ret->{'result'};
-    my $failed_num = $gc_ret->{'failed_num'};
+    $canon_obj->add_Failed($test);
 
-    push @$result, "\tFailed $failed_num/$max tests, ";
-    if ($max) {
-        push @$result, sprintf("%.2f",100*(1-$failed_num/$max)), "% okay";
-    }
-    else {
-        push @$result, "?% okay";
-    }
     my $ender = 's' x ($skipped > 1);
     if ($skipped) {
         my $good = $max - $failed_num - $skipped;
@@ -1328,10 +1313,10 @@ sub _canonfailed ($$$@) {
         else {
             $skipmsg .= "?%)";
         }
-        push @$result, $skipmsg;
+        $canon_obj->add_result($skipmsg);
     }
-    my $txt = join "", @$result;
-    return ($txt, $canon);
+
+    return ($canon_obj->get_ser_results(), $canon_obj->canon());
 }
 
 =end _private
