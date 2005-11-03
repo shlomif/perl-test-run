@@ -15,13 +15,13 @@ use Test::Shlomif::Harness::Obj::Structs;
 @ISA = (qw(Test::Shlomif::Harness::Base));
 
 __PACKAGE__->mk_accessors(qw(
-    Verbose
+    _is_macos
     _is_vms
     _is_win32
-    _is_macos
     last_test_print
     next
     output
+    Verbose
 ));
 
 # Flags used as return values from our methods.  Just for internal 
