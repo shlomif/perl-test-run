@@ -637,7 +637,7 @@ sub _get_test_struct
     return 
         $self->_create_test_obj_instance(
             ok          => $results->ok(),
-            'next'      => $self->Strap()->{'next'},
+            'next'      => $self->Strap()->next(),
             max         => $results->max(),
             # state of the current test.
             failed      => [
@@ -1073,20 +1073,15 @@ sub header_handler {
 sub test_handler {
     my($self, $line, $type, $totals) = @_;
 
-    my $curr = $totals->{seen};
-    my $next = $self->{'next'};
-    my $max  = $totals->{max};
-    my $detail = $totals->{details}[-1];
+    my $curr = $totals->seen();
+    my $next = $self->next();
+    my $max  = $totals->max();
+    my $detail = $totals->details()->[-1];
 
     if( $detail->{ok} ) {
         $self->output()->print_ml_less("ok $curr/$max");
 
-        if( $detail->{type} eq 'skip' ) {
-            $totals->{skip_reason} = $detail->{reason}
-              unless defined $totals->{skip_reason};
-            $totals->{skip_reason} = 'various reasons'
-              if $totals->{skip_reason} ne $detail->{reason};
-        }
+        $totals->update_skip_reason($detail);
     }
     else {
         $self->output()->print_ml("NOK $curr");

@@ -6,16 +6,20 @@ use vars qw($VERSION @ISA);
 $VERSION = '0.24';
 
 use Config;
+use Test::Shlomif::Harness::Base;
 use Test::Shlomif::Harness::Assert;
 use Test::Shlomif::Harness::Iterator;
 use Test::Shlomif::Harness::Point;
 use Test::Shlomif::Harness::Obj::Structs;
 
-use Class::Accessor;
+@ISA = (qw(Test::Shlomif::Harness::Base));
 
-@ISA = (qw(Class::Accessor));
-
-__PACKAGE__->mk_accessors(qw(Verbose last_test_print output));
+__PACKAGE__->mk_accessors(qw(
+    Verbose
+    last_test_print
+    next
+    output
+));
 
 # Flags used as return values from our methods.  Just for internal 
 # clarification.
@@ -175,7 +179,7 @@ sub _analyze_line {
         $linetype = 'test';
 
         $totals->inc_field('seen');
-        $point->set_number( $self->{'next'} ) unless $point->number;
+        $point->set_number( $self->next()) unless $point->number;
 
         # sometimes the 'not ' and the 'ok' are on different lines,
         # happens often on VMS if you do:
@@ -253,7 +257,10 @@ sub _analyze_line {
 
     $self->{callback}->($self, $line, $linetype, $totals) if $self->{callback};
 
-    $self->{'next'} = $point->number + 1 if $point;
+    if ($point)
+    {
+        $self->next($point->number + 1) 
+    }
 } # _analyze_line
 
 
@@ -630,7 +637,7 @@ sub _reset_file_state {
     $self->{saw_bailout}= 0;
     $self->{lone_not_line} = 0;
     $self->{bailout_reason} = '';
-    $self->{'next'}       = 1;
+    $self->next(1);
 }
 
 =head1 Results
