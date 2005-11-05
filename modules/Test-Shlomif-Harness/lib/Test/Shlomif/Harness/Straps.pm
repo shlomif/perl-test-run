@@ -12,17 +12,38 @@ use Test::Shlomif::Harness::Iterator;
 use Test::Shlomif::Harness::Point;
 use Test::Shlomif::Harness::Obj::Structs;
 
-@ISA = (qw(Test::Shlomif::Harness::Base));
+@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
 
-__PACKAGE__->mk_accessors(qw(
+my @fields= (qw(
     _is_macos
     _is_vms
     _is_win32
+    _old5lib
+    bailout_reason
+    callback
+    error
+    file
     last_test_print
+    line
+    lone_not_line
+    max
     next
     output
+    saw_bailout
+    saw_header
+    skip_all
+    todo
+    too_many_tests
+    totals
     Verbose
 ));
+
+sub _get_fields
+{
+    return [@fields];
+}
+
+__PACKAGE__->mk_accessors(@fields);
 
 # Flags used as return values from our methods.  Just for internal 
 # clarification.
@@ -87,6 +108,8 @@ sub _initialize {
     $self->_is_macos( $^O eq 'MacOS' );
 
     $self->output($args{output}); 
+    $self->totals(+{});
+    $self->todo(+{});
 }
 
 =head1 ANALYSIS
@@ -117,11 +140,17 @@ sub _init_totals_obj_instance
     return Test::Shlomif::Harness::Straps::StrapsTotalsObj->new(@_);
 }
 
+sub _init_details_obj_instance
+{
+    my $self = shift;
+    return Test::Shlomif::Harness::Straps::StrapsDetailsObj->new(@_);
+}
+
 sub _analyze_iterator {
     my($self, $name, $it) = @_;
 
     $self->_reset_file_state;
-    $self->{file} = $name;
+    $self->file($name);
     my $totals = 
         $self->_init_totals_obj_instance(
             max      => 0,
@@ -136,15 +165,15 @@ sub _analyze_iterator {
         );
 
     # Set them up here so callbacks can have them.
-    $self->{totals}{$name}         = $totals;
+    $self->totals()->{$name}         = $totals;
     while( defined(my $line = $it->next) ) {
         $self->_analyze_line($line, $totals);
-        last if $self->{saw_bailout};
+        last if $self->saw_bailout();
     }
 
-    if (defined($self->{skip_all}))
+    if (defined($self->skip_all()))
     {
-        $totals->skip_all($self->{skip_all}) 
+        $totals->skip_all($self->skip_all()) 
     }
     $totals->determine_passing();
 
@@ -157,7 +186,7 @@ sub _analyze_line {
     my $line = shift;
     my $totals = shift;
 
-    $self->{line}++;
+    $self->inc_field('line');
 
     my $linetype;
     my $point = Test::Shlomif::Harness::Point->from_test_line( $line );
@@ -171,11 +200,11 @@ sub _analyze_line {
         # happens often on VMS if you do:
         #   print "not " unless $test;
         #   print "ok $num\n";
-        if ( $self->{lone_not_line} && ($self->{lone_not_line} == $self->{line} - 1) ) {
+        if ( $self->lone_not_line() && ($self->lone_not_line() == $self->line() - 1) ) {
             $point->set_ok( 0 );
         }
 
-        if ( $self->{todo}{$point->number} ) {
+        if ( $self->todo()->{$point->number} ) {
             $point->set_directive_type( 'todo' );
         }
 
@@ -195,22 +224,24 @@ sub _analyze_line {
             $totals->inc_field('ok');
         }
 
-        if ( ($point->number > 100_000) && ($point->number > ($self->{max}||100_000)) ) {
-            if ( !$self->{too_many_tests}++ ) {
+        if ( ($point->number > 100_000) && ($point->number > ($self->max()||100_000)) ) {
+            if ( !$self->too_many_tests() ) {
                 warn "Enormous test number seen [test ", $point->number, "]\n";
                 warn "Can't detailize, too big.\n";
+                $self->too_many_tests(1);
             }
         }
         else {
-            my $details = {
-                ok          => $point->pass,
-                actual_ok   => $point->ok,
-                name        => _def_or_blank( $point->description ),
-                type        => _def_or_blank( $point->directive_type ),
-                reason      => _def_or_blank( $point->directive_reason ),
-            };
+            my $details =
+                $self->_init_details_obj_instance(
+                    ok          => $point->pass,
+                    actual_ok   => $point->ok,
+                    name        => _def_or_blank( $point->description ),
+                    type        => _def_or_blank( $point->directive_type ),
+                    reason      => _def_or_blank( $point->directive_reason ),
+                );
 
-            assert( defined( $details->{ok} ) && defined( $details->{actual_ok} ) );
+            assert( defined( $details->ok() ) && defined( $details->actual_ok() ) );
             $totals->details()->[$point->number - 1] = $details;
         }
     } # test point
@@ -218,30 +249,35 @@ sub _analyze_line {
         $linetype = 'other';
         # Sometimes the "not " and "ok" will be on separate lines on VMS.
         # We catch this and remember we saw it.
-        $self->{lone_not_line} = $self->{line};
+        $self->lone_not_line($self->line());
     }
     elsif ( $self->_is_header($line) ) {
         $linetype = 'header';
 
-        $self->{saw_header}++;
+        $self->inc_field('saw_header');
 
-        $totals->add_to_field('max', $self->{max});
+        $totals->add_to_field('max', $self->max());
     }
-    elsif ( $self->_is_bail_out($line, \$self->{bailout_reason}) ) {
+    elsif ( $self->_is_bail_out($line) ) {
         $linetype = 'bailout';
-        $self->{saw_bailout} = 1;
+        $self->saw_bailout(1);
     }
     elsif (my $diagnostics = $self->_is_diagnostic_line( $line )) {
         $linetype = 'other';
         my $test = $totals->details()->[-1];
-        $test->{diagnostics} ||=  '';
-        $test->{diagnostics}  .= $diagnostics;
+        if (defined($test))
+        {
+            $test->append_to_diag($diagnostics);
+        }
     }
     else {
         $linetype = 'other';
     }
 
-    $self->{callback}->($self, $line, $linetype, $totals) if $self->{callback};
+    if ($self->callback())
+    {
+        $self->callback()->($self, $line, $linetype, $totals);
+    }
 
     if ($point)
     {
@@ -285,12 +321,12 @@ sub analyze_file {
     my($self, $file) = @_;
 
     unless( -e $file ) {
-        $self->{error} = "$file does not exist";
+        $self->error("$file does not exist");
         return;
     }
 
     unless( -r $file ) {
-        $self->{error} = "$file is not readable";
+        $self->error("$file is not readable");
         return;
     }
 
@@ -448,7 +484,7 @@ for putting onto C<PERL5LIB>.
 sub _INC2PERL5LIB {
     my($self) = shift;
 
-    $self->{_old5lib} = $ENV{PERL5LIB};
+    $self->_old5lib($ENV{PERL5LIB});
 
     return join $Config{path_sep}, $self->_filtered_INC;
 }
@@ -510,8 +546,8 @@ sub _restore_PERL5LIB {
 
     return unless $self->_is_vms();
 
-    if (defined $self->{_old5lib}) {
-        $ENV{PERL5LIB} = $self->{_old5lib};
+    if (defined $self->_old5lib()) {
+        $ENV{PERL5LIB} = $self->_old5lib();
     }
 }
 
@@ -562,19 +598,22 @@ sub _is_header {
     my($self, $line) = @_;
 
     if( my($max, $extra) = $line =~ /^1\.\.(\d+)(.*)/ ) {
-        $self->{max}  = $max;
-        assert( $self->{max} >= 0,  'Max # of tests looks right' );
+        $self->max($max);
+        assert( $self->max() >= 0,  'Max # of tests looks right' );
 
         if( defined $extra ) {
             my($todo, $skip, $reason) = $extra =~ /$Extra_Header_Re/xo;
 
-            $self->{todo} = { map { $_ => 1 } split /\s+/, $todo } if $todo;
+            if ($todo)
+            {
+                $self->todo(+{ map { $_ => 1 } split /\s+/, $todo });
+            }
 
-            if( $self->{max} == 0 ) {
+            if( $self->max() == 0 ) {
                 $reason = '' unless defined $skip and $skip =~ /^Skip/i;
             }
 
-            $self->{skip_all} = $reason;
+            $self->skip_all($reason);
         }
 
         return $YES;
@@ -594,10 +633,13 @@ Checks if the line is a "Bail out!".  Places the reason for bailing
 =cut
 
 sub _is_bail_out {
-    my($self, $line, $reason) = @_;
+    my($self, $line) = @_;
 
     if( $line =~ /^Bail out!\s*(.*)/i ) {
-        $$reason = $1 if $1;
+        if ($1)
+        {
+            $self->bailout_reason($1);
+        }
         return $YES;
     }
     else {
@@ -617,12 +659,14 @@ etc. so it's ready to parse the next file.
 sub _reset_file_state {
     my($self) = shift;
 
-    delete @{$self}{qw(max skip_all todo too_many_tests)};
-    $self->{line}       = 0;
-    $self->{saw_header} = 0;
-    $self->{saw_bailout}= 0;
-    $self->{lone_not_line} = 0;
-    $self->{bailout_reason} = '';
+    delete @{$self}{qw(max skip_all too_many_tests)};
+    $self->todo(+{});
+    
+    foreach my $field (qw(line saw_header saw_bailout lone_not_line))
+    {
+        $self->set($field, 0);
+    }
+    $self->bailout_reason('');
     $self->next(1);
 }
 

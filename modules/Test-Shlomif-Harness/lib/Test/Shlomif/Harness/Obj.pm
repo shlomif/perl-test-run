@@ -133,7 +133,7 @@ sub _initialize
             output => $self->output(),
         )
     );
-    $self->Strap()->{callback} = \&strap_callback;
+    $self->Strap()->callback(\&strap_callback);
     return 0;
 }
 
@@ -536,7 +536,7 @@ sub _list_tests_as_failures
     }
     # List overruns as failures.
     else {
-        my $details = $results->{details};
+        my $details = $results->details();
         foreach my $overrun ($test->max()+1..@$details) {
             next unless ref $details->[$overrun-1];
             $test->add_to_failed($overrun);
@@ -1078,7 +1078,7 @@ sub test_handler {
     my $max  = $totals->max();
     my $detail = $totals->details()->[-1];
 
-    if( $detail->{ok} ) {
+    if( $detail->ok() ) {
         $self->output()->print_ml_less("ok $curr/$max");
 
         $totals->update_skip_reason($detail);
@@ -1103,7 +1103,7 @@ sub bailout_handler {
     my($self, $line, $type, $totals) = @_;
 
     die "FAILED--Further testing stopped" .
-      ($self->{bailout_reason} ? ": $self->{bailout_reason}\n" : ".\n");
+      ($self->bailout_reason() ? ": " . $self->bailout_reason() . "\n" : ".\n");
 };
 
 sub _get_s

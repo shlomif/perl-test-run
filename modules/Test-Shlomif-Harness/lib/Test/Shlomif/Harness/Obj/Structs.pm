@@ -233,9 +233,9 @@ sub update_skip_reason
     my $self = shift;
     my $detail = shift;
 
-    if( $detail->{type} eq 'skip' )
+    if( $detail->type() eq 'skip' )
     {
-        my $reason = $detail->{reason};
+        my $reason = $detail->reason();
         if (!defined($self->skip_reason()))
         {
             $self->skip_reason($reason);
@@ -245,6 +245,41 @@ sub update_skip_reason
             $self->skip_reason('various reasons');
         }
     }
+}
+
+1;
+
+package Test::Shlomif::Harness::Straps::StrapsDetailsObj;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+
+@fields = (qw(
+    actual_ok
+    diagnostics
+    name
+    ok
+    reason
+    type
+));
+
+sub _get_fields
+{
+    return [@fields];
+}
+
+sub _pre_init
+{
+    my $self = shift;
+    $self->diagnostics("");
+}
+__PACKAGE__->mk_accessors(@fields);
+
+sub append_to_diag
+{
+    my ($self, $text) = @_;
+    $self->diagnostics($self->diagnostics().$text);
 }
 
 1;
