@@ -1,13 +1,13 @@
 # -*- Mode: cperl; cperl-indent-level: 4 -*-
 
-package Test::Shlomif::Harness::Obj;
+package Test::Run::Obj;
 
 require 5.00405;
-use Test::Shlomif::Harness::Straps;
-use Test::Shlomif::Harness::Output;
-use Test::Shlomif::Harness::Base;
-use Test::Shlomif::Harness::Assert;
-use Test::Shlomif::Harness::Obj::Structs;
+use Test::Run::Straps;
+use Test::Run::Output;
+use Test::Run::Base;
+use Test::Run::Assert;
+use Test::Run::Obj::Structs;
 use Exporter;
 use Benchmark;
 use Config;
@@ -31,7 +31,7 @@ BEGIN {
 
 =head1 NAME
 
-Test::Shlomif::Harness - Run Perl standard test scripts with statistics
+Test::Run - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
@@ -60,7 +60,7 @@ my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 
 # REMOVED: my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
-@ISA = ('Test::Shlomif::Harness::Base', 'Exporter');
+@ISA = ('Test::Run::Base', 'Exporter');
 @EXPORT_OK = qw($verbose $switches);
 
 # REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
@@ -116,7 +116,7 @@ sub _get_new_output
 {
     my $self = shift;
     my $args = shift;
-    return Test::Shlomif::Harness::Output->new(
+    return Test::Run::Output->new(
         %$args,
     );
 }
@@ -129,7 +129,7 @@ sub _initialize
     $self->dir_files([]);
     $self->output($self->_get_new_output(\%args));
     $self->Strap(
-        Test::Shlomif::Harness::Straps->new(
+        Test::Run::Straps->new(
             output => $self->output(),
         )
     );
@@ -139,32 +139,32 @@ sub _initialize
 
 =head1 SYNOPSIS
 
-  use Test::Shlomif::Harness::Obj;
+  use Test::Run::Obj;
 
-  my $tester = Test::Shlomif::Harness::Obj->new('test_files' => \@test_files);
+  my $tester = Test::Run::Obj->new('test_files' => \@test_files);
   $tester->runtests();
 
 =head1 DESCRIPTION
 
 B<STOP!> If all you want to do is write a test script, consider
-using Test::Simple.  Test::Shlomif::Harness is the module that reads the
+using Test::Simple.  Test::Run is the module that reads the
 output from Test::Simple, Test::More and other modules based on
-Test::Builder.  You don't need to know about Test::Shlomif::Harness to use
+Test::Builder.  You don't need to know about Test::Run to use
 those modules.
 
-Test::Shlomif::Harness runs tests and expects output from the test in a
+Test::Run runs tests and expects output from the test in a
 certain format.  That format is called TAP, the Test Anything
-Protocol.  It is defined in L<Test::Shlomif::Harness::TAP>.
+Protocol.  It is defined in L<Test::Run::TAP>.
 
-C<Test::Shlomif::Harness::runtests(@tests)> runs all the testscripts named
+C<Test::Run::runtests(@tests)> runs all the testscripts named
 as arguments and checks standard output for the expected strings
 in TAP format.
 
-The F<prove> utility is a thin wrapper around Test::Shlomif::Harness.
+The F<prove> utility is a thin wrapper around Test::Run.
 
 =head2 Taint mode
 
-Test::Shlomif::Harness will honor the C<-T> or C<-t> in the #! line on your
+Test::Run will honor the C<-T> or C<-t> in the #! line on your
 test files.  So if you begin a test with:
 
     #!perl -T
@@ -186,18 +186,18 @@ otherwise.  The F<prove> utility's C<-v> flag will set this.
 =head2 Configuration variables.
 
 These variables can be used to configure the behavior of
-Test::Shlomif::Harness.  They are exported on request.
+Test::Run.  They are exported on request.
 
 =over 4
 
 
-=item C<$Test::Shlomif::Harness::switches>
+=item C<$Test::Run::switches>
 
-The package variable C<$Test::Shlomif::Harness::switches> is exportable and can be
+The package variable C<$Test::Run::switches> is exportable and can be
 used to set perl command line options used for running the test
 script(s). The default value is C<-w>. It overrides C<HARNESS_SWITCHES>.
 
-=item C<$Test::Shlomif::Harness::Timer>
+=item C<$Test::Run::Timer>
 
 If set to true, and C<Time::HiRes> is available, print elapsed seconds
 after each test file.
@@ -264,7 +264,7 @@ abbreviated (ie. 15-20 to indicate that tests 15, 16, 17, 18, 19 and
 
 =head2 Functions
 
-Test::Shlomif::Harness currently only has one function, here it is.
+Test::Run currently only has one function, here it is.
 
 =over 4
 
@@ -442,7 +442,7 @@ sub _tot_inc
 sub _create_failed_obj_instance
 {
     my $self = shift;
-    return Test::Shlomif::Harness::Obj::FailedObj->new(
+    return Test::Run::Obj::FailedObj->new(
         @_
     );
 }
@@ -624,7 +624,7 @@ sub _process_passing_test
 sub _create_test_obj_instance
 {
     my $self = shift;
-    return Test::Shlomif::Harness::Obj::TestObj->new(@_);
+    return Test::Run::Obj::TestObj->new(@_);
 }
 
 sub _get_test_struct
@@ -709,7 +709,7 @@ sub _get_tot_counter_tests
 sub _init_tot_obj_instance
 {
     my $self = shift;
-    return Test::Shlomif::Harness::Obj::TotObj->new(
+    return Test::Run::Obj::TotObj->new(
         @{$self->_get_tot_counter_tests()},
     );
 }
@@ -1276,7 +1276,7 @@ sub _canonfailed_get_canon
     my $failed_num = @$failed;
 
     my $canon = $self->_canonfailed_get_canon_helper($failed);
-    return Test::Shlomif::Harness::Obj::CanonFailedObj->new(
+    return Test::Run::Obj::CanonFailedObj->new(
         canon => join(' ', @$canon),
         result => [$self->_get_failed_string($canon)],
         failed_num => $failed_num,
@@ -1310,7 +1310,7 @@ __END__
 
 =head1 EXPORT
 
-C<&runtests> is exported by Test::Shlomif::Harness by default.
+C<&runtests> is exported by Test::Run by default.
 
 C<$verbose>, C<$switches> and C<$debug> are exported upon request.
 
@@ -1349,7 +1349,7 @@ the script dies with this message.
 
 =head1 ENVIRONMENT VARIABLES THAT TEST::HARNESS SETS
 
-Test::Shlomif::Harness sets these before executing the individual tests.
+Test::Run sets these before executing the individual tests.
 
 =over 4
 
@@ -1360,7 +1360,7 @@ are being executed through the harness or by any other means.
 
 =item C<HARNESS_VERSION>
 
-This is the version of Test::Shlomif::Harness.
+This is the version of Test::Run.
 
 =back
 
@@ -1385,9 +1385,9 @@ directory!
 
 =item C<HARNESS_DEBUG>
 
-If true, Test::Shlomif::Harness will print debugging information about itself as
+If true, Test::Run will print debugging information about itself as
 it runs the tests.  This is different from C<HARNESS_VERBOSE>, which prints
-the output from the test being run.  Setting C<$Test::Shlomif::Harness::Debug> will
+the output from the test being run.  Setting C<$Test::Run::Debug> will
 override this, or you can use the C<-d> switch in the F<prove> utility.
 
 =item C<HARNESS_FILELEAK_IN_DIR>
@@ -1429,18 +1429,18 @@ run all tests with all warnings enabled.
 
 =item C<HARNESS_VERBOSE>
 
-If true, Test::Shlomif::Harness will output the verbose results of running
-its tests.  Setting C<$Test::Shlomif::Harness::verbose> will override this,
+If true, Test::Run will output the verbose results of running
+its tests.  Setting C<$Test::Run::verbose> will override this,
 or you can use the C<-v> switch in the F<prove> utility.
 
 =back
 
 =head1 EXAMPLE
 
-Here's how Test::Shlomif::Harness tests itself
+Here's how Test::Run tests itself
 
   $ cd ~/src/devel/Test-Harness
-  $ perl -Mblib -e 'use Test::Shlomif::Harness qw(&runtests $verbose);
+  $ perl -Mblib -e 'use Test::Run qw(&runtests $verbose);
     $verbose=0; runtests @ARGV;' t/*.t
   Using /home/schwern/src/devel/Test-Harness/blib
   t/base..............ok
@@ -1462,7 +1462,7 @@ analysis.
 Provide a way of running tests quietly (ie. no printing) for automated
 validation of tests.  This will probably take the form of a version
 of runtests() which rather than printing its output returns raw data
-on the state of the tests.  (Partially done in Test::Shlomif::Harness::Straps)
+on the state of the tests.  (Partially done in Test::Run::Straps)
 
 Document the format.
 

@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 
-use Test::Shlomif::Harness::Obj;
+use Test::Run::Obj;
 
 my $tester = 
-    Test::Shlomif::Harness::Obj->new(
+    Test::Run::Obj->new(
         # 'test_files' => ["t/sample-tests/simple_fail"]
         'test_files' => ["t/sample-tests/head_end"]
     );

@@ -2,13 +2,13 @@
 use strict;
 use warnings;
 
-use Test::Shlomif::Harness::Base;
+use Test::Run::Base;
 
-package Test::Shlomif::Harness::Obj::FailedObj;
+package Test::Run::Obj::FailedObj;
 
 use vars qw(@ISA @fields %fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+@ISA = (qw(Test::Run::Base::Struct));
 
 @fields = (qw(
     canon
@@ -29,11 +29,11 @@ __PACKAGE__->mk_accessors(@fields);
 
 1;
 
-package Test::Shlomif::Harness::Obj::TestObj;
+package Test::Run::Obj::TestObj;
 
 use vars qw(@ISA @fields %fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+@ISA = (qw(Test::Run::Base::Struct));
 
 @fields = (qw(
     ok
@@ -62,11 +62,11 @@ sub add_to_failed
 
 1;
 
-package Test::Shlomif::Harness::Obj::TotObj;
+package Test::Run::Obj::TotObj;
 
 use vars qw(@ISA @fields %fields_map @counter_fields %counter_fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+@ISA = (qw(Test::Run::Base::Struct));
 
 @counter_fields = (qw(
     bad
@@ -115,11 +115,11 @@ sub add
 
 1;
 
-package Test::Shlomif::Harness::Obj::CanonFailedObj;
+package Test::Run::Obj::CanonFailedObj;
 
 use vars qw(@ISA @fields %fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+@ISA = (qw(Test::Run::Base::Struct));
 
 @fields = (qw(
     canon
@@ -180,11 +180,11 @@ __PACKAGE__->mk_accessors(@fields);
 
 1;
 
-package Test::Shlomif::Harness::Straps::StrapsTotalsObj;
+package Test::Run::Straps::StrapsTotalsObj;
 
 use vars qw(@ISA @fields %fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+@ISA = (qw(Test::Run::Base::Struct));
 
 @fields = (qw(
     bonus
@@ -249,11 +249,11 @@ sub update_skip_reason
 
 1;
 
-package Test::Shlomif::Harness::Straps::StrapsDetailsObj;
+package Test::Run::Straps::StrapsDetailsObj;
 
 use vars qw(@ISA @fields %fields_map);
 
-@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+@ISA = (qw(Test::Run::Base::Struct));
 
 @fields = (qw(
     actual_ok

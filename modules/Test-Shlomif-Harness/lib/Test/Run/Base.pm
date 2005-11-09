@@ -1,4 +1,4 @@
-package Test::Shlomif::Harness::Base;
+package Test::Run::Base;
 
 use strict;
 use warnings;
@@ -18,11 +18,11 @@ sub new
     return $self;
 }
 
-package Test::Shlomif::Harness::Base::Struct;
+package Test::Run::Base::Struct;
 
 use vars (qw(@ISA));
 
-@ISA = (qw(Test::Shlomif::Harness::Base));
+@ISA = (qw(Test::Run::Base));
 
 sub _pre_init
 {

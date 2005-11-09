@@ -1,4 +1,4 @@
-package Test::Shlomif::Harness::Iterator;
+package Test::Run::Iterator;
 
 use strict;
 use vars qw($VERSION);
@@ -6,13 +6,13 @@ $VERSION = 0.02;
 
 =head1 NAME
 
-Test::Shlomif::Harness::Iterator - Internal Test::Shlomif::Harness Iterator
+Test::Run::Iterator - Internal Test::Run Iterator
 
 =head1 SYNOPSIS
 
-  use Test::Shlomif::Harness::Iterator;
-  my $it = Test::Shlomif::Harness::Iterator->new(\*TEST);
-  my $it = Test::Shlomif::Harness::Iterator->new(\@array);
+  use Test::Run::Iterator;
+  my $it = Test::Run::Iterator->new(\*TEST);
+  my $it = Test::Run::Iterator->new(\@array);
 
   my $line = $it->next;
 
@@ -37,11 +37,11 @@ sub new {
 
     my $self = {};
     if( ref $thing eq 'GLOB' ) {
-        bless $self, 'Test::Shlomif::Harness::Iterator::FH';
+        bless $self, 'Test::Run::Iterator::FH';
         $self->{fh} = $thing;
     }
     elsif( ref $thing eq 'ARRAY' ) {
-        bless $self, 'Test::Shlomif::Harness::Iterator::ARRAY';
+        bless $self, 'Test::Run::Iterator::ARRAY';
         $self->{idx}   = 0;
         $self->{array} = $thing;
     }
@@ -52,7 +52,7 @@ sub new {
     return $self;
 }
 
-package Test::Shlomif::Harness::Iterator::FH;
+package Test::Run::Iterator::FH;
 sub next {
     my $fh = $_[0]->{fh};
 
@@ -61,7 +61,7 @@ sub next {
 }
 
 
-package Test::Shlomif::Harness::Iterator::ARRAY;
+package Test::Run::Iterator::ARRAY;
 sub next {
     my $self = shift;
     return $self->{array}->[$self->{idx}++];

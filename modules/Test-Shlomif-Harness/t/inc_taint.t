@@ -10,7 +10,7 @@ BEGIN {
     }
 }
 
-use Test::Shlomif::Harness::Obj;
+use Test::Run::Obj;
 use Test::More tests => 1;
 use Dev::Null;
 
@@ -18,7 +18,7 @@ push @INC, 'we_added_this_lib';
 
 tie *NULL, 'Dev::Null' or die $!;
 select NULL;
-my $obj = Test::Shlomif::Harness::Obj->new(    
+my $obj = Test::Run::Obj->new(    
     test_files =>
     [
            $ENV{PERL_CORE}

@@ -15,10 +15,10 @@ use strict;
 use Test::More tests => 2;
 
 BEGIN {
-    use_ok( 'Test::Shlomif::Harness::Obj' );
+    use_ok( 'Test::Run::Obj' );
 }
 
-my $obj = Test::Shlomif::Harness::Obj->new();
+my $obj = Test::Run::Obj->new();
 my $strap = $obj->Strap();
-isa_ok( $strap, 'Test::Shlomif::Harness::Straps' );
+isa_ok( $strap, 'Test::Run::Straps' );
 

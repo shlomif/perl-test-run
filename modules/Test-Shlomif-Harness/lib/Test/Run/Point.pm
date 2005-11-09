@@ -1,5 +1,5 @@
 # -*- Mode: cperl; cperl-indent-level: 4 -*-
-package Test::Shlomif::Harness::Point;
+package Test::Run::Point;
 
 use strict;
 use vars qw($VERSION);
@@ -7,17 +7,17 @@ $VERSION = '0.01';
 
 =head1 NAME
 
-Test::Shlomif::Harness::Point - object for tracking a single test point
+Test::Run::Point - object for tracking a single test point
 
 =head1 SYNOPSIS
 
-One Test::Shlomif::Harness::Point object represents a single test point.
+One Test::Run::Point object represents a single test point.
 
 =head1 CONSTRUCTION
 
 =head2 new()
 
-    my $point = new Test::Shlomif::Harness::Point;
+    my $point = new Test::Run::Point;
 
 Create a test point object.
 

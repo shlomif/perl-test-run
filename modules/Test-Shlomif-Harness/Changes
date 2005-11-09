@@ -1,3 +1,6 @@
+0.0100_05 Sat Nov 09 21:00:00 IST 2005
+    * Renamed to Test::Run
+
 0.0100_04 Sat Nov 05 23:53:00 IST 2005
     * Lots of cleanups to the code - including some internal interface changes.
         - Method extractions, refactorings.

@@ -30,14 +30,14 @@ my $die_estat = $IsVMS     ? 44 :
                 $IsMacPerl ? 0  :
                              1;
 
-use Test::Shlomif::Harness::Obj;
+use Test::Run::Obj;
 
 
 open ALTOUT, ">", "altout.txt";
 open SAVEOUT, ">&STDOUT";
 open STDOUT, ">&ALTOUT";
     
-my $tester = Test::Shlomif::Harness::Obj->new(
+my $tester = Test::Run::Obj->new(
     test_files => ["t/sample-tests/simple_fail"]
     );
 eval {

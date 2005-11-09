@@ -16,12 +16,12 @@ use Test::More tests => 3;
 
 BEGIN {
     # TEST
-    use_ok('Test::Shlomif::Harness::Obj');
+    use_ok('Test::Run::Obj');
 }
 
 my $ver = $ENV{HARNESS_NG_VERSION} or die "HARNESS_VERSION not set";
 # TEST
 like( $ver, qr/^\d.\d\d\d\d(_\d\d)?$/, "Version is proper format" );
 # TEST
-is( $ver, $Test::Shlomif::Harness::Obj::VERSION );
+is( $ver, $Test::Run::Obj::VERSION );
 

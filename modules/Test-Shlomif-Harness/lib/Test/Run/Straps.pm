@@ -1,18 +1,18 @@
 # -*- Mode: cperl; cperl-indent-level: 4 -*-
-package Test::Shlomif::Harness::Straps;
+package Test::Run::Straps;
 
 use strict;
 use vars qw($VERSION @ISA);
 $VERSION = '0.24';
 
 use Config;
-use Test::Shlomif::Harness::Base;
-use Test::Shlomif::Harness::Assert;
-use Test::Shlomif::Harness::Iterator;
-use Test::Shlomif::Harness::Point;
-use Test::Shlomif::Harness::Obj::Structs;
+use Test::Run::Base;
+use Test::Run::Assert;
+use Test::Run::Iterator;
+use Test::Run::Point;
+use Test::Run::Obj::Structs;
 
-@ISA = (qw(Test::Shlomif::Harness::Base::Struct));
+@ISA = (qw(Test::Run::Base::Struct));
 
 my @fields= (qw(
     _is_macos
@@ -52,13 +52,13 @@ my $NO    = !$YES;
 
 =head1 NAME
 
-Test::Shlomif::Harness::Straps - detailed analysis of test results
+Test::Run::Straps - detailed analysis of test results
 
 =head1 SYNOPSIS
 
-  use Test::Shlomif::Harness::Straps;
+  use Test::Run::Straps;
 
-  my $strap = Test::Shlomif::Harness::Straps->new;
+  my $strap = Test::Run::Straps->new;
 
   # Various ways to interpret a test
   my %results = $strap->analyze($name, \@test_output);
@@ -78,10 +78,10 @@ Test::Shlomif::Harness::Straps - detailed analysis of test results
 B<THIS IS ALPHA SOFTWARE> in that the interface is subject to change
 in incompatible ways.  It is otherwise stable.
 
-Test::Shlomif::Harness is limited to printing out its results.  This makes
+Test::Run is limited to printing out its results.  This makes
 analysis of the test results difficult for anything but a human.  To
 make it easier for programs to work with test results, we provide
-Test::Shlomif::Harness::Straps.  Instead of printing the results, straps
+Test::Run::Straps.  Instead of printing the results, straps
 provide them as raw data.  You can also configure how the tests are to
 be run.
 
@@ -93,7 +93,7 @@ comments.
 
 =head2 new()
 
-  my $strap = Test::Shlomif::Harness::Straps->new;
+  my $strap = Test::Run::Straps->new;
 
 Initialize a new strap.
 
@@ -130,20 +130,20 @@ newlines.
 sub analyze {
     my($self, $name, $test_output) = @_;
 
-    my $it = Test::Shlomif::Harness::Iterator->new($test_output);
+    my $it = Test::Run::Iterator->new($test_output);
     return $self->_analyze_iterator($name, $it);
 }
 
 sub _init_totals_obj_instance
 {
     my $self = shift;
-    return Test::Shlomif::Harness::Straps::StrapsTotalsObj->new(@_);
+    return Test::Run::Straps::StrapsTotalsObj->new(@_);
 }
 
 sub _init_details_obj_instance
 {
     my $self = shift;
-    return Test::Shlomif::Harness::Straps::StrapsDetailsObj->new(@_);
+    return Test::Run::Straps::StrapsDetailsObj->new(@_);
 }
 
 sub _analyze_iterator {
@@ -189,7 +189,7 @@ sub _analyze_line {
     $self->inc_field('line');
 
     my $linetype;
-    my $point = Test::Shlomif::Harness::Point->from_test_line( $line );
+    my $point = Test::Run::Point->from_test_line( $line );
     if ( $point ) {
         $linetype = 'test';
 
@@ -304,7 +304,7 @@ Like C<analyze>, but it reads from the given filehandle.
 sub analyze_fh {
     my($self, $name, $fh) = @_;
 
-    my $it = Test::Shlomif::Harness::Iterator->new($fh);
+    my $it = Test::Run::Iterator->new($fh);
     return $self->_analyze_iterator($name, $it);
 }
 
@@ -331,7 +331,7 @@ sub analyze_file {
     }
 
     local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
-    if ( $Test::Shlomif::Harness::Obj::Debug ) {
+    if ( $Test::Run::Obj::Debug ) {
         local $^W=0; # ignore undef warnings
         $self->output()->print_message("# PERL5LIB=$ENV{PERL5LIB}");
     }
@@ -421,7 +421,7 @@ Formats and returns the switches necessary to run the test.
 sub _switches {
     my($self, $file) = @_;
 
-    my @existing_switches = $self->_cleaned_switches( $Test::Shlomif::Harness::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
+    my @existing_switches = $self->_cleaned_switches( $Test::Run::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
     my @derived_switches;
 
     local *TEST;
@@ -724,12 +724,12 @@ See F<examples/mini_harness.plx> for an example of use.
 Michael G Schwern C<< <schwern@pobox.com> >>, later maintained by
 Andy Lester C<< <andy@petdance.com> >>.
 
-Converted to Test::Shlomif::Harness::Straps by Shlomi Fish 
+Converted to Test::Run::Straps by Shlomi Fish 
 C<< <shlomif@iglu.org.il> >>.
 
 =head1 SEE ALSO
 
-L<Test::Shlomif::Harness>
+L<Test::Run>
 
 =cut
 

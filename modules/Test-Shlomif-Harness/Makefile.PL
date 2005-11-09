@@ -6,12 +6,12 @@ use ExtUtils::Command qw( touch rm_f );
 use constant FLAG_SKIP_PROVE => "t/SKIP-PROVE";
 
 my @files = qw(
-    Shlomif/Harness/Obj.pm
+    Run/Obj.pm
 );
 
 my %parms = (
-    NAME            => "Test::Shlomif::Harness",
-    VERSION_FROM    => "lib/Test/Shlomif/Harness/Obj.pm",
+    NAME            => "Test::Run",
+    VERSION_FROM    => "lib/Test/Run/Obj.pm",
     # PM              => { map { ("lib/Test/$_" => "\$(INST_LIBDIR)/$_") } @files },
     PREREQ_PM       => 
     {

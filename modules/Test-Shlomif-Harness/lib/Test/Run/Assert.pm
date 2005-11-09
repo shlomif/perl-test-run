@@ -1,6 +1,6 @@
 # $Id: Assert.pm 250 2003-09-11 15:57:29Z andy $
 
-package Test::Shlomif::Harness::Assert;
+package Test::Run::Assert;
 
 use strict;
 require Exporter;
@@ -14,13 +14,13 @@ $VERSION = '0.02';
 
 =head1 NAME
 
-Test::Shlomif::Harness::Assert - simple assert
+Test::Run::Assert - simple assert
 
 =head1 SYNOPSIS
 
   ### FOR INTERNAL USE ONLY ###
 
-  use Test::Shlomif::Harness::Assert;
+  use Test::Run::Assert;
 
   assert( EXPR, $name );
 
@@ -28,7 +28,7 @@ Test::Shlomif::Harness::Assert - simple assert
 
 A simple assert routine since we don't have Carp::Assert handy.
 
-B<For internal use by Test::Shlomif::Harness ONLY!>
+B<For internal use by Test::Run ONLY!>
 
 =head1 FUNCTIONS
 

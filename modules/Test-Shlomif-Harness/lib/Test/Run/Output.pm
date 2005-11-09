@@ -1,4 +1,4 @@
-package Test::Shlomif::Harness::Output;
+package Test::Run::Output;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ __PACKAGE__->mk_accessors(qw(Verbose last_test_print ml));
 
 =head1 NAME
 
-Test::Shlomif::Harness::Output - Base class for outputting messages to the user in a test
+Test::Run::Output - Base class for outputting messages to the user in a test
 harmess.
 
 =cut
@@ -91,7 +91,7 @@ sub print_ml_less {
 
 Generates the 't/foo........' leader for the given C<$test_file> as well
 as a similar version which will overwrite the current line (by use of
-\r and such).  C<$ml> may be empty if Test::Shlomif::Harness doesn't think 
+\r and such).  C<$ml> may be empty if Test::Run doesn't think 
 you're on TTY.
 
 The C<$width> is the width of the "yada/blah.." string.
