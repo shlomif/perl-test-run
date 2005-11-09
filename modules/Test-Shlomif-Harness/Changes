@@ -1,4 +1,13 @@
-0.0100_03 Tue Nov 01 14:57:27 IST 2005    
+0.0100_04 Sat Nov 05 23:53:00 IST 2005
+    * Lots of cleanups to the code - including some internal interface changes.
+        - Method extractions, refactorings.
+        - Created a base class for structs - i.e: objects that are meant
+        to mostly contain only specific fields.
+        - Converted several hashes to such structs and am using their
+        accessors instead of their vanilla hash elements.
+    * Removed the dependency on Test::Harness. Now the module is standalone.
+
+0.0100_03 Tue Nov 01 14:57:27 IST 2005
     * Fixed a documentation problem with the test_files passed as an argument
     to runtests.
     * Added a test to test against the presence of the per-test-file
