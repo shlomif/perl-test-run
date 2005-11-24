@@ -3,7 +3,7 @@ package Test::Run::CmdLine;
 use warnings;
 use strict;
 
-use Test::Run::Obj;
+use Test::Run::Base;
 
 =head1 NAME
 
@@ -17,7 +17,7 @@ $VERSION = '0.01';
 
 use vars (qw(@ISA));
 
-@ISA = (qw(Test::Run::Obj));
+@ISA = (qw(Test::Run::Base));
 
 =head1 SYNOPSIS
 
@@ -33,21 +33,38 @@ Perhaps a little code snippet.
 
 __PACKAGE__->mk_accessors(qw(
     driver_class
+    test_files
 ));
 
-=head2 initialize
-
-This function initializes the drive class.
-
-=cut
-
-sub initialize
+sub _initialize
 {
     my $self = shift;
     my (%args) = @_;
     my $driver_class = $args{'driver_class'} || $ENV{'TEST_HARNESS_DRIVER'} ||
-        "Test::Run::Base";
+        "Test::Run::Obj";
     $self->_set_driver_class($driver_class);
+    $self->test_files($args{'test_files'});
+}
+
+=head2 $cmd_line->run()
+
+Actually runs the test on the command line.
+
+TODO : Write more.
+
+=cut
+
+sub run
+{
+    my $self = shift;
+    my $driver_class = $self->driver_class();
+    eval "require $driver_class";
+
+    my $driver = $driver_class->new(
+        'test_files' => $self->test_files(),
+    );
+
+    return $driver->runtests();
 }
 
 sub _check_driver_class

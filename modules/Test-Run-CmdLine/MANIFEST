@@ -1,10 +1,12 @@
 Changes
+lib/Test/Run/CmdLine.pm
+Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
-Makefile.PL
 README
-lib/Test/Run/CmdLine.pm
 t/00-load.t
 t/01-class-name.t
+t/02-run.t
 t/pod-coverage.t
 t/pod.t
+t/Test/Run/CmdLine/Drivers/CmdLineTest.pm
