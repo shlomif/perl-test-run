@@ -3,17 +3,21 @@ package Test::Run::CmdLine;
 use warnings;
 use strict;
 
+use Test::Run::Obj;
+
 =head1 NAME
 
-Test::Run::CmdLine - The great new Test::Run::CmdLine!
-
-=head1 VERSION
-
-Version 0.01
+Test::Run::CmdLine - Analyze tests from the command line using Test::Run
 
 =cut
 
-our $VERSION = '0.01';
+use vars (qw($VERSION));
+
+$VERSION = '0.01';
+
+use vars (qw(@ISA));
+
+@ISA = (qw(Test::Run::Obj));
 
 =head1 SYNOPSIS
 
@@ -25,26 +29,49 @@ Perhaps a little code snippet.
 
     my $foo = Test::Run::CmdLine->new();
     ...
+=cut
 
-=head1 EXPORT
+__PACKAGE__->mk_accessors(qw(
+    driver_class
+));
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+=head2 initialize
 
-=head1 FUNCTIONS
-
-=head2 function1
+This function initializes the drive class.
 
 =cut
 
-sub function1 {
+sub initialize
+{
+    my $self = shift;
+    my (%args) = @_;
+    my $driver_class = $args{'driver_class'} || $ENV{'TEST_HARNESS_DRIVER'} ||
+        "Test::Run::Base";
+    $self->_set_driver_class($driver_class);
 }
 
-=head2 function2
+sub _check_driver_class
+{
+    my $self = shift;
+    return $self->_is_class_name(@_);
+}
 
-=cut
+sub _is_class_name
+{
+    my $self = shift;
+    my $class = shift;
+    return ($class =~ /^\w+(?:::\w+)*$/);
+}
 
-sub function2 {
+sub _set_driver_class
+{
+    my $self = shift;
+    my $driver_class = shift;
+    if (! $self->_check_driver_class($driver_class))
+    {
+        die "Invalid Driver Class \"$driver_class\"!";
+    }
+    $self->driver_class($driver_class);
 }
 
 =head1 AUTHOR
@@ -65,7 +92,7 @@ your bug as I make changes.
 
 Copyright 2005 Shlomi Fish, all rights reserved.
 
-This program is released under the following license: bsd
+This program is released under the MIT X11 License.
 
 =cut
 
