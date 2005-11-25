@@ -22,21 +22,6 @@ my %parms = (
     clean           => { FILES => join( " ", FLAG_SKIP_PROVE, 'Test-Harness-*', '*~' ) },
 );
 
-my $install_prove = eval "use Pod::Usage 1.12; 1";
-# Added by Shlomi Fish: Don't install prove since at the moment we don't
-# have anything like it and I don't want to override anything that
-# Test::Harness supplies.
-$install_prove = 0;
-if ( $install_prove ) {
-    $parms{EXE_FILES} = [ 'bin/prove' ];
-    local @ARGV = FLAG_SKIP_PROVE;
-    rm_f();
-} else {
-    warn "Pod::Usage 1.12 or higher not found, so prove utility will not be installed.\n";
-    local @ARGV = FLAG_SKIP_PROVE;
-    touch();
-}
-
 sub MY::postamble {
     return <<'MAKE_FRAG';
 .PHONY: tags
