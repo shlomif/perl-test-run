@@ -1135,6 +1135,10 @@ sub _get_skipped_bonusmsg
     {
         return "$sub_skipped_msg skipped";
     }
+    else
+    {
+        return "";
+    }
 }
 
 sub _get_bonusmsg {
