@@ -15,7 +15,7 @@ use Test::Run::CmdLine;
 
     {
         my $iface = Test::Run::CmdLine->new();
-        
+
         # TEST
         is ($iface->driver_class(), "Test::Run::Obj", 
             "Right default driver_class");
