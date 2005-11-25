@@ -1,3 +1,4 @@
+bin/runprove
 Changes
 lib/Test/Run/CmdLine.pm
 Makefile.PL

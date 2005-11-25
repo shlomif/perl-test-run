@@ -1,0 +1,30 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+use Test::Run::CmdLine;
+use Getopt::Long;
+use Pod::Usage 1.12;
+use File::Spec;
+
+use vars qw($VERSION);
+$VERSION = "0.0100_05";
+
+Getopt::Long::Configure( "no_ignore_case" );
+Getopt::Long::Configure( "bundling" );
+my $verbose = 0;
+GetOptions(
+    'v|verbose' => $verbose,
+);
+
+my $test_run =
+    Test::Run::CmdLine->new(
+        'verbose' => $verbose,
+        'test_files' => [@ARGV],
+    );
+
+$test_run->run();
+
+1;
+
+
