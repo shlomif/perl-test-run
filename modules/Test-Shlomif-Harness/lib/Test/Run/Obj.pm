@@ -772,10 +772,45 @@ sub _leader_width {
     return $maxlen + 3 - $maxsuflen;
 }
 
+
+=head2 $self->_report('channel' => $channel, 'msg' => $message);
+
+Reports the C<$message> message to channel C<$channel>. This can be overrided
+by derived classes to do alternate functionality besides calling 
+_print_message(), also different based on the channel.
+Currently available channels are:
+
+=over 4
+
+=item 'success'
+
+The success report.
+
+=back
+
+=cut
+
+sub _report
+{
+    my $self = shift;
+    my (%args) = @_;
+    my $msg = $args{'msg'};
+    return $self->_print_message($msg);    
+}
+
+sub _get_success_msg
+{
+    my $self = shift;
+    return "All tests successful" . $self->_get_bonusmsg() . ".";
+}
+
 sub _report_success
 {
     my $self = shift;
-    $self->_print_message("All tests successful" . $self->_get_bonusmsg() . ".");
+    $self->_report(
+        'channel' => "success",
+        'msg' => $self->_get_success_msg(),
+    );
 }
 
 sub _fail_no_tests_run
