@@ -3,28 +3,26 @@ package Test::Run::CmdLine::Drivers::ColorSummary;
 use warnings;
 use strict;
 
+use vars qw(@ISA);
+
+use Test::Run::Obj;
+use Term::ANSIColor;
+
+@ISA=(qw(Test::Run::Obj));
+
 =head1 NAME
 
-Test::Run::CmdLine::Drivers::ColorSummary - The great new Test::Run::CmdLine::Drivers::ColorSummary!
-
-=head1 VERSION
-
-Version 0.01
+Test::Run::CmdLine::Drivers::ColorSummary - A Test::Run command line driver that
+colors the summary.
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.0100_00';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Test::Run::CmdLine::Drivers::ColorSummary;
-
-    my $foo = Test::Run::CmdLine::Drivers::ColorSummary->new();
-    ...
+    $ TEST_HARNESS_DRIVER=Test::Run::CmdLine::Drivers::ColorSummary \ 
+        runprove t/*.t
 
 =head1 EXPORT
 
@@ -33,19 +31,47 @@ if you don't export anything, such as for a purely object-oriented module.
 
 =head1 FUNCTIONS
 
-=head2 function1
+=cut 
+
+sub _report_success
+{
+    my $self = shift;
+    print color("bold blue");
+    $self->SUPER::_report_success();
+    print color("reset");
+}
+
+=head2 $tester->runtests()
+
+We override runtests() to colour the errors in red. The rest of the 
+documentation is the code.
 
 =cut
 
-sub function1 {
+sub runtests
+{
+    my $self = shift;
+    my $ret;
+    eval
+    {
+        $ret = $self->SUPER::runtests();
+    };
+    if ($@)
+    {
+        print STDERR color("bold red");
+        print STDERR $@;
+        print STDERR color("reset");
+        # Workaround to make sure color("reset") is accepted and a red cursor
+        # is not displayed.
+        print STDERR "\n";
+    }
+    else
+    {
+        return $ret;
+    }
 }
 
-=head2 function2
-
-=cut
-
-sub function2 {
-}
+1;
 
 =head1 AUTHOR
 
@@ -65,8 +91,9 @@ your bug as I make changes.
 
 Copyright 2005 Shlomi Fish, all rights reserved.
 
-This program is released under the following license: bsd
+This program is released under the MIT X11 License.
 
 =cut
 
-1; # End of Test::Run::CmdLine::Drivers::ColorSummary
+1;
+
