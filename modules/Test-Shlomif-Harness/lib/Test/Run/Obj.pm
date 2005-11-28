@@ -8,6 +8,7 @@ use Test::Run::Output;
 use Test::Run::Base;
 use Test::Run::Assert;
 use Test::Run::Obj::Structs;
+use Test::Run::Obj::Error;
 use Exporter;
 use Benchmark;
 use Config;
@@ -282,14 +283,12 @@ one of the messages in the DIAGNOSTICS section.
 
 =cut
 
-sub runtests {
+sub _real_runtests
+{
     my $self = shift;
-    my (%args) = (@_);
-
-    local ($\, $,);
-
     my($failedtests) =
         $self->_run_all_tests();
+
     $self->_show_results();
 
     my $ok = $self->_all_ok();
@@ -298,6 +297,42 @@ sub runtests {
            q{ok status jives with $failedtests});
 
     return $ok;
+}
+
+sub _handle_runtests_error
+{
+    my $self = shift;
+    my (%args) = @_;
+    my $error = $args{'error'};
+
+    if (UNIVERSAL::isa($error, "Test::Run::Obj::Error::TestsFail"))
+    {
+        die ($@->text() . "\n");
+    }
+    else
+    {
+        die $@;
+    }
+}
+
+sub runtests
+{
+    my $self = shift;
+
+    local ($\, $,);
+
+    my $ok = eval { $self->_real_runtests(@_) };
+    if ($@)
+    {
+        return $self->_handle_runtests_error(
+            'ok' => $ok, 
+            'error' => $@,
+        );
+    }
+    else
+    {
+        return $ok;
+    }
 }
 
 =begin _private
@@ -813,9 +848,17 @@ sub _report_success
     );
 }
 
+sub _get_fail_no_tests_run_text
+{
+    return "FAILED--no tests were run for some reason."
+}
+
 sub _fail_no_tests_run
 {
-    die "FAILED--no tests were run for some reason.\n";
+    my $self = shift;
+    die Test::Run::Obj::Error::TestsFail->new(
+        text => $self->_get_fail_no_tests_run_text(),
+    );
 }
 
 sub _fail_no_tests_output
@@ -1078,7 +1121,8 @@ sub _show_results {
     {
         $self->_fail_no_tests_output();
     }
-    else {
+    else
+    {
         $self->_fail_other();
     }
     $self->_print_final_stats();
