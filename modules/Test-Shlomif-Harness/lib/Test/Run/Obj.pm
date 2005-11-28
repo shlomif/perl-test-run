@@ -764,9 +764,9 @@ sub _leader_width {
     my $tests = $self->test_files();
 
     my $maxlen = 
-        $self->__max_num(map {length($_)} @$tests);
+        $self->__max_num_flat(map {length($_)} @$tests);
     my $maxsuflen =
-        $self->__max_num(map {length(/\.(\w+)$/ ? $1 : '')} @$tests);
+        $self->__max_num_flat(map {length(/\.(\w+)$/ ? $1 : '')} @$tests);
 
     # + 3 : we want three dots between the test name and the "ok"
     return $maxlen + 3 - $maxsuflen;
@@ -838,6 +838,13 @@ sub _get_format_failed_str_len
 {
     my $self = shift;
     return length($self->_get_format_failed_str());
+}
+
+sub __max_num_flat
+{
+    my $self = shift;
+    my $n = shift;
+    return $self->__max_num($n, [@_]);
 }
 
 sub __max_num
