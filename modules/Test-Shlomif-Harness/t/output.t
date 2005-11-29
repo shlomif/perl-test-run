@@ -61,5 +61,5 @@ use Test::Run::Obj;
     my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
 
     # TEST
-    ok (($text =~ m/All tests successful/), "'All tests successful.' string as is");
+    ok (($text =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
 }
