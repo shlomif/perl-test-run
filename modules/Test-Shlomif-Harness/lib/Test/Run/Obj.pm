@@ -36,11 +36,11 @@ Test::Run - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
-Version 2.53_02
+Version 0.0100_06
 
 =cut
 
-$VERSION = "0.0100_05";
+$VERSION = "0.0100_06";
 
 # Backwards compatibility for exportable variable names.
 # REMOVED *verbose  = *Verbose;
