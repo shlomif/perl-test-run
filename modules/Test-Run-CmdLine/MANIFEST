@@ -8,6 +8,9 @@ README
 t/00-load.t
 t/01-class-name.t
 t/02-run.t
+t/03-prove.t
 t/pod-coverage.t
 t/pod.t
+t/sample-tests/bad.t
+t/sample-tests/one-ok.t
 t/Test/Run/CmdLine/Drivers/CmdLineTest.pm
