@@ -1,3 +1,19 @@
+0.0100_06 Tue Nov 29 22:40:08 IST 2005
+    * Fixed the bug where "All tests successful." was displayed as
+    "All tests successful0.". Added an appropriate test.
+    * Eliminated the unnecessary warning on the Pod::Usage in the 
+    Makefile.PL of Test::Run. Now it just doesn't install prove.
+    * Moved two test scripts that are depenedent on prove (or exit on its
+    non-installation), to a temporary location to be restored when
+    Test::Run::CmdLine is in better shape.
+    * Some refactorings.
+        - Added the Test::Run::Obj::Error module for throwing errors. Moved 
+        one FAILED report to it, and change Run::Obj to be compatible with 
+        some refactoring in the way.
+    * Added a TODO File.
+    * Fix a problem with a missing comma in the output of Test::Run when
+    there are skipped subtests.
+    
 0.0100_05 Sat Nov 09 21:00:00 IST 2005
     * Renamed to Test::Run
 

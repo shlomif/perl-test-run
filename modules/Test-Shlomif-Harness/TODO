@@ -1,12 +1,3 @@
-BUGS TO FIX:
-------------
-
-* Fix the problem with the TEST_HARNESS_DRIVER=Test::Run::CmdLine::Drivers::ColorSummary runprove t/00compile.t
-
-in the $test_run directory.
-
------------------------
-
 * Throw objects instead of strings in the _fail functions 
     - otherwise we won't be able to distinguish between regular errors.
 
