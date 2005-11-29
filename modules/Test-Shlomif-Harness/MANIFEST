@@ -3,8 +3,8 @@ examples/mini_harness.plx
 lib/Test/Run/Assert.pm
 lib/Test/Run/Base.pm
 lib/Test/Run/Iterator.pm
-lib/Test/Run/Obj.pm
 lib/Test/Run/Obj/Error.pm
+lib/Test/Run/Obj.pm
 lib/Test/Run/Obj/Structs.pm
 lib/Test/Run/Output.pm
 lib/Test/Run/Point.pm
@@ -23,6 +23,7 @@ t/lib/Test/Builder.pm
 t/lib/Test/More.pm
 t/lib/Test/Simple.pm
 t/nonumbers.t
+TODO
 t/ok.t
 t/pod.t
 t/sample-tests/bailout
