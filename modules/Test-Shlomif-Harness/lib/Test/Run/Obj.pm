@@ -1205,13 +1205,15 @@ sub _get_skipped_bonusmsg
     my $sub_skipped = $tot->sub_skipped();
     my $skipped = $tot->skipped();
 
+    # TODO: Refactor it.
     my $sub_skipped_msg =
         "$sub_skipped subtest" . $self->_get_s($sub_skipped);
 
+    my $comma = ", ";
     if ($skipped)
     {
         return 
-            ", $skipped test" .
+            $comma . "$skipped test" .
             $self->_get_s($skipped) .
             ($sub_skipped ? (" and " . $sub_skipped_msg) : "") .
             ' skipped'
@@ -1219,7 +1221,8 @@ sub _get_skipped_bonusmsg
     }
     elsif ($sub_skipped)
     {
-        return "$sub_skipped_msg skipped";
+        # Should be a comma here too.
+        return $comma . "$sub_skipped_msg skipped";
     }
     else
     {

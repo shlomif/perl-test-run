@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 use Test::Run::Obj;
 
@@ -63,3 +63,30 @@ use Test::Run::Obj;
     # TEST
     ok (($text =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
 }
+
+# Skipped sub-tests
+{
+    open ALTOUT, ">", "altout.txt";
+    open SAVEOUT, ">&STDOUT";
+    open STDOUT, ">&ALTOUT";
+
+    my $tester = Test::Run::Obj->new(
+        test_files => 
+        [
+            "t/sample-tests/simple", 
+            "t/sample-tests/skip",
+        ],
+        );
+
+    $tester->runtests();
+
+    open STDOUT, ">&SAVEOUT";
+    close(SAVEOUT);
+    close(ALTOUT);
+
+    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+
+    # TEST
+    ok (($text =~ m/All tests successful, 1 subtest skipped\./), "1 subtest skipped with a comma afterwards.");
+}
+
