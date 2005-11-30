@@ -1083,13 +1083,29 @@ sub _create_fmts {
     return 0;
 }
 
+sub _get_fail_other_exception_text
+{
+    my $self = shift;
+    return "Failed " . $self->tot()->bad() . "/" .
+        $self->tot()->tests(). " test scripts, " .
+        $self->_get_tests_good_percent() . "% okay." .
+        $self->_get_sub_percent_msg() . "\n";
+}
+
+sub _fail_other_throw_exception
+{
+    my $self = shift;
+
+    die Test::Run::Obj::Error::TestsFail->new(
+        text => $self->_get_fail_other_exception_text(),
+    );
+}
+
 sub _fail_other
 {
     my $self = shift;
     my $tot = $self->tot();
     my $failed_tests = $self->failed_tests();
-
-    my $subpct = $self->_get_sub_percent_msg();
 
     $self->_create_fmts();
 
@@ -1108,9 +1124,7 @@ sub _fail_other
         {
             $self->_print_message("$bonusmsg.");
         }
-        die "Failed " . $tot->bad() . "/" . $tot->tests(). " test scripts, " . 
-            $self->_get_tests_good_percent() . "% okay.".
-            "$subpct\n";
+        $self->_fail_other_throw_exception();
     }
 }
 
