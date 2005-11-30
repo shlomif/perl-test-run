@@ -1074,7 +1074,8 @@ sub _fail_other_print_test
     }
 }
 
-sub _create_fmts {
+sub _create_fmts 
+{
     my $self = shift;
     my $failedtests = $self->failed_tests();
 
@@ -1101,29 +1102,47 @@ sub _fail_other_throw_exception
     );
 }
 
+sub _fail_other_get_script_names
+{
+    my $self = shift;
+    return [ sort keys %{$self->failed_tests()} ]
+}
+
+sub _fail_other_print_all_tests
+{
+    my $self = shift;
+    # Now write to formats
+    for my $script (@{$self->_fail_other_get_script_names()})
+    {
+         $self->_fail_other_print_test($script);
+    }
+}
+
+sub _fail_other_print_bonus_message
+{
+    my $self = shift;
+    
+    my $bonusmsg = $self->_bonusmsg() || "";
+    $bonusmsg =~ s/^,\s*//;
+    if ($bonusmsg)
+    {
+        $self->_print_message("$bonusmsg.");
+    }
+}
+
 sub _fail_other
 {
     my $self = shift;
-    my $tot = $self->tot();
-    my $failed_tests = $self->failed_tests();
 
     $self->_create_fmts();
 
     $self->_fail_other_print_top();
 
-    # Now write to formats
-    for my $script (sort keys %$failed_tests) {
-      $self->_fail_other_print_test($script);
-    }
+    $self->_fail_other_print_all_tests();
 
-    if ($tot->bad())
+    if ($self->tot()->bad())
     {
-        my $bonusmsg = $self->_bonusmsg() || "";
-        $bonusmsg =~ s/^,\s*//;
-        if ($bonusmsg)
-        {
-            $self->_print_message("$bonusmsg.");
-        }
+        $self->_fail_other_print_bonus_message();
         $self->_fail_other_throw_exception();
     }
 }
