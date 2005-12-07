@@ -15,6 +15,7 @@ my %parms = (
     # PM              => { map { ("lib/Test/$_" => "\$(INST_LIBDIR)/$_") } @files },
     PREREQ_PM       => 
     {
+        'Class::Accessor' => 0,
         'File::Spec' => 0.6,
         'Test::Harness' => "2.53",
     },
