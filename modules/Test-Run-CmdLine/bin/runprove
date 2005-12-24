@@ -19,8 +19,11 @@ GetOptions(
 
 my $test_run =
     Test::Run::CmdLine->new(
-        (defined($verbose) ? ('Verbose' => $verbose) : ()),
         'test_files' => [@ARGV],
+        'backend_params' => 
+        {
+            (defined($verbose) ? ('Verbose' => $verbose) : ()),
+        },
     );
 
 $test_run->run();

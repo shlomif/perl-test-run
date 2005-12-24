@@ -34,7 +34,7 @@ use vars (qw(@ISA));
 __PACKAGE__->mk_accessors(qw(
     driver_class
     test_files
-    Verbose
+    backend_params
 ));
 
 sub _initialize
@@ -53,9 +53,9 @@ sub _initialize
 sub _process_args
 {
     my ($self, $args) = @_;
-    if (exists($args->{Verbose}))
+    if (exists($args->{backend_params}))
     {
-        $self->Verbose($args->{Verbose});
+        $self->backend_params($args->{backend_params});
     }
 
     return 0;
@@ -67,6 +67,22 @@ sub _process_args
 
 Initializes a new testing front end. C<test_files> is a named argument that
 contains the files to test.
+
+Other named arguments are:
+
+=over 4
+
+=item backend_params
+
+This is a hash of named parameters to be passed to the backend class (derived
+from L<Test::Run::Obj>.)
+
+=item driver_class
+
+This is the backend class that will be instantiated and used to perform
+the processing. Defaults to L<Test::Run::Obj>.
+
+=back 
 
 =head2 $tester->run()
 
@@ -194,9 +210,9 @@ sub get_backend_init_args
 {
     my $self = shift;
     my @args;
-    if (defined($self->Verbose()))
+    if (defined($self->backend_params()))
     {
-        push @args, ('Verbose' => $self->Verbose());
+        push @args, (%{$self->backend_params()});
     }
     return \@args;
 }
