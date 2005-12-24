@@ -32,7 +32,7 @@ BEGIN {
 
 =head1 NAME
 
-Test::Run - Run Perl standard test scripts with statistics
+Test::Run::Obj - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
@@ -148,20 +148,22 @@ sub _initialize
 =head1 DESCRIPTION
 
 B<STOP!> If all you want to do is write a test script, consider
-using Test::Simple.  Test::Run is the module that reads the
+using Test::Simple.  Test::Run::Obj is the module that reads the
 output from Test::Simple, Test::More and other modules based on
-Test::Builder.  You don't need to know about Test::Run to use
+Test::Builder.  You don't need to know about Test::Run::Obj to use
 those modules.
 
-Test::Run runs tests and expects output from the test in a
+Test::Run::Obj runs tests and expects output from the test in a
 certain format.  That format is called TAP, the Test Anything
-Protocol.  It is defined in L<Test::Run::TAP>.
+Protocol.  It is defined in L<Test::Harness::TAP>.
 
-C<Test::Run::runtests(@tests)> runs all the testscripts named
+C<$tester->runtests(@tests)> runs all the testscripts named
 as arguments and checks standard output for the expected strings
 in TAP format.
 
-The F<prove> utility is a thin wrapper around Test::Run.
+Test::Run::Obj provides a programmer API for running and analyzing
+the output of TAP files. For calling from the command line, look at
+L<Test::Run::CmdLine>.
 
 =head2 Taint mode
 
@@ -174,13 +176,38 @@ the test will be run with taint mode on.
 
 =head2 Object Parameters
 
+These parameters are accessors. They can be set at object creation by passing
+their name along with a value on the constructor (along with the compulsory
+C<'test_files'> argument):
+
+    my $tester = Test::Run::Obj->new(
+        'test_files' => \@mytests,
+        'Verbose' => 1,
+    );
+
+Alternatively, before C<runtests()> is called, they can be set by passing a 
+value to their accessor:
+
+    $tester->Verbose(1);
+
 =over 4
 
 =item C<$self-E<gt>Verbose()>
 
 The object variable C<$self-E<gt>Verbose()> can be used to let C<runtests()> 
 display the standard output of the script without altering the behavior 
-otherwise.  The F<prove> utility's C<-v> flag will set this.
+otherwise.  The F<runprove> utility's C<-v> flag will set this.
+
+=item C<$self-E<gt>Leaked_Dir()>
+
+When set to the name of a directory, C<$tester> will check after each
+test whether new files appeared in that directory, and report them as
+
+  LEAKED FILES: scr.tmp 0 my.db
+
+If relative, directory name is with respect to the current directory at
+the moment C<$tester-E<gt>runtests()> was called.  Putting the absolute path 
+into C<Leaked_Dir> will give more predictable results.
 
 =back 
 
@@ -1525,16 +1552,6 @@ it runs the tests.  This is different from C<HARNESS_VERBOSE>, which prints
 the output from the test being run.  Setting C<$Test::Run::Debug> will
 override this, or you can use the C<-d> switch in the F<prove> utility.
 
-=item C<HARNESS_FILELEAK_IN_DIR>
-
-When set to the name of a directory, harness will check after each
-test whether new files appeared in that directory, and report them as
-
-  LEAKED FILES: scr.tmp 0 my.db
-
-If relative, directory name is with respect to the current directory at
-the moment runtests() was called.  Putting absolute path into 
-C<HARNESS_FILELEAK_IN_DIR> may give more predictable results.
 
 =item C<HARNESS_IGNORE_EXITCODE>
 
@@ -1571,6 +1588,8 @@ or you can use the C<-v> switch in the F<prove> utility.
 =back
 
 =head1 EXAMPLE
+
+TODO: FIXME
 
 Here's how Test::Run tests itself
 
@@ -1649,13 +1668,21 @@ C<< <bug-test-harness >> at C<< rt.cpan.org> >>.
 
 =head1 AUTHORS
 
+Test::Run::Obj is based on L<Test::Harness>. 
+
+=head2 Test:Harness Authors
+
 Either Tim Bunce or Andreas Koenig, we don't know. What we know for
 sure is, that it was inspired by Larry Wall's TEST script that came
 with perl distributions for ages. Numerous anonymous contributors
 exist.  Andreas Koenig held the torch for many years, and then
 Michael G Schwern.
 
-Current maintainer is Andy Lester C<< <andy at petdance.com> >>.
+Test::Harness was then maintained by Andy Lester C<< <andy at petdance.com> >>.
+
+=head2 Test::Run::Obj Authors
+
+Shlomi Fish C<< <shlomif@iglu.org.il> >>
 
 =head1 COPYRIGHT
 
