@@ -195,7 +195,7 @@ value to their accessor:
 =item C<$self-E<gt>Verbose()>
 
 The object variable C<$self-E<gt>Verbose()> can be used to let C<runtests()> 
-display the standard output of the script without altering the behavior 
+display the standard output of the script without altering the behavior
 otherwise.  The F<runprove> utility's C<-v> flag will set this.
 
 =item C<$self-E<gt>Leaked_Dir()>
@@ -208,6 +208,12 @@ test whether new files appeared in that directory, and report them as
 If relative, directory name is with respect to the current directory at
 the moment C<$tester-E<gt>runtests()> was called.  Putting the absolute path 
 into C<Leaked_Dir> will give more predictable results.
+
+=item C<$self-E<gt>Debug()> 
+
+If C<$self-E<gt>Debug()> is true, Test::Run will print debugging information
+about itself as it runs the tests.  This is different from
+C<$self-E<gt>Verbose()>, which prints the output from the test being run.
 
 =back 
 
@@ -1545,14 +1551,6 @@ C<perlcc> before running it.
 
 B<NOTE> This currently only works when sitting in the perl source
 directory!
-
-=item C<HARNESS_DEBUG>
-
-If true, Test::Run will print debugging information about itself as
-it runs the tests.  This is different from C<HARNESS_VERBOSE>, which prints
-the output from the test being run.  Setting C<$Test::Run::Debug> will
-override this, or you can use the C<-d> switch in the F<prove> utility.
-
 
 =item C<HARNESS_IGNORE_EXITCODE>
 

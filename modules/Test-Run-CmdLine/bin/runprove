@@ -13,7 +13,9 @@ $VERSION = "0.0100_05";
 Getopt::Long::Configure( "no_ignore_case" );
 Getopt::Long::Configure( "bundling" );
 my $verbose = undef;
+my $debug = undef;
 GetOptions(
+    'd|debug' => \$debug,
     'v|verbose' => \$verbose,
 );
 
@@ -23,6 +25,7 @@ my $test_run =
         'backend_params' => 
         {
             (defined($verbose) ? ('Verbose' => $verbose) : ()),
+            (defined($debug) ? ('Debug' => $debug) : ()),
         },
     );
 

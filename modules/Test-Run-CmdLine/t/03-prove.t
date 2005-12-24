@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 5;
+use Test::More tests => 7;
 use File::Spec;
 use File::Path;
 use Config;
@@ -22,6 +22,7 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
     
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
+    delete($ENV{'HARNESS_DEBUG'});
     {
         my $results = qx{$runprove $test_file};
         
@@ -52,7 +53,7 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
         
         # TEST
         ok (($results =~ m/^ok 1/m),
-            "Testing is 'Verbose' is HARNESS_VERBOSE is 1.");
+            "Testing is 'Verbose' if HARNESS_VERBOSE is 1.");
     }
     {
         # This is a control experiment.
@@ -70,6 +71,22 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
         ok (($results =~ m/^ok 1/m),
             "Testing is 'Verbose' with the '-v' flag.");
     }
+    {
+        local $ENV{'HARNESS_DEBUG'} = 1;
+        my $results = qx{$runprove $test_file};
+        
+        # TEST
+        ok (($results =~ m/# Running:/),
+            "Testing is 'Debug' if HARNESS_DEBUG is 1.");
+    }
+    {
+        my $results = qx{$runprove -d $test_file};
+        
+        # TEST
+        ok (($results =~ m/# Running:/),
+            "Testing is 'Debug' is the '-d' flag was specified.");
+    }   
+    
 }
 1;
 

@@ -139,6 +139,11 @@ Test::Run::CmdLine:
 
 =over 4
 
+=item HARNESS_DEBUG
+
+Triggers the C<'Debug'> option in Test::Run::Obj. Meaning, it will print
+debugging information about itself as it runs the tests.
+
 =item HARNESS_FILELEAK_IN_DIR
 
 This variable points to a directory that will be monitored. After each
@@ -184,17 +189,28 @@ from the environment (%ENV).
 
 =cut
 
+sub _get_backend_env_mapping
+{
+    my $self = shift;
+    return [
+        { 'env' => "HARNESS_FILELEAK_IN_DIR", 'arg' => "Leaked_Dir", },
+        { 'env' => "HARNESS_VERBOSE", 'arg' => "Verbose", },
+        { 'env' => "HARNESS_DEBUG", 'arg' => "Debug", }
+        ];
+}
+
 sub get_backend_env_args
 {
     my $self = shift;
     my @args;
-    if (exists($ENV{HARNESS_FILELEAK_IN_DIR}))
+    foreach my $spec (@{$self->_get_backend_env_mapping()})
     {
-        push @args, ('Leaked_Dir' => $ENV{HARNESS_FILELEAK_IN_DIR});
-    }
-    if (exists($ENV{HARNESS_VERBOSE}))
-    {
-        push @args, ('Verbose' => $ENV{HARNESS_VERBOSE});
+        my $env = $spec->{env};
+        my $arg = $spec->{arg};
+        if (exists($ENV{$env}))
+        {
+            push @args, ($arg => $ENV{$env});
+        }
     }
     return \@args;
 }

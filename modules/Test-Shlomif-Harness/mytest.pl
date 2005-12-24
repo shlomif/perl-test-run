@@ -7,6 +7,7 @@ my $tester =
         # 'test_files' => ["t/sample-tests/simple_fail"]
         'test_files' => ["t/sample-tests/head_end"],
         'Verbose' => 1,
+        'Debug' => 1,
     );
 $tester->runtests();
 
