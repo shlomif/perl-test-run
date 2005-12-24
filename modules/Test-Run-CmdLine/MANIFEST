@@ -12,5 +12,6 @@ t/03-prove.t
 t/pod-coverage.t
 t/pod.t
 t/sample-tests/bad.t
+t/sample-tests/leak-file.t
 t/sample-tests/one-ok.t
 t/Test/Run/CmdLine/Drivers/CmdLineTest.pm
