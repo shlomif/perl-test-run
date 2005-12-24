@@ -644,6 +644,7 @@ sub _time_single_test
 
     my $test_start_time = $self->Timer() ? time : 0;
     $self->Strap()->Verbose($self->Verbose());
+    $self->Strap()->Debug($self->Debug());
     my $results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
     my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);

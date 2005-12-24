@@ -1,3 +1,5 @@
+* Fix the $Test::Run::Obj::Debug access in Straps.pm.
+
 * Throw objects instead of strings in the _fail functions 
     - otherwise we won't be able to distinguish between regular errors.
 
@@ -9,3 +11,4 @@ Test::Harness.
 
 * Eliminate the rest of the unnecessary global variables.
 
+x

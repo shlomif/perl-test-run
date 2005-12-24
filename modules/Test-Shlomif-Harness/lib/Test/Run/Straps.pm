@@ -21,6 +21,7 @@ my @fields= (qw(
     _old5lib
     bailout_reason
     callback
+    Debug
     error
     file
     last_test_print
@@ -331,7 +332,7 @@ sub analyze_file {
     }
 
     local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
-    if ( $Test::Run::Obj::Debug ) {
+    if ( $self->Debug() ) {
         local $^W=0; # ignore undef warnings
         $self->output()->print_message("# PERL5LIB=$ENV{PERL5LIB}");
     }
