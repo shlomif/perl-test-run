@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 2;
+use Test::More tests => 5;
 use File::Spec;
 use File::Path;
 use Config;
@@ -16,9 +16,12 @@ my $leaked_files_dir = File::Spec->catfile($sample_tests_dir, "leaked-files-dir"
 my $leaked_file = File::Spec->catfile($leaked_files_dir, "hello.txt");
 my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
 {
+    local %ENV = %ENV;
     local $ENV{'TEST_HARNESS_DRIVER'};
     local $ENV{'PERL5LIB'} = $lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     
+    delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
+    delete($ENV{'HARNESS_VERBOSE'});
     {
         my $results = qx{$runprove $test_file};
         
@@ -41,6 +44,31 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
         ok (($results =~ m/\nLEAKED FILES: new-file.txt\n/),
             "Checking for files that were leaked");
         rmtree([$leaked_files_dir], 0, 0);
+    }
+
+    {
+        local $ENV{'HARNESS_VERBOSE'} = 1;
+        my $results = qx{$runprove $test_file};
+        
+        # TEST
+        ok (($results =~ m/^ok 1/m),
+            "Testing is 'Verbose' is HARNESS_VERBOSE is 1.");
+    }
+    {
+        # This is a control experiment.
+        local $ENV{'HARNESS_VERBOSE'} = 0;
+        my $results = qx{$runprove $test_file};
+        
+        # TEST
+        ok (($results !~ m/^ok 1/m),
+            "Testing is not 'Verbose' if HARNESS_VERBOSE is 0.");
+    }
+    {
+        my $results = qx{$runprove -v $test_file};
+        
+        # TEST
+        ok (($results =~ m/^ok 1/m),
+            "Testing is 'Verbose' with the '-v' flag.");
     }
 }
 1;

@@ -34,6 +34,7 @@ use vars (qw(@ISA));
 __PACKAGE__->mk_accessors(qw(
     driver_class
     test_files
+    Verbose
 ));
 
 sub _initialize
@@ -44,6 +45,20 @@ sub _initialize
         "Test::Run::Obj";
     $self->_set_driver_class($driver_class);
     $self->test_files($args{'test_files'});
+    $self->_process_args(\%args);
+
+    return 0;
+}
+
+sub _process_args
+{
+    my ($self, $args) = @_;
+    if (exists($args->{Verbose}))
+    {
+        $self->Verbose($args->{Verbose});
+    }
+
+    return 0;
 }
 
 =head1 Interface Functions
@@ -106,7 +121,9 @@ sub _set_driver_class
 The following environment variables (C<%ENV>) affect the behaviour of 
 Test::Run::CmdLine:
 
-=head2 HARNESS_FILELEAK_IN_DIR
+=over 4
+
+=item HARNESS_FILELEAK_IN_DIR
 
 This variable points to a directory that will be monitored. After each
 test file, the module will check if new files appeared in the direcotry
@@ -115,6 +132,13 @@ and report them.
 It is advisable to give an absolute path here. If it is relative, it would
 be relative to the current working directory when C<$tester-E<gt>run()> was
 called.
+
+=item HARNESS_VERBOSE
+
+Triggers the C<'Verbose'> option in Test::Run::Obj. Meaning, it emits 
+the standard output of the test files while they are processed.
+
+=back
 
 =head1 Internal Functions
 
@@ -152,6 +176,10 @@ sub get_backend_env_args
     {
         push @args, ('Leaked_Dir' => $ENV{HARNESS_FILELEAK_IN_DIR});
     }
+    if (exists($ENV{HARNESS_VERBOSE}))
+    {
+        push @args, ('Verbose' => $ENV{HARNESS_VERBOSE});
+    }
     return \@args;
 }
 
@@ -164,9 +192,14 @@ from the arguments passed to the (front-end) object from its constructor.
 
 sub get_backend_init_args
 {
-    return [];
+    my $self = shift;
+    my @args;
+    if (defined($self->Verbose()))
+    {
+        push @args, ('Verbose' => $self->Verbose());
+    }
+    return \@args;
 }
-
 
 =head1 AUTHOR
 

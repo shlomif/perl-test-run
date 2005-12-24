@@ -1579,12 +1579,6 @@ Its value will be prepended to the switches used to invoke perl on
 each test.  For example, setting C<HARNESS_PERL_SWITCHES> to C<-W> will
 run all tests with all warnings enabled.
 
-=item C<HARNESS_VERBOSE>
-
-If true, Test::Run will output the verbose results of running
-its tests.  Setting C<$Test::Run::verbose> will override this,
-or you can use the C<-v> switch in the F<prove> utility.
-
 =back
 
 =head1 EXAMPLE
@@ -1668,7 +1662,8 @@ C<< <bug-test-harness >> at C<< rt.cpan.org> >>.
 
 =head1 AUTHORS
 
-Test::Run::Obj is based on L<Test::Harness>. 
+Test::Run::Obj is based on L<Test::Harness>, and has later been spinned off
+as a separate module.
 
 =head2 Test:Harness Authors
 

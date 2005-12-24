@@ -12,14 +12,14 @@ $VERSION = "0.0100_05";
 
 Getopt::Long::Configure( "no_ignore_case" );
 Getopt::Long::Configure( "bundling" );
-my $verbose = 0;
+my $verbose = undef;
 GetOptions(
-    'v|verbose' => $verbose,
+    'v|verbose' => \$verbose,
 );
 
 my $test_run =
     Test::Run::CmdLine->new(
-        'verbose' => $verbose,
+        (defined($verbose) ? ('Verbose' => $verbose) : ()),
         'test_files' => [@ARGV],
     );
 
