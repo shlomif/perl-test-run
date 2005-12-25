@@ -139,6 +139,13 @@ Test::Run::CmdLine:
 
 =over 4
 
+=item HARNESS_COLUMNS
+
+This determines the width of the terminal (sets C<'Columns'>) in
+L<Test::Run::Obj>). If not specified, it will be determined according 
+to the C<COLUMNS> environment variable, that is normally specified by
+the terminal.
+
 =item HARNESS_DEBUG
 
 Triggers the C<'Debug'> option in Test::Run::Obj. Meaning, it will print
@@ -195,7 +202,9 @@ sub _get_backend_env_mapping
     return [
         { 'env' => "HARNESS_FILELEAK_IN_DIR", 'arg' => "Leaked_Dir", },
         { 'env' => "HARNESS_VERBOSE", 'arg' => "Verbose", },
-        { 'env' => "HARNESS_DEBUG", 'arg' => "Debug", }
+        { 'env' => "HARNESS_DEBUG", 'arg' => "Debug", },
+        { 'env' => "COLUMNS", 'arg' => "Columns", },
+        { 'env' => "HARNESS_COLUMNS", 'arg' => "Columns", },
         ];
 }
 

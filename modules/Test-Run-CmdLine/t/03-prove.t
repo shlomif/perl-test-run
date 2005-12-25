@@ -2,27 +2,45 @@
 
 use strict;
 
-use Test::More tests => 7;
+use Test::More tests => 11;
 use File::Spec;
 use File::Path;
 use Config;
+
+sub trap
+{
+    my $cmd = shift;
+    local (*SAVEERR, *ALTERR);
+    open ALTERR, ">", "alterr.txt";
+    open SAVEERR, ">&STDERR";
+    open STDERR, ">&ALTERR";
+    my $output = qx/$cmd/;
+    open STDERR, ">&SAVEERR";
+    close(SAVEERR);
+    close(ALTERR);
+    my $error = do { local $/; local *I; open I, "<", "alterr.txt"; <I>};
+    return wantarray() ? ($output, $error) : $output;
+}
 
 my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
 my $lib = File::Spec->catfile( $blib, "lib" );
 my $runprove = File::Spec->catfile( $blib, "script", "runprove" );
 my $sample_tests_dir = File::Spec->catfile("t", "sample-tests");
 my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
+my $simple_fail_file = File::Spec->catfile($sample_tests_dir, "simple_fail.t");
 my $leaked_files_dir = File::Spec->catfile($sample_tests_dir, "leaked-files-dir");
 my $leaked_file = File::Spec->catfile($leaked_files_dir, "hello.txt");
 my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
 {
     local %ENV = %ENV;
-    local $ENV{'TEST_HARNESS_DRIVER'};
-    local $ENV{'PERL5LIB'} = $lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     
+    local $ENV{'PERL5LIB'} = $lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
     delete($ENV{'HARNESS_DEBUG'});
+    delete($ENV{'HARNESS_COLUMNS'});
+    delete $ENV{'TEST_HARNESS_DRIVER'};
+    $ENV{'COLUMNS'} = 80;
     {
         my $results = qx{$runprove $test_file};
         
@@ -85,8 +103,39 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
         # TEST
         ok (($results =~ m/# Running:/),
             "Testing is 'Debug' is the '-d' flag was specified.");
-    }   
-    
+    }
+    {
+        my $results = trap("$runprove $simple_fail_file");
+
+        # TEST
+        ok (($results =~ m/^\-{79}$/m),
+            "Testing that simple fail is formatted for 80 columns");
+    }
+    {
+        local $ENV{'COLUMNS'} = 100;
+        my $results = trap("$runprove $simple_fail_file");
+
+        # TEST
+        ok (($results =~ m/^\-{99}$/m),
+            "Testing that simple fail is formatted for 100 columns");
+    }
+    {
+        local $ENV{'HARNESS_COLUMNS'} = 100;
+        my $results = trap("$runprove $simple_fail_file");
+
+        # TEST
+        ok (($results =~ m/^\-{99}$/m),
+            "Testing that simple fail is formatted for 100 columns");
+    }
+    {
+        local %ENV = %ENV;
+        # delete ($ENV{'COLUMNS'});
+        my $results = trap("$runprove $simple_fail_file");
+
+        # TEST
+        ok (($results =~ m/^\-{79}$/m),
+            "Testing that Columns defaults to 80");
+    }
 }
 1;
 

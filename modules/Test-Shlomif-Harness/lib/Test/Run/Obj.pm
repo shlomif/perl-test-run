@@ -21,7 +21,6 @@ use vars qw(
     @ISA @EXPORT_OK 
     $Switches
     $switches
-    $Columns 
     $has_time_hires
 );
 
@@ -67,12 +66,13 @@ my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
 # REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
 # REMOVED $Debug    = $ENV{HARNESS_DEBUG} || 0;
 $Switches = "-w";
-$Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
-$Columns--;             # Some shells have trouble with a full line of text.
+# REMOVED $Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
+# REMOVED $Columns--;             # Some shells have trouble with a full line of text.
 # REMOVED $Timer    = $ENV{HARNESS_TIMER} || 0;
 
 __PACKAGE__->mk_accessors(qw(
     _bonusmsg
+    Columns
     Debug
     Leaked_Dir
     Strap
@@ -80,6 +80,7 @@ __PACKAGE__->mk_accessors(qw(
     Verbose
     dir_files
     failed_tests
+    format_columns
     list_len
     max_namelen
     output
@@ -93,6 +94,7 @@ sub _get_simple_params
 {
     return
         [qw(
+            Columns
             Debug
             Leaked_Dir
             Verbose
@@ -126,6 +128,7 @@ sub _initialize
 {
     my $self = shift;
     my (%args) = (@_);
+    $self->Columns(80);
     $self->_init_simple_params(\%args);
     $self->dir_files([]);
     $self->output($self->_get_new_output(\%args));
@@ -214,6 +217,11 @@ into C<Leaked_Dir> will give more predictable results.
 If C<$self-E<gt>Debug()> is true, Test::Run will print debugging information
 about itself as it runs the tests.  This is different from
 C<$self-E<gt>Verbose()>, which prints the output from the test being run.
+
+=item C<$self-E<gt>Columns()>
+
+This value will be used for the width of the terminal. If it is not
+set then it will default to 80.
 
 =back 
 
@@ -1007,18 +1015,29 @@ sub _get_fmt_list_str_len
     return length($self->_get_format_list_str());
 }
 
+sub _get_num_columns
+{
+    my $self = shift;
+    # Some shells have trouble with a full line of text.
+    return ($self->Columns()-1);
+}
+
 sub _get_fmt_list_len
 {
     my ($self, %args) = (@_);
     my $max_nl_ref = $args{max_namelen};
 
-    my $list_len = $Columns - $self->_get_fmt_mid_str_len() - $$max_nl_ref;
+    $self->format_columns($self->_get_num_columns());
+
+    my $list_len = $self->format_columns() - $self->_get_fmt_mid_str_len() - $$max_nl_ref;
     if ($list_len < $self->_get_fmt_list_str_len()) {
         $list_len = $self->_get_fmt_list_str_len();
-        $$max_nl_ref = $Columns - $self->_get_fmt_mid_str_len() - $list_len;
+        $$max_nl_ref = $self->format_columns() - $self->_get_fmt_mid_str_len() - $list_len;
         if ($$max_nl_ref < $self->_get_format_failed_str_len()) {
             $$max_nl_ref = $self->_get_format_failed_str_len();
-            $Columns = $$max_nl_ref + $self->_get_fmt_mid_str_len() + $list_len;
+            $self->format_columns(
+                $$max_nl_ref + $self->_get_fmt_mid_str_len() + $list_len
+            );
         }
     }
     return $list_len;
@@ -1049,7 +1068,7 @@ sub _fail_other_print_top
         $self->_get_format_middle_str() .
         $self->_get_format_list_str()
     );
-    $self->_print_message("-" x $Columns);
+    $self->_print_message("-" x $self->format_columns());
 }
 
 sub _fail_other_get_canon_strings
@@ -1100,7 +1119,7 @@ sub _fail_other_print_test
     foreach my $c (@$canon_strings)
     {
         $self->_print_message(
-            sprintf((" " x ($Columns - $list_len) . 
+            sprintf((" " x ($self->format_columns() - $list_len) . 
                 "%s"),
                 $c
             ),
@@ -1536,13 +1555,6 @@ This is the version of Test::Run.
 =head1 ENVIRONMENT VARIABLES THAT AFFECT TEST::HARNESS
 
 =over 4
-
-=item C<HARNESS_COLUMNS>
-
-This value will be used for the width of the terminal. If it is not
-set then it will default to C<COLUMNS>. If this is not set, it will
-default to 80. Note that users of Bourne-sh based shells will need to
-C<export COLUMNS> for this module to use that variable.
 
 =item C<HARNESS_COMPILE_TEST>
 
