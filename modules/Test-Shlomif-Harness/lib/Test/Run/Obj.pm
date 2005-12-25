@@ -1578,14 +1578,6 @@ directory!
 
 Makes harness ignore the exit status of child processes when defined.
 
-=item C<HARNESS_NOTTY>
-
-When set to a true value, forces it to behave as though STDOUT were
-not a console.  You may need to set this if you don't want harness to
-output more frequent progress messages using carriage returns.  Some
-consoles may not handle carriage returns properly (which results in a
-somewhat messy output).
-
 =item C<HARNESS_PERL>
 
 Usually your tests will be run by C<$^X>, the currently-executing Perl.
