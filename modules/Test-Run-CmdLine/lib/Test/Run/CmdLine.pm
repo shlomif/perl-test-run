@@ -168,6 +168,11 @@ Test::Run::CmdLine not to treat STDOUT as if it were a console. In this
 case, it will not emit more frequent progress reports using carriage 
 returns (C<"\r">s).
 
+=item HARNESS_PERL
+
+Specifies the C<'Test_Interpreter'> variable of L<Test::Run::Obj>. This allows
+specifying a different Perl interprter to use besides C<$^X>.
+
 =item HARNESS_TIMER
 
 This variable triggers the C<'Timer'> option in Test::Run::Obj. What it
@@ -219,6 +224,7 @@ sub _get_backend_env_mapping
         { 'env' => "HARNESS_COLUMNS", 'arg' => "Columns", },
         { 'env' => "HARNESS_TIMER", 'arg' => "Timer", },
         { 'env' => "HARNESS_NOTTY", 'arg' => "NoTty", },
+        { 'env' => "HARNESS_PERL", 'arg' => "Test_Interpreter", },
         ];
 }
 

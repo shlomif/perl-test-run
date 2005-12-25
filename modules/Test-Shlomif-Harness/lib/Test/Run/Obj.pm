@@ -77,6 +77,7 @@ __PACKAGE__->mk_accessors(qw(
     Leaked_Dir
     NoTty
     Strap
+    Test_Interpreter
     Timer
     Verbose
     dir_files
@@ -100,6 +101,7 @@ sub _get_simple_params
             Leaked_Dir
             NoTty
             Verbose
+            Test_Interpreter
             Timer
             test_files
        )];
@@ -237,6 +239,12 @@ not a console.  You may need to set this if you don't want harness to
 output more frequent progress messages using carriage returns.  Some
 consoles may not handle carriage returns properly (which results in a
 somewhat messy output).
+
+=item C<$self-E<gt>Test_Interprter()>
+
+Usually your tests will be run by C<$^X>, the currently-executing Perl.
+However, you may want to have it run by a different executable, such as
+a threading perl, or a different version.
 
 =back
 
@@ -669,6 +677,7 @@ sub _time_single_test
     my $test_start_time = $self->Timer() ? time : 0;
     $self->Strap()->Verbose($self->Verbose());
     $self->Strap()->Debug($self->Debug());
+    $self->Strap()->Test_Interpreter($self->Test_Interpreter());
     my $results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
     my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);

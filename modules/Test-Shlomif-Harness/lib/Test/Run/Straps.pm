@@ -33,6 +33,7 @@ my @fields= (qw(
     saw_bailout
     saw_header
     skip_all
+    Test_Interpreter
     todo
     too_many_tests
     totals
@@ -395,7 +396,7 @@ sub _command_line {
 Returns the command that runs the test.  Combine this with C<_switches()>
 to build a command line.
 
-Typically this is C<$^X>, but you can set C<$ENV{HARNESS_PERL}>
+Typically this is C<$^X>, but you can set C<$self->Test_Interpreter()>
 to use a different Perl than what you're running the harness under.
 This might be to run a threaded Perl, for example.
 
@@ -407,7 +408,7 @@ such as a PHP interpreter for a PHP-based strap.
 sub _command {
     my $self = shift;
 
-    return $ENV{HARNESS_PERL}           if defined $ENV{HARNESS_PERL};
+    return $self->Test_Interpreter()    if defined $self->Test_Interpreter();
     return Win32::GetShortPathName($^X) if $self->_is_win32();
     return $^X;
 }

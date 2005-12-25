@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 15;
+use Test::More tests => 17;
 use File::Spec;
 use File::Path;
 use Config;
@@ -42,6 +42,7 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
     delete($ENV{'HARNESS_COLUMNS'});
     delete($ENV{'HARNESS_TIMER'});
     delete($ENV{'HARNESS_NOTTY'});
+    delete($ENV{'HARNESS_PERL'});
     delete($ENV{'TEST_HARNESS_DRIVER'});
     $ENV{'COLUMNS'} = 80;
     {
@@ -168,6 +169,21 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
         # TEST
         ok (($results =~ m/All tests successful\./), 
             "Good results from HARNESS_NOTTY");
+    }
+    {
+        local $ENV{'HARNESS_PERL'} = $^X;
+        my $results = trap("$runprove $test_file $several_oks_file");
+
+        # TEST
+        ok (($results =~ m/All tests successful\./),
+            "Good results from HARNESS_PERL");
+    }
+    {
+        my $results = trap("$runprove --perl $^X $test_file $several_oks_file");
+
+        # TEST
+        ok (($results =~ m/All tests successful\./),
+            "Good results with the '--perl' flag");
     }
 }
 1;
