@@ -14,5 +14,6 @@ t/pod.t
 t/sample-tests/bad.t
 t/sample-tests/leak-file.t
 t/sample-tests/one-ok.t
+t/sample-tests/several-oks.t
 t/sample-tests/simple_fail.t
 t/Test/Run/CmdLine/Drivers/CmdLineTest.pm

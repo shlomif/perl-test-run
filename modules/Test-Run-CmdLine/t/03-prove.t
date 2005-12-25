@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 11;
+use Test::More tests => 14;
 use File::Spec;
 use File::Path;
 use Config;
@@ -29,6 +29,7 @@ my $sample_tests_dir = File::Spec->catfile("t", "sample-tests");
 my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
 my $simple_fail_file = File::Spec->catfile($sample_tests_dir, "simple_fail.t");
 my $leaked_files_dir = File::Spec->catfile($sample_tests_dir, "leaked-files-dir");
+my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
 my $leaked_file = File::Spec->catfile($leaked_files_dir, "hello.txt");
 my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
 {
@@ -39,7 +40,8 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
     delete($ENV{'HARNESS_VERBOSE'});
     delete($ENV{'HARNESS_DEBUG'});
     delete($ENV{'HARNESS_COLUMNS'});
-    delete $ENV{'TEST_HARNESS_DRIVER'};
+    delete($ENV{'HARNESS_TIMER'});
+    delete($ENV{'TEST_HARNESS_DRIVER'});
     $ENV{'COLUMNS'} = 80;
     {
         my $results = qx{$runprove $test_file};
@@ -135,6 +137,28 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
         # TEST
         ok (($results =~ m/^\-{79}$/m),
             "Testing that Columns defaults to 80");
+    }
+    {
+        local $ENV{'HARNESS_TIMER'} = 1;
+        my $results = trap("$runprove $test_file $several_oks_file");
+        
+        # TEST
+        ok (($results =~ m/ok\s+\d+(?:\.\d+)?s$/m),
+            "Displays the time if HARNESS_TIMER is 1.");
+    }
+    {
+        my $results = trap("$runprove --timer $test_file $several_oks_file");
+        
+        # TEST
+        ok (($results =~ m/ok\s+\d+(?:\.\d+)?s$/m),
+            "Displays the time if --timer was set.");
+    }
+    {
+        my $results = trap("$runprove $test_file $several_oks_file");
+        
+        # TEST
+        ok (($results =~ m/ok$/m),
+            "Timer control experiment");
     }
 }
 1;

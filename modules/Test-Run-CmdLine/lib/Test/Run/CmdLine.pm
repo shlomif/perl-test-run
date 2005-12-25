@@ -161,6 +161,11 @@ It is advisable to give an absolute path here. If it is relative, it would
 be relative to the current working directory when C<$tester-E<gt>run()> was
 called.
 
+=item HARNESS_TIMER
+
+This variable triggers the C<'Timer'> option in Test::Run::Obj. What it
+does is causes the time that took for tests to run to be displayed.
+
 =item HARNESS_VERBOSE
 
 Triggers the C<'Verbose'> option in Test::Run::Obj. Meaning, it emits 
@@ -205,6 +210,7 @@ sub _get_backend_env_mapping
         { 'env' => "HARNESS_DEBUG", 'arg' => "Debug", },
         { 'env' => "COLUMNS", 'arg' => "Columns", },
         { 'env' => "HARNESS_COLUMNS", 'arg' => "Columns", },
+        { 'env' => "HARNESS_TIMER", 'arg' => "Timer", },
         ];
 }
 

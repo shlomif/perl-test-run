@@ -223,6 +223,11 @@ C<$self-E<gt>Verbose()>, which prints the output from the test being run.
 This value will be used for the width of the terminal. If it is not
 set then it will default to 80.
 
+=item C<$self-E<gt>Timer()>
+
+If set to true, and C<Time::HiRes> is available, print elapsed seconds
+after each test file.
+
 =back 
 
 =head2 Configuration variables.
@@ -238,11 +243,6 @@ Test::Run.  They are exported on request.
 The package variable C<$Test::Run::switches> is exportable and can be
 used to set perl command line options used for running the test
 script(s). The default value is C<-w>. It overrides C<HARNESS_SWITCHES>.
-
-=item C<$Test::Run::Timer>
-
-If set to true, and C<Time::HiRes> is available, print elapsed seconds
-after each test file.
 
 =back
 
