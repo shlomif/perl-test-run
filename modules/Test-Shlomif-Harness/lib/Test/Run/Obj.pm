@@ -75,6 +75,7 @@ __PACKAGE__->mk_accessors(qw(
     Columns
     Debug
     Leaked_Dir
+    NoTty
     Strap
     Timer
     Verbose
@@ -97,6 +98,7 @@ sub _get_simple_params
             Columns
             Debug
             Leaked_Dir
+            NoTty
             Verbose
             Timer
             test_files
@@ -228,7 +230,15 @@ set then it will default to 80.
 If set to true, and C<Time::HiRes> is available, print elapsed seconds
 after each test file.
 
-=back 
+=item C<$self-E<gt>NoTty()>
+
+When set to a true value, forces it to behave as though STDOUT were
+not a console.  You may need to set this if you don't want harness to
+output more frequent progress messages using carriage returns.  Some
+consoles may not handle carriage returns properly (which results in a
+somewhat messy output).
+
+=back
 
 =head2 Configuration variables.
 

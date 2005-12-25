@@ -5,7 +5,7 @@ use warnings;
 
 use base 'Class::Accessor';
 
-__PACKAGE__->mk_accessors(qw(Verbose last_test_print ml));
+__PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
 
 =head1 NAME
 
@@ -28,6 +28,7 @@ sub _initialize
     my $self = shift;
     my (%args) = @_;
     $self->Verbose($args{Verbose});
+    $self->NoTty($args{NoTty});
     return 0;
 }
 
@@ -109,7 +110,7 @@ sub _mk_leader {
     my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 
-    if ( -t STDOUT and not $ENV{HARNESS_NOTTY} and not $self->Verbose()) {
+    if ( -t STDOUT and not $self->NoTty() and not $self->Verbose()) {
         $ml = "\r" . (' ' x 77) . "\r$leader"
     }
 

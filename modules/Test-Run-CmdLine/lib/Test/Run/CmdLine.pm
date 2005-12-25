@@ -161,6 +161,13 @@ It is advisable to give an absolute path here. If it is relative, it would
 be relative to the current working directory when C<$tester-E<gt>run()> was
 called.
 
+=item HARNESS_NOTTY
+
+Triggers the C<'NoTty'> option in Test::Run::Obj. Meaning, it causes 
+Test::Run::CmdLine not to treat STDOUT as if it were a console. In this
+case, it will not emit more frequent progress reports using carriage 
+returns (C<"\r">s).
+
 =item HARNESS_TIMER
 
 This variable triggers the C<'Timer'> option in Test::Run::Obj. What it
@@ -211,6 +218,7 @@ sub _get_backend_env_mapping
         { 'env' => "COLUMNS", 'arg' => "Columns", },
         { 'env' => "HARNESS_COLUMNS", 'arg' => "Columns", },
         { 'env' => "HARNESS_TIMER", 'arg' => "Timer", },
+        { 'env' => "HARNESS_NOTTY", 'arg' => "NoTty", },
         ];
 }
 
