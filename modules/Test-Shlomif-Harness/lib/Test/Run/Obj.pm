@@ -55,9 +55,6 @@ END {
     delete $ENV{HARNESS_NG_VERSION};
 }
 
-# Some experimental versions of OS/2 build have broken $?
-my $Ignore_Exitcode = $ENV{HARNESS_IGNORE_EXITCODE};
-
 # REMOVED: my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
 @ISA = ('Test::Run::Base', 'Exporter');
