@@ -19,8 +19,6 @@ use Class::Accessor;
 use vars qw(
     $VERSION 
     @ISA @EXPORT_OK 
-    $Switches
-    $switches
     $has_time_hires
 );
 
@@ -43,7 +41,7 @@ $VERSION = "0.0100_06";
 
 # Backwards compatibility for exportable variable names.
 # REMOVED *verbose  = *Verbose;
-*switches = *Switches;
+# REMOVED *switches = *Switches;
 # REMOVED *debug    = *Debug;
 
 $ENV{HARNESS_ACTIVE} = 1;
@@ -58,11 +56,10 @@ END {
 # REMOVED: my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
 
 @ISA = ('Test::Run::Base', 'Exporter');
-@EXPORT_OK = qw($verbose $switches);
 
 # REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
 # REMOVED $Debug    = $ENV{HARNESS_DEBUG} || 0;
-$Switches = "-w";
+# REMOVED $Switches = "-w";
 # REMOVED $Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
 # REMOVED $Columns--;             # Some shells have trouble with a full line of text.
 # REMOVED $Timer    = $ENV{HARNESS_TIMER} || 0;
@@ -74,6 +71,8 @@ __PACKAGE__->mk_accessors(qw(
     Leaked_Dir
     NoTty
     Strap
+    Switches
+    Switches_Env
     Test_Interpreter
     Timer
     Verbose
@@ -97,6 +96,8 @@ sub _get_simple_params
             Debug
             Leaked_Dir
             NoTty
+            Switches
+            Switches_Env
             Verbose
             Test_Interpreter
             Timer
@@ -130,6 +131,7 @@ sub _initialize
     my $self = shift;
     my (%args) = (@_);
     $self->Columns(80);
+    $self->Switches("-w");
     $self->_init_simple_params(\%args);
     $self->dir_files([]);
     $self->output($self->_get_new_output(\%args));
@@ -242,6 +244,16 @@ somewhat messy output).
 Usually your tests will be run by C<$^X>, the currently-executing Perl.
 However, you may want to have it run by a different executable, such as
 a threading perl, or a different version.
+
+=item C<$self-E<gt>Switches()> and C<$self-E<gt>Switches_Env()>
+
+These two values will be prepended to the switches used to invoke perl on
+each test.  For example, setting one of them to C<-W> will
+run all tests with all warnings enabled.
+
+The difference between them is that C<Switches_Env()> is expected to be 
+filled in by the environment and C<Switches()> from other sources (like the
+programmer).
 
 =back
 
@@ -675,6 +687,8 @@ sub _time_single_test
     $self->Strap()->Verbose($self->Verbose());
     $self->Strap()->Debug($self->Debug());
     $self->Strap()->Test_Interpreter($self->Test_Interpreter());
+    $self->Strap()->Switches($self->Switches());
+    $self->Strap()->Switches_Env($self->Switches_Env());
     my $results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
     my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);
@@ -1579,24 +1593,6 @@ C<perlcc> before running it.
 
 B<NOTE> This currently only works when sitting in the perl source
 directory!
-
-=item C<HARNESS_IGNORE_EXITCODE>
-
-Makes harness ignore the exit status of child processes when defined.
-
-=item C<HARNESS_PERL>
-
-Usually your tests will be run by C<$^X>, the currently-executing Perl.
-However, you may want to have it run by a different executable, such as
-a threading perl, or a different version.
-
-If you're using the F<prove> utility, you can use the C<--perl> switch.
-
-=item C<HARNESS_PERL_SWITCHES>
-
-Its value will be prepended to the switches used to invoke perl on
-each test.  For example, setting C<HARNESS_PERL_SWITCHES> to C<-W> will
-run all tests with all warnings enabled.
 
 =back
 

@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 17;
+use Test::More tests => 20;
 use File::Spec;
 use File::Path;
 use Config;
@@ -27,11 +27,16 @@ my $lib = File::Spec->catfile( $blib, "lib" );
 my $runprove = File::Spec->catfile( $blib, "script", "runprove" );
 my $sample_tests_dir = File::Spec->catfile("t", "sample-tests");
 my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
+my $with_myhello_file = File::Spec->catfile($sample_tests_dir, "with-myhello");
+my $with_myhello_and_myfoo_file = File::Spec->catfile($sample_tests_dir, "with-myhello-and-myfoo");
 my $simple_fail_file = File::Spec->catfile($sample_tests_dir, "simple_fail.t");
 my $leaked_files_dir = File::Spec->catfile($sample_tests_dir, "leaked-files-dir");
 my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
 my $leaked_file = File::Spec->catfile($leaked_files_dir, "hello.txt");
 my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
+my $switches_lib1 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-libs", "lib1");
+my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-libs", "lib2");
+
 {
     local %ENV = %ENV;
     
@@ -43,6 +48,7 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
     delete($ENV{'HARNESS_TIMER'});
     delete($ENV{'HARNESS_NOTTY'});
     delete($ENV{'HARNESS_PERL'});
+    delete($ENV{'HARNESS_PERL_SWITCHES'});
     delete($ENV{'TEST_HARNESS_DRIVER'});
     $ENV{'COLUMNS'} = 80;
     {
@@ -180,6 +186,29 @@ my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
     }
     {
         my $results = trap("$runprove --perl $^X $test_file $several_oks_file");
+
+        # TEST
+        ok (($results =~ m/All tests successful\./),
+            "Good results with the '--perl' flag");
+    }
+    {
+        local $ENV{'HARNESS_PERL_SWITCHES'} = $switches_lib1;
+        my $results = trap("$runprove $with_myhello_file");
+
+        # TEST
+        ok (($results =~ m/All tests successful\./),
+            "Good results with the '--perl' flag");
+    }
+    {
+        my $results = trap("$runprove $switches_lib1 $with_myhello_file");
+
+        # TEST
+        ok (($results =~ m/All tests successful\./),
+            "Good results with the '--perl' flag");
+    }
+    {
+        local $ENV{'HARNESS_PERL_SWITCHES'} = $switches_lib2;
+        my $results = trap("$runprove $switches_lib1 $with_myhello_and_myfoo_file");
 
         # TEST
         ok (($results =~ m/All tests successful\./),

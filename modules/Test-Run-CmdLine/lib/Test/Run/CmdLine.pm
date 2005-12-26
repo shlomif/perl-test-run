@@ -173,6 +173,11 @@ returns (C<"\r">s).
 Specifies the C<'Test_Interpreter'> variable of L<Test::Run::Obj>. This allows
 specifying a different Perl interprter to use besides C<$^X>.
 
+=item HARNESS_PERL_SWITCHES
+
+Specifies the C<'Switches'> variable of L<Test::Run::Obj>. This allows
+specifying more switches to the Perl interpreter. 
+
 =item HARNESS_TIMER
 
 This variable triggers the C<'Timer'> option in Test::Run::Obj. What it
@@ -225,6 +230,7 @@ sub _get_backend_env_mapping
         { 'env' => "HARNESS_TIMER", 'arg' => "Timer", },
         { 'env' => "HARNESS_NOTTY", 'arg' => "NoTty", },
         { 'env' => "HARNESS_PERL", 'arg' => "Test_Interpreter", },
+        { 'env' => "HARNESS_PERL_SWITCHES", 'arg' => "Switches_Env", },
         ];
 }
 

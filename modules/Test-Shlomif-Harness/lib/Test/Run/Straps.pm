@@ -33,6 +33,8 @@ my @fields= (qw(
     saw_bailout
     saw_header
     skip_all
+    Switches
+    Switches_Env
     Test_Interpreter
     todo
     too_many_tests
@@ -423,7 +425,8 @@ Formats and returns the switches necessary to run the test.
 sub _switches {
     my($self, $file) = @_;
 
-    my @existing_switches = $self->_cleaned_switches( $Test::Run::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
+    # my @existing_switches = $self->_cleaned_switches( $Test::Run::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
+    my @existing_switches = $self->_cleaned_switches( $self->Switches(), $self->Switches_Env());
     my @derived_switches;
 
     local *TEST;

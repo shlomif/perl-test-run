@@ -2,6 +2,22 @@
 
 use strict;
 
+sub include_map
+{
+    my $arg = shift;
+    my $ret = "-I$arg";
+    if (($arg =~ /\s/) && 
+        (! (($arg =~ /^"/) && ($arg =~ /"$/)) ) 
+       )
+    {
+        return "\"$ret\"";
+    }
+    else
+    {
+        return $ret;
+    }
+}
+
 use Test::Run::CmdLine;
 use Getopt::Long;
 use Pod::Usage 1.12;
@@ -10,18 +26,26 @@ use File::Spec;
 use vars qw($VERSION);
 $VERSION = "0.0100_05";
 
+# Allow a -I<path> switch instead of -I <path>
+@ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
+
 Getopt::Long::Configure( "no_ignore_case" );
 Getopt::Long::Configure( "bundling" );
 my $verbose = undef;
 my $debug = undef;
 my $timer = undef;
 my $interpreter = undef;
+my @switches = ();
+my @includes = ();
 GetOptions(
     'd|debug' => \$debug,
     'v|verbose' => \$verbose,
     'timer' => \$timer,
     'perl=s' => \$interpreter,
+    'I=s@' => \@includes,
 );
+
+push @switches, (map { include_map($_) } @includes);
 
 my $test_run =
     Test::Run::CmdLine->new(
@@ -32,6 +56,7 @@ my $test_run =
             (defined($debug) ? ('Debug' => $debug) : ()),
             (defined($timer) ? ('Timer' => $timer) : ()),
             (defined($interpreter) ? ('Test_Interpreter' => $interpreter) : ()),
+            (@switches ? ('Switches' => join(" ", @switches)) : ()),
         },
     );
 

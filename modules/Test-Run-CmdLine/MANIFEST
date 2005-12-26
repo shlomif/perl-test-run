@@ -16,4 +16,8 @@ t/sample-tests/leak-file.t
 t/sample-tests/one-ok.t
 t/sample-tests/several-oks.t
 t/sample-tests/simple_fail.t
+t/sample-tests/with-myhello
+t/sample-tests/with-myhello-and-myfoo
+t/test-libs/lib1/MyHello.pm
+t/test-libs/lib2/MyFoo.pm
 t/Test/Run/CmdLine/Drivers/CmdLineTest.pm

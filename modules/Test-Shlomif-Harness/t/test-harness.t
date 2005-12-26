@@ -490,8 +490,8 @@ my %samples = (
 plan tests => (keys(%samples) * 7);
 
 use Test::Run::Obj;
+
 my @_INC = map { qq{"-I$_"} } @INC;
-$Test::Run::Obj::Switches = "@_INC -Mstrict";
 
 tie *NULL, 'Dev::Null' or die $!;
 
@@ -511,7 +511,10 @@ SKIP: {
     eval {
         select NULL;    # _run_all_tests() isn't as quiet as it should be.
         local $SIG{__WARN__} = sub { $warning .= join '', @_; };
-        $obj = Test::Run::Obj->new(test_files => [$test_path]);
+        $obj = Test::Run::Obj->new(
+            test_files => [$test_path],
+            Switches => "@_INC -Mstrict",
+        );
         ($failed) = 
           $obj->_run_all_tests();
         $totals = $obj->tot();
