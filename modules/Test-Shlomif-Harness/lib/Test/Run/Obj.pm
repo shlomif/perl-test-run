@@ -18,10 +18,10 @@ use Class::Accessor;
 
 use vars qw(
     $VERSION 
-    @ISA @EXPORT_OK 
-    $has_time_hires
+    @ISA
 );
 
+use vars qw($has_time_hires);
 BEGIN {
     eval "use Time::HiRes 'time'";
     $has_time_hires = !$@;
@@ -39,11 +39,6 @@ Version 0.0100_06
 
 $VERSION = "0.0100_06";
 
-# Backwards compatibility for exportable variable names.
-# REMOVED *verbose  = *Verbose;
-# REMOVED *switches = *Switches;
-# REMOVED *debug    = *Debug;
-
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;
 
@@ -53,16 +48,7 @@ END {
     delete $ENV{HARNESS_NG_VERSION};
 }
 
-# REMOVED: my $Files_In_Dir = $ENV{HARNESS_FILELEAK_IN_DIR};
-
 @ISA = ('Test::Run::Base', 'Exporter');
-
-# REMOVED $Verbose  = $ENV{HARNESS_VERBOSE} || 0;
-# REMOVED $Debug    = $ENV{HARNESS_DEBUG} || 0;
-# REMOVED $Switches = "-w";
-# REMOVED $Columns  = $ENV{HARNESS_COLUMNS} || $ENV{COLUMNS} || 80;
-# REMOVED $Columns--;             # Some shells have trouble with a full line of text.
-# REMOVED $Timer    = $ENV{HARNESS_TIMER} || 0;
 
 __PACKAGE__->mk_accessors(qw(
     _bonusmsg
@@ -1579,20 +1565,6 @@ are being executed through the harness or by any other means.
 =item C<HARNESS_VERSION>
 
 This is the version of Test::Run.
-
-=back
-
-=head1 ENVIRONMENT VARIABLES THAT AFFECT TEST::HARNESS
-
-=over 4
-
-=item C<HARNESS_COMPILE_TEST>
-
-When true it will make harness attempt to compile the test using
-C<perlcc> before running it.
-
-B<NOTE> This currently only works when sitting in the perl source
-directory!
 
 =back
 
