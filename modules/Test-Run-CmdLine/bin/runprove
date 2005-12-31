@@ -18,7 +18,7 @@ sub include_map
     }
 }
 
-use Test::Run::CmdLine;
+use Test::Run::CmdLine::Iface;
 use Getopt::Long;
 use Pod::Usage 1.12;
 use File::Spec;
@@ -48,7 +48,7 @@ GetOptions(
 push @switches, (map { include_map($_) } @includes);
 
 my $test_run =
-    Test::Run::CmdLine->new(
+    Test::Run::CmdLine::Iface->new(
         'test_files' => [@ARGV],
         'backend_params' =>
         {

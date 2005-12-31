@@ -21,7 +21,7 @@ The Test::Run::CmdLine interface will be called Test::Run::CmdLine::Iface.
 
 T::R::CL::I will initialise $ENV{'HARNESS_DRIVER'} (or $args{'driver_class'}), 
 and load it with the extra plugins $ENV{'HARNESS_PLUGINS'} 
-(or $args{'driver_plugins'}. Then it will push Test::Run::CmdLine to the end 
+(or $args{'driver_plugins'}). Then it will push Test::Run::CmdLine to the end 
 of its @ISA.
 
 Test::Run::CmdLine will initialise the class that the plug-ins tell it to

@@ -1,5 +1,8 @@
 bin/runprove
 Changes
+docs/Namespace-Planning.txt
+lib/Test/Run/CmdLine/Drivers/Default.pm
+lib/Test/Run/CmdLine/Iface.pm
 lib/Test/Run/CmdLine.pm
 Makefile.PL
 MANIFEST
@@ -9,6 +12,7 @@ t/00-load.t
 t/01-class-name.t
 t/02-run.t
 t/03-prove.t
+t/04-t-r-cl-iface.t
 t/pod-coverage.t
 t/pod.t
 t/sample-tests/bad.t
@@ -21,3 +25,4 @@ t/sample-tests/with-myhello-and-myfoo
 t/test-libs/lib1/MyHello.pm
 t/test-libs/lib2/MyFoo.pm
 t/Test/Run/CmdLine/Drivers/CmdLineTest.pm
+t/Test/Run/Drivers/CmdLineTest.pm

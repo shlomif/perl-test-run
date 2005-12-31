@@ -3,7 +3,12 @@ package Test::Run::CmdLine;
 use warnings;
 use strict;
 
+use UNIVERSAL::require;
+
 use Test::Run::Base;
+
+use Test::Run::Iface;
+use Test::Run::Obj;
 
 =head1 NAME
 
@@ -32,18 +37,20 @@ use vars (qw(@ISA));
 =cut
 
 __PACKAGE__->mk_accessors(qw(
-    driver_class
-    test_files
+    backend_class
     backend_params
+    backend_plugins
+    test_files
 ));
 
 sub _initialize
 {
     my $self = shift;
+
+    $self->backend_class("Test::Run::Iface");
+    $self->backend_plugins([]);
+
     my (%args) = @_;
-    my $driver_class = $args{'driver_class'} || $ENV{'TEST_HARNESS_DRIVER'} ||
-        "Test::Run::Obj";
-    $self->_set_driver_class($driver_class);
     $self->test_files($args{'test_files'});
     $self->_process_args(\%args);
 
@@ -95,41 +102,24 @@ TODO : Write more.
 sub run
 {
     my $self = shift;
-    my $driver_class = $self->driver_class();
-    eval "require $driver_class";
+    my $backend_class = $self->backend_class();
+    $backend_class->require();
+    if ($@)
+    {
+        die $@;
+    }
+    {
+        no strict 'refs';
+        push @{"${backend_class}::ISA"}, @{$self->backend_plugins()};
+        push @{"${backend_class}::ISA"}, "Test::Run::Obj";
+    }
 
-    my $back_end_args = $self->get_backend_args();
-
-    my $driver = $driver_class->new(
+    my $backend = $backend_class->new(
         'test_files' => $self->test_files(),
-        @$back_end_args,
+        @{$self->get_backend_args()},
     );
 
-    return $driver->runtests();
-}
-
-sub _check_driver_class
-{
-    my $self = shift;
-    return $self->_is_class_name(@_);
-}
-
-sub _is_class_name
-{
-    my $self = shift;
-    my $class = shift;
-    return ($class =~ /^\w+(?:::\w+)*$/);
-}
-
-sub _set_driver_class
-{
-    my $self = shift;
-    my $driver_class = shift;
-    if (! $self->_check_driver_class($driver_class))
-    {
-        die "Invalid Driver Class \"$driver_class\"!";
-    }
-    $self->driver_class($driver_class);
+    return $backend->runtests();
 }
 
 =head1 Environment Variables
