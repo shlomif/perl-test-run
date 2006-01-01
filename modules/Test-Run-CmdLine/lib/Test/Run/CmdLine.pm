@@ -108,9 +108,22 @@ sub run
     {
         die $@;
     }
+    foreach my $plugin (@{$self->_calc_plugins_for_ISA()})
+    {
+        $plugin->require();
+        if ($@)
+        {
+            die $@;
+        }
+        {
+            no strict 'refs';
+            push @{"${backend_class}::ISA"}, $plugin;
+        }
+    }
+
+    # Finally - put Test::Run::Obj there.
     {
         no strict 'refs';
-        push @{"${backend_class}::ISA"}, @{$self->backend_plugins()};
         push @{"${backend_class}::ISA"}, "Test::Run::Obj";
     }
 
@@ -256,6 +269,36 @@ sub get_backend_init_args
         push @args, (%{$self->backend_params()});
     }
     return \@args;
+}
+
+sub _calc_plugins_for_ISA
+{
+    my $self = shift;
+    return 
+        [ 
+            map { $self->_calc_single_plugin_for_ISA($_) } 
+            @{$self->backend_plugins()} 
+        ];
+}
+
+sub _calc_single_plugin_for_ISA
+{
+    my $self = shift;
+    my $p = shift;
+    return "Test::Run::Plugin::$p";
+}
+
+=head2 $self->add_to_backend_plugins($plugin)
+
+Appends a plugin to the plugins list. Useful in front-end plug-ins.
+
+=cut
+
+sub add_to_backend_plugins
+{
+    my $self = shift;
+    my $plugin = shift;
+    unshift @{$self->backend_plugins()}, $plugin;
 }
 
 =head1 AUTHOR

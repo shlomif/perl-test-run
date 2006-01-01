@@ -1,3 +1,5 @@
+* Test the plug-in system in T::R::CL.
+
 * Fix the $Test::Run::Obj::Debug access in Straps.pm.
 
 * $Ignore_Exitcode is assigned once from $ENV{HARNESS_IGNORE_EXITCODE}, but

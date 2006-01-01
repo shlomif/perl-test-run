@@ -117,9 +117,23 @@ sub run
     {
         die $@;
     }
+
+    foreach my $plugin (@{$self->_calc_plugins_for_ISA()})
+    {
+        $plugin->require();
+        if ($@)
+        {
+            die $@;
+        }
+        {
+            no strict 'refs';
+            push @{"${driver_class}::ISA"}, $plugin;
+        }
+    }
+
+    # Finally - put Test::Run::CmdLine there.
     {
         no strict 'refs';
-        push @{"${driver_class}::ISA"}, @{$self->driver_plugins()};
         push @{"${driver_class}::ISA"}, "Test::Run::CmdLine";
     }
 
@@ -175,6 +189,23 @@ sub _set_driver
     }
     $self->driver_plugins($plugins);
     return 0;
+}
+
+sub _calc_plugins_for_ISA
+{
+    my $self = shift;
+    return 
+        [ 
+            map { $self->_calc_single_plugin_for_ISA($_) } 
+            @{$self->driver_plugins()} 
+        ];
+}
+
+sub _calc_single_plugin_for_ISA
+{
+    my $self = shift;
+    my $p = shift;
+    return "Test::Run::CmdLine::Plugin::$p";
 }
 
 =head1 AUTHOR
