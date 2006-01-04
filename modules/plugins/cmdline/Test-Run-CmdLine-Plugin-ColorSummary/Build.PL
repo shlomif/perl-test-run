@@ -9,6 +9,8 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/Test/Run/CmdLine/Plugin/ColorSummary.pm',
     requires => {
         'Test::More' => 0,
+        'Test::Run::CmdLine' => 0,
+        'Test::Run::Plugin::ColorSummary' => 0,
     },
     add_to_cleanup      => [ 'Test-Run-CmdLine-Plugin-ColorSummary-*' ],
 );

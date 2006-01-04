@@ -3,49 +3,28 @@ package Test::Run::CmdLine::Plugin::ColorSummary;
 use warnings;
 use strict;
 
+use NEXT;
+
 =head1 NAME
 
-Test::Run::CmdLine::Plugin::ColorSummary - The great new Test::Run::CmdLine::Plugin::ColorSummary!
-
-=head1 VERSION
-
-Version 0.01
+Test::Run::CmdLine::Plugin::ColorSummary - Color the summary in Test::Run::CmdLine.
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.0100_00';
+
+sub _initialize
+{
+    my $self = shift;
+    $self->NEXT::_initialize(@_);
+    $self->add_to_backend_plugins("ColorSummary");
+}
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Test::Run::CmdLine::Plugin::ColorSummary;
-
-    my $foo = Test::Run::CmdLine::Plugin::ColorSummary->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+This plug-in colors the summary line in Test::Run::CmdLine.
 
 =head1 FUNCTIONS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
 
 =head1 AUTHOR
 
@@ -69,4 +48,5 @@ This program is released under the following license: BSD
 
 =cut
 
-1; # End of Test::Run::CmdLine::Plugin::ColorSummary
+1;
+
