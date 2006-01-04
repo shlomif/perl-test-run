@@ -40,7 +40,7 @@ sub _initialize
     if ($args{'driver_class'} || $args{'driver_plugins'})
     {
         $self->_set_driver(
-            'class' => ($args{'driver_class'} || 
+            'class' => ($args{'driver_class'} ||
                 "Test::Run::CmdLine::Drivers::Default"),
             'plugins' => ($args{'driver_plugins'} || []),
         );
@@ -48,7 +48,8 @@ sub _initialize
     elsif ($ENV{'HARNESS_DRIVER'} || $ENV{'HARNESS_PLUGINS'})
     {
         $self->_set_driver(
-            'class' => $ENV{'HARNESS_DRIVER'},
+            'class' => ($ENV{'HARNESS_DRIVER'} ||
+                "Test::Run::CmdLine::Drivers::Default"),
             'plugins' => [split(/\s+/, $ENV{'HARNESS_PLUGINS'} || "")]
         );
     }

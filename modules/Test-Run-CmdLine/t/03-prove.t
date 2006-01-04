@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 20;
+use Test::More tests => 21;
 use File::Spec;
 use File::Path;
 use Config;
@@ -23,6 +23,7 @@ sub trap
 }
 
 my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
+my $t_dir = File::Spec->catfile( File::Spec->curdir, "t" );
 my $lib = File::Spec->catfile( $blib, "lib" );
 my $runprove = File::Spec->catfile( $blib, "script", "runprove" );
 my $sample_tests_dir = File::Spec->catfile("t", "sample-tests");
@@ -49,7 +50,8 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
     delete($ENV{'HARNESS_NOTTY'});
     delete($ENV{'HARNESS_PERL'});
     delete($ENV{'HARNESS_PERL_SWITCHES'});
-    delete($ENV{'TEST_HARNESS_DRIVER'});
+    delete($ENV{'HARNESS_DRIVER'});
+    delete($ENV{'HARNESS_PLUGINS'});
     $ENV{'COLUMNS'} = 80;
     {
         my $results = qx{$runprove $test_file};
@@ -213,6 +215,17 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
         # TEST
         ok (($results =~ m/All tests successful\./),
             "Good results with the '--perl' flag");
+    }
+    # Test that it can work around a specified HARNESS_PLUGINS and an
+    # unspecified HARNESS_DRIVER.
+    {
+        local $ENV{'HARNESS_PLUGINS'} = "Super";
+        local $ENV{'PERL5LIB'} = $t_dir.$Config{'path_sep'}.$ENV{'PERL5LIB'};
+        my $results = trap("$runprove $test_file $several_oks_file");
+
+        # TEST
+        like ($results, qr/All tests are super-successful\!/,
+            "Good results with the HARNESS_PLUGINS env var alone.");
     }
 }
 1;

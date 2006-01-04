@@ -28,8 +28,10 @@ t/Test/Run/CmdLine/Drivers/CmdLineTest.pm
 t/Test/Run/CmdLine/Plugin/BarField.pm
 t/Test/Run/CmdLine/Plugin/FooField.pm
 t/Test/Run/CmdLine/Plugin/StupidRunTests.pm
+t/Test/Run/CmdLine/Plugin/Super.pm
 t/Test/Run/Drivers/CmdLineTestBare.pm
 t/Test/Run/Drivers/CmdLineTest.pm
 t/Test/Run/Plugin/BarField.pm
 t/Test/Run/Plugin/FooField.pm
 t/Test/Run/Plugin/StupidRunTests.pm
+t/Test/Run/Plugin/Super.pm
