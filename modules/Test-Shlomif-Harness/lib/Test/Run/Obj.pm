@@ -361,11 +361,11 @@ sub _handle_runtests_error
 
     if (UNIVERSAL::isa($error, "Test::Run::Obj::Error::TestsFail"))
     {
-        die ($@->text() . "\n");
+        die ($error->text() . "\n");
     }
     else
     {
-        die $@;
+        die $error;
     }
 }
 
