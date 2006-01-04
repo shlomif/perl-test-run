@@ -1,9 +1,12 @@
 Build.PL
 Changes
+lib/Test/Run/Plugin/ColorSummary.pm
 MANIFEST
 META.yml # Will be created by "make dist"
 README
-lib/Test/Run/Plugin/ColorSummary.pm
 t/00-load.t
+t/01-run.t
 t/pod-coverage.t
 t/pod.t
+t/sample-tests/one-ok.t
+t/sample-tests/several-oks.t

@@ -3,49 +3,70 @@ package Test::Run::Plugin::ColorSummary;
 use warnings;
 use strict;
 
+use NEXT;
+use Term::ANSIColor;
+
 =head1 NAME
 
-Test::Run::Plugin::ColorSummary - The great new Test::Run::Plugin::ColorSummary!
-
-=head1 VERSION
-
-Version 0.01
+Test::Run::Plugin::ColorSummary - A Test::Run plugin that
+colors the summary.
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.0100_00';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+    package MyTestRun;
+    
+    use vars qw(@ISA);
 
-Perhaps a little code snippet.
+    @ISA = (qw(Test::Run::Plugin::ColorSummary Test::Run::Obj));
 
-    use Test::Run::Plugin::ColorSummary;
+    my $tester = MyTestRun->new(
+        test_files => 
+        [
+            "t/sample-tests/one-ok.t",
+            "t/sample-tests/several-oks.t"
+        ],
+        );
 
-    my $foo = Test::Run::Plugin::ColorSummary->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+    $tester->runtests();
 
 =head1 FUNCTIONS
 
-=head2 function1
+=cut
+
+sub _report_success
+{
+    my $self = shift;
+    print color("bold blue");
+    $self->NEXT::_report_success();
+    print color("reset");
+}
+
+=head2 $tester->runtests()
+
+We override runtests() to colour the errors in red. The rest of the 
+documentation is the code.
 
 =cut
 
-sub function1 {
+sub _handle_runtests_error
+{
+    my $self = shift;
+    my (%args) = @_;
+    my $error = $args{'error'};
+
+    print STDERR color("bold red");
+    print STDERR $error;
+    print STDERR color("reset");
+    # Workaround to make sure color("reset") is accepted and a red cursor
+    # is not displayed.
+    print STDERR "\n";
 }
 
-=head2 function2
-
-=cut
-
-sub function2 {
-}
+1;
 
 =head1 AUTHOR
 
@@ -63,10 +84,9 @@ your bug as I make changes.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2006 Shlomi Fish, all rights reserved.
+Copyright 2005 Shlomi Fish, all rights reserved.
 
-This program is released under the following license: BSD
+This program is released under the MIT X11 License.
 
 =cut
 
-1; # End of Test::Run::Plugin::ColorSummary
