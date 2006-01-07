@@ -2,6 +2,14 @@
 
 use strict;
 
+use Test::Run::CmdLine::Iface;
+use Getopt::Long;
+use Pod::Usage 1.12;
+use File::Spec;
+
+use vars qw($VERSION);
+$VERSION = "0.0100_05";
+
 sub include_map
 {
     my $arg = shift;
@@ -18,13 +26,15 @@ sub include_map
     }
 }
 
-use Test::Run::CmdLine::Iface;
-use Getopt::Long;
-use Pod::Usage 1.12;
-use File::Spec;
-
-use vars qw($VERSION);
-$VERSION = "0.0100_05";
+sub print_version
+{
+    printf("runprove v%s, using Test::Run v%s, Test::Run::CmdLine v%s and Perl v%s\n",
+        $VERSION,
+        $Test::Run::Obj::VERSION,
+        $Test::Run::CmdLine::VERSION,
+        $^V
+    );
+}
 
 # Allow a -I<path> switch instead of -I <path>
 @ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
@@ -39,10 +49,11 @@ my @switches = ();
 my @includes = ();
 GetOptions(
     'd|debug' => \$debug,
-    'v|verbose' => \$verbose,
-    'timer' => \$timer,
-    'perl=s' => \$interpreter,
     'I=s@' => \@includes,
+    'perl=s' => \$interpreter,
+    'timer' => \$timer,
+    'v|verbose' => \$verbose,
+    'V|version' => sub { print_version(); exit(0); },
 );
 
 push @switches, (map { include_map($_) } @includes);

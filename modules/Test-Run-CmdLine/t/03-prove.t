@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 21;
+use Test::More tests => 22;
 use File::Spec;
 use File::Path;
 use Config;
@@ -226,6 +226,13 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
         # TEST
         like ($results, qr/All tests are super-successful\!/,
             "Good results with the HARNESS_PLUGINS env var alone.");
+    }
+    {
+        my $results = trap("$runprove --version");
+
+        # TEST
+        like ($results, qr/runprove v.*using Test::Run v.*Test::Run::CmdLine v.*Perl v/,
+            "Good results for the version string");
     }
 }
 1;
