@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 22;
+use Test::More tests => 27;
 use File::Spec;
 use File::Path;
 use Config;
@@ -37,6 +37,9 @@ my $leaked_file = File::Spec->catfile($leaked_files_dir, "hello.txt");
 my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
 my $switches_lib1 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-libs", "lib1");
 my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-libs", "lib2");
+my $no_t_flags_file = File::Spec->catfile($sample_tests_dir, "no-t-flags.t");
+my $lowercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "lowercase-t-flag.t");
+my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-flag.t");
 
 {
     local %ENV = %ENV;
@@ -233,6 +236,41 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
         # TEST
         like ($results, qr/runprove v.*using Test::Run v.*Test::Run::CmdLine v.*Perl v/,
             "Good results for the version string");
+    }
+    {
+        my $results = trap("$runprove $no_t_flags_file");
+        
+        # TEST
+        like ($results, qr/All tests successful\./, 
+            "Good results for the absence of the -t flag");
+    }
+    {
+        my $results = trap("$runprove -t $lowercase_t_flag_file");
+        
+        # TEST
+        like ($results, qr/All tests successful\./, 
+            "Good results for the presence of the -t flag");
+    }
+    {
+        my $results = trap("$runprove -T $uppercase_t_flag_file");
+        
+        # TEST
+        like ($results, qr/All tests successful\./, 
+            "Good results for the presence of the -T flag");
+    }
+    {
+        my $results = trap("$runprove -T $no_t_flags_file");
+        
+        # TEST
+        like ($results, qr/FAILED test/, 
+            "Test that requires no taint fails if -T is specified");
+    }
+    {
+        my $results = trap("$runprove $uppercase_t_flag_file");
+        
+        # TEST
+        like ($results, qr/FAILED test/,
+            "Good results for the presence of the -T flag");
     }
 }
 1;

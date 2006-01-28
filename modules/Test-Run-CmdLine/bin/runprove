@@ -51,6 +51,9 @@ GetOptions(
     'd|debug' => \$debug,
     'I=s@' => \@includes,
     'perl=s' => \$interpreter,
+    # Always put -t and -T up front.
+    't' => sub { unshift @switches, "-t"; }, 
+    'T' => sub { unshift @switches, "-T"; }, 
     'timer' => \$timer,
     'v|verbose' => \$verbose,
     'V|version' => sub { print_version(); exit(0); },
