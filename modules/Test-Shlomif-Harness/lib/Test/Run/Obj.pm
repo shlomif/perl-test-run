@@ -1408,9 +1408,10 @@ sub _dubious_return {
         else {
             $test->add_to_failed($test->next()..$test->max());
             $failed = @{$test->failed()};
-            (my $txt, $canon) = $self->_canonfailed($test);
+            my $txt;
+            ($txt, $canon) = $self->_canonfailed($test);
             $percent = 100*(scalar @{$test->failed()})/$test->max();
-            $self->_print_message("DIED. ", $txt);
+            $self->_print_message("DIED. " . $txt);
         }
     }
 

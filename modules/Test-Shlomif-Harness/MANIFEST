@@ -54,6 +54,7 @@ t/sample-tests/skip_nomsg
 t/sample-tests/switches
 t/sample-tests/taint
 t/sample-tests/taint_warn
+t/sample-tests/test_more_fail.t
 t/sample-tests/todo
 t/sample-tests/todo_inline
 t/sample-tests/too_many
