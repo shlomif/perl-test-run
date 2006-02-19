@@ -47,7 +47,9 @@ my $timer = undef;
 my $interpreter = undef;
 my @switches = ();
 my @includes = ();
+my $blib = 0;
 GetOptions(
+    'b|blib' => \$blib,
     'd|debug' => \$debug,
     'I=s@' => \@includes,
     'perl=s' => \$interpreter,
@@ -58,6 +60,19 @@ GetOptions(
     'v|verbose' => \$verbose,
     'V|version' => sub { print_version(); exit(0); },
 );
+
+if ($blib)
+{
+    my @blibdirs = blibdirs();
+    if (@blibdirs)
+    {
+        unshift @includes, @blibdirs;
+    }
+    else
+    {
+        warn "Could not find blib dirs";
+    }
+}
 
 push @switches, (map { include_map($_) } @includes);
 
@@ -75,6 +90,33 @@ my $test_run =
     );
 
 $test_run->run();
+
+# Stolen directly from blib.pm
+sub blibdirs {
+    my $dir = File::Spec->curdir;
+    if ($^O eq 'VMS') {
+        ($dir = VMS::Filespec::unixify($dir)) =~ s-/\z--;
+    }
+    my $archdir = "arch";
+    if ( $^O eq "MacOS" ) {
+        # Double up the MP::A so that it's not used only once.
+        $archdir = $MacPerl::Architecture = $MacPerl::Architecture;
+    }
+
+    my $i = 5;
+    while ($i--) {
+        my $blib      = File::Spec->catdir( $dir, "blib" );
+        my $blib_lib  = File::Spec->catdir( $blib, "lib" );
+        my $blib_arch = File::Spec->catdir( $blib, $archdir );
+
+        if ( -d $blib && -d $blib_arch && -d $blib_lib ) {
+            return ($blib_arch,$blib_lib);
+        }
+        $dir = File::Spec->catdir($dir, File::Spec->updir);
+    }
+    warn "$0: Cannot find blib\n";
+    return;
+}
 
 1;
 

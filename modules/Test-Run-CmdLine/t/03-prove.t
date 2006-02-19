@@ -2,30 +2,37 @@
 
 use strict;
 
-use Test::More tests => 27;
+use Test::More tests => 29;
 use File::Spec;
 use File::Path;
 use Config;
+use Cwd;
+
+my $abs_cur = getcwd();
+my $alterr_filename = File::Spec->catfile($abs_cur, "alterr.txt");
 
 sub trap
 {
     my $cmd = shift;
     local (*SAVEERR, *ALTERR);
-    open ALTERR, ">", "alterr.txt";
+    open ALTERR, ">", $alterr_filename;
     open SAVEERR, ">&STDERR";
     open STDERR, ">&ALTERR";
     my $output = qx/$cmd/;
     open STDERR, ">&SAVEERR";
     close(SAVEERR);
     close(ALTERR);
-    my $error = do { local $/; local *I; open I, "<", "alterr.txt"; <I>};
+    my $error = do { local $/; local *I; open I, "<", $alterr_filename; <I>};
     return wantarray() ? ($output, $error) : $output;
 }
+
 
 my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
 my $t_dir = File::Spec->catfile( File::Spec->curdir, "t" );
 my $lib = File::Spec->catfile( $blib, "lib" );
+my $abs_lib = Cwd::abs_path($lib);
 my $runprove = File::Spec->catfile( $blib, "script", "runprove" );
+my $abs_runprove = Cwd::abs_path($runprove);
 my $sample_tests_dir = File::Spec->catfile("t", "sample-tests");
 my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
 my $with_myhello_file = File::Spec->catfile($sample_tests_dir, "with-myhello");
@@ -44,7 +51,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
 {
     local %ENV = %ENV;
     
-    local $ENV{'PERL5LIB'} = $lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
+    local $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
     delete($ENV{'HARNESS_DEBUG'});
@@ -272,6 +279,29 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         like ($results, qr/FAILED test/,
             "Good results for the presence of the -T flag");
     }
+    {
+        my $cwd = Cwd::getcwd();
+        chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-blib"));
+
+        my $results = trap("$abs_runprove --blib " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"));
+        
+        # TEST
+        like ($results, qr/All tests successful\./,
+            "Good results for the presence of the --blib flag");
+        chdir($cwd);
+    }
+    {
+        my $cwd = Cwd::getcwd();
+        chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-blib"));
+
+        my $results = trap("$abs_runprove " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"));
+        
+        # TEST
+        like ($results, qr/DIED. FAILED test 1/,
+            "File fails if it doesn't have --bliba where there is a required module");
+        chdir($cwd);
+    }
+    
 }
 1;
 
