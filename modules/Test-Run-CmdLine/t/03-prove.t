@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 29;
+use Test::More tests => 31;
 use File::Spec;
 use File::Path;
 use Config;
@@ -298,10 +298,31 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         
         # TEST
         like ($results, qr/DIED. FAILED test 1/,
-            "File fails if it doesn't have --bliba where there is a required module");
+            "File fails if it doesn't have --blib where there is a required module");
         chdir($cwd);
     }
-    
+    {
+        my $cwd = Cwd::getcwd();
+        chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-lib"));
+
+        my $results = trap("$abs_runprove --lib " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"));
+        
+        # TEST
+        like ($results, qr/All tests successful\./,
+            "Good results for the presence of the --lib flag");
+        chdir($cwd);
+    }
+    {
+        my $cwd = Cwd::getcwd();
+        chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-lib"));
+
+        my $results = trap("$abs_runprove " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"));
+        
+        # TEST
+        like ($results, qr/DIED. FAILED test 1/,
+            "File fails if it doesn't have --lib where there is a required module");
+        chdir($cwd);
+    }
 }
 1;
 

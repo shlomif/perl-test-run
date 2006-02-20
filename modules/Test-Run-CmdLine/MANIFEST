@@ -26,6 +26,8 @@ t/sample-tests/uppercase-t-flag.t
 t/sample-tests/with-blib/blib/arch/meaningless-file
 t/sample-tests/with-blib/blib/lib/MyTestModule23.pm
 t/sample-tests/with-blib/t/mytest.t
+t/sample-tests/with-lib/lib/MyTestModule5.pm
+t/sample-tests/with-lib/t/mytest.t
 t/sample-tests/with-myhello
 t/sample-tests/with-myhello-and-myfoo
 t/test-libs/lib1/MyHello.pm

@@ -41,6 +41,7 @@ sub print_version
 
 Getopt::Long::Configure( "no_ignore_case" );
 Getopt::Long::Configure( "bundling" );
+
 my $verbose = undef;
 my $debug = undef;
 my $timer = undef;
@@ -48,10 +49,13 @@ my $interpreter = undef;
 my @switches = ();
 my @includes = ();
 my $blib = 0;
+my $lib = 0;
+
 GetOptions(
     'b|blib' => \$blib,
     'd|debug' => \$debug,
     'I=s@' => \@includes,
+    'l|lib' => \$lib,
     'perl=s' => \$interpreter,
     # Always put -t and -T up front.
     't' => sub { unshift @switches, "-t"; }, 
@@ -72,6 +76,12 @@ if ($blib)
     {
         warn "Could not find blib dirs";
     }
+}
+
+# Handle the lib include path
+if ($lib)
+{
+    unshift @includes, "lib";
 }
 
 push @switches, (map { include_map($_) } @includes);
