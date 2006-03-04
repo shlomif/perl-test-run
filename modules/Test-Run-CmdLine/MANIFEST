@@ -4,6 +4,7 @@ docs/Namespace-Planning.txt
 lib/Test/Run/CmdLine/Drivers/Default.pm
 lib/Test/Run/CmdLine/Iface.pm
 lib/Test/Run/CmdLine.pm
+lib/Test/Run/CmdLine/Prove.pm
 Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
