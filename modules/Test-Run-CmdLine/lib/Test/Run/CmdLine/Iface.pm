@@ -15,7 +15,7 @@ Test::Run::CmdLine::Iface - Analyze tests from the command line using Test::Run
 
 =head1 SYNOPSIS
 
-    use Test::Run::CmdLine;
+    use Test::Run::CmdLine::Iface;
 
     my $tester = Test::Run::CmdLine::Iface->new(
         'test_files' => ["t/one.t", "t/two.t"],
@@ -80,7 +80,7 @@ sub _process_args
 
 =head1 Interface Functions
 
-=head2 $tester = Test::Run::CmdLine->new('test_files' => \@test_files, ....);
+=head2 $tester = Test::Run::CmdLine::Iface->new('test_files' => \@test_files, ....);
 
 Initializes a new testing front end. C<test_files> is a named argument that
 contains the files to test.
@@ -97,9 +97,16 @@ from L<Test::Run::Obj>.)
 =item driver_class
 
 This is the backend class that will be instantiated and used to perform
-the processing. Defaults to L<Test::Run::Obj>.
+the processing. Defaults to L<Test::Run::CmdLine::Drivers::Default>.
 
-=back 
+=item driver_plugins
+
+This is a list of plugin classes to be used by the driver class. Each plugin
+is a module and a corresponding class, that is prefixed by 
+C<Test::Run::CmdLine::Plugin::> - a prefix which should not be included in
+them.
+
+=back
 
 =head2 $tester->run()
 
