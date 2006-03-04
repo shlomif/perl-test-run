@@ -34,6 +34,7 @@ sub _initialize
 
 sub _include_map
 {
+    my $self = shift;
     my $arg = shift;
     my $ret = "-I$arg";
     if (($arg =~ /\s/) && 
@@ -50,6 +51,7 @@ sub _include_map
 
 sub _print_version
 {
+    my $self = shift;
     printf("runprove v%s, using Test::Run v%s, Test::Run::CmdLine v%s and Perl v%s\n",
         $VERSION,
         $Test::Run::Obj::VERSION,
@@ -72,6 +74,8 @@ Implements the runprove utility and runs it.
 
 sub run
 {
+    my $self = shift;
+
     # Allow a -I<path> switch instead of -I <path>
     @ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
 
@@ -98,20 +102,12 @@ sub run
         'T' => sub { unshift @switches, "-T"; }, 
         'timer' => \$timer,
         'v|verbose' => \$verbose,
-        'V|version' => sub { _print_version(); exit(0); },
+        'V|version' => sub { $self->_print_version(); exit(0); },
     );
 
     if ($blib)
     {
-        my @_blibdirs = _blibdirs();
-        if (@_blibdirs)
-        {
-            unshift @includes, @_blibdirs;
-        }
-        else
-        {
-            warn "Could not find blib dirs";
-        }
+        unshift @includes, ($self->_blibdirs());
     }
 
     # Handle the lib include path
@@ -120,7 +116,7 @@ sub run
         unshift @includes, "lib";
     }
 
-    push @switches, (map { _include_map($_) } @includes);
+    push @switches, (map { $self->_include_map($_) } @includes);
 
     my $test_run =
         Test::Run::CmdLine::Iface->new(
@@ -140,6 +136,7 @@ sub run
 
 # Stolen directly from blib.pm
 sub _blibdirs {
+    my $self = shift;
     my $dir = File::Spec->curdir;
     if ($^O eq 'VMS') {
         ($dir = VMS::Filespec::unixify($dir)) =~ s-/\z--;
@@ -161,7 +158,7 @@ sub _blibdirs {
         }
         $dir = File::Spec->catdir($dir, File::Spec->updir);
     }
-    warn "$0: Cannot find blib\n";
+    warn "Could not find blib dirs";
     return;
 }
 
