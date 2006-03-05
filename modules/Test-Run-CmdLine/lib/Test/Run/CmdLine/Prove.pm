@@ -13,6 +13,13 @@ use File::Spec;
 use vars qw($VERSION);
 $VERSION = "0.0100_05";
 
+__PACKAGE__->mk_accessors(qw(
+    Verbose
+    Debug
+    Switches
+    Test_Interpreter
+    Timer
+));
 =head1 NAME
 
 Test::Run::CmdLine::Prove - A Module for running tests from the command line
@@ -90,10 +97,12 @@ sub run
     my @includes = ();
     my $blib = 0;
     my $lib = 0;
+    my $dry = 0;
 
     GetOptions(
         'b|blib' => \$blib,
         'd|debug' => \$debug,
+        'D|dry' => \$dry,
         'I=s@' => \@includes,
         'l|lib' => \$lib,
         'perl=s' => \$interpreter,
@@ -118,20 +127,44 @@ sub run
 
     push @switches, (map { $self->_include_map($_) } @includes);
 
+    $self->Verbose($verbose);
+    $self->Debug($debug);
+    $self->Switches(\@switches);
+    $self->Test_Interpreter($interpreter);
+    $self->Timer($timer);
+
+    my @tests = @ARGV;
+
+    if ($dry)
+    {
+        return $self->_dry_run(\@tests);
+    }
+    else
+    {
+        return $self->_wet_run(\@tests);
+    }
+}
+
+sub _wet_run
+{
+    my $self = shift;
+    my $tests = shift;
+
     my $test_run =
         Test::Run::CmdLine::Iface->new(
-            'test_files' => [@ARGV],
-            'backend_params' =>
-            {
-                (defined($verbose) ? ('Verbose' => $verbose) : ()),
-                (defined($debug) ? ('Debug' => $debug) : ()),
-                (defined($timer) ? ('Timer' => $timer) : ()),
-                (defined($interpreter) ? ('Test_Interpreter' => $interpreter) : ()),
-                (@switches ? ('Switches' => join(" ", @switches)) : ()),
-            },
+            'test_files' => [@$tests],
+            'backend_params' => $self->_get_backend_params(),
         );
 
-    $test_run->run();
+    return $test_run->run();
+}
+
+sub _dry_run
+{
+    my $self = shift;
+    my $tests = shift;
+    print join("\n", @$tests, "");
+    return 0;
 }
 
 # Stolen directly from blib.pm
@@ -160,6 +193,36 @@ sub _blibdirs {
     }
     warn "Could not find blib dirs";
     return;
+}
+
+sub _get_backend_params_keys
+{
+    return [qw(Verbose Debug Timer Test_Interpreter Switches)];
+}
+
+sub _get_backend_params
+{
+    my $self = shift;
+    my $ret = +{};
+    foreach my $key (@{$self->_get_backend_params_keys()})
+    {
+        my $value = $self->get($key);
+        if (ref($value) eq "ARRAY")
+        {
+            if (@$value)
+            {
+                $ret->{$key} = join(" ", @$value);
+            }
+        }
+        else
+        {
+            if (defined($value))
+            {
+                $ret->{$key} = $value;
+            }
+        }
+    }
+    return $ret;
 }
 
 =head1 AUTHOR

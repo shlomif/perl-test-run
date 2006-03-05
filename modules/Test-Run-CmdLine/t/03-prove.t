@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 31;
+use Test::More tests => 32;
 use File::Spec;
 use File::Path;
 use Config;
@@ -322,6 +322,13 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         like ($results, qr/DIED. FAILED test 1/,
             "File fails if it doesn't have --lib where there is a required module");
         chdir($cwd);
+    }
+    {
+        my $results = qx{$runprove --dry $test_file $with_myhello_file};
+        
+        # TEST
+        is ($results, "$test_file\n$with_myhello_file\n",
+            "Testing dry run");
     }
 }
 1;
