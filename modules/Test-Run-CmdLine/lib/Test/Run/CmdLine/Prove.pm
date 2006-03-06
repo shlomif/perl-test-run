@@ -103,6 +103,8 @@ sub run
         'b|blib' => \$blib,
         'd|debug' => \$debug,
         'D|dry' => \$dry,
+        'h|help|?' => sub { $self->_usage(1); },
+        'H|man' => sub { $self->_usage(2); },
         'I=s@' => \@includes,
         'l|lib' => \$lib,
         'perl=s' => \$interpreter,
@@ -223,6 +225,19 @@ sub _get_backend_params
         }
     }
     return $ret;
+}
+
+sub _usage
+{
+    my $self = shift;
+    my $verbosity = shift;
+
+    pod2usage(
+        {
+            '-verbose' => $verbosity, 
+        }
+    );
+    exit(0);
 }
 
 =head1 AUTHOR
