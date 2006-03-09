@@ -14,6 +14,7 @@ t/01-class-name.t
 t/02-run.t
 t/03-prove.t
 t/04-t-r-cl-iface.t
+t/05-prove-cl-process.t
 t/pod-coverage.t
 t/pod.t
 t/sample-tests/bad.t

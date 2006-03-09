@@ -14,6 +14,9 @@ use vars qw($VERSION);
 $VERSION = "0.0100_05";
 
 __PACKAGE__->mk_accessors(qw(
+    dry
+    ext_regex
+    ext_regex_string
     Verbose
     Debug
     Switches
@@ -36,6 +39,65 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 
 sub _initialize
 {
+    my $self = shift;
+
+    # Allow a -I<path> switch instead of -I <path>
+    @ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
+
+    Getopt::Long::Configure( "no_ignore_case" );
+    Getopt::Long::Configure( "bundling" );
+
+    my $verbose = undef;
+    my $debug = undef;
+    my $timer = undef;
+    my $interpreter = undef;
+    my @switches = ();
+    my @includes = ();
+    my $blib = 0;
+    my $lib = 0;
+    my $dry = 0;
+    my @ext = ();
+
+    GetOptions(
+        'b|blib' => \$blib,
+        'd|debug' => \$debug,
+        'D|dry' => \$dry,
+        'h|help|?' => sub { $self->_usage(1); },
+        'H|man' => sub { $self->_usage(2); },
+        'I=s@' => \@includes,
+        'l|lib' => \$lib,
+        'perl=s' => \$interpreter,
+        # Always put -t and -T up front.
+        't' => sub { unshift @switches, "-t"; }, 
+        'T' => sub { unshift @switches, "-T"; }, 
+        'timer' => \$timer,
+        'v|verbose' => \$verbose,
+        'V|version' => sub { $self->_print_version(); exit(0); },
+        'ext=s@' => \@ext,
+    );
+
+    if ($blib)
+    {
+        unshift @includes, ($self->_blibdirs());
+    }
+
+    # Handle the lib include path
+    if ($lib)
+    {
+        unshift @includes, "lib";
+    }
+
+    push @switches, (map { $self->_include_map($_) } @includes);
+
+    $self->Verbose($verbose);
+    $self->Debug($debug);
+    $self->Switches(\@switches);
+    $self->Test_Interpreter($interpreter);
+    $self->Timer($timer);
+    $self->dry($dry);
+
+    $self->_set_ext(\@ext);
+    
     return 0;
 }
 
@@ -83,61 +145,9 @@ sub run
 {
     my $self = shift;
 
-    # Allow a -I<path> switch instead of -I <path>
-    @ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
-
-    Getopt::Long::Configure( "no_ignore_case" );
-    Getopt::Long::Configure( "bundling" );
-
-    my $verbose = undef;
-    my $debug = undef;
-    my $timer = undef;
-    my $interpreter = undef;
-    my @switches = ();
-    my @includes = ();
-    my $blib = 0;
-    my $lib = 0;
-    my $dry = 0;
-
-    GetOptions(
-        'b|blib' => \$blib,
-        'd|debug' => \$debug,
-        'D|dry' => \$dry,
-        'h|help|?' => sub { $self->_usage(1); },
-        'H|man' => sub { $self->_usage(2); },
-        'I=s@' => \@includes,
-        'l|lib' => \$lib,
-        'perl=s' => \$interpreter,
-        # Always put -t and -T up front.
-        't' => sub { unshift @switches, "-t"; }, 
-        'T' => sub { unshift @switches, "-T"; }, 
-        'timer' => \$timer,
-        'v|verbose' => \$verbose,
-        'V|version' => sub { $self->_print_version(); exit(0); },
-    );
-
-    if ($blib)
-    {
-        unshift @includes, ($self->_blibdirs());
-    }
-
-    # Handle the lib include path
-    if ($lib)
-    {
-        unshift @includes, "lib";
-    }
-
-    push @switches, (map { $self->_include_map($_) } @includes);
-
-    $self->Verbose($verbose);
-    $self->Debug($debug);
-    $self->Switches(\@switches);
-    $self->Test_Interpreter($interpreter);
-    $self->Timer($timer);
-
     my @tests = @ARGV;
 
-    if ($dry)
+    if ($self->dry())
     {
         return $self->_dry_run(\@tests);
     }
@@ -238,6 +248,47 @@ sub _usage
         }
     );
     exit(0);
+}
+
+sub _default_ext
+{
+    my $self = shift;
+    my $ext = shift;
+    return (@$ext ? $ext : ["t"]);
+}
+
+sub _normalize_extensions
+{
+    my $self = shift;
+
+    my $ext = shift;
+    $ext = [ map { split(/,/, $_) } @$ext ];
+    foreach my $e (@$ext)
+    {
+        $e =~ s{^\.}{};
+    }
+    return $ext;
+}
+
+sub _set_ext
+{
+    my $self = shift;
+    my $ext = $self->_default_ext(shift);
+
+    $self->ext_regex_string('\.(?:' . 
+        join("|", map { quotemeta($_) } 
+            @{$self->_normalize_extensions($ext)}
+        ) 
+        . ')$'
+    );
+    $self->_set_ext_re();
+}
+
+sub _set_ext_re
+{
+    my $self = shift;
+    my $s = $self->ext_regex_string();
+    $self->ext_regex(qr/$s/);
 }
 
 =head1 AUTHOR
