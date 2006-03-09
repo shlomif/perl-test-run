@@ -14,6 +14,7 @@ use vars qw($VERSION);
 $VERSION = "0.0100_05";
 
 __PACKAGE__->mk_accessors(qw(
+    arguments
     dry
     ext_regex
     ext_regex_string
@@ -31,7 +32,7 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 
     use Test::Run::CmdLine::Prove;
 
-    my $tester = Test::Run::CmdLine::Prove->new();
+    my $tester = Test::Run::CmdLine::Prove->new('args' => [@ARGV]);
 
     $tester->run();
 
@@ -40,6 +41,14 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 sub _initialize
 {
     my $self = shift;
+
+    my (%args) = (@_);
+
+    my $arguments = $args{'args'};
+
+    $self->arguments($arguments);
+
+    local @ARGV = @$arguments;
 
     # Allow a -I<path> switch instead of -I <path>
     @ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
@@ -98,6 +107,8 @@ sub _initialize
 
     $self->_set_ext(\@ext);
     
+    $self->arguments([@ARGV]);
+
     return 0;
 }
 
@@ -131,13 +142,14 @@ sub _print_version
 
 =head1 Interface Functions
 
-=head2 $prove = Test::Run::CmdLine::Prove->new();
+=head2 $prove = Test::Run::CmdLine::Prove->new('args' => [@ARGV]);
 
-Initializes a new object.
+Initializes a new object. C<'args'> is a keyed parameter that gives the
+command line for the prove utility.
 
 =head2 $prove->run()
 
-Implements the runprove utility and runs it.
+Runs the tests.
 
 =cut
 
@@ -145,7 +157,7 @@ sub run
 {
     my $self = shift;
 
-    my @tests = @ARGV;
+    my @tests = @{$self->arguments()};
 
     if ($self->dry())
     {

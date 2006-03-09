@@ -4,7 +4,10 @@ use strict;
 
 use Test::Run::CmdLine::Prove;
 
-my $p = Test::Run::CmdLine::Prove->new();
+my $p =
+    Test::Run::CmdLine::Prove->new(
+        'args' => [@ARGV],
+    );
 exit($p->run());
 
 1;

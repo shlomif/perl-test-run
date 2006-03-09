@@ -10,8 +10,7 @@ use Test::Run::CmdLine::Prove;
 sub mytest
 {
     my $args = shift;
-    local @ARGV = @$args;
-    my $prove = Test::Run::CmdLine::Prove->new();
+    my $prove = Test::Run::CmdLine::Prove->new('args' => $args);
     return $prove->ext_regex_string();
 }
 
