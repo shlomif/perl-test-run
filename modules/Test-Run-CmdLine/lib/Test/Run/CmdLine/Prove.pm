@@ -157,15 +157,15 @@ sub run
 {
     my $self = shift;
 
-    my @tests = @{$self->arguments()};
+    my $tests = $self->_get_test_files(); 
 
     if ($self->dry())
     {
-        return $self->_dry_run(\@tests);
+        return $self->_dry_run($tests);
     }
     else
     {
-        return $self->_wet_run(\@tests);
+        return $self->_wet_run($tests);
     }
 }
 
@@ -301,6 +301,90 @@ sub _set_ext_re
     my $self = shift;
     my $s = $self->ext_regex_string();
     $self->ext_regex(qr/$s/);
+}
+
+sub _get_test_files
+{
+    my $self = shift;
+    return 
+    [ 
+        map 
+        { $self->_get_test_files_from_arg($_) } 
+        @{$self->arguments()} 
+    ];
+}
+
+sub _get_test_files_from_arg
+{
+    my ($self, $arg) = @_;
+    return (map { $self->_get_test_files_from_globbed_entry($_) } glob($arg));
+}
+
+sub _get_test_files_from_globbed_entry
+{
+    my ($self, $entry) = @_;
+    if (-d $entry)
+    {
+        return $self->_get_test_files_from_dir($entry);
+    }
+    else
+    {
+        return $self->_get_test_files_from_file($entry);
+    }
+}
+
+sub _get_test_files_from_file
+{
+    my ($self, $entry) = @_;
+    return ($entry);
+}
+
+sub _get_test_files_from_dir
+{
+    my ($self, $path) = @_;
+    if (opendir my $dir, $path)
+    {
+        my @files = sort readdir($dir);
+        closedir($dir);
+        return 
+            (map { $self->_get_test_files_from_dir_entry($path, $_) } @files);
+    }
+    else
+    {
+        warn "$path: $!\n";
+        return ();
+    }    
+}
+
+sub _get_test_files_from_dir_entry
+{
+    my ($self, $dir, $file) = @_;
+    if (($file eq File::Spec->updir()) || 
+        ($file eq File::Spec->curdir()) ||
+        ($file eq ".svn") ||
+        ($file eq "CVS"))
+    {
+        return ();
+    }
+    else
+    {
+        my $path = File::Spec->catfile($dir, $file);
+        if (-d $path)
+        {
+            return ();
+        }
+        else
+        {
+            if ($path =~ $self->ext_regex())
+            {
+                return ($path);
+            }
+            else
+            {
+                return ();
+            }
+        }
+    }
 }
 
 =head1 AUTHOR
