@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 32;
+use Test::More tests => 33;
 use File::Spec;
 use File::Path;
 use Config;
@@ -329,6 +329,15 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         # TEST
         is ($results, "$test_file\n$with_myhello_file\n",
             "Testing dry run");
+    }
+    {
+        my ($results, $err) = trap("$runprove $simple_fail_file");
+
+        # TEST
+        ok (($err !~ m/\n\n$/s),
+            "Testing that the output does not end with two ". 
+            "newlines on failure."
+        );
     }
 }
 1;

@@ -361,7 +361,7 @@ sub _handle_runtests_error
 
     if (UNIVERSAL::isa($error, "Test::Run::Obj::Error::TestsFail"))
     {
-        die ($error->text() . "\n");
+        die $error->text();
     }
     else
     {
@@ -908,7 +908,7 @@ sub _report_success
 
 sub _get_fail_no_tests_run_text
 {
-    return "FAILED--no tests were run for some reason."
+    return "FAILED--no tests were run for some reason.\n"
 }
 
 sub _fail_no_tests_run
