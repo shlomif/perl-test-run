@@ -19,6 +19,7 @@ __PACKAGE__->mk_accessors(qw(
     ext_regex
     ext_regex_string
     recurse
+    shuffle
     Verbose
     Debug
     Switches
@@ -69,6 +70,7 @@ sub _initialize
     my $dry = 0;
     my @ext = ();
     my $recurse = 0;
+    my $shuffle = 0;
 
     GetOptions(
         'b|blib' => \$blib,
@@ -80,6 +82,7 @@ sub _initialize
         'l|lib' => \$lib,
         'perl=s' => \$interpreter,
         'r|recurse' => \$recurse,
+        's|shuffle' => \$shuffle,
         # Always put -t and -T up front.
         't' => sub { unshift @switches, "-t"; }, 
         'T' => sub { unshift @switches, "-T"; }, 
@@ -109,6 +112,7 @@ sub _initialize
     $self->Timer($timer);
     $self->dry($dry);
     $self->recurse($recurse);
+    $self->shuffle($shuffle);
 
     $self->_set_ext(\@ext);
     
@@ -308,15 +312,43 @@ sub _set_ext_re
     $self->ext_regex(qr/$s/);
 }
 
+sub _post_process_test_files_list
+{
+    my ($self, $list) = @_;
+    if ($self->shuffle())
+    {
+        return $self->_perform_shuffle($list);
+    }
+    else
+    {
+        return $list;
+    }
+}
+
+sub _perform_shuffle
+{
+    my ($self, $list) = @_;
+    my @ret = @$list;
+    my $i = @ret;
+    while ($i)
+    {
+        my $place = int(rand($i--));
+        @ret[$i,$place] = @ret[$place, $i];
+    }
+    return \@ret;
+}
+
 sub _get_test_files
 {
     my $self = shift;
     return 
-    [ 
-        map 
-        { $self->_get_test_files_from_arg($_) } 
-        @{$self->arguments()} 
-    ];
+        $self->_post_process_test_files_list(
+            [ 
+                map 
+                { $self->_get_test_files_from_arg($_) } 
+                @{$self->arguments()} 
+            ]
+        );
 }
 
 sub _get_test_files_from_arg
