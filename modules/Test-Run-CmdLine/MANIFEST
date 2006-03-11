@@ -28,6 +28,16 @@ t/sample-tests/leak-file.t
 t/sample-tests/lowercase-t-flag.t
 t/sample-tests/no-t-flags.t
 t/sample-tests/one-ok.t
+t/sample-tests/recurse-dir/a.t
+t/sample-tests/recurse-dir/b.t
+t/sample-tests/recurse-dir/c/a.t
+t/sample-tests/recurse-dir/c/b/h.t
+t/sample-tests/recurse-dir/c/y.t
+t/sample-tests/recurse-dir/e.t
+t/sample-tests/recurse-dir/i/r.t
+t/sample-tests/recurse-dir/i/sa.t
+t/sample-tests/recurse-dir/i/sb.t
+t/sample-tests/recurse-dir/z.t
 t/sample-tests/several-oks.t
 t/sample-tests/simple_fail.t
 t/sample-tests/test-dir1/footest.wrd

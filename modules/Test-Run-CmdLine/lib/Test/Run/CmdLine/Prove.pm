@@ -18,12 +18,14 @@ __PACKAGE__->mk_accessors(qw(
     dry
     ext_regex
     ext_regex_string
+    recurse
     Verbose
     Debug
     Switches
     Test_Interpreter
     Timer
 ));
+
 =head1 NAME
 
 Test::Run::CmdLine::Prove - A Module for running tests from the command line
@@ -66,6 +68,7 @@ sub _initialize
     my $lib = 0;
     my $dry = 0;
     my @ext = ();
+    my $recurse = 0;
 
     GetOptions(
         'b|blib' => \$blib,
@@ -76,6 +79,7 @@ sub _initialize
         'I=s@' => \@includes,
         'l|lib' => \$lib,
         'perl=s' => \$interpreter,
+        'r|recurse' => \$recurse,
         # Always put -t and -T up front.
         't' => sub { unshift @switches, "-t"; }, 
         'T' => sub { unshift @switches, "-T"; }, 
@@ -104,6 +108,7 @@ sub _initialize
     $self->Test_Interpreter($interpreter);
     $self->Timer($timer);
     $self->dry($dry);
+    $self->recurse($recurse);
 
     $self->_set_ext(\@ext);
     
@@ -371,7 +376,14 @@ sub _get_test_files_from_dir_entry
         my $path = File::Spec->catfile($dir, $file);
         if (-d $path)
         {
-            return ();
+            if ($self->recurse())
+            {
+                return $self->_get_test_files_from_dir($path);
+            }
+            else
+            {
+                return ();
+            }
         }
         else
         {

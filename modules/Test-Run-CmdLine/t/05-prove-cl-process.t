@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 8;
+use Test::More tests => 10;
 
 use Test::Run::CmdLine::Prove;
 
@@ -41,6 +41,8 @@ my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
 my $with_myhello_file = File::Spec->catfile($sample_tests_dir, "with-myhello");
 my $test_dir1 = File::Spec->catdir($sample_tests_dir, "test-dir1");
 my $ext_test_dir = File::Spec->catdir($sample_tests_dir, "ext-test-dir");
+my $recurse_dir = File::Spec->catdir($sample_tests_dir, "recurse-dir");
+
 # TEST
 is_deeply (
     get_test_files ([$test_file]), 
@@ -78,4 +80,45 @@ is_deeply (
     "Testing directory with extensions (non recursive)",
 );
 
+# TEST
+is_deeply (
+    get_test_files (["--recurse", $recurse_dir]),
+    [
+        map { File::Spec->catfile($recurse_dir, split(/\//, $_)) }
+        (qw(
+            a.t
+            b.t
+            c/a.t
+            c/b/h.t
+            c/y.t
+            e.t
+            i/r.t
+            i/sa.t
+            i/sb.t
+            z.t
+        ))
+    ],
+    "Testing recursive directory",
+);
+
+# TEST
+is_deeply (
+    get_test_files (["-r", $recurse_dir]),
+    [
+        map { File::Spec->catfile($recurse_dir, split(/\//, $_)) }
+        (qw(
+            a.t
+            b.t
+            c/a.t
+            c/b/h.t
+            c/y.t
+            e.t
+            i/r.t
+            i/sa.t
+            i/sb.t
+            z.t
+        ))
+    ],
+    "Testing recursive directory",
+);
 
