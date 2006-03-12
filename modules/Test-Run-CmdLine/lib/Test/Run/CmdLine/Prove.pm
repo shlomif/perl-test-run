@@ -393,41 +393,59 @@ sub _get_test_files_from_dir
     }    
 }
 
+sub _should_ignore_dir_entry
+{
+    my ($self, $dir, $file) = @_;
+    return
+        (
+            ($file eq File::Spec->updir()) || 
+            ($file eq File::Spec->curdir()) ||
+            ($file eq ".svn") ||
+            ($file eq "CVS")
+        );
+}
+
 sub _get_test_files_from_dir_entry
 {
     my ($self, $dir, $file) = @_;
-    if (($file eq File::Spec->updir()) || 
-        ($file eq File::Spec->curdir()) ||
-        ($file eq ".svn") ||
-        ($file eq "CVS"))
+    if ($self->_should_ignore_dir_entry($dir, $file))
     {
         return ();
     }
+    my $path = File::Spec->catfile($dir, $file);
+    if (-d $path)
+    {
+        return $self->_get_test_files_from_dir_path($path);
+    }
     else
     {
-        my $path = File::Spec->catfile($dir, $file);
-        if (-d $path)
-        {
-            if ($self->recurse())
-            {
-                return $self->_get_test_files_from_dir($path);
-            }
-            else
-            {
-                return ();
-            }
-        }
-        else
-        {
-            if ($path =~ $self->ext_regex())
-            {
-                return ($path);
-            }
-            else
-            {
-                return ();
-            }
-        }
+        return $self->_get_test_files_from_file_path($path);
+    }
+}
+
+sub _get_test_files_from_dir_path
+{
+    my ($self, $path) = @_;
+    if ($self->recurse())
+    {
+        return $self->_get_test_files_from_dir($path);
+    }
+    else
+    {
+        return ();
+    }
+}
+
+sub _get_test_files_from_file_path
+{
+    my ($self, $path) = @_;
+    if ($path =~ $self->ext_regex())
+    {
+        return ($path);
+    }
+    else
+    {
+        return ();
     }
 }
 
