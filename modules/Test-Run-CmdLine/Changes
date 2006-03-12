@@ -1,6 +1,6 @@
 Revision history for Test-Run-CmdLine
 
 0.0001_01 Tue Nov 29 22:57:02 IST 2005
-    * Initial CPAN.pm version. Works sort of and has a function "runprove"
+    * Initial CPAN.pm version. Works sort of and has a functional "runprove"
     utility.
 
