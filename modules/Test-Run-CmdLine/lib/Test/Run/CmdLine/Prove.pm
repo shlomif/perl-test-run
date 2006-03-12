@@ -48,10 +48,16 @@ sub _initialize
     my (%args) = (@_);
 
     my $arguments = $args{'args'};
+    my $env_switches = $args{'env_switches'};
 
     $self->arguments($arguments);
 
     local @ARGV = @$arguments;
+
+    if (defined($env_switches))
+    {
+        unshift @ARGV, split(" ", $env_switches);
+    }
 
     # Allow a -I<path> switch instead of -I <path>
     @ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
@@ -151,10 +157,13 @@ sub _print_version
 
 =head1 Interface Functions
 
-=head2 $prove = Test::Run::CmdLine::Prove->new('args' => [@ARGV]);
+=head2 $prove = Test::Run::CmdLine::Prove->new('args' => [@ARGV], 'env_switches' => $env_switches);
 
 Initializes a new object. C<'args'> is a keyed parameter that gives the
-command line for the prove utility.
+command line for the prove utility (as an array ref of strings). 
+
+C<'env_switches'> is a keyed parameter that gives a string containing more 
+arguments, or undef if not wanted.
 
 =head2 $prove->run()
 
@@ -338,6 +347,20 @@ sub _perform_shuffle
     return \@ret;
 }
 
+sub _get_arguments
+{
+    my $self = shift;
+    my $args = $self->arguments();
+    if (@$args)
+    {
+        return $args;
+    }
+    else
+    {
+        return [ File::Spec->curdir() ];
+    }
+}
+
 sub _get_test_files
 {
     my $self = shift;
@@ -346,7 +369,7 @@ sub _get_test_files
             [ 
                 map 
                 { $self->_get_test_files_from_arg($_) } 
-                @{$self->arguments()} 
+                @{$self->_get_arguments()} 
             ]
         );
 }

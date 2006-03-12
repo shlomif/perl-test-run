@@ -3,11 +3,12 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 use Test::Run::CmdLine::Prove;
 
 use File::Spec;
+use Cwd;
 
 sub mytest
 {
@@ -122,3 +123,20 @@ is_deeply (
     "Testing recursive directory",
 );
 
+{
+    my $cwd = Cwd::getcwd();
+    chdir($test_dir1);
+    # TEST
+    is_deeply (
+        get_test_files ([]),
+        [
+            map { File::Spec->catfile(File::Spec->curdir(), $_) }
+            ("mytest.t",
+            "test1.t",
+            "test2.t")
+        ],
+        "Testing No arguments (defaults to all files in current directory)",
+    );
+
+    chdir($cwd);
+}

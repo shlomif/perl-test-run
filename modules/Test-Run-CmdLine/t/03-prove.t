@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 33;
+use Test::More tests => 34;
 use File::Spec;
 use File::Path;
 use Config;
@@ -62,6 +62,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     delete($ENV{'HARNESS_PERL_SWITCHES'});
     delete($ENV{'HARNESS_DRIVER'});
     delete($ENV{'HARNESS_PLUGINS'});
+    delete($ENV{'PROVE_SWITCHES'});
     $ENV{'COLUMNS'} = 80;
     {
         my $results = qx{$runprove $test_file};
@@ -338,6 +339,18 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Testing that the output does not end with two ". 
             "newlines on failure."
         );
+    }
+    {
+        local $ENV{'PROVE_SWITCHES'} = "--lib";
+        my $cwd = Cwd::getcwd();
+        chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-lib"));
+
+        my $results = trap("$abs_runprove " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"));
+        
+        # TEST
+        like ($results, qr/All tests successful\./,
+            "Good results for the presence of the --lib flag in ENV{PROVE_SWITCHES}");
+        chdir($cwd);
     }
 }
 1;
