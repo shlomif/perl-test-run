@@ -1,4 +1,9 @@
-    * Changed "die $mystring"'s to "die $obj_ref"'s.
+0.0100_07 Mon Mar 13 19:08:21 IST 2006
+* Changed "die $mystring"'s to "die $obj_ref"'s.
+    * Removed many global variables and use of %ENV variables. Using
+    accessors instead now.
+    * Added several tests including some for regression bugs that
+      were resolved.
     * Added output.t to the MANIFEST.
 
 0.0100_06 Tue Nov 29 22:40:08 IST 2005
