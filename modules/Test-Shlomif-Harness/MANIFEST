@@ -26,6 +26,7 @@ t/lib/Test/Simple.pm
 t/nonumbers.t
 TODO
 t/ok.t
+t/output.t
 t/pod.t
 t/sample-tests/bailout
 t/sample-tests/bignum
