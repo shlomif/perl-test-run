@@ -16,6 +16,8 @@ use strict;
 
 use Class::Accessor;
 
+use Scalar::Util ();
+
 use vars qw(
     $VERSION 
     @ISA
@@ -353,20 +355,48 @@ sub _real_runtests
     return $ok;
 }
 
+sub _is_error_object
+{
+    my $self = shift;
+    my $error = shift;
+
+    return
+    (
+        Scalar::Util::blessed($error) &&
+        $error->isa("Test::Run::Obj::Error::TestsFail")
+    );
+}
+
+sub _handle_runtests_error_text
+{
+    my $self = shift;
+    my (%args) = @_;
+    my $text = $args{'text'};
+
+    die $text;
+}
+
+sub _get_runtests_error_text
+{
+    my $self = shift;
+    my $error = shift;
+    
+    return 
+        ($self->_is_error_object($error)
+            ? $error->text()
+            : $error
+        );
+}
+
 sub _handle_runtests_error
 {
     my $self = shift;
     my (%args) = @_;
     my $error = $args{'error'};
 
-    if (UNIVERSAL::isa($error, "Test::Run::Obj::Error::TestsFail"))
-    {
-        die $error->text();
-    }
-    else
-    {
-        die $error;
-    }
+    $self->_handle_runtests_error_text(
+        'text' => $self->_get_runtests_error_text($error),
+    );
 }
 
 sub runtests
