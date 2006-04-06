@@ -14,7 +14,7 @@ use vars qw(@ISA);
 
 package main;
 
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 use Term::ANSIColor;
 
@@ -61,7 +61,11 @@ use Term::ANSIColor;
         ],
         );
 
+    eval {
     $tester->runtests();
+    };
+
+    my $err = $@;
 
     open STDOUT, ">&SAVEOUT";
     close(SAVEOUT);
@@ -78,6 +82,9 @@ use Term::ANSIColor;
     # TEST
     ok (($err_text =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
         qq{Found colored "Failed 1/1" string});
+
+    # TEST
+    ok ($err, qq{Exited with an exception});
 }
 
 {
@@ -128,7 +135,10 @@ use Term::ANSIColor;
         summary_color_failure => "yellow",
         );
 
+    eval {
     $tester->runtests();
+    };
+    my $err = $@;
 
     open STDOUT, ">&SAVEOUT";
     close(SAVEOUT);
@@ -145,4 +155,6 @@ use Term::ANSIColor;
     # TEST
     ok (($err_text =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
         qq{Found colored "Failed 1/1" string with user-specified color});
+    # TEST
+    ok ($err, qq{Exited with an exception});
 }

@@ -128,6 +128,7 @@ sub _handle_runtests_error
     # Workaround to make sure color("reset") is accepted and a red cursor
     # is not displayed.
     print STDERR "\n";
+    die "\n";
 }
 
 1;
