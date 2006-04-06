@@ -5,6 +5,7 @@ use strict;
 
 use NEXT;
 use Term::ANSIColor;
+use Scalar::Util ();
 
 =head1 NAME
 
@@ -45,10 +46,10 @@ sub _report_success
     print color("reset");
 }
 
-=head2 $tester->runtests()
+=head2 $tester->_handle_runtests_error()
 
-We override runtests() to colour the errors in red. The rest of the 
-documentation is the code.
+We override _handle_runtests_error() to colour the errors in red. The rest of
+the documentation is the code.
 
 =cut
 
@@ -58,8 +59,14 @@ sub _handle_runtests_error
     my (%args) = @_;
     my $error = $args{'error'};
 
+    my $text = 
+        (Scalar::Util::blessed($error) && 
+        $error->isa("Test::Run::Obj::Error::TestsFail")) ?
+            $error->text() :
+            $error;
+
     print STDERR color("bold red");
-    print STDERR $error;
+    print STDERR $text;
     print STDERR color("reset");
     # Workaround to make sure color("reset") is accepted and a red cursor
     # is not displayed.
