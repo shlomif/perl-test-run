@@ -7,6 +7,9 @@ use NEXT;
 use Term::ANSIColor;
 use Scalar::Util ();
 
+use base 'Test::Run::Base';
+use base 'Class::Accessor';
+
 =head1 NAME
 
 Test::Run::Plugin::ColorSummary - A Test::Run plugin that
@@ -15,6 +18,45 @@ colors the summary.
 =cut
 
 our $VERSION = '0.0100_00';
+
+__PACKAGE__->mk_accessors(qw(
+    summary_color_failure
+    summary_color_success
+));
+
+sub _get_simple_params
+{
+    my $self = shift;
+    return 
+    [
+        qw(summary_color_failure summary_color_success), 
+        @{$self->NEXT::_get_simple_params()}
+    ];
+}
+
+sub _get_failure_summary_color
+{
+    my $self = shift;
+    return $self->summary_color_failure() || 
+        $self->_get_default_failure_summary_color();
+}
+
+sub _get_default_failure_summary_color
+{
+    return "bold red";
+}
+
+sub _get_success_summary_color
+{
+    my $self = shift;
+    return $self->summary_color_success() || 
+        $self->_get_default_success_summary_color();
+}
+
+sub _get_default_success_summary_color
+{
+    return "bold blue";
+}
 
 =head1 SYNOPSIS
 
@@ -34,6 +76,21 @@ our $VERSION = '0.0100_00';
 
     $tester->runtests();
 
+=head1 EXTRA PARAMETERS TO NEW
+
+We accept two new named parameters to the new constructor:
+
+=head2 summary_color_success
+
+This is the color string for coloring the success line. The string itself
+conforms to the one specified in L<Term::ANSIColor>.
+
+=head2 summary_color_failure
+
+This is the color string for coloring the summary line in case of
+failure. The string itself conforms to the one specified 
+in L<Term::ANSIColor>.
+
 =head1 FUNCTIONS
 
 =cut
@@ -41,7 +98,7 @@ our $VERSION = '0.0100_00';
 sub _report_success
 {
     my $self = shift;
-    print color("bold blue");
+    print color($self->_get_success_summary_color());
     $self->NEXT::_report_success();
     print color("reset");
 }
@@ -65,7 +122,7 @@ sub _handle_runtests_error
             $error->text() :
             $error;
 
-    print STDERR color("bold red");
+    print STDERR color($self->_get_failure_summary_color());
     print STDERR $text;
     print STDERR color("reset");
     # Workaround to make sure color("reset") is accepted and a red cursor
@@ -86,6 +143,11 @@ C<bug-test-run-plugin-colorsummary@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Run-Plugin-ColorSummary>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
+
+=head1 SEE ALSO
+
+L<Test::Run::Obj>, L<Term::ANSIColor>, 
+L<Test::Run::CmdLine::Plugin::ColorSummary>.
 
 =head1 ACKNOWLEDGEMENTS
 
