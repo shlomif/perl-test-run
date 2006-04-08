@@ -5,7 +5,7 @@ use warnings;
 
 package main;
 
-use Test::More tests => 2;
+use Test::More tests => 4;
 
 use Term::ANSIColor;
 use Config;
@@ -75,38 +75,31 @@ my $one_fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
             qq{Found colored "Failed 1/1" string});
 
     }
+    {
+        local $ENV{'HARNESS_SUMMARY_COL_SUC'} = "green";
+        local $ENV{'HARNESS_SUMMARY_COL_FAIL'} = "yellow";
+        my $results = trap("runprove $test_file $several_oks_file");
+
+        my $color = color("green");
+
+        # TEST
+        ok (($results =~ m/\Q${color}\EAll tests successful\./), 
+            "'All tests successful.' string in user-speced color");
+    }
+    {
+        local $ENV{'HARNESS_SUMMARY_COL_SUC'} = "green";
+        local $ENV{'HARNESS_SUMMARY_COL_FAIL'} = "yellow";
+        my ($results, $err_text) = trap("runprove $one_fail_file");
+
+        my $color = color("yellow");
+
+        # TEST
+        ok (($err_text =~ m/\Q${color}\EFailed 1\/1 test scripts/),
+            qq{Found colored "Failed 1/1" string with user-specified color});
+    }
 }
 
 goto END;
-{
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    my $tester = MyTestRun->new(
-        test_files => 
-        [
-            "t/sample-tests/one-ok.t",
-            "t/sample-tests/several-oks.t"
-        ],
-        summary_color_success => "green",
-        summary_color_failure => "yellow",
-        );
-
-    $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
-
-    my $color = color("green");
-
-    # ++TEST
-    ok (($text =~ m/\Q${color}\EAll tests successful\./), 
-        "Text is colored green on explicity SummaryColor_success");
-}
 
 {
     open ALTOUT, ">", "altout.txt";

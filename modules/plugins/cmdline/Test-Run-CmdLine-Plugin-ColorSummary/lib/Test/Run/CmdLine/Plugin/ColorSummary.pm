@@ -11,7 +11,7 @@ Test::Run::CmdLine::Plugin::ColorSummary - Color the summary in Test::Run::CmdLi
 
 =cut
 
-our $VERSION = '0.0100_00';
+our $VERSION = '0.0100_01';
 
 sub _initialize
 {
@@ -20,11 +20,41 @@ sub _initialize
     $self->add_to_backend_plugins("ColorSummary");
 }
 
+sub _get_backend_env_mapping
+{
+    my $self = shift;
+    return
+        [
+        {
+            'env' => "HARNESS_SUMMARY_COL_SUC",
+            'arg' => "summary_color_success",
+        },
+        {
+            'env' => "HARNESS_SUMMARY_COL_FAIL",
+            'arg' => "summary_color_failure",
+        },
+        @{$self->NEXT::_get_backend_env_mapping()}
+        ];
+}
 =head1 SYNOPSIS
 
 This plug-in colors the summary line in Test::Run::CmdLine.
 
-=head1 FUNCTIONS
+=head1 ENVIRONMENT VARIABLES
+
+This module accepts the followinge environment variables:
+
+=over 4
+
+=item HARNESS_SUMMARY_COL_SUC
+
+This specifies the Term::ANSIColor color for the success line.
+
+=item HARNESS_SUMMARY_COL_FAIL
+
+This specifies the Term::ANSIColor color for the failure line
+
+=back
 
 =head1 AUTHOR
 
