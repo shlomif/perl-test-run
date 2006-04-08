@@ -13,6 +13,7 @@ my $builder = Module::Build->new(
         'Test::Run::Plugin::ColorSummary' => 0,
     },
     add_to_cleanup      => [ 'Test-Run-CmdLine-Plugin-ColorSummary-*' ],
+    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();
