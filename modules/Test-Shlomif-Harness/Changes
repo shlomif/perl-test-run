@@ -1,5 +1,11 @@
+0.0100_08 Sat Apr  8 18:39:28 IDT 2006
+    * A refactoring of _handle_runtests_error(), which would allow an 
+    easier coding of Plugin::ColorSummary.
+    * Added Scalar::Util to the Makefile.PL's "PREREQ_PM" and removed a
+    redundant statement.
+
 0.0100_07 Mon Mar 13 19:08:21 IST 2006
-* Changed "die $mystring"'s to "die $obj_ref"'s.
+    * Changed "die $mystring"'s to "die $obj_ref"'s.
     * Removed many global variables and use of %ENV variables. Using
     accessors instead now.
     * Added several tests including some for regression bugs that
