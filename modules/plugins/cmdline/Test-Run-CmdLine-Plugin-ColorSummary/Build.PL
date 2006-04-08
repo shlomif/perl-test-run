@@ -4,7 +4,7 @@ use Module::Build;
 
 my $builder = Module::Build->new(
     module_name         => 'Test::Run::CmdLine::Plugin::ColorSummary',
-    license             => 'BSD',
+    license             => 'bsd',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/Test/Run/CmdLine/Plugin/ColorSummary.pm',
     requires => {
