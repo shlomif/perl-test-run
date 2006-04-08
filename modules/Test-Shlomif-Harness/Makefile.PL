@@ -5,19 +5,15 @@ use ExtUtils::Command qw( touch rm_f );
 
 use constant FLAG_SKIP_PROVE => "t/SKIP-PROVE";
 
-my @files = qw(
-    Run/Obj.pm
-);
-
 my %parms = (
     NAME            => "Test::Run",
     VERSION_FROM    => "lib/Test/Run/Obj.pm",
-    # PM              => { map { ("lib/Test/$_" => "\$(INST_LIBDIR)/$_") } @files },
     PREREQ_PM       => 
     {
         'Class::Accessor' => 0,
         'File::Spec' => 0.6,
         'Test::Harness' => "2.53",
+        'Scalar::Util' => 0,
     },
     INSTALLDIRS     => 'perl',
     clean           => { FILES => join( " ", FLAG_SKIP_PROVE, 'Test-Harness-*', '*~' ) },

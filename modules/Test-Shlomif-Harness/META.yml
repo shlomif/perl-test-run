@@ -7,6 +7,7 @@ installdirs:  perl
 requires:
     Class::Accessor:               0
     File::Spec:                    0.6
+    Scalar::Util:                  0
     Test::Harness:                 2.53
 
 distribution_type: module
