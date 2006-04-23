@@ -1,4 +1,9 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+0.0100_02    Sun Apr 23 23:07:36 IDT 2006
+    Now over-riding _handle_runtests_error_text instead of 
+    _handle_runtests_error, per the refactoring of Test::Run::Obj.
+    
 0.0100_01    Thu Apr  6 21:29:56 IDT 2006
-        First version, released on an unsuspecting world.
+    First version, released on an unsuspecting world.
+

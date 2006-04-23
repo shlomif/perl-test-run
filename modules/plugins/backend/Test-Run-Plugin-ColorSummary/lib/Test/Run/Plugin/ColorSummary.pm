@@ -17,7 +17,7 @@ colors the summary.
 
 =cut
 
-our $VERSION = '0.0100_00';
+our $VERSION = '0.0100_02';
 
 __PACKAGE__->mk_accessors(qw(
     summary_color_failure
@@ -110,17 +110,11 @@ the documentation is the code.
 
 =cut
 
-sub _handle_runtests_error
+sub _handle_runtests_error_text
 {
     my $self = shift;
     my (%args) = @_;
-    my $error = $args{'error'};
-
-    my $text = 
-        (Scalar::Util::blessed($error) && 
-        $error->isa("Test::Run::Obj::Error::TestsFail")) ?
-            $error->text() :
-            $error;
+    my $text = $args{'text'};
 
     print STDERR color($self->_get_failure_summary_color());
     print STDERR $text;
