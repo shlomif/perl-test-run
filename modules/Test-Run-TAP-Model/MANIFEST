@@ -16,4 +16,3 @@ t/oop_file.t
 t/oop_subtest.t
 t/pos_guessing.t
 t/serializable.t
-SIGNATURE    Added here by Module::Build

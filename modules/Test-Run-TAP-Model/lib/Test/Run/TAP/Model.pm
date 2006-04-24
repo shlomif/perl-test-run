@@ -10,7 +10,8 @@ use Test::Run::TAP::Model::File;
 
 use List::Util qw/sum/;
 
-our $VERSION = "0.06";
+# Version of Test::TAP::Model this is based on - 0.06
+our $VERSION = "0.0100_01";
 
 # callback handlers
 sub _handle_bailout {
@@ -547,13 +548,16 @@ putter (svn handle)
 
 =item *
 
-Autrijs Tang <autrijus@autrjius.org> AUTRIJUS
+Autrijus Tang <autrijus@autrjius.org> AUTRIJUS
 
 =item *
 
 Gaal Yahas <gaal@forum2.org> GAAL
 
 =back
+
+Shlomi Fish <shlomif@iglu.org.il> SHLOMIF did the porting to Test::Run. He
+disclaims any ownership on his work.
 
 =head1 COPYRIGHT & LICNESE
 

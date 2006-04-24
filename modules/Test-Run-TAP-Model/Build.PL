@@ -13,6 +13,7 @@ Module::Build->new(
 	build_requires => {
 		'Test::More' => "0.53",
 		'Method::Alias' => "0",
+        'Test::Run::Obj' => 0,
 	},
 	create_makefile_pl => 'traditional',
 )->create_build_script;
