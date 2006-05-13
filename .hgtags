@@ -9,3 +9,4 @@ ca4d1edbadf00e0cf89cd99b711962eeb771ac10 before-permanent-name
 231df97eb3dcc59e0060432564de0a265b6b5291 milestones/after-abstracting-env-vars-handling
 52757d62132e1d2e7873572b3658fb2da075e330 releases/0.01/0.0100/0.0100_07
 d85929ec91f735ad7145296857d0764e5d3e6624 releases/modules/Test-Run-CmdLine/0.01/0.0100/0.0100_02
+2437907f9b164d2c419eb5594b3446b7ad6d99f4 releases/modules/plugins/backend/Test-Run-Plugin-FailSummaryComponents/0.0100_01
