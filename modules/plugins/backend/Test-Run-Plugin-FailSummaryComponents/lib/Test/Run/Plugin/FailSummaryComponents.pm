@@ -65,6 +65,21 @@ sub _get_fail_tests_good_percent_string
     }
 }
 
+sub _get_sub_percent_msg
+{
+    my $self = shift;
+
+    if (!$self->failsumm_remove_subtests_percent())
+    {
+        return $self->NEXT::_get_sub_percent_msg();
+    }
+
+    my $tot = $self->tot();
+    return sprintf(" %d/%d subtests failed.",
+        $tot->max() - $tot->ok(), $tot->max(), 
+        );
+}
+
 =head1 SYNOPSIS
 
     package MyTestRun;
