@@ -18,19 +18,38 @@ customizes the failure summary line.
 
 our $VERSION = '0.0100_02';
 
-__PACKAGE__->mk_accessors(qw(
-    summary_color_failure
-    summary_color_success
+my @params = (qw(
+    failsumm_remove_test_scripts_number
+    failsumm_remove_test_scripts_percent
+    failsumm_remove_subtests_percent
 ));
+
+__PACKAGE__->mk_accessors(
+    @params
+);
 
 sub _get_simple_params
 {
     my $self = shift;
     return 
     [
-        qw(summary_color_failure summary_color_success), 
+        @params,
         @{$self->NEXT::_get_simple_params()}
     ];
+}
+
+sub _get_fail_test_scripts_string
+{
+    my $self = shift;
+
+    if ($self->failsumm_remove_test_scripts_number())
+    {
+        return "test scripts";
+    }
+    else
+    {
+        return $self->NEXT::_get_fail_test_scripts_string();
+    }
 }
 
 sub _get_failure_summary_color
