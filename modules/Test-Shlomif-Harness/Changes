@@ -1,3 +1,9 @@
+0.0100_09 Sat May 13 11:56:41 IDT 2006
+    * Extracted the _get_fail_test_scripts_string() and 
+    _get_fail_tests_good_percent_string() methods out of 
+    _get_fail_other_exception_text() methods for easy overriding, and
+    implementing the error line customization plugins.
+
 0.0100_08 Sat Apr  8 18:39:28 IDT 2006
     * A refactoring of _handle_runtests_error(), which would allow an 
     easier coding of Plugin::ColorSummary.
