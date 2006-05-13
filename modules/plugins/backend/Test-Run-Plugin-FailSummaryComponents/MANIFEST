@@ -1,6 +1,6 @@
 Build.PL
 Changes
-lib/Test/Run/Plugin/ColorSummary.pm
+lib/Test/Run/Plugin/FailSummaryComponents.pm
 Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"

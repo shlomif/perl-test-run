@@ -4,13 +4,13 @@ use strict;
 use warnings;
 
 use Test::Run::Obj;
-use Test::Run::Plugin::ColorSummary;
+use Test::Run::Plugin::FailSummaryComponents;
 
 package MyTestRun;
 
 use vars qw(@ISA);
 
-@ISA = (qw(Test::Run::Plugin::ColorSummary Test::Run::Obj));
+@ISA = (qw(Test::Run::Plugin::FailSummaryComponents Test::Run::Obj));
 
 package main;
 

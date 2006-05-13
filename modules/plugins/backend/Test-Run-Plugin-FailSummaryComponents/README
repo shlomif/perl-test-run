@@ -1,8 +1,7 @@
-Test-Run-Plugin-ColorSummary
+Test-Run-Plugin-FailSummaryComponents
 
-This plugin allows Test::Run to make color the summary line in one color
-on success and in a different color on failure. It uses the Term::ANSIColor
-module for that.
+This plugin allows Test::Run to customize the components of the failure line.
+(failed tests, percents, etc.).
 
 INSTALLATION
 

@@ -1,4 +1,4 @@
-package Test::Run::Plugin::ColorSummary;
+package Test::Run::Plugin::FailSummaryComponents;
 
 use warnings;
 use strict;
@@ -12,8 +12,8 @@ use base 'Class::Accessor';
 
 =head1 NAME
 
-Test::Run::Plugin::ColorSummary - A Test::Run plugin that
-colors the summary.
+Test::Run::Plugin::FailSummaryComponents - A Test::Run plugin that
+customizes the failure summary line.
 
 =cut
 
@@ -64,7 +64,7 @@ sub _get_default_success_summary_color
     
     use vars qw(@ISA);
 
-    @ISA = (qw(Test::Run::Plugin::ColorSummary Test::Run::Obj));
+    @ISA = (qw(Test::Run::Plugin::FailSummaryComponents Test::Run::Obj));
 
     my $tester = MyTestRun->new(
         test_files => 
@@ -135,14 +135,13 @@ Shlomi Fish, C<< <shlomif@iglu.org.il> >>
 
 Please report any bugs or feature requests to
 C<bug-test-run-plugin-colorsummary@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Run-Plugin-ColorSummary>.
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Run-Plugin-FailSummaryComponents>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
 =head1 SEE ALSO
 
-L<Test::Run::Obj>, L<Term::ANSIColor>, 
-L<Test::Run::CmdLine::Plugin::ColorSummary>.
+L<Test::Run::Obj>, L<Test::Run::CmdLine::Plugin::FailSummaryComponents>.
 
 =head1 ACKNOWLEDGEMENTS
 

@@ -3,17 +3,17 @@ use warnings;
 use Module::Build;
 
 my $builder = Module::Build->new(
-    module_name         => 'Test::Run::Plugin::ColorSummary',
+    module_name         => 'Test::Run::Plugin::FailSummaryComponents',
     license             => 'bsd',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
-    dist_version_from   => 'lib/Test/Run/Plugin/ColorSummary.pm',
+    dist_version_from   => 'lib/Test/Run/Plugin/FailSummaryComponents.pm',
     requires => {
         'Test::More' => 0,
         'Term::ANSIColor' => 0,
         'Scalar::Util' => 0,
         'Test::Run::Obj' => 0,
     },
-    add_to_cleanup      => [ 'Test-Run-Plugin-ColorSummary-*' ],
+    add_to_cleanup      => [ 'Test-Run-Plugin-FailSummaryComponents-*' ],
     create_makefile_pl => 'traditional',
 );
 

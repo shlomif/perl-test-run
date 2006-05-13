@@ -3,5 +3,5 @@
 use Test::More tests => 1;
 
 BEGIN {
-	use_ok( 'Test::Run::Plugin::ColorSummary' );
+	use_ok( 'Test::Run::Plugin::FailSummaryComponents' );
 }
