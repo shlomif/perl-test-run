@@ -14,7 +14,7 @@ use vars qw(@ISA);
 
 package main;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 {
     open ALTOUT, ">", "altout.txt";
@@ -93,3 +93,41 @@ use Test::More tests => 2;
     is ($err, $expected, "failsumm_remove_test_scripts_number");
 }
 
+{
+    open ALTOUT, ">", "altout.txt";
+    open SAVEOUT, ">&STDOUT";
+    open STDOUT, ">&ALTOUT";
+
+    open ALTERR, ">", "alterr.txt";
+    open SAVEERR, ">&STDERR";
+    open STDERR, ">&ALTERR";
+
+    my $tester = MyTestRun->new(
+        test_files => 
+        [
+            "t/sample-tests/one-ok.t",
+            "t/sample-tests/one-fail.t"
+        ],
+        failsumm_remove_test_scripts_percent => 1,
+        );
+
+    eval {
+    $tester->runtests();
+    };
+    my $err = $@;
+
+    open STDOUT, ">&SAVEOUT";
+    close(SAVEOUT);
+    close(ALTOUT);
+
+    open STDERR, ">&SAVEERR";
+    close(SAVEERR);
+    close(ALTERR);
+
+    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+
+    my $expected = qq{Failed 1/2 test scripts. 1/2 subtests failed, 50.00% okay.\n};
+
+    # TEST
+    is ($err, $expected, "failsumm_remove_test_scripts_percent => 1 behavior");
+}

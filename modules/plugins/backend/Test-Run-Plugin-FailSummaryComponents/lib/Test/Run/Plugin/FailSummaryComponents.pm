@@ -52,28 +52,17 @@ sub _get_fail_test_scripts_string
     }
 }
 
-sub _get_failure_summary_color
+sub _get_fail_tests_good_percent_string
 {
     my $self = shift;
-    return $self->summary_color_failure() || 
-        $self->_get_default_failure_summary_color();
-}
-
-sub _get_default_failure_summary_color
-{
-    return "bold red";
-}
-
-sub _get_success_summary_color
-{
-    my $self = shift;
-    return $self->summary_color_success() || 
-        $self->_get_default_success_summary_color();
-}
-
-sub _get_default_success_summary_color
-{
-    return "bold blue";
+    if ($self->failsumm_remove_test_scripts_percent())
+    {
+        return "";
+    }
+    else
+    {
+        return $self->NEXT::_get_fail_tests_good_percent_string();
+    }
 }
 
 =head1 SYNOPSIS
