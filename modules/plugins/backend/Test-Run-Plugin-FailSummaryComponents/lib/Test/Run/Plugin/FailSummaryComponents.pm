@@ -4,7 +4,6 @@ use warnings;
 use strict;
 
 use NEXT;
-use Term::ANSIColor;
 use Scalar::Util ();
 
 use base 'Test::Run::Base';
@@ -94,36 +93,6 @@ in L<Term::ANSIColor>.
 =head1 FUNCTIONS
 
 =cut
-
-sub _report_success
-{
-    my $self = shift;
-    print color($self->_get_success_summary_color());
-    $self->NEXT::_report_success();
-    print color("reset");
-}
-
-=head2 $tester->_handle_runtests_error()
-
-We override _handle_runtests_error() to colour the errors in red. The rest of
-the documentation is the code.
-
-=cut
-
-sub _handle_runtests_error_text
-{
-    my $self = shift;
-    my (%args) = @_;
-    my $text = $args{'text'};
-
-    print STDERR color($self->_get_failure_summary_color());
-    print STDERR $text;
-    print STDERR color("reset");
-    # Workaround to make sure color("reset") is accepted and a red cursor
-    # is not displayed.
-    print STDERR "\n";
-    die "\n";
-}
 
 1;
 
