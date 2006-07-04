@@ -617,40 +617,70 @@ sub _print_failed_with_results_seen_msg
     );
 }
 
+sub _get_failed_and_max_params
+{
+    my ($self, $args) = @_;
+    
+    my $test = $args->{'test_struct'};
+
+    my (undef, $canon) = $self->_canonfailed($test);
+
+    return 
+        [
+            canon   => $canon,
+            failed  => scalar @{$test->failed()},
+            percent => 100*(scalar @{$test->failed()})/$test->max(),
+        ];
+}
+
+sub _get_undef_tests_params
+{
+    return 
+        [
+            canon   => '??',
+            failed  => '??',
+            percent => undef,
+        ];
+}
+
+# FWRS == failed_with_results_seen
+
+sub get_common_FWRS_params
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{'test_struct'};
+
+    return
+        [
+            max     => $test->max(),
+            name    => $args->{'filename'},
+            estat   => '',
+            wstat   => '',
+        ];
+}
+
+sub _get_FWRS_tests_existence_params
+{
+    my ($self, $args) = @_;
+
+    return
+        [
+            $self->_is_failed_and_max($args)
+            ? (@{$self->_get_failed_and_max_params($args)})
+            : (@{$self->_get_undef_tests_params($args)})
+        ]
+}
+
 sub _get_failed_with_results_seen_params
 {
     my ($self, $args) = @_;
-    my $test = $args->{'test_struct'};
 
-    my %ret =
-    (
-        max     => $test->max(),
-        name    => $args->{'filename'},
-        estat   => '',
-        wstat   => '',
-    );
-    
-    if ($self->_is_failed_and_max($args)) {
-        my ($txt, $canon) = $self->_canonfailed($test);
-        return $self->_create_failed_obj_instance(
-            {
-                canon   => $canon,
-                failed  => scalar @{$test->failed()},
-                percent => 100*(scalar @{$test->failed()})/$test->max(),
-                %ret,
-            }
-            );
-    }
-    else {
-        return $self->_create_failed_obj_instance(
-            {
-                canon   => '??',
-                failed  => '??',
-                percent => undef,
-                %ret,
-            }
-            );
-    }
+    return 
+        {
+            @{$self->get_common_FWRS_params($args)},
+            @{$self->_get_FWRS_tests_existence_params($args)},
+        }
 }
 
 sub _failed_with_results_seen
