@@ -621,19 +621,23 @@ sub _get_failed_with_results_seen_params
 {
     my ($self, $args) = @_;
     my $test = $args->{'test_struct'};
-    my $tfile = $args->{'filename'};
+
+    my %ret =
+    (
+        max     => $test->max(),
+        name    => $args->{'filename'},
+        estat   => '',
+        wstat   => '',
+    );
     
     if ($self->_is_failed_and_max($args)) {
         my ($txt, $canon) = $self->_canonfailed($test);
         return $self->_create_failed_obj_instance(
             {
                 canon   => $canon,
-                max     => $test->max(),
                 failed  => scalar @{$test->failed()},
-                name    => $tfile,
                 percent => 100*(scalar @{$test->failed()})/$test->max(),
-                estat   => '',
-                wstat   => '',
+                %ret,
             }
             );
     }
@@ -641,12 +645,9 @@ sub _get_failed_with_results_seen_params
         return $self->_create_failed_obj_instance(
             {
                 canon   => '??',
-                max     => $test->max(),
                 failed  => '??',
-                name    => $tfile, 
                 percent => undef,
-                estat   => '', 
-                wstat   => '',
+                %ret,
             }
             );
     }
