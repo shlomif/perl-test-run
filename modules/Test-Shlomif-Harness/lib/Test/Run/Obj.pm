@@ -561,34 +561,39 @@ sub _tot_inc
 sub _create_failed_obj_instance
 {
     my $self = shift;
+    my $args = shift;
     return Test::Run::Obj::FailedObj->new(
-        @_
+        %$args
     );
 }
+
 sub _failed_with_results_seen
 {
     my ($self, %args) = @_;
     my $test = $args{'test_struct'};
     my $tfile = $args{'filename'};
 
-    $self->_tot_inc('bad'); 
+    $self->_tot_inc('bad');
     if (@{$test->failed()} and $test->max()) {
         my ($txt, $canon) = $self->_canonfailed($test);
         $self->_print_message($test->ml().$txt);
         return $self->_create_failed_obj_instance(
+            {
                 canon   => $canon,
                 max     => $test->max(),
                 failed  => scalar @{$test->failed()},
-                name    => $tfile, 
+                name    => $tfile,
                 percent => 100*(scalar @{$test->failed()})/$test->max(),
                 estat   => '',
                 wstat   => '',
+            }
             );
     }
     else {
         $self->_print_message("Don't know which tests failed: got " . $test->ok() . " ok, ".
               "expected " . $test->max());
         return $self->_create_failed_obj_instance(
+            {
                 canon   => '??',
                 max     => $test->max(),
                 failed  => '??',
@@ -596,8 +601,9 @@ sub _failed_with_results_seen
                 percent => undef,
                 estat   => '', 
                 wstat   => '',
+            }
             );
-    }    
+    }
 }
 
 sub _failed_before_any_test_output
@@ -608,6 +614,7 @@ sub _failed_before_any_test_output
     $self->_print_message("FAILED before any test output arrived");
     $self->_tot_inc('bad');
     return $self->_create_failed_obj_instance(
+        {
             canon       => '??',
             max         => '??',
             failed      => '??',
@@ -615,6 +622,7 @@ sub _failed_before_any_test_output
             percent     => undef,
             estat       => '', 
             wstat       => '',
+        }
         );
 }
 
@@ -1463,13 +1471,15 @@ sub _dubious_return {
 
     return 
         $self->_create_failed_obj_instance(
-            canon => $canon,
-            max => $test->max() || '??',
-            failed => $failed,
-            percent => $percent,
-            estat => $estatus,
-            wstat => $wstatus,
-            name => $filename,
+            {
+                canon => $canon,
+                max => $test->max() || '??',
+                failed => $failed,
+                percent => $percent,
+                estat => $estatus,
+                wstat => $wstatus,
+                name => $filename,
+            }
         );
 }
 
