@@ -567,6 +567,47 @@ sub _create_failed_obj_instance
     );
 }
 
+sub _is_failed_and_max
+{
+    my ($self, $args) = @_;
+    my $test = $args->{'test_struct'};
+
+    return (@{$test->failed()} and $test->max());
+}
+
+sub _get_failed_and_max_msg
+{
+    my ($self, $args) = @_;
+    my $test = $args->{'test_struct'};
+    
+    my ($txt, $canon) = $self->_canonfailed($test);
+    
+    return ($test->ml().$txt);
+}
+
+sub _get_dont_know_which_tests_failed_msg
+{
+    my ($self, $args) = @_;
+    my $test = $args->{'test_struct'};
+    
+    return
+        ("Don't know which tests failed: got " . $test->ok() . " ok, ".
+              "expected " . $test->max()
+        );
+}
+
+sub _get_failed_with_results_seen_msg
+{
+    my ($self, $args) = @_;
+    my $test = $args->{'test_struct'};
+    
+    return 
+        $self->_is_failed_and_max($args) 
+            ? $self->_get_failed_and_max_msg($args)
+            : $self->_get_dont_know_which_tests_failed_msg($args)
+            ;
+}
+
 sub _failed_with_results_seen
 {
     my ($self, $args) = @_;
@@ -574,9 +615,14 @@ sub _failed_with_results_seen
     my $tfile = $args->{'filename'};
 
     $self->_tot_inc('bad');
-    if (@{$test->failed()} and $test->max()) {
+
+    $self->_print_message(
+        $self->_get_failed_with_results_seen_msg($args),
+    );
+    
+    if ($self->_is_failed_and_max($args)) {
         my ($txt, $canon) = $self->_canonfailed($test);
-        $self->_print_message($test->ml().$txt);
+        # $self->_print_message($test->ml().$txt);
         return $self->_create_failed_obj_instance(
             {
                 canon   => $canon,
@@ -590,8 +636,8 @@ sub _failed_with_results_seen
             );
     }
     else {
-        $self->_print_message("Don't know which tests failed: got " . $test->ok() . " ok, ".
-              "expected " . $test->max());
+        #$self->_print_message("Don't know which tests failed: got " . $test->ok() . " ok, ".
+        #      "expected " . $test->max());
         return $self->_create_failed_obj_instance(
             {
                 canon   => '??',
