@@ -74,7 +74,7 @@ your bug as I make changes.
 
 Copyright 2006 Shlomi Fish, all rights reserved.
 
-This program is released under the following license: BSD
+This program is released under the following license: MIT X11.
 
 =cut
 
