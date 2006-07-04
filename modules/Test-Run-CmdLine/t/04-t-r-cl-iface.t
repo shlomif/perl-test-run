@@ -48,6 +48,20 @@ my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
 }
 # Default behaviour
 {
+    local %ENV = %ENV;
+    
+    delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
+    delete($ENV{'HARNESS_VERBOSE'});
+    delete($ENV{'HARNESS_DEBUG'});
+    delete($ENV{'HARNESS_COLUMNS'});
+    delete($ENV{'HARNESS_TIMER'});
+    delete($ENV{'HARNESS_NOTTY'});
+    delete($ENV{'HARNESS_PERL'});
+    delete($ENV{'HARNESS_PERL_SWITCHES'});
+    delete($ENV{'HARNESS_DRIVER'});
+    delete($ENV{'HARNESS_PLUGINS'});
+    delete($ENV{'PROVE_SWITCHES'});
+    
     my $obj = Test::Run::CmdLine::Iface->new(
             'test_files' => [ $test_file ],
         );
