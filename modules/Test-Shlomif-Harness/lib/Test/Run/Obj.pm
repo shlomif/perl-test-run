@@ -569,9 +569,9 @@ sub _create_failed_obj_instance
 
 sub _failed_with_results_seen
 {
-    my ($self, %args) = @_;
-    my $test = $args{'test_struct'};
-    my $tfile = $args{'filename'};
+    my ($self, $args) = @_;
+    my $test = $args->{'test_struct'};
+    my $tfile = $args->{'filename'};
 
     $self->_tot_inc('bad');
     if (@{$test->failed()} and $test->max()) {
@@ -608,8 +608,8 @@ sub _failed_with_results_seen
 
 sub _failed_before_any_test_output
 {
-    my ($self, %args) = @_;
-    my $tfile = $args{'filename'};
+    my ($self, $args) = @_;
+    my $tfile = $args->{'filename'};
 
     $self->_print_message("FAILED before any test output arrived");
     $self->_tot_inc('bad');
@@ -628,23 +628,23 @@ sub _failed_before_any_test_output
 
 sub _get_failed_struct
 {
-    my ($self, %args) = @_;
-    if ($args{'wstatus'}) {
+    my ($self, $args) = @_;
+    if ($args->{'wstatus'}) {
          return
             $self->_dubious_return(
-                %args
+                $args
                 );
     }
-    elsif($args{'results'}->{seen}) {
+    elsif($args->{'results'}->{seen}) {
         return
             $self->_failed_with_results_seen(
-                %args,
+                $args,
             );
     }
     else {
         return
             $self->_failed_before_any_test_output(
-                %args,
+                $args,
             );
     }
 }
@@ -820,11 +820,13 @@ sub _run_single_test
         ); 
         $self->failed_tests()->{$tfile} = 
             $self->_get_failed_struct(
-                test_struct => $test,
-                estatus => $estatus,
-                wstatus => $wstatus,
-                filename => $tfile,
-                results => $results,
+                {
+                    test_struct => $test,
+                    estatus => $estatus,
+                    wstatus => $wstatus,
+                    filename => $tfile,
+                    results => $results,
+                }
             );
     }
 
@@ -1424,14 +1426,14 @@ sub _print_message
 
 sub _print_dubious
 {
-    my $self = shift;
-    my (%args) = @_;
-    my $test = $args{test_struct};
-    my $estatus = $args{estatus};
+    my ($self, $args) = @_;
+    my $test = $args->{test_struct};
+    my $estatus = $args->{estatus};
+
     $self->_print_message(
         sprintf($test->ml()."dubious\n\tTest returned status $estatus ".
             "(wstat %d, 0x%x)",
-            (($args{'wstatus'}) x 2))
+            (($args->{'wstatus'}) x 2))
         );
     if ($^O eq "VMS")
     {
@@ -1441,15 +1443,15 @@ sub _print_dubious
 
 # Test program go boom.
 sub _dubious_return {
-    my ($self,%args) = @_;
-    my $test = $args{'test_struct'};
-    my $estatus = $args{'estatus'};
-    my $wstatus = $args{'wstatus'};
-    my $filename = $args{'filename'};
+    my ($self, $args) = @_;
+    my $test = $args->{'test_struct'};
+    my $estatus = $args->{'estatus'};
+    my $wstatus = $args->{'wstatus'};
+    my $filename = $args->{'filename'};
     
     my ($failed, $canon, $percent) = ('??', '??');
 
-    $self->_print_dubious(%args);
+    $self->_print_dubious($args);
 
     $self->_tot_inc('bad');
 
