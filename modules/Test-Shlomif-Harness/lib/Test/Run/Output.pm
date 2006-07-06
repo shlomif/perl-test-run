@@ -48,9 +48,15 @@ sub print_message
 {
     my ($self, $msg) = @_;
     $self->_print_message_raw($msg);
-    print "\n";
+    $self->_newline();
+
 }
 
+sub _newline
+{
+    my $self = shift;
+    $self->_print_message_raw("\n");
+}
 sub print_leader
 {
     my $self = shift;
