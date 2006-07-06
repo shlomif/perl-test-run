@@ -280,7 +280,14 @@ sub _analyze_line {
 
     if ($self->callback())
     {
-        $self->callback()->($self, $line, $linetype, $totals);
+        $self->callback()->(
+            $self, 
+            {
+                line => $line, 
+                linetype => $linetype, 
+                totals => $totals
+            }
+        );
     }
 
     if ($point)

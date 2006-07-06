@@ -1395,9 +1395,18 @@ my %Handlers = (
     bailout => \&bailout_handler,
 );
 
-sub strap_callback {
-    my($self, $line, $type, $totals) = @_;
-    print $line if $self->Verbose();
+sub strap_callback
+{
+    my ($self, $args) = @_;
+
+    my ($line, $type, $totals) = @{$args}{qw(line linetype totals)};
+
+    if ($self->Verbose())
+    {
+        my $line_wo_newline = $line;
+        chomp($line_wo_newline);
+        $self->_print_message($line_wo_newline);
+    }
 
     my $meth = $Handlers{$type};
     $meth->($self, $line, $type, $totals) if $meth;
