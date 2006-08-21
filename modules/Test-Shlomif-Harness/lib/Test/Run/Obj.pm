@@ -526,7 +526,9 @@ sub _init_dir_files
 sub _report_leaked_files
 {
     my ($self, $files) = (@_);
+
     my @f = sort @$files;
+
     $self->_print_message("LEAKED FILES: @f");
 }
 
@@ -1526,7 +1528,32 @@ sub _print_message
     $self->output()->print_message(@_);
 }
 
-sub _print_dubious
+=head2 The common test-context $args param
+
+Contains:
+
+=over 4
+
+=item 'test_struct' => $test
+
+A reference to the test summary object.
+
+=item estatus
+
+The exit status of the test file.
+
+=back
+
+=head2 $test_run->_report_dubious($args)
+
+Is called to report the "dubious" error, when the test returns a non-true
+error code.
+
+$args are the test-context - see above.
+
+=cut
+
+sub _report_dubious
 {
     my ($self, $args) = @_;
     my $test = $args->{test_struct};
@@ -1540,12 +1567,14 @@ sub _print_dubious
     if ($^O eq "VMS")
     {
         $self->_print_message("\t\t(VMS status is $estatus)");
-    }        
+    }
 }
 
 # Test program go boom.
-sub _dubious_return {
+sub _dubious_return 
+{
     my ($self, $args) = @_;
+    
     my $test = $args->{'test_struct'};
     my $estatus = $args->{'estatus'};
     my $wstatus = $args->{'wstatus'};
@@ -1553,7 +1582,7 @@ sub _dubious_return {
     
     my ($failed, $canon, $percent) = ('??', '??');
 
-    $self->_print_dubious($args);
+    $self->_report_dubious($args);
 
     $self->_tot_inc('bad');
 
