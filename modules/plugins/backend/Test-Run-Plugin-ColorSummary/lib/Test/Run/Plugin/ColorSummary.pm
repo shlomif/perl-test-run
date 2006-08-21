@@ -6,6 +6,7 @@ use strict;
 use NEXT;
 use Term::ANSIColor;
 use Scalar::Util ();
+use IO::Handle;
 
 use base 'Test::Run::Base';
 use base 'Class::Accessor';
@@ -116,13 +117,9 @@ sub _handle_runtests_error_text
     my (%args) = @_;
     my $text = $args{'text'};
 
-    print STDERR color($self->_get_failure_summary_color());
-    print STDERR $text;
-    print STDERR color("reset");
-    # Workaround to make sure color("reset") is accepted and a red cursor
-    # is not displayed.
-    print STDERR "\n";
-    die "\n";
+    STDERR->autoflush();
+    $text =~ s{\n\z}{};
+    die color($self->_get_failure_summary_color()).$text.color("reset")."\n";  
 }
 
 1;

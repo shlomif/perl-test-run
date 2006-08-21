@@ -14,7 +14,7 @@ use vars qw(@ISA);
 
 package main;
 
-use Test::More tests => 6;
+use Test::More tests => 4;
 
 use Term::ANSIColor;
 
@@ -75,16 +75,12 @@ use Term::ANSIColor;
     close(SAVEERR);
     close(ALTERR);
 
-    my $err_text = do { local $/; local *I; open I, "<", "alterr.txt"; <I>};
-
     my $color = color("bold red");
 
     # TEST
-    ok (($err_text =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
+    ok (($err =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
         qq{Found colored "Failed 1/1" string});
 
-    # TEST
-    ok ($err, qq{Exited with an exception});
 }
 
 {
@@ -153,8 +149,6 @@ use Term::ANSIColor;
     my $color = color("yellow");
 
     # TEST
-    ok (($err_text =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
+    ok (($err =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
         qq{Found colored "Failed 1/1" string with user-specified color});
-    # TEST
-    ok ($err, qq{Exited with an exception});
 }
