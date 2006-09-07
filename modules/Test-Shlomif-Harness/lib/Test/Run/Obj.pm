@@ -1401,22 +1401,31 @@ sub strap_callback
 {
     my ($self, $args) = @_;
 
-    my ($line, $type, $totals) = @{$args}{qw(line linetype totals)};
+    my $event = $args->{event};
+    my $totals = $args->{totals};
 
     if ($self->Verbose())
     {
-        my $line_wo_newline = $line;
+        my $line_wo_newline = $event->raw();
         chomp($line_wo_newline);
-        $self->_print_message($line_wo_newline);
+        $self->output()->print_message($line_wo_newline);
     }
 
+    my $type = $event->is_plan() ? "header" :
+               $event->is_bailout() ? "bailout" :
+               $event->is_test() ? "test" : "+++560===NON-EXIST===065+++";
     my $meth = $Handlers{$type};
-    $meth->($self, $line, $type, $totals) if $meth;
+    if ($meth)
+    {
+        $meth->($self, $args);
+    }
 };
 
 
 sub header_handler {
-    my($self, $line, $type, $totals) = @_;
+    my($self, $args) = @_;
+
+    my $totals = $args->{totals};
 
     warn "Test header seen more than once!\n" if $self->{_seen_header};
 
@@ -1428,7 +1437,9 @@ sub header_handler {
 };
 
 sub test_handler {
-    my($self, $line, $type, $totals) = @_;
+    my($self, $args) = @_;
+
+    my $totals = $args->{totals};
 
     my $curr = $totals->seen();
     my $next = $self->next();
@@ -1457,7 +1468,7 @@ sub test_handler {
 };
 
 sub bailout_handler {
-    my($self, $line, $type, $totals) = @_;
+    my($self, $args) = @_;
 
     die "FAILED--Further testing stopped" .
       ($self->bailout_reason() ? ": " . $self->bailout_reason() . "\n" : ".\n");

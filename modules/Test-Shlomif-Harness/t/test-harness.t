@@ -165,24 +165,6 @@ my %samples = (
                                   all_ok => 1,
                                  },
             bailout           => 0,
-            combined          => {
-                                  total => {
-                                            bonus      => 1,
-                                            max        => 10,
-                                            'ok'       => 8,
-                                            files      => 1,
-                                            bad        => 1,
-                                            good       => 0,
-                                            tests      => 1,
-                                            sub_skipped=> 1,
-                                            'todo'     => 2,
-                                            skipped    => 0
-                                           },
-                                  failed => {
-                                             canon     => '3 9',
-                                            },
-                                  all_ok => 0,
-                                 },
             duplicates        => {
                                   total => {
                                             bonus      => 0,
@@ -252,38 +234,6 @@ my %samples = (
                                            },
                                  all_ok => 0,
                                 },
-            skipall          => {
-                                  total => {
-                                            bonus      => 0,
-                                            max        => 0,
-                                            'ok'       => 0,
-                                            files      => 1,
-                                            bad        => 0,
-                                            good       => 1,
-                                            tests      => 1,
-                                            sub_skipped=> 0,
-                                            'todo'     => 0,
-                                            skipped    => 1,
-                                           },
-                                  failed => { },
-                                  all_ok => 1,
-                                 },
-            skipall_nomsg   => {
-                                  total => {
-                                            bonus      => 0,
-                                            max        => 0,
-                                            'ok'       => 0,
-                                            files      => 1,
-                                            bad        => 0,
-                                            good       => 1,
-                                            tests      => 1,
-                                            sub_skipped=> 0,
-                                            'todo'     => 0,
-                                            skipped    => 1,
-                                           },
-                                  failed => { },
-                                  all_ok => 1,
-                                 },
             with_comments     => {
                                   total => {
                                             bonus      => 2,

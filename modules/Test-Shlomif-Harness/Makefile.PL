@@ -14,6 +14,10 @@ my %parms = (
         'File::Spec' => 0.6,
         'Test::Harness' => "2.53",
         'Scalar::Util' => 0,
+        # TODO:
+        # We need at least the version of TAPx::Parser with the fix to this
+        # bug:   http://rt.cpan.org/Ticket/Display.html?id=21379
+        'TAPx::Parser' => 0,
     },
     INSTALLDIRS     => 'perl',
     clean           => { FILES => join( " ", FLAG_SKIP_PROVE, 'Test-Harness-*', '*~' ) },
