@@ -1,3 +1,4 @@
+Build.PL
 Changes
 examples/mini_harness.plx
 lib/Test/Run/Assert.pm
