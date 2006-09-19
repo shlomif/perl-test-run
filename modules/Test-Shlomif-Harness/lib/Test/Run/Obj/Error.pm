@@ -42,5 +42,23 @@ use vars qw(@ISA @fields %fields_map);
 
 @ISA = (qw(Test::Run::Obj::Error));
 
+package Test::Run::Obj::Error::TestsFail::NoTestsRun;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Run::Obj::Error::TestsFail));
+
+package Test::Run::Obj::Error::TestsFail::Other;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Run::Obj::Error::TestsFail));
+
+package Test::Run::Obj::Error::TestsFail::NoOutput;
+
+use vars qw(@ISA @fields %fields_map);
+
+@ISA = (qw(Test::Run::Obj::Error::TestsFail));
+
 1;
 

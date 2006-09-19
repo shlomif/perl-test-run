@@ -1054,7 +1054,7 @@ sub _get_fail_no_tests_run_text
 sub _fail_no_tests_run
 {
     my $self = shift;
-    die Test::Run::Obj::Error::TestsFail->new(
+    die Test::Run::Obj::Error::TestsFail::NoTestsRun->new(
         {text => $self->_get_fail_no_tests_run_text(),},
     );
 }
@@ -1072,7 +1072,7 @@ sub _get_fail_no_tests_output_text
 sub _fail_no_tests_output
 {
     my $self = shift;
-    die Test::Run::Obj::Error::TestsFail->new(
+    die Test::Run::Obj::Error::TestsFail::NoOutput->new(
         {text => $self->_get_fail_no_tests_output_text(),},
     );
 }
@@ -1322,7 +1322,7 @@ sub _fail_other_throw_exception
 {
     my $self = shift;
 
-    die Test::Run::Obj::Error::TestsFail->new(
+    die Test::Run::Obj::Error::TestsFail::Other->new(
         {text => $self->_get_fail_other_exception_text(),},
     );
 }

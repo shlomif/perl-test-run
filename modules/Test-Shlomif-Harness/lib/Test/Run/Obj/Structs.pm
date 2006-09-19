@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 use Test::Run::Base;
+use Carp;
 
 package Test::Run::Obj::FailedObj;
 
@@ -107,7 +108,7 @@ sub add
     my ($self, $field, $diff) = @_;
     if (!exists($counter_fields_map{$field}))
     {
-        die "Cannot add to field \"$field\"!";
+        Carp::confess "Cannot add to field \"$field\"!";
     }
     $self->set($field, $self->get($field) + $diff);
     return $self->get($field);

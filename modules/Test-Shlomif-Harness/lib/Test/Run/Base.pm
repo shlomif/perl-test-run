@@ -58,7 +58,7 @@ sub _initialize
         }
         else
         {
-            die "Called with undefined field \"$k\"";
+            Carp::confess "Called with undefined field \"$k\"";
         }
     }
 }
@@ -78,7 +78,7 @@ sub add_to_field
     }
     else
     {
-        die "Trying to increment non-existent field \"$field\"";
+        Carp::confess "Trying to increment non-existent field \"$field\"";
     }
 }
 
