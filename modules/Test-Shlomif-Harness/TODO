@@ -19,7 +19,3 @@ Test::Harness.
 
 Bugs:
 -----
-
-* Warnings in "runprove xslt-Test.t" in the XML-Grammar-ProductsSyndication.
-    - don't appear in "prove xslt-Test.t"
-    - don't appear in "perl xslt-Test.t".
