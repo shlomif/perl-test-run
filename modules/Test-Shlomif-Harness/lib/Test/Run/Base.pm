@@ -39,16 +39,18 @@ sub _get_fields_map
     return +{ map { $_ => 1 } @{$self->_get_fields()} };
 }
 
+use Carp;
+
 sub _initialize
 {
-    my $self = shift;
-    my (%args) = @_;
-
+    my ($self, $args) = @_;
+    
+    Carp::confess '$args not a hash' if (ref($args) ne "HASH");
     $self->_pre_init();
 
     my $fields_map = $self->_get_fields_map();
 
-    while (my ($k, $v) = each(%args))
+    while (my ($k, $v) = each(%$args))
     {
         if (exists($fields_map->{$k}))
         {

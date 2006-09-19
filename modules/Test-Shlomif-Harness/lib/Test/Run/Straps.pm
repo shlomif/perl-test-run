@@ -149,14 +149,14 @@ sub analyze {
 
 sub _init_totals_obj_instance
 {
-    my $self = shift;
-    return Test::Run::Straps::StrapsTotalsObj->new(@_);
+    my ($self, $args) = @_;
+    return Test::Run::Straps::StrapsTotalsObj->new($args);
 }
 
 sub _init_details_obj_instance
 {
-    my $self = shift;
-    return Test::Run::Straps::StrapsDetailsObj->new(@_);
+    my ($self, $args) = @_;
+    return Test::Run::Straps::StrapsDetailsObj->new($args);
 }
 
 sub _analyze_with_parser {
@@ -169,15 +169,17 @@ sub _analyze_with_parser {
     # flattened into a list.
     my $totals = 
         $self->_init_totals_obj_instance(
-            max      => 0,
-            seen     => 0,
+            {
+                max      => 0,
+                seen     => 0,
 
-            ok       => 0,
-            todo     => 0,
-            skip     => 0,
-            bonus    => 0,
+                ok       => 0,
+                todo     => 0,
+                skip     => 0,
+                bonus    => 0,
 
-            details  => [],
+                details  => [],
+            }
         );
 
     # Set them up here so callbacks can have them.
@@ -250,13 +252,15 @@ sub _analyze_event {
         {
             my $details =
                 $self->_init_details_obj_instance(
-                    ok          => $is_pass,
-                    actual_ok   => scalar($event->passed),
-                    name        => _def_or_blank( $event->description ),
-                    # $event->directive returns "SKIP" or "TODO" in uppercase
-                    # and we expect them to be in lowercase.
-                    type        => lc(_def_or_blank( $event->directive )),
-                    reason      => _def_or_blank( $event->explanation ),
+                    {
+                        ok          => $is_pass,
+                        actual_ok   => scalar($event->passed),
+                        name        => _def_or_blank( $event->description ),
+                        # $event->directive returns "SKIP" or "TODO" in uppercase
+                        # and we expect them to be in lowercase.
+                        type        => lc(_def_or_blank( $event->directive )),
+                        reason      => _def_or_blank( $event->explanation ),
+                    },
                 );
 
             assert( defined( $details->ok() ) && defined( $details->actual_ok() ) );

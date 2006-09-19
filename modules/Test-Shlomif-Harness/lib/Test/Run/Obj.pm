@@ -568,7 +568,7 @@ sub _create_failed_obj_instance
     my $self = shift;
     my $args = shift;
     return Test::Run::Obj::FailedObj->new(
-        %$args
+        $args
     );
 }
 
@@ -852,8 +852,8 @@ sub _process_passing_test
 
 sub _create_test_obj_instance
 {
-    my $self = shift;
-    return Test::Run::Obj::TestObj->new(@_);
+    my ($self, $args) = @_;
+    return Test::Run::Obj::TestObj->new($args);
 }
 
 sub _get_test_struct
@@ -865,19 +865,21 @@ sub _get_test_struct
 
     return 
         $self->_create_test_obj_instance(
-            ok          => $results->ok(),
-            'next'      => $self->Strap()->next(),
-            max         => $results->max(),
-            # state of the current test.
-            failed      => [
-                grep { !$results->details()->[$_-1]{ok} }
-                 (1 .. @{$results->details()})
-                           ],
-            bonus       => $results->bonus(),
-            skipped     => $results->skip(),
-            skip_reason => $results->skip_reason(),
-            skip_all    => $self->Strap()->{skip_all},
-            ml          => $self->output()->ml(),
+            {
+                ok          => $results->ok(),
+                'next'      => $self->Strap()->next(),
+                max         => $results->max(),
+                # state of the current test.
+                failed      => [
+                    grep { !$results->details()->[$_-1]{ok} }
+                     (1 .. @{$results->details()})
+                               ],
+                bonus       => $results->bonus(),
+                skipped     => $results->skip(),
+                skip_reason => $results->skip_reason(),
+                skip_all    => $self->Strap()->{skip_all},
+                ml          => $self->output()->ml(),
+            }
         );
 }
 
@@ -941,7 +943,7 @@ sub _init_tot_obj_instance
 {
     my $self = shift;
     return Test::Run::Obj::TotObj->new(
-        @{$self->_get_tot_counter_tests()},
+        { @{$self->_get_tot_counter_tests()} },
     );
 }
 
@@ -1053,7 +1055,7 @@ sub _fail_no_tests_run
 {
     my $self = shift;
     die Test::Run::Obj::Error::TestsFail->new(
-        text => $self->_get_fail_no_tests_run_text(),
+        {text => $self->_get_fail_no_tests_run_text(),},
     );
 }
 
@@ -1071,7 +1073,7 @@ sub _fail_no_tests_output
 {
     my $self = shift;
     die Test::Run::Obj::Error::TestsFail->new(
-        text => $self->_get_fail_no_tests_output_text(),
+        {text => $self->_get_fail_no_tests_output_text(),},
     );
 }
 
@@ -1321,7 +1323,7 @@ sub _fail_other_throw_exception
     my $self = shift;
 
     die Test::Run::Obj::Error::TestsFail->new(
-        text => $self->_get_fail_other_exception_text(),
+        {text => $self->_get_fail_other_exception_text(),},
     );
 }
 
@@ -1685,9 +1687,11 @@ sub _canonfailed_get_canon
 
     my $canon = $self->_canonfailed_get_canon_helper($failed);
     return Test::Run::Obj::CanonFailedObj->new(
-        canon => join(' ', @$canon),
-        result => [$self->_get_failed_string($canon)],
-        failed_num => $failed_num,
+        {
+            canon => join(' ', @$canon),
+            result => [$self->_get_failed_string($canon)],
+            failed_num => $failed_num,
+        },
     );
 }
 
