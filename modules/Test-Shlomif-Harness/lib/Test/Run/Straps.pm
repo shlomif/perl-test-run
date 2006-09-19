@@ -11,7 +11,7 @@ use List::Util qw(first);
 
 use Test::Run::Base;
 use Test::Run::Assert;
-use Test::Run::Iterator;
+use TAPx::Parser::Iterator;
 use Test::Run::Point;
 use Test::Run::Obj::Structs;
 
@@ -140,7 +140,7 @@ sub analyze {
     my $parser =
         TAPx::Parser->new(
             {
-                stream => Test::Run::Iterator->new($test_output_orig),
+                stream => TAPx::Parser::Iterator->new($test_output_orig),
             }
         );
 
@@ -219,7 +219,7 @@ sub _analyze_event {
         if ($is_todo)
         {
             $totals->inc_field('todo');
-            if ( $event->passed() )
+            if ( $event->actual_passed() )
             {
                 $totals->inc_field('bonus');
             }
@@ -314,7 +314,7 @@ sub analyze_fh {
     my $parser = 
         TAPx::Parser->new(
             {
-                stream => Test::Run::Iterator->new($fh),
+                stream => TAPx::Parser::Iterator->new($fh),
             }
         );
     return $self->_analyze_with_parser($name, $parser);
