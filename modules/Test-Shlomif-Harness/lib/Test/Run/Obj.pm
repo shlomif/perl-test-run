@@ -109,8 +109,9 @@ sub _get_new_output
 {
     my $self = shift;
     my $args = shift;
+
     return Test::Run::Output->new(
-        %$args,
+        $args,
     );
 }
 

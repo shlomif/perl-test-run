@@ -26,9 +26,9 @@ sub new
 sub _initialize
 {
     my $self = shift;
-    my (%args) = @_;
-    $self->Verbose($args{Verbose});
-    $self->NoTty($args{NoTty});
+    my $args = shift;
+    $self->Verbose($args->{Verbose});
+    $self->NoTty($args->{NoTty});
     return 0;
 }
 
