@@ -108,13 +108,13 @@ Initialize a new strap.
 
 sub _initialize {
     my $self = shift;
-    my (%args) = @_;
+    my $args = shift;
 
     $self->_is_vms( $^O eq 'VMS' );
     $self->_is_win32( $^O =~ /^(MS)?Win32$/ );
     $self->_is_macos( $^O eq 'MacOS' );
 
-    $self->output($args{output}); 
+    $self->output($args->{output}); 
     $self->totals(+{});
     $self->todo(+{});
 }
@@ -266,8 +266,12 @@ sub _analyze_event {
     elsif ( $event->is_plan() )
     {
         $self->inc_field('saw_header');
-
-        $totals->add_to_field('max', $event->tests_planned());
+        $totals->max($event->tests_planned());
+        # If it's a skip line.
+        if ($event->tests_planned() == 0)
+        {
+            $totals->skip_all($event->explanation());
+        }
     }
     elsif ( $event->is_bailout() )
     {

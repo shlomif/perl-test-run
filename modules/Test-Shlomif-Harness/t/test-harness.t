@@ -234,6 +234,38 @@ my %samples = (
                                            },
                                  all_ok => 0,
                                 },
+            skipall          => {
+                                  total => {
+                                            bonus      => 0,
+                                            max        => 0,
+                                            'ok'       => 0,
+                                            files      => 1,
+                                            bad        => 0,
+                                            good       => 1,
+                                            tests      => 1,
+                                            sub_skipped=> 0,
+                                            'todo'     => 0,
+                                            skipped    => 1,
+                                           },
+                                  failed => { },
+                                  all_ok => 1,
+                                 },
+            skipall_nomsg   => {
+                                  total => {
+                                            bonus      => 0,
+                                            max        => 0,
+                                            'ok'       => 0,
+                                            files      => 1,
+                                            bad        => 0,
+                                            good       => 1,
+                                            tests      => 1,
+                                            sub_skipped=> 0,
+                                            'todo'     => 0,
+                                            skipped    => 1,
+                                           },
+                                  failed => { },
+                                  all_ok => 1,
+                                 },
             with_comments     => {
                                   total => {
                                             bonus      => 2,

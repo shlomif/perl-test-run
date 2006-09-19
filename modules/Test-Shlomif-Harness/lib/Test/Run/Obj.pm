@@ -125,7 +125,9 @@ sub _initialize
     $self->output($self->_get_new_output(\%args));
     $self->Strap(
         Test::Run::Straps->new(
-            output => $self->output(),
+            {
+                output => $self->output(),
+            }
         )
     );
     $self->Strap()->callback(\&strap_callback);
