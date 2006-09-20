@@ -267,6 +267,57 @@ sub _bump_next
     }
 }
 
+# TODO : Maybe we just need has_todo() here.
+sub _is_event_todo
+{
+    my $self = shift;
+    
+    my $event = $self->_event;
+
+    return
+    ( 
+        $event->has_todo() || 
+        (first { $_ == $event->number() } $self->_parser->todo())
+    );
+}
+
+sub _is_event_pass
+{
+    my $self = shift;
+
+    return 
+    (
+        $self->_event->passed() ||
+        $self->_is_event_todo() ||
+        $self->_event->has_skip()
+    );
+}
+
+sub _update_details
+{
+    my $self = shift;
+
+    my $event = $self->_event;
+
+    my $details =
+        $self->_init_details_obj_instance(
+            {
+                ok          => $self->_is_event_pass(),
+                actual_ok   => scalar($event->passed),
+                name        => _def_or_blank( $event->description ),
+                # $event->directive returns "SKIP" or "TODO" in uppercase
+                # and we expect them to be in lowercase.
+                type        => lc(_def_or_blank( $event->directive )),
+                reason      => _def_or_blank( $event->explanation ),
+            },
+        );
+
+    assert( defined( $details->ok() ) && defined( $details->actual_ok() ) );
+    $self->_file_totals->details()->[$event->number - 1] = $details;
+
+    return;
+}
+
 sub _analyze_event
 {
     my $self = shift;
@@ -284,11 +335,7 @@ sub _analyze_event
         # TODO : Remove the commented line later
         # $point->set_number( $self->next()) unless $point->number;
 
-        my $is_todo = 
-            ( $event->has_todo() || 
-              (first { $_ == $event->number() } $self->_parser->todo())
-            );
-        if ($is_todo)
+        if ($self->_is_event_todo())
         {
             $totals->inc_field('todo');
             if ( $event->actual_passed() )
@@ -300,9 +347,7 @@ sub _analyze_event
             $totals->inc_field('skip');
         }
 
-        my $is_pass = ($event->passed() || $is_todo || $event->has_skip());
-
-        if ($is_pass)
+        if ($self->_is_event_pass())
         {
             $totals->inc_field('ok');
         }
@@ -320,21 +365,7 @@ sub _analyze_event
         }
         else
         {
-            my $details =
-                $self->_init_details_obj_instance(
-                    {
-                        ok          => $is_pass,
-                        actual_ok   => scalar($event->passed),
-                        name        => _def_or_blank( $event->description ),
-                        # $event->directive returns "SKIP" or "TODO" in uppercase
-                        # and we expect them to be in lowercase.
-                        type        => lc(_def_or_blank( $event->directive )),
-                        reason      => _def_or_blank( $event->explanation ),
-                    },
-                );
-
-            assert( defined( $details->ok() ) && defined( $details->actual_ok() ) );
-            $totals->details()->[$event->number - 1] = $details;
+            $self->_update_details();
         }
     } # test point
     elsif ( $event->is_plan() )
@@ -362,7 +393,6 @@ sub _analyze_event
     }
 
     $self->_handle_callback();
-
     $self->_bump_next();
 } # _analyze_line
 
