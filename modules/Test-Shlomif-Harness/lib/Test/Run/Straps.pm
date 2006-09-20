@@ -241,6 +241,22 @@ sub _analyze_with_parser {
     return $self->_file_totals;
 }
 
+sub _handle_callback
+{
+    my $self = shift;
+
+    if ($self->callback())
+    {
+        $self->callback()->(
+            $self, 
+            {
+                event => $self->_event(),
+                totals => $self->_file_totals(),
+            }
+        );
+    }
+}
+
 sub _analyze_event
 {
     my $self = shift;
@@ -335,16 +351,7 @@ sub _analyze_event
         }
     }
 
-    if ($self->callback())
-    {
-        $self->callback()->(
-            $self, 
-            {
-                event => $event,
-                totals => $totals,
-            }
-        );
-    }
+    $self->_handle_callback();
 
     if ($event->is_test())
     {
