@@ -26,6 +26,7 @@ my @fields= (qw(
     Debug
     error
     file
+    _file_totals
     last_test_print
     line
     lone_not_line
@@ -166,15 +167,14 @@ sub _init_details_obj_instance
     return Test::Run::Straps::StrapsDetailsObj->new($args);
 }
 
-sub _analyze_with_parser {
-    my($self, $name, $parser) = @_;
+sub _start_new_file
+{
+    my $self = shift;
+    my $name = shift;
 
     $self->_reset_file_state;
     $self->file($name);
-    # TODO : 
-    # Make sure the arguments are passed inside a hash ref instead of
-    # flattened into a list.
-    my $totals = 
+    my $totals =
         $self->_init_totals_obj_instance(
             {
                 max      => 0,
@@ -189,26 +189,39 @@ sub _analyze_with_parser {
             }
         );
 
+    $self->_file_totals($totals);
+
     # Set them up here so callbacks can have them.
     $self->totals()->{$name}         = $totals;
+
+    return;
+}
+
+sub _analyze_with_parser {
+    my($self, $name, $parser) = @_;
+
+    $self->_start_new_file($name);
+
     while (my $event = $parser->next)
     {
-        $self->_analyze_event($parser, $event, $totals);
+        $self->_analyze_event($parser, $event);
         last if $self->saw_bailout();
     }
 
     if (defined($self->skip_all()))
     {
-        $totals->skip_all($self->skip_all()) 
+        $self->_file_totals->skip_all($self->skip_all()) 
     }
-    $totals->determine_passing();
+    $self->_file_totals->determine_passing();
 
-    return $totals;
+    return $self->_file_totals;
 }
 
 
 sub _analyze_event {
-    my ($self, $parser, $event, $totals) = @_;
+    my ($self, $parser, $event) = @_;
+
+    my $totals = $self->_file_totals();
 
     $self->inc_field('line');
 
