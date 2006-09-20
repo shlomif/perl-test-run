@@ -11,7 +11,7 @@ use List::Util qw(first);
 
 use Test::Run::Base;
 use Test::Run::Assert;
-use TAPx::Parser::Iterator;
+use TAPx::Parser;
 use Test::Run::Obj::Structs;
 
 @ISA = (qw(Test::Run::Base::Struct));
@@ -139,7 +139,7 @@ sub analyze {
     my $parser =
         TAPx::Parser->new(
             {
-                stream => TAPx::Parser::Iterator->new($test_output_orig),
+                source => $test_output_orig,
             }
         );
 
@@ -319,7 +319,7 @@ sub analyze_fh {
     my $parser = 
         TAPx::Parser->new(
             {
-                stream => TAPx::Parser::Iterator->new($fh),
+                source => $fh,
             }
         );
     return $self->_analyze_with_parser($name, $parser);

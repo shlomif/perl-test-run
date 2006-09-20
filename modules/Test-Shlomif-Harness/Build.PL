@@ -14,9 +14,10 @@ my $build = Test::Run::Builder->new(
         'File::Spec' => 0.6,
         'Test::Harness' => "2.53",
         'Scalar::Util' => 0,
-        'TAPx::Parser' => "0.21",
+        'TAPx::Parser' => "0.30",
     },
     dist_version_from => "lib/Test/Run/Obj.pm",
+    license => "bsd",
 );
 
 $build->create_build_script;
