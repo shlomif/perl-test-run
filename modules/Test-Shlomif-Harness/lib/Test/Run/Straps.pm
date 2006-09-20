@@ -12,7 +12,6 @@ use List::Util qw(first);
 use Test::Run::Base;
 use Test::Run::Assert;
 use TAPx::Parser::Iterator;
-use Test::Run::Point;
 use Test::Run::Obj::Structs;
 
 @ISA = (qw(Test::Run::Base::Struct));
@@ -204,8 +203,6 @@ sub _analyze_event {
     my ($self, $parser, $event, $totals) = @_;
 
     $self->inc_field('line');
-
-    # my $point = Test::Run::Point->from_test_line( $line );
 
     # TODO : Refactor
     if ($event->is_test())

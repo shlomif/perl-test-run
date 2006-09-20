@@ -11,6 +11,10 @@ requires:
   Scalar::Util: 0
   TAPx::Parser: 0.21
   Test::Harness: 2.53
+generated_by: Module::Build version 0.2805
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2
 provides:
   Test::Run::Assert:
     file: lib/Test/Run/Assert.pm
@@ -37,6 +41,12 @@ provides:
     file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::Error::TestsFail:
     file: lib/Test/Run/Obj/Error.pm
+  Test::Run::Obj::Error::TestsFail::NoOutput:
+    file: lib/Test/Run/Obj/Error.pm
+  Test::Run::Obj::Error::TestsFail::NoTestsRun:
+    file: lib/Test/Run/Obj/Error.pm
+  Test::Run::Obj::Error::TestsFail::Other:
+    file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::FailedObj:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Obj::TestObj:
@@ -45,9 +55,6 @@ provides:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Output:
     file: lib/Test/Run/Output.pm
-  Test::Run::Point:
-    file: lib/Test/Run/Point.pm
-    version: 0.01
   Test::Run::Straps:
     file: lib/Test/Run/Straps.pm
     version: 0.24
@@ -55,7 +62,3 @@ provides:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Obj/Structs.pm
-generated_by: Module::Build version 0.2805
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
