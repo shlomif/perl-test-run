@@ -133,17 +133,25 @@ newlines.
 
 =cut
 
-sub analyze {
-    my($self, $name, $test_output_orig) = @_;
-
-    my $parser =
-        TAPx::Parser->new(
+sub _create_parser
+{
+    my ($self, $source) = @_;
+    return TAPx::Parser->new(
             {
-                source => $test_output_orig,
+                source => $source,
             }
         );
+}
 
-    return $self->_analyze_with_parser($name, $parser);
+sub analyze
+{
+    my($self, $name, $test_output_orig) = @_;
+
+    return
+        $self->_analyze_with_parser(
+            $name,
+            $self->_create_parser($test_output_orig),
+        );
 }
 
 sub _init_totals_obj_instance
@@ -313,16 +321,11 @@ Like C<analyze>, but it reads from the given filehandle.
 
 =cut
 
-sub analyze_fh {
-    my($self, $name, $fh) = @_;
-
-    my $parser = 
-        TAPx::Parser->new(
-            {
-                source => $fh,
-            }
-        );
-    return $self->_analyze_with_parser($name, $parser);
+sub analyze_fh
+{
+    my $self = shift;
+    # The same as analyze due to TAPx::Parser polymorphism
+    return $self->analyze(@_);
 }
 
 =head2 $strap->analyze_file( $test_file )
