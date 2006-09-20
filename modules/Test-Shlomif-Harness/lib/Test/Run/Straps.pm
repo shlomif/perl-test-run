@@ -208,10 +208,6 @@ sub _analyze_with_parser {
         last if $self->saw_bailout();
     }
 
-    if (defined($self->skip_all()))
-    {
-        $self->_file_totals->skip_all($self->skip_all()) 
-    }
     $self->_file_totals->determine_passing();
 
     return $self->_file_totals;
