@@ -257,6 +257,16 @@ sub _handle_callback
     }
 }
 
+sub _bump_next
+{
+    my $self = shift;
+
+    if ($self->_event->is_test())
+    {
+        $self->next($self->_event->number + 1) 
+    }
+}
+
 sub _analyze_event
 {
     my $self = shift;
@@ -353,10 +363,7 @@ sub _analyze_event
 
     $self->_handle_callback();
 
-    if ($event->is_test())
-    {
-        $self->next($event->number + 1) 
-    }
+    $self->_bump_next();
 } # _analyze_line
 
 =head2 $strap->analyze_fh( $name, $test_filehandle )
