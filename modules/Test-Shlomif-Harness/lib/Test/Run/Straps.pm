@@ -167,6 +167,22 @@ sub _init_details_obj_instance
     return Test::Run::Straps::StrapsDetailsObj->new($args);
 }
 
+sub _get_initial_totals_obj_params
+{
+    return
+    {
+        max      => 0,
+        seen     => 0,
+
+        ok       => 0,
+        todo     => 0,
+        skip     => 0,
+        bonus    => 0,
+
+        details  => [],
+    };
+}
+
 sub _start_new_file
 {
     my $self = shift;
@@ -176,17 +192,7 @@ sub _start_new_file
     $self->file($name);
     my $totals =
         $self->_init_totals_obj_instance(
-            {
-                max      => 0,
-                seen     => 0,
-
-                ok       => 0,
-                todo     => 0,
-                skip     => 0,
-                bonus    => 0,
-
-                details  => [],
-            }
+            $self->_get_initial_totals_obj_params(),
         );
 
     $self->_file_totals($totals);
