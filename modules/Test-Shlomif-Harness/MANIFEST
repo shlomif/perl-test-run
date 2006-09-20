@@ -5,7 +5,6 @@ inc/Test/Run/Builder.pm
 lib/Test/Run/Assert.pm
 lib/Test/Run/Base.pm
 lib/Test/Run/Iface.pm
-lib/Test/Run/Iterator.pm
 lib/Test/Run/Obj/Error.pm
 lib/Test/Run/Obj.pm
 lib/Test/Run/Obj/Structs.pm

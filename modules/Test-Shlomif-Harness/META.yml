@@ -4,12 +4,12 @@ version: 0.0100_09
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Run Perl standard test scripts with statistics
-license: unknown
+license: bsd
 requires:
   Class::Accessor: 0
   File::Spec: 0.6
   Scalar::Util: 0
-  TAPx::Parser: 0.21
+  TAPx::Parser: 0.30
   Test::Harness: 2.53
 generated_by: Module::Build version 0.2805
 meta-spec:
@@ -25,13 +25,6 @@ provides:
     file: lib/Test/Run/Base.pm
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
-  Test::Run::Iterator:
-    file: lib/Test/Run/Iterator.pm
-    version: 0.02
-  Test::Run::Iterator::ARRAY:
-    file: lib/Test/Run/Iterator.pm
-  Test::Run::Iterator::FH:
-    file: lib/Test/Run/Iterator.pm
   Test::Run::Obj:
     file: lib/Test/Run/Obj.pm
     version: 0.0100_09
@@ -62,3 +55,5 @@ provides:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Obj/Structs.pm
+resources:
+  license: http://www.opensource.org/licenses/bsd-license.php
