@@ -17,22 +17,24 @@ use Test::Run::Obj::Structs;
 @ISA = (qw(Test::Run::Base::Struct));
 
 my @fields= (qw(
-    _is_macos
-    _is_vms
-    _is_win32
-    _old5lib
     bailout_reason
     callback
     Debug
     error
+    _event
     file
     _file_totals
+    _is_macos
+    _is_vms
+    _is_win32
     last_test_print
     line
     lone_not_line
     max
     next
+    _old5lib
     output
+    _parser
     saw_bailout
     saw_header
     skip_all
@@ -148,10 +150,11 @@ sub analyze
 {
     my($self, $name, $test_output_orig) = @_;
 
+    $self->_parser($self->_create_parser($test_output_orig));
+
     return
         $self->_analyze_with_parser(
             $name,
-            $self->_create_parser($test_output_orig),
         );
 }
 
@@ -203,25 +206,46 @@ sub _start_new_file
     return;
 }
 
+sub _get_next_event
+{
+    my ($self) = @_;
+
+    return $self->_event(scalar($self->_parser->next()));
+}
+
+sub _end_file
+{
+    my $self = shift;
+
+    $self->_parser(undef);
+    $self->_event(undef);
+
+    return;
+}
+
 sub _analyze_with_parser {
-    my($self, $name, $parser) = @_;
+    my($self, $name) = @_;
 
     $self->_start_new_file($name);
 
-    while (my $event = $parser->next)
+    while ($self->_get_next_event())
     {
-        $self->_analyze_event($parser, $event);
+        $self->_analyze_event();
         last if $self->saw_bailout();
     }
 
     $self->_file_totals->determine_passing();
 
+    $self->_end_file($name);
+
     return $self->_file_totals;
 }
 
-
-sub _analyze_event {
-    my ($self, $parser, $event) = @_;
+sub _analyze_event
+{
+    my $self = shift;
+    
+    my $event = $self->_event;
 
     my $totals = $self->_file_totals();
 
@@ -236,7 +260,7 @@ sub _analyze_event {
 
         my $is_todo = 
             ( $event->has_todo() || 
-              (first { $_ == $event->number() } $parser->todo())
+              (first { $_ == $event->number() } $self->_parser->todo())
             );
         if ($is_todo)
         {
