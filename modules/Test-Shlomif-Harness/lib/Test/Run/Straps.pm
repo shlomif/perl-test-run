@@ -318,7 +318,7 @@ sub _update_details
     return;
 }
 
-sub _handle_comment
+sub _handle_comment_event
 {
     my $self = shift;
 
@@ -326,6 +326,54 @@ sub _handle_comment
     if (defined($test))
     {
         $test->append_to_diag($self->_event->comment());
+    }
+
+    return;
+}
+
+sub _handle_test_event
+{
+    my $self = shift;
+
+    my $event = $self->_event;
+
+    my $totals = $self->_file_totals();
+
+    $totals->inc_field('seen');
+    # TODO : Remove the commented line later
+    # $point->set_number( $self->next()) unless $point->number;
+
+    if ($self->_is_event_todo())
+    {
+        $totals->inc_field('todo');
+        if ( $event->actual_passed() )
+        {
+            $totals->inc_field('bonus');
+        }
+    }
+    elsif ( $event->has_skip ) {
+        $totals->inc_field('skip');
+    }
+
+    if ($self->_is_event_pass())
+    {
+        $totals->inc_field('ok');
+    }
+
+    if ( ($event->number > 100_000) &&
+         ($event->number > ($self->max()||100_000)) 
+       )
+    {
+        if ( !$self->too_many_tests() )
+        {
+            warn "Enormous test number seen [test ", $event->number, "]\n";
+            warn "Can't detailize, too big.\n";
+            $self->too_many_tests(1);
+        }
+    }
+    else
+    {
+        $self->_update_details();
     }
 
     return;
@@ -344,43 +392,9 @@ sub _analyze_event
     # TODO : Refactor
     if ($event->is_test())
     {
-        $totals->inc_field('seen');
-        # TODO : Remove the commented line later
-        # $point->set_number( $self->next()) unless $point->number;
-
-        if ($self->_is_event_todo())
-        {
-            $totals->inc_field('todo');
-            if ( $event->actual_passed() )
-            {
-                $totals->inc_field('bonus');
-            }
-        }
-        elsif ( $event->has_skip ) {
-            $totals->inc_field('skip');
-        }
-
-        if ($self->_is_event_pass())
-        {
-            $totals->inc_field('ok');
-        }
-
-        if ( ($event->number > 100_000) &&
-             ($event->number > ($self->max()||100_000)) 
-           )
-        {
-            if ( !$self->too_many_tests() )
-            {
-                warn "Enormous test number seen [test ", $event->number, "]\n";
-                warn "Can't detailize, too big.\n";
-                $self->too_many_tests(1);
-            }
-        }
-        else
-        {
-            $self->_update_details();
-        }
-    } # test point
+        $self->_handle_test_event();
+    }
+    # test point
     elsif ( $event->is_plan() )
     {
         $self->inc_field('saw_header');
@@ -398,7 +412,7 @@ sub _analyze_event
     }
     elsif ( $event->is_comment() )
     {
-        $self->_handle_comment();
+        $self->_handle_comment_event();
     }
 
     $self->_handle_callback();
