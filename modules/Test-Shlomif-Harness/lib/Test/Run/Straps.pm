@@ -375,15 +375,12 @@ sub _update_details_wrapper
     }
 }
 
-sub _handle_test_event
+sub _handle_labeled_test_event
 {
     my $self = shift;
 
     my $event = $self->_event;
-
     my $totals = $self->_file_totals();
-
-    $totals->inc_field('seen');
 
     if ($self->_is_event_todo())
     {
@@ -397,11 +394,29 @@ sub _handle_test_event
         $totals->inc_field('skip');
     }
 
+    return;
+}
+
+sub _update_if_pass
+{
+    my $self = shift;
+
     if ($self->_is_event_pass())
     {
-        $totals->inc_field('ok');
+        $self->_file_totals->inc_field('ok');
     }
 
+    return;
+}
+
+sub _handle_test_event
+{
+    my $self = shift;
+
+    $self->_file_totals->inc_field('seen');
+
+    $self->_handle_labeled_test_event();
+    $self->_update_if_pass();
     $self->_update_details_wrapper();
 
     return;
