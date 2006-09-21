@@ -806,11 +806,11 @@ sub _time_single_test
     my $tfile = shift;
 
     my $test_start_time = $self->Timer() ? time : 0;
-    $self->Strap()->Verbose($self->Verbose());
-    $self->Strap()->Debug($self->Debug());
-    $self->Strap()->Test_Interpreter($self->Test_Interpreter());
-    $self->Strap()->Switches($self->Switches());
-    $self->Strap()->Switches_Env($self->Switches_Env());
+
+    $self->Strap()->copy_from($self,
+        [qw(Verbose Debug Test_Interpreter Switches Switches_Env)]
+    );
+
     my $results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
     my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);

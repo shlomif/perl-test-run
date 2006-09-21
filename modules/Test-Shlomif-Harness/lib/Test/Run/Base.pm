@@ -18,6 +18,25 @@ sub new
     return $self;
 }
 
+=head2 $dest->copy_from($source, [@fields])
+
+Assigns the fields C<@fields> using their accessors based on their values
+in C<$source>.
+
+=cut
+
+sub copy_from
+{
+    my ($dest, $source, $fields) = @_;
+
+    foreach my $f (@$fields)
+    {
+        $dest->$f($source->$f());
+    }
+
+    return;
+}
+
 package Test::Run::Base::Struct;
 
 use vars (qw(@ISA));
