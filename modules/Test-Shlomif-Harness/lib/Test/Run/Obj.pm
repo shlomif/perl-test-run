@@ -800,6 +800,11 @@ sub _get_elapsed
     }
 }
 
+sub _get_copied_strap_fields
+{
+    return [qw(Verbose Debug Test_Interpreter Switches Switches_Env)];
+}
+
 sub _time_single_test
 {
     my $self = shift;
@@ -807,9 +812,7 @@ sub _time_single_test
 
     my $test_start_time = $self->Timer() ? time : 0;
 
-    $self->Strap()->copy_from($self,
-        [qw(Verbose Debug Test_Interpreter Switches Switches_Env)]
-    );
+    $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
 
     my $results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
