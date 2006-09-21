@@ -318,6 +318,19 @@ sub _update_details
     return;
 }
 
+sub _handle_comment
+{
+    my $self = shift;
+
+    my $test = $self->_file_totals->details()->[-1];
+    if (defined($test))
+    {
+        $test->append_to_diag($self->_event->comment());
+    }
+
+    return;
+}
+
 sub _analyze_event
 {
     my $self = shift;
@@ -385,11 +398,7 @@ sub _analyze_event
     }
     elsif ( $event->is_comment() )
     {
-        my $test = $totals->details()->[-1];
-        if (defined($test))
-        {
-            $test->append_to_diag($event->comment());
-        }
+        $self->_handle_comment();
     }
 
     $self->_handle_callback();
