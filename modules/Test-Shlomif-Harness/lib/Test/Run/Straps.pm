@@ -396,6 +396,38 @@ sub _handle_plan_event
     return;
 }
 
+sub _get_event_types_cascade
+{
+    return [qw(test plan bailout comment)];
+}
+
+=head2 $self->_handle_event()
+
+Handles the current event according to the list of types in the cascade. It
+checks each type and if matches calls the appropriate 
+C<_handle_${type}_event> callback. Returns the type of the event that matched.
+
+=cut
+
+sub _handle_event
+{
+    my $self = shift;
+
+    my $event = $self->_event;
+
+    EVENT_TYPES:
+    foreach my $type (@{$self->_get_event_types_cascade()})
+    {
+        if ($event->can("is_$type")->($event))
+        {
+            $self->can("_handle_${type}_event")->($self);
+            return $type;
+        }
+    }
+
+    return;
+}
+
 sub _analyze_event
 {
     my $self = shift;
@@ -406,22 +438,7 @@ sub _analyze_event
 
     $self->inc_field('line');
 
-    if ($event->is_test())
-    {
-        $self->_handle_test_event();
-    }
-    elsif ( $event->is_plan() )
-    {
-        $self->_handle_plan_event();
-    }
-    elsif ( $event->is_bailout() )
-    {
-        $self->_handle_bailout_event();
-    }
-    elsif ( $event->is_comment() )
-    {
-        $self->_handle_comment_event();
-    }
+    $self->_handle_event();
 
     $self->_call_callback();
     $self->_bump_next();
