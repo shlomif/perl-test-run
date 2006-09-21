@@ -409,12 +409,18 @@ sub _update_if_pass
     return;
 }
 
-sub _handle_test_event
+sub _inc_seen
 {
     my $self = shift;
 
     $self->_file_totals->inc_field('seen');
+}
 
+sub _handle_test_event
+{
+    my $self = shift;
+
+    $self->_inc_seen();
     $self->_handle_labeled_test_event();
     $self->_update_if_pass();
     $self->_update_details_wrapper();
