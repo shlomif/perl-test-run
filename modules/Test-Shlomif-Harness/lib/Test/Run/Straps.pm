@@ -241,7 +241,7 @@ sub _analyze_with_parser {
     return $self->_file_totals;
 }
 
-sub _handle_callback
+sub _call_callback
 {
     my $self = shift;
 
@@ -424,7 +424,7 @@ sub _analyze_event
         $self->_handle_comment_event();
     }
 
-    $self->_handle_callback();
+    $self->_call_callback();
     $self->_bump_next();
 } # _analyze_line
 
