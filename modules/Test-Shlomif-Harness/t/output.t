@@ -16,13 +16,16 @@ use Test::More tests => 5;
 
 use Test::Run::Obj;
 
+sub trap_output
 {
+    my $args = shift;
+
     open ALTOUT, ">", "altout.txt";
     open SAVEOUT, ">&STDOUT";
     open STDOUT, ">&ALTOUT";
 
     my $tester = Test::Run::Obj->new(
-        test_files => ["t/sample-tests/simple"],
+        @$args,
         );
 
     $tester->runtests();
@@ -33,87 +36,66 @@ use Test::Run::Obj;
 
     my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
 
+    return
+    {
+        'stdout' => $text,
+    }
+}
+
+{
+    my $got = trap_output([test_files => ["t/sample-tests/simple"]]);
     # TEST
-    ok (($text =~ m/All tests successful\./), "'All tests successful.' string as is");
+    ok (($got->{stdout} =~ m/All tests successful\./), "'All tests successful.' string as is");
 }
 
 # Run several tests.
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    my $tester = Test::Run::Obj->new(
-        test_files => 
+    my $got = trap_output(
         [
-            "t/sample-tests/simple", 
-            "t/sample-tests/head_end",
-            "t/sample-tests/todo",
-        ],
-        );
-
-    $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+            test_files =>         
+            [
+                "t/sample-tests/simple", 
+                "t/sample-tests/head_end",
+                "t/sample-tests/todo",
+            ],
+        ]
+    );
 
     # TEST
-    ok (($text =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
+    ok (($got->{stdout} =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
 }
 
 # Skipped sub-tests
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    my $tester = Test::Run::Obj->new(
-        test_files => 
+    my $got = trap_output(
         [
-            "t/sample-tests/simple", 
-            "t/sample-tests/skip",
-        ],
-        );
-
-    $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+            test_files => 
+            [
+                "t/sample-tests/simple", 
+                "t/sample-tests/skip",
+            ],
+        ]
+    );
 
     # TEST
-    ok (($text =~ m/All tests successful, 1 subtest skipped\./), "1 subtest skipped with a comma afterwards.");
+    ok (($got->{stdout} =~ m/All tests successful, 1 subtest skipped\./), "1 subtest skipped with a comma afterwards.");
 }
 
 # Run several tests with debug.
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    my $tester = Test::Run::Obj->new(
-        test_files => 
+    my $got = trap_output(
         [
-            "t/sample-tests/simple", 
-            "t/sample-tests/head_end",
-            "t/sample-tests/todo",
-        ],
-        Debug => 1,
-        );
-
-    $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
-
+            test_files => 
+            [
+                "t/sample-tests/simple", 
+                "t/sample-tests/head_end",
+                "t/sample-tests/todo",
+            ],
+            Debug => 1,
+        ]
+    );
+    
+    my $text = $got->{stdout};
     # TEST
     ok (($text =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
     # TEST
