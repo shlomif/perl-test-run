@@ -667,15 +667,15 @@ Returns only defined, non-blank, trimmed switches from the parms passed.
 sub _cleaned_switches {
     my $self = shift;
 
-    local $_;
+    my @input = @_;
 
     my @switches;
-    for ( @_ ) {
-	my $switch = $_;
-	next unless defined $switch;
-	$switch =~ s/^\s+//;
-	$switch =~ s/\s+$//;
-	push( @switches, $switch ) if $switch ne "";
+    for my $switch ( @input )
+    {
+        next unless defined $switch;
+        $switch =~ s/^\s+//;
+        $switch =~ s/\s+$//;
+        push( @switches, $switch ) if $switch ne "";
     }
 
     return @switches;
