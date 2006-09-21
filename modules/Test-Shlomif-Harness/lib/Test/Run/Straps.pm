@@ -498,7 +498,7 @@ sub _analyze_event
 
     $self->_call_callback();
     $self->_bump_next();
-} # _analyze_line
+}
 
 =head2 $strap->analyze_fh( $name, $test_filehandle )
 
