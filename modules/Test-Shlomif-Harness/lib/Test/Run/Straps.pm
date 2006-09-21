@@ -217,6 +217,8 @@ sub _end_file
 {
     my $self = shift;
 
+    $self->_file_totals->determine_passing();
+
     $self->_parser(undef);
     $self->_event(undef);
 
@@ -233,11 +235,9 @@ sub _handle_bailout_event
     return;
 }
 
-
-sub _analyze_with_parser {
-    my($self, $name) = @_;
-
-    $self->_start_new_file($name);
+sub _events_loop
+{
+    my $self = shift;
 
     while ($self->_get_next_event())
     {
@@ -245,7 +245,16 @@ sub _analyze_with_parser {
         last if $self->saw_bailout();
     }
 
-    $self->_file_totals->determine_passing();
+    return;
+}
+
+sub _analyze_with_parser
+{
+    my($self, $name) = @_;
+
+    $self->_start_new_file($name);
+
+    $self->_events_loop();
 
     $self->_end_file($name);
 
