@@ -344,8 +344,6 @@ sub _handle_test_event
     my $totals = $self->_file_totals();
 
     $totals->inc_field('seen');
-    # TODO : Remove the commented line later
-    # $point->set_number( $self->next()) unless $point->number;
 
     if ($self->_is_event_todo())
     {
@@ -408,12 +406,10 @@ sub _analyze_event
 
     $self->inc_field('line');
 
-    # TODO : Refactor
     if ($event->is_test())
     {
         $self->_handle_test_event();
     }
-    # test point
     elsif ( $event->is_plan() )
     {
         $self->_handle_plan_event();
