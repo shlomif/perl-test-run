@@ -335,6 +335,46 @@ sub _handle_comment_event
     return;
 }
 
+sub _is_enormous_event_num
+{
+    my $self = shift;
+
+    return 
+    (
+        ($self->_event->number > 100_000)
+            &&
+        ($self->_event->number > ($self->max()||100_000))
+    )
+}
+
+sub _handle_enormous_event_num
+{
+    my $self = shift;
+
+    if ( !$self->too_many_tests() )
+    {
+        warn "Enormous test number seen [test ", $self->_event->number, "]\n";
+        warn "Can't detailize, too big.\n";
+        $self->too_many_tests(1);
+    }
+}
+
+sub _update_details_wrapper
+{
+    my $self = shift;
+
+    my $event = $self->_event;
+
+    if ($self->_is_enormous_event_num())
+    {
+        $self->_handle_enormous_event_num();
+    }
+    else
+    {
+        $self->_update_details();
+    }
+}
+
 sub _handle_test_event
 {
     my $self = shift;
@@ -362,21 +402,7 @@ sub _handle_test_event
         $totals->inc_field('ok');
     }
 
-    if ( ($event->number > 100_000) &&
-         ($event->number > ($self->max()||100_000)) 
-       )
-    {
-        if ( !$self->too_many_tests() )
-        {
-            warn "Enormous test number seen [test ", $event->number, "]\n";
-            warn "Can't detailize, too big.\n";
-            $self->too_many_tests(1);
-        }
-    }
-    else
-    {
-        $self->_update_details();
-    }
+    $self->_update_details_wrapper();
 
     return;
 }
