@@ -487,10 +487,6 @@ sub _handle_event
 sub _analyze_event
 {
     my $self = shift;
-    
-    my $event = $self->_event;
-
-    my $totals = $self->_file_totals();
 
     $self->inc_field('line');
 
