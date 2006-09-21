@@ -278,18 +278,11 @@ sub _bump_next
     }
 }
 
-# TODO : Maybe we just need has_todo() here.
 sub _is_event_todo
 {
     my $self = shift;
     
-    my $event = $self->_event;
-
-    return
-    ( 
-        $event->has_todo() || 
-        (first { $_ == $event->number() } $self->_parser->todo())
-    );
+    return $self->_event->has_todo();
 }
 
 sub _is_event_pass
