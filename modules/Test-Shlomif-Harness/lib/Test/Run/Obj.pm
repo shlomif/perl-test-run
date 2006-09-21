@@ -386,7 +386,7 @@ sub _get_runtests_error_text
     
     return 
         ($self->_is_error_object($error)
-            ? $error->text()
+            ? $error->stringify()
             : $error
         );
 }
@@ -1478,8 +1478,12 @@ sub test_handler {
 sub bailout_handler {
     my($self, $args) = @_;
 
-    die "FAILED--Further testing stopped" .
-      ($self->bailout_reason() ? ": " . $self->bailout_reason() . "\n" : ".\n");
+    die Test::Run::Obj::Error::TestsFail::Bailout->new(
+        {
+            bailout_reason => $self->bailout_reason(),
+            text => "FOOBAR",
+        }
+    );
 };
 
 sub _get_s

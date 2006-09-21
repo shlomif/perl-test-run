@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 use Test::Run::Obj;
 
@@ -24,11 +24,14 @@ sub trap_output
     open SAVEOUT, ">&STDOUT";
     open STDOUT, ">&ALTOUT";
 
+
     my $tester = Test::Run::Obj->new(
         @$args,
         );
 
-    $tester->runtests();
+    eval { $tester->runtests(); };
+
+    my $error = $@;
 
     open STDOUT, ">&SAVEOUT";
     close(SAVEOUT);
@@ -39,6 +42,7 @@ sub trap_output
     return
     {
         'stdout' => $text,
+        'error' => $error,
     }
 }
 
@@ -100,4 +104,22 @@ sub trap_output
     ok (($text =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
     # TEST
     ok (($text =~ m/^# PERL5LIB=/m), "Matched a Debug diagnostics");
+}
+
+{
+    my $got = trap_output(
+        [
+            test_files => 
+            [
+                "t/sample-tests/bailout", 
+            ],
+        ]
+    );
+    
+    my $error = $got->{error};
+    my $match = 'FAILED--Further testing stopped: GERONIMMMOOOOOO!!!';
+    # TEST
+    like ("$error", ('/' . quotemeta($match) . '/'), 
+        "Matched the bailout error."
+    );
 }

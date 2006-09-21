@@ -508,7 +508,7 @@ SKIP: {
 
     SKIP: {
         skip "special tests for bailout", 1 unless $test eq 'bailout';
-        like( $@, '/Further testing stopped: GERONI/i' );
+        like( "$@", '/Further testing stopped: GERONI/i' );
     }
 
     SKIP: {
