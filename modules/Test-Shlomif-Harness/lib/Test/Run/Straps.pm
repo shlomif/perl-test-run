@@ -28,7 +28,6 @@ my @fields= (qw(
     _is_vms
     _is_win32
     last_test_print
-    line
     lone_not_line
     max
     next
@@ -488,8 +487,6 @@ sub _analyze_event
 {
     my $self = shift;
 
-    $self->inc_field('line');
-
     $self->_handle_event();
 
     $self->_call_callback();
@@ -783,7 +780,7 @@ sub _reset_file_state {
     delete @{$self}{qw(max skip_all too_many_tests)};
     $self->todo(+{});
     
-    foreach my $field (qw(line saw_header saw_bailout lone_not_line))
+    foreach my $field (qw(saw_header saw_bailout lone_not_line))
     {
         $self->set($field, 0);
     }
