@@ -223,6 +223,17 @@ sub _end_file
     return;
 }
 
+sub _handle_bailout_event
+{
+    my $self = shift;
+
+    $self->bailout_reason($self->_event->explanation());
+    $self->saw_bailout(1);
+
+    return;
+}
+
+
 sub _analyze_with_parser {
     my($self, $name) = @_;
 
@@ -416,8 +427,7 @@ sub _analyze_event
     }
     elsif ( $event->is_bailout() )
     {
-        $self->bailout_reason($event->explanation());
-        $self->saw_bailout(1);
+        $self->_handle_bailout_event();
     }
     elsif ( $event->is_comment() )
     {
