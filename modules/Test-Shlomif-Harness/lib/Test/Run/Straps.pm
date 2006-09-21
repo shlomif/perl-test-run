@@ -379,6 +379,21 @@ sub _handle_test_event
     return;
 }
 
+sub _handle_plan_event
+{
+    my $self = shift;
+
+    $self->inc_field('saw_header');
+    $self->_file_totals->max($self->_event->tests_planned());
+    # If it's a skip line.
+    if ($self->_event->tests_planned() == 0)
+    {
+        $self->_file_totals->skip_all($self->_event->explanation());
+    }
+
+    return;
+}
+
 sub _analyze_event
 {
     my $self = shift;
@@ -397,13 +412,7 @@ sub _analyze_event
     # test point
     elsif ( $event->is_plan() )
     {
-        $self->inc_field('saw_header');
-        $totals->max($event->tests_planned());
-        # If it's a skip line.
-        if ($event->tests_planned() == 0)
-        {
-            $totals->skip_all($event->explanation());
-        }
+        $self->_handle_plan_event();
     }
     elsif ( $event->is_bailout() )
     {
