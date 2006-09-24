@@ -16,7 +16,7 @@ my $build = Test::Run::Builder->new(
         'Scalar::Util' => 0,
         'TAPx::Parser' => "0.30",
     },
-    dist_version_from => "lib/Test/Run/Obj.pm",
+    dist_version_from => "lib/Test/Run/Core.pm",
     license => "bsd",
 );
 

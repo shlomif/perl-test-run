@@ -5,16 +5,14 @@ author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Run Perl standard test scripts with statistics
 license: bsd
+resources:
+  license: http://www.opensource.org/licenses/bsd-license.php
 requires:
   Class::Accessor: 0
   File::Spec: 0.6
   Scalar::Util: 0
   TAPx::Parser: 0.30
   Test::Harness: 2.53
-generated_by: Module::Build version 0.2805
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
 provides:
   Test::Run::Assert:
     file: lib/Test/Run/Assert.pm
@@ -23,6 +21,9 @@ provides:
     file: lib/Test/Run/Base.pm
   Test::Run::Base::Struct:
     file: lib/Test/Run/Base.pm
+  Test::Run::Core:
+    file: lib/Test/Run/Core.pm
+    version: 0.0100_09
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
   Test::Run::Obj:
@@ -33,6 +34,8 @@ provides:
   Test::Run::Obj::Error:
     file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::Error::TestsFail:
+    file: lib/Test/Run/Obj/Error.pm
+  Test::Run::Obj::Error::TestsFail::Bailout:
     file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::Error::TestsFail::NoOutput:
     file: lib/Test/Run/Obj/Error.pm
@@ -55,5 +58,7 @@ provides:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Obj/Structs.pm
-resources:
-  license: http://www.opensource.org/licenses/bsd-license.php
+generated_by: Module::Build version 0.2805
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2
