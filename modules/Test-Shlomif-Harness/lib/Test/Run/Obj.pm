@@ -532,7 +532,7 @@ sub _report_leaked_files
 
     my @f = sort @$files;
 
-    $self->_print_message("LEAKED FILES: @f");
+    $self->output()->print_message("LEAKED FILES: @f");
 }
 
 sub _recheck_dir_files
@@ -617,7 +617,7 @@ sub _print_failed_with_results_seen_msg
 {
     my ($self, $args) = @_;
 
-    $self->_print_message(
+    $self->output()->print_message(
         $self->_get_failed_with_results_seen_msg($args),
     );
 }
@@ -709,7 +709,7 @@ sub _failed_before_any_test_output
     my ($self, $args) = @_;
     my $tfile = $args->{'filename'};
 
-    $self->_print_message("FAILED before any test output arrived");
+    $self->output()->print_message("FAILED before any test output arrived");
     $self->_tot_inc('bad');
     return $self->_create_failed_obj_instance(
         {
@@ -836,14 +836,14 @@ sub _process_passing_test
             if $test->skipped();
         push(@msg, $test->bonus()."/".$test->max()." unexpectedly succeeded")
             if $test->bonus();
-        $self->_print_message($test->ml()."ok$elapsed\n        ".
+        $self->output()->print_message($test->ml()."ok$elapsed\n        ".
             join(', ', @msg));
     }
     elsif ( $test->max() ) {
-        $self->_print_message($test->ml()."ok$elapsed");
+        $self->output()->print_message($test->ml()."ok$elapsed");
     }
     else {
-        $self->_print_message("skipped\n        all skipped: " .
+        $self->output()->print_message("skipped\n        all skipped: " .
             ((defined($test->skip_all()) && length($test->skip_all())) ?
                 $test->skip_all() :
                 "no reason given")
@@ -901,7 +901,7 @@ sub _run_single_test
 
     $self->Strap()->{_seen_header} = 0;
     if ( $self->Debug() ) {
-        $self->_print_message("# Running: " . $self->Strap()->_command_line($tfile));
+        $self->output()->print_message("# Running: " . $self->Strap()->_command_line($tfile));
     }
     my ($results, $elapsed) = $self->_time_single_test($tfile);
 
@@ -1013,7 +1013,7 @@ sub _leader_width {
 
 Reports the C<$message> message to channel C<$channel>. This can be overrided
 by derived classes to do alternate functionality besides calling 
-_print_message(), also different based on the channel.
+output()->print_message(), also different based on the channel.
 Currently available channels are:
 
 =over 4
@@ -1031,7 +1031,7 @@ sub _report
     my $self = shift;
     my (%args) = @_;
     my $msg = $args{'msg'};
-    return $self->_print_message($msg);    
+    return $self->output()->print_message($msg);    
 }
 
 sub _get_success_msg
@@ -1222,12 +1222,12 @@ sub _fail_other_print_top
 
     my $max_namelen = $self->max_namelen();
 
-    $self->_print_message(
+    $self->output()->print_message(
         sprintf("%-${max_namelen}s", $self->_get_format_failed_str()) .
         $self->_get_format_middle_str() .
         $self->_get_format_list_str()
     );
-    $self->_print_message("-" x $self->format_columns());
+    $self->output()->print_message("-" x $self->format_columns());
 }
 
 sub _fail_other_get_canon_strings
@@ -1265,7 +1265,7 @@ sub _fail_other_print_test
 
     my $canon_strings = $self->_fail_other_get_canon_strings([@canon]);
     
-    $self->_print_message(
+    $self->output()->print_message(
         sprintf(
             ("%-" . $max_namelen . "s  " . 
                 "%3s %5s %5s %4s %6.2f%%  %s"),
@@ -1277,7 +1277,7 @@ sub _fail_other_print_test
     );
     foreach my $c (@$canon_strings)
     {
-        $self->_print_message(
+        $self->output()->print_message(
             sprintf((" " x ($self->format_columns() - $list_len) . 
                 "%s"),
                 $c
@@ -1354,7 +1354,7 @@ sub _fail_other_print_bonus_message
     $bonusmsg =~ s/^,\s*//;
     if ($bonusmsg)
     {
-        $self->_print_message("$bonusmsg.");
+        $self->output()->print_message("$bonusmsg.");
     }
 }
 
@@ -1545,12 +1545,6 @@ sub _get_bonusmsg {
     return $bonusmsg;
 }
 
-sub _print_message
-{
-    my $self = shift;
-    $self->output()->print_message(@_);
-}
-
 =head2 The common test-context $args param
 
 Contains:
@@ -1582,14 +1576,14 @@ sub _report_dubious
     my $test = $args->{test_struct};
     my $estatus = $args->{estatus};
 
-    $self->_print_message(
+    $self->output()->print_message(
         sprintf($test->ml()."dubious\n\tTest returned status $estatus ".
             "(wstat %d, 0x%x)",
             (($args->{'wstatus'}) x 2))
         );
     if ($^O eq "VMS")
     {
-        $self->_print_message("\t\t(VMS status is $estatus)");
+        $self->output()->print_message("\t\t(VMS status is $estatus)");
     }
 }
 
@@ -1611,7 +1605,7 @@ sub _dubious_return
 
     if ($test->max()) {
         if ($test->next() == $test->max() + 1 and not @{$test->failed()}) {
-            $self->_print_message("\tafter all the subtests completed successfully");
+            $self->output()->print_message("\tafter all the subtests completed successfully");
             $percent = 0;
             $failed = 0;        # But we do not set $canon!
         }
@@ -1621,7 +1615,7 @@ sub _dubious_return
             my $txt;
             ($txt, $canon) = $self->_canonfailed($test);
             $percent = 100*(scalar @{$test->failed()})/$test->max();
-            $self->_print_message("DIED. " . $txt);
+            $self->output()->print_message("DIED. " . $txt);
         }
     }
 
