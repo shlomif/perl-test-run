@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 use Test::Run::Obj;
 
@@ -138,4 +138,20 @@ sub trap_output
     # TEST
     ok ($text =~ m{t/sample-tests/skip\.+ok\n {8}1/5 skipped: rain delay\n},
         "Matching the skipped line.");
+}
+
+{
+    my $got = trap_output(
+        [
+            test_files => 
+            [
+                "t/sample-tests/todo", 
+            ],
+        ]
+    );
+    
+    my $text = $got->{stdout};
+    # TEST
+    ok ($text =~ m{t/sample-tests/todo\.+ok\n {8}1/5 unexpectedly succeeded\n},
+        "Matching the bonus line.");
 }
