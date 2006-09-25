@@ -373,8 +373,9 @@ sub _is_error_object
 sub _handle_runtests_error_text
 {
     my $self = shift;
-    my (%args) = @_;
-    my $text = $args{'text'};
+    my $args = shift;
+
+    my $text = $args->{'text'};
 
     die $text;
 }
@@ -394,11 +395,13 @@ sub _get_runtests_error_text
 sub _handle_runtests_error
 {
     my $self = shift;
-    my (%args) = @_;
-    my $error = $args{'error'};
+    my $args = shift;
+    my $error = $args->{'error'};
 
     $self->_handle_runtests_error_text(
-        'text' => $self->_get_runtests_error_text($error),
+        {
+            'text' => $self->_get_runtests_error_text($error),
+        },
     );
 }
 
@@ -412,8 +415,10 @@ sub runtests
     if ($@)
     {
         return $self->_handle_runtests_error(
-            'ok' => $ok, 
-            'error' => $@,
+            {
+                'ok' => $ok, 
+                'error' => $@,
+            }
         );
     }
     else
@@ -750,10 +755,10 @@ sub _get_failed_struct
 sub _list_tests_as_failures
 {
     my $self = shift;
-    my (%args) = @_;
+    my $args = shift;
 
-    my $test = $args{test_struct};
-    my $results = $args{results};
+    my $test = $args->{test_struct};
+    my $results = $args->{results};
 
     # List unrun tests as failures.
     if ($test->next() <= $test->max()) {
@@ -928,8 +933,10 @@ sub _run_single_test
     }
     else {
         $self->_list_tests_as_failures(
-            'test_struct' => $test,
-            'results' => $results,
+            {
+                'test_struct' => $test,
+                'results' => $results,
+            }
         ); 
         $self->failed_tests()->{$tfile} = 
             $self->_get_failed_struct(
@@ -970,7 +977,6 @@ sub _init_tot
 
 sub _run_all_tests {
     my $self = shift;
-    my (%args) = @_;
 
     _autoflush(\*STDOUT);
     _autoflush(\*STDERR);
@@ -1038,9 +1044,8 @@ The success report.
 
 sub _report
 {
-    my $self = shift;
-    my (%args) = @_;
-    my $msg = $args{'msg'};
+    my ($self, $args) = @_;
+    my $msg = $args->{'msg'};
     return $self->output()->print_message($msg);    
 }
 
@@ -1054,8 +1059,10 @@ sub _report_success
 {
     my $self = shift;
     $self->_report(
-        'channel' => "success",
-        'msg' => $self->_get_success_msg(),
+        {
+            'channel' => "success",
+            'msg' => $self->_get_success_msg(),
+        }
     );
 }
 
