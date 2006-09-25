@@ -52,6 +52,7 @@ t/sample-tests/simple_fail
 t/sample-tests/skip
 t/sample-tests/skipall
 t/sample-tests/skipall_nomsg
+t/sample-tests/skip_and_todo
 t/sample-tests/skip_nomsg
 t/sample-tests/switches
 t/sample-tests/taint

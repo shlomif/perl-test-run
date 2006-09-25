@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 9;
+use Test::More tests => 11;
 
 use Test::Run::Obj;
 
@@ -157,5 +157,24 @@ sub trap_output
 
     # TEST
     ok ($text =~ m{^\QAll tests successful (1 subtest UNEXPECTEDLY SUCCEEDED).\E$}m,
+        "Testing for a good summary line");
+}
+
+{
+    my $got = trap_output(
+        [
+            test_files => 
+            [
+                "t/sample-tests/skip_and_todo", 
+            ],
+        ]
+    );
+    
+    my $text = $got->{stdout};
+    # TEST
+    ok (scalar($text =~ m{t/sample-tests/skip_and_todo\.+ok\n {8}1/6 skipped: rain delay, 1/6 unexpectedly succeeded\n}),
+        "Matching the bonus+skip line.");
+    # TEST
+    ok (scalar($text =~ m{^\QAll tests successful (1 subtest UNEXPECTEDLY SUCCEEDED), 1 subtest skipped.\E$}m),
         "Testing for a good summary line");
 }
