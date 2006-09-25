@@ -709,13 +709,22 @@ sub _failed_with_results_seen
         );
 }
 
+=head2 $self->_report_failed_before_any_test_output();
+
+[This is a method that needs to be over-rided.]
+
+=cut
+
 sub _failed_before_any_test_output
 {
     my ($self, $args) = @_;
+
     my $tfile = $args->{'filename'};
 
-    $self->output()->print_message("FAILED before any test output arrived");
+    $self->_report_failed_before_any_test_output();
+
     $self->_tot_inc('bad');
+
     return $self->_create_failed_obj_instance(
         {
             canon       => '??',

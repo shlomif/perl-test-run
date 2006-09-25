@@ -103,4 +103,11 @@ sub _report_skipped_test
     );
 }
 
+sub _report_failed_before_any_test_output
+{
+    my $self = shift;
+
+    $self->output()->print_message("FAILED before any test output arrived");
+}
+
 1;
