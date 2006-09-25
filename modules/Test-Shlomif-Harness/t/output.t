@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 use Test::Run::Obj;
 
@@ -122,4 +122,20 @@ sub trap_output
     like ("$error", ('/' . quotemeta($match) . '/'), 
         "Matched the bailout error."
     );
+}
+
+{
+    my $got = trap_output(
+        [
+            test_files => 
+            [
+                "t/sample-tests/skip", 
+            ],
+        ]
+    );
+    
+    my $text = $got->{stdout};
+    # TEST
+    ok ($text =~ m{t/sample-tests/skip\.+ok\n {8}1/5 skipped: rain delay\n},
+        "Matching the skipped line.");
 }
