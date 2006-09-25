@@ -831,11 +831,20 @@ sub _process_passing_test
     # XXX Combine these first two
     if ($test->max() and $test->skipped() + $test->bonus()) {
         my @msg;
-        push(@msg, $test->skipped()."/".$test->max()." skipped: ". 
-            $test->skip_reason())
-            if $test->skipped();
-        push(@msg, $test->bonus()."/".$test->max()." unexpectedly succeeded")
-            if $test->bonus();
+        if ($test->skipped())
+        {
+            push(@msg,
+                ($test->skipped()."/".$test->max()." skipped: ".
+                $test->skip_reason())
+            );
+        }
+        if ($test->bonus())
+        {
+            push(@msg,
+                ($test->bonus()."/".$test->max()." unexpectedly succeeded")
+            );
+        }
+
         $self->output()->print_message($test->ml()."ok$elapsed\n        ".
             join(', ', @msg));
     }
