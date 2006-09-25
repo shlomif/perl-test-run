@@ -824,32 +824,19 @@ sub _time_single_test
     return ($results, $elapsed);
 }
 
+=head2 $self->_report_skipped_test({test_struct => $test, elapsed => $elapsed})
+
+[This is a method that needs to be over-rided.]
+
+Should report the skipped test.
+
+=cut
+
 sub _process_skipped_test
 {
     my ($self, $args) = @_;
 
-    my $test = $args->{test_struct};
-    my $elapsed = $args->{elapsed};
-
-    my @msg;
-
-    if ($test->skipped())
-    {
-        push(@msg,
-            ($test->skipped()."/".$test->max()." skipped: ".
-            $test->skip_reason())
-        );
-    }
-
-    if ($test->bonus())
-    {
-        push(@msg,
-            ($test->bonus()."/".$test->max()." unexpectedly succeeded")
-        );
-    }
-
-    $self->output()->print_message($test->ml()."ok$elapsed\n        ".
-        join(', ', @msg));
+    return $self->_report_skipped_test($args);
 }
 
 sub _process_passing_test
