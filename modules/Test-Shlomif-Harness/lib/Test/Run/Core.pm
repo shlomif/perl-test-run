@@ -824,6 +824,34 @@ sub _time_single_test
     return ($results, $elapsed);
 }
 
+sub _process_skipped_test
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{test_struct};
+    my $elapsed = $args->{elapsed};
+
+    my @msg;
+
+    if ($test->skipped())
+    {
+        push(@msg,
+            ($test->skipped()."/".$test->max()." skipped: ".
+            $test->skip_reason())
+        );
+    }
+
+    if ($test->bonus())
+    {
+        push(@msg,
+            ($test->bonus()."/".$test->max()." unexpectedly succeeded")
+        );
+    }
+
+    $self->output()->print_message($test->ml()."ok$elapsed\n        ".
+        join(', ', @msg));
+}
+
 sub _process_passing_test
 {
     my ($self, $args) = @_;
@@ -832,24 +860,9 @@ sub _process_passing_test
     my $elapsed = $args->{elapsed};
 
     # XXX Combine these first two
-    if ($test->max() and $test->skipped() + $test->bonus()) {
-        my @msg;
-        if ($test->skipped())
-        {
-            push(@msg,
-                ($test->skipped()."/".$test->max()." skipped: ".
-                $test->skip_reason())
-            );
-        }
-        if ($test->bonus())
-        {
-            push(@msg,
-                ($test->bonus()."/".$test->max()." unexpectedly succeeded")
-            );
-        }
-
-        $self->output()->print_message($test->ml()."ok$elapsed\n        ".
-            join(', ', @msg));
+    if ($test->max() and $test->skipped() + $test->bonus())
+    {
+        $self->_process_skipped_test($args);
     }
     elsif ( $test->max() ) {
         $self->output()->print_message($test->ml()."ok$elapsed");
