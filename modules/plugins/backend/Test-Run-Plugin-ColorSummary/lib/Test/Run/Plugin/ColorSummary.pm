@@ -113,9 +113,9 @@ the documentation is the code.
 
 sub _handle_runtests_error_text
 {
-    my $self = shift;
-    my (%args) = @_;
-    my $text = $args{'text'};
+    my ($self, $args) = @_;
+
+    my $text = $args->{'text'};
 
     STDERR->autoflush();
     $text =~ s{\n\z}{};
