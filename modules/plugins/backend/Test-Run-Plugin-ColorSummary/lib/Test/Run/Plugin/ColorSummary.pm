@@ -5,7 +5,7 @@ use strict;
 
 use NEXT;
 use Term::ANSIColor;
-use Scalar::Util ();
+# Needed for ->autoflush()
 use IO::Handle;
 
 use base 'Test::Run::Base';
