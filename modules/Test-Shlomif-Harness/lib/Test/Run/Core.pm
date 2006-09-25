@@ -526,14 +526,14 @@ sub _init_dir_files
     }  
 }
 
-sub _report_leaked_files
-{
-    my ($self, $files) = (@_);
+=head2 $self->_report_leaked_files({leaked_files => [@files]})
 
-    my @f = sort @$files;
+[This is a method that needs to be over-rided.]
 
-    $self->output()->print_message("LEAKED FILES: @f");
-}
+Should report (or ignore) the files that were leaked in the directories
+that were specifies as leaking directories.
+
+=cut
 
 sub _recheck_dir_files
 {
@@ -545,7 +545,7 @@ sub _recheck_dir_files
             my %f;
             @f{@$new_dir_files} = (1) x @$new_dir_files;
             delete @f{@{$self->dir_files()}};
-            $self->_report_leaked_files([sort keys %f]);
+            $self->_report_leaked_files({'leaked_files' => [sort keys %f]});
             $self->dir_files($new_dir_files);
         }
     }
@@ -1563,29 +1563,14 @@ The exit status of the test file.
 
 =head2 $test_run->_report_dubious($args)
 
+[This is a method that needs to be over-rided.]
+
 Is called to report the "dubious" error, when the test returns a non-true
 error code.
 
 $args are the test-context - see above.
 
 =cut
-
-sub _report_dubious
-{
-    my ($self, $args) = @_;
-    my $test = $args->{test_struct};
-    my $estatus = $args->{estatus};
-
-    $self->output()->print_message(
-        sprintf($test->ml()."dubious\n\tTest returned status $estatus ".
-            "(wstat %d, 0x%x)",
-            (($args->{'wstatus'}) x 2))
-        );
-    if ($^O eq "VMS")
-    {
-        $self->output()->print_message("\t\t(VMS status is $estatus)");
-    }
-}
 
 # Test program go boom.
 sub _dubious_return 

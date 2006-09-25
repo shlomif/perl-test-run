@@ -51,6 +51,8 @@ provides:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Output:
     file: lib/Test/Run/Output.pm
+  Test::Run::Plugin::CmdLine::Output:
+    file: lib/Test/Run/Plugin/CmdLine/Output.pm
   Test::Run::Straps:
     file: lib/Test/Run/Straps.pm
     version: 0.24
