@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 use Test::Run::Obj;
 
@@ -154,4 +154,8 @@ sub trap_output
     # TEST
     ok ($text =~ m{t/sample-tests/todo\.+ok\n {8}1/5 unexpectedly succeeded\n},
         "Matching the bonus line.");
+
+    # TEST
+    ok ($text =~ m{^\QAll tests successful (1 subtest UNEXPECTEDLY SUCCEEDED).\E$}m,
+        "Testing for a good summary line");
 }
