@@ -788,11 +788,10 @@ sub _tot_add_results
 
 sub _get_elapsed
 {
-    my $self = shift;
-    my (%args) = @_;
+    my ($self, $args) = @_;
 
     if ( $self->Timer() ) {
-        my $elapsed = time - $args{start_time};
+        my $elapsed = time - $args->{start_time};
         if ( $has_time_hires ) {
             return sprintf( " %8.3fs", $elapsed );
         }
@@ -821,7 +820,7 @@ sub _time_single_test
 
     my $results = $self->Strap()->analyze_file($tfile) or
       do { warn $self->Strap()->{error}, "\n";  next };
-    my $elapsed = $self->_get_elapsed('start_time' => $test_start_time);
+    my $elapsed = $self->_get_elapsed({'start_time' => $test_start_time});
     return ($results, $elapsed);
 }
 
@@ -901,8 +900,8 @@ sub _get_test_struct
 
 sub _run_single_test
 {
-    my ($self, %args) = @_;
-    my $tfile = $args{'test_file'};
+    my ($self, $args) = @_;
+    my $tfile = $args->{'test_file'};
 
     $self->output()->last_test_print(0); # so each test prints at least once
     $self->output()->print_leader(
@@ -991,7 +990,7 @@ sub _run_all_tests {
     $self->width($self->_leader_width());
     foreach my $tfile (@{$self->test_files()}) 
     {
-        $self->_run_single_test('test_file' => $tfile);
+        $self->_run_single_test({'test_file' => $tfile});
     } # foreach test
     $self->tot()->bench(timediff(new Benchmark, $run_start_time));
 
@@ -1200,8 +1199,9 @@ sub _get_num_columns
 
 sub _get_fmt_list_len
 {
-    my ($self, %args) = (@_);
-    my $max_nl_ref = $args{max_namelen};
+    my ($self, $args) = (@_);
+
+    my $max_nl_ref = $args->{max_namelen};
 
     $self->format_columns($self->_get_num_columns());
 
@@ -1225,7 +1225,7 @@ sub _calc_format_widths
 
     my $max_namelen = $self->_get_initial_max_namelen();
 
-    my $list_len = $self->_get_fmt_list_len('max_namelen' => \$max_namelen);
+    my $list_len = $self->_get_fmt_list_len({'max_namelen' => \$max_namelen});
 
     $self->max_namelen($max_namelen);
     $self->list_len($list_len);
@@ -1683,8 +1683,10 @@ sub _canonfailed_get_canon_helper
 
 sub _canonfailed_get_canon
 {
-    my ($self, %args) = @_;
-    my $failed_in = $args{failed_in};
+    my ($self, $args) = @_;
+
+    my $failed_in = $args->{failed_in};
+
     my $failed = $self->filter_failed($failed_in);
     my $failed_num = @$failed;
 
@@ -1703,7 +1705,9 @@ sub _canonfailed {
 
     my $canon_obj =
         $self->_canonfailed_get_canon(
-            'failed_in' => $test->failed(),
+            {
+                'failed_in' => $test->failed(),
+            },
         );
 
     $canon_obj->add_Failed($test);
