@@ -822,11 +822,10 @@ sub _time_single_test
 
 sub _process_passing_test
 {
-    my $self = shift;
-    my (%args) = @_;
+    my ($self, $args) = @_;
 
-    my $test = $args{test_struct};
-    my $elapsed = $args{elapsed};
+    my $test = $args->{test_struct};
+    my $elapsed = $args->{elapsed};
 
     # XXX Combine these first two
     if ($test->max() and $test->skipped() + $test->bonus()) {
@@ -921,8 +920,10 @@ sub _run_single_test
     if ($results->{passing}) 
     {
         $self->_process_passing_test(
-            test_struct => $test,
-            elapsed => $elapsed,
+            {
+                test_struct => $test,
+                elapsed => $elapsed,
+            },
         );
     }
     else {
