@@ -122,4 +122,15 @@ sub _report_all_ok_test
     return;
 }
 
+sub _report_all_skipped_test
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{test_struct};
+
+    $self->output()->print_message(
+        "skipped\n        all skipped: " . $test->get_reason()
+        );
+}
+
 1;

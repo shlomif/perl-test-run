@@ -32,6 +32,10 @@ __PACKAGE__->mk_accessors(@fields);
 
 package Test::Run::Obj::TestObj;
 
+=head1 Test::Run::Obj::TestObj
+
+=cut
+
 use vars qw(@ISA @fields %fields_map);
 
 @ISA = (qw(Test::Run::Base::Struct));
@@ -59,6 +63,28 @@ sub add_to_failed
 {
     my $self = shift;
     push @{$self->failed()}, @_;
+}
+
+sub _get_reason_default
+{
+    return "no reason given";
+}
+
+=head2 $self->get_reason()
+
+Gets the reason or defaults to the default.
+
+=cut 
+
+sub get_reason
+{
+    my $self = shift;
+
+    return
+        +(defined($self->skip_all()) && length($self->skip_all())) ?
+            $self->skip_all() :
+            $self->_get_reason_default()
+        ;
 }
 
 1;

@@ -862,6 +862,22 @@ sub _process_all_ok_test
     return $self->_report_all_ok_test($args);
 }
 
+=head2 $self->_report_all_skipped_test({test_struct => $test, elapsed => $elapsed})
+
+[This is a method that needs to be over-rided.]
+
+Should report the all-skipped test.
+
+=cut
+
+sub _process_all_skipped_test
+{
+    my ($self, $args) = @_;
+
+    $self->_report_all_skipped_test($args);
+    $self->_tot_inc('skipped');
+}
+
 sub _process_passing_test
 {
     my ($self, $args) = @_;
@@ -878,13 +894,9 @@ sub _process_passing_test
     {
         $self->_process_all_ok_test($args);        
     }
-    else {
-        $self->output()->print_message("skipped\n        all skipped: " .
-            ((defined($test->skip_all()) && length($test->skip_all())) ?
-                $test->skip_all() :
-                "no reason given")
-            );
-        $self->_tot_inc('skipped');
+    else
+    {
+        $self->_process_all_skipped_test($args);
     }
     $self->_tot_inc('good');
 }
