@@ -110,4 +110,16 @@ sub _report_failed_before_any_test_output
     $self->output()->print_message("FAILED before any test output arrived");
 }
 
+sub _report_all_ok_test
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{test_struct};
+    my $elapsed = $args->{elapsed};
+
+    $self->output()->print_message($test->ml()."ok$elapsed");
+
+    return;
+}
+
 1;
