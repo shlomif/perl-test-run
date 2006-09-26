@@ -874,7 +874,8 @@ sub _process_passing_test
     {
         $self->_process_skipped_test($args);
     }
-    elsif ( $test->max() ) {
+    elsif ( $test->max() )
+    {
         $self->_process_all_ok_test($args);        
     }
     else {
@@ -915,7 +916,7 @@ sub _get_test_struct
                 bonus       => $results->bonus(),
                 skipped     => $results->skip(),
                 skip_reason => $results->skip_reason(),
-                skip_all    => $self->Strap()->{skip_all},
+                skip_all    => $results->skip_all(),
                 ml          => $self->output()->ml(),
             }
         );

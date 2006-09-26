@@ -36,7 +36,6 @@ my @fields= (qw(
     _parser
     saw_bailout
     saw_header
-    skip_all
     Switches
     Switches_Env
     Test_Interpreter
@@ -445,7 +444,9 @@ sub _handle_plan_event
     # If it's a skip line.
     if ($self->_event->tests_planned() == 0)
     {
-        $self->_file_totals->skip_all($self->_event->explanation());
+        my $reason = $self->_event->explanation();
+        $reason =~ s{^[\w:]+\s?}{};
+        $self->_file_totals->skip_all($reason);
     }
 
     return;
@@ -769,7 +770,7 @@ Methods for identifying what sort of line you're looking at.
 
   $strap->_reset_file_state;
 
-Resets things like C<< $strap->{max} >> , C<< $strap->{skip_all} >>,
+Resets things like C<< $strap->{max} >>,
 etc. so it's ready to parse the next file.
 
 =cut
@@ -777,7 +778,7 @@ etc. so it's ready to parse the next file.
 sub _reset_file_state {
     my($self) = shift;
 
-    delete @{$self}{qw(max skip_all too_many_tests)};
+    delete @{$self}{qw(max too_many_tests)};
     $self->todo(+{});
     
     foreach my $field (qw(saw_header saw_bailout lone_not_line))
