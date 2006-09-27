@@ -1399,17 +1399,14 @@ sub _fail_other_print_all_tests
     }
 }
 
-sub _fail_other_print_bonus_message
-{
-    my $self = shift;
-    
-    my $bonusmsg = $self->_bonusmsg() || "";
-    $bonusmsg =~ s/^,\s*//;
-    if ($bonusmsg)
-    {
-        $self->output()->print_message("$bonusmsg.");
-    }
-}
+=head2 $self->_fail_other_print_bonus_message()
+
+[This is a method that needs to be over-rided.]
+
+Should report the bonus message in case of failure from a different
+reason.
+
+=cut
 
 sub _fail_other
 {

@@ -133,4 +133,16 @@ sub _report_all_skipped_test
         );
 }
 
+sub _fail_other_print_bonus_message
+{
+    my $self = shift;
+    
+    my $bonusmsg = $self->_bonusmsg() || "";
+    $bonusmsg =~ s/^,\s*//;
+    if ($bonusmsg)
+    {
+        $self->output()->print_message("$bonusmsg.");
+    }
+}
+
 1;
