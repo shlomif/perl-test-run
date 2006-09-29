@@ -970,17 +970,10 @@ sub _prepare_for_single_test_run
 {
     my ($self, $args) = @_;
 
-    $self->_report_single_test_file_start($args);
-
     $self->_tot_inc('files');
-
     $self->Strap()->_seen_header(0);
-    if ( $self->Debug() )
-    {
-        $self->output()->print_message(
-            "# Running: " . $self->Strap()->_command_line($args->{test_file})
-        );
-    }
+
+    $self->_report_single_test_file_start($args);
 
     return;
 }
@@ -1101,12 +1094,14 @@ sub _leader_width {
     return $maxlen + 3 - $maxsuflen;
 }
 
+=head2 $self->_report('channel' => $channel, 'event' => $event_handle);
 
-=head2 $self->_report('channel' => $channel, 'msg' => $message);
+[This is a method that needs to be over-rided.]
 
-Reports the C<$message> message to channel C<$channel>. This can be overrided
-by derived classes to do alternate functionality besides calling 
+Reports the C<$event_handle> event to channel C<$channel>. This should be 
+overrided by derived classes to do alternate functionality besides calling 
 output()->print_message(), also different based on the channel.
+
 Currently available channels are:
 
 =over 4
@@ -1117,14 +1112,18 @@ The success report.
 
 =back
 
-=cut
+An event is a hash ref that should contain a 'type' property. Currently 
+supported types are:
 
-sub _report
-{
-    my ($self, $args) = @_;
-    my $msg = $args->{'msg'};
-    return $self->output()->print_message($msg);    
-}
+=over 4
+
+=item * success
+
+A success type.
+
+=back
+
+=cut
 
 sub _get_success_msg
 {
@@ -1138,7 +1137,7 @@ sub _report_success
     $self->_report(
         {
             'channel' => "success",
-            'msg' => $self->_get_success_msg(),
+            'event' => { 'type' => "success", },
         }
     );
 }

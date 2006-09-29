@@ -3,6 +3,8 @@ package Test::Run::Plugin::CmdLine::Output;
 use strict;
 use warnings;
 
+use Carp;
+
 =head1 Test::Run::Plugin::CmdLine::Output
 
 This a module that implements the command line/STDOUT specific output of 
@@ -164,7 +166,31 @@ sub _report_single_test_file_start
         width => $self->width(),
     });
 
+    if ( $self->Debug() )
+    {
+        $self->output()->print_message(
+            "# Running: " . $self->Strap()->_command_line($args->{test_file})
+        );
+    }
+
     return;
+}
+
+sub _report
+{
+    my ($self, $args) = @_;
+    my $event = $args->{'event'};
+    my $msg;
+    if ($event->{type} eq "success")
+    {
+        $msg = $self->_get_success_msg();
+    }
+    else
+    {
+        confess "Unknown \$event->{type} passed to _report!";
+    }
+
+    return $self->output()->print_message($msg);
 }
 
 1;
