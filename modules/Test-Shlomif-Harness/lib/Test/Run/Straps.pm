@@ -525,8 +525,8 @@ Like C<analyze>, but it runs the given C<$test_file> and parses its
 results.  It will also use that name for the total report.
 
 =cut
-
-sub analyze_file {
+sub _get_analysis_file_handle
+{
     my($self, $file) = @_;
 
     unless( -e $file ) {
@@ -551,6 +551,18 @@ sub analyze_file {
     my $file_handle;
     unless ( open($file_handle, "$line|" )) {
         $self->output()->print_message("can't run $file. $!");
+        return;
+    }
+    return $file_handle;
+}
+
+sub analyze_file
+{
+    my ($self, $file) = @_;
+
+    my $file_handle = $self->_get_analysis_file_handle($file);
+    if (!defined($file_handle))
+    {
         return;
     }
 
