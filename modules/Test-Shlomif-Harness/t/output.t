@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 13;
+use Test::More tests => 15;
 
 use Test::Run::Obj;
 
@@ -197,4 +197,26 @@ sub trap_output
     # TEST
     ok (scalar($text =~ m{^All tests successful, 1 test skipped\.$}m),
         "Matching the skipall summary line.");
+}
+
+{
+    my $got = trap_output(
+        [
+            test_files => 
+            [
+                "t/sample-tests/simple_fail", 
+            ],
+        ]
+    );
+    
+    my $text = $got->{stdout};
+    my $error = $got->{error};
+
+    # TEST
+    ok (scalar($text =~ m{t/sample-tests/simple_fail\.+FAILED tests 2, 5\n\tFailed 2/5 tests, 60.00% okay}),
+        "Matching the FAILED test report"
+        );
+    # TEST
+    ok (scalar("$error" =~ m{^Failed 1/1 test scripts, 0.00% okay\. 2/5 subtests failed, 60\.00% okay\.$}m),
+        "Matching the Failed summary line.");
 }
