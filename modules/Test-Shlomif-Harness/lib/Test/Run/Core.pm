@@ -1642,6 +1642,12 @@ $args are the test-context - see above.
 
 $args are the test-context - see above.
 
+=head2 $test_run->_report_premature_test_dubious_summary($args)
+
+[This is a method that needs to be over-rided.]
+
+$args are the test-context - see above.
+
 =cut
 
 sub _get_premature_test_dubious_summary
@@ -1651,8 +1657,11 @@ sub _get_premature_test_dubious_summary
     my $test = $args->{'test_struct'};
 
     $test->add_to_failed($test->next()..$test->max());
-    my ($txt, $canon) = $self->_canonfailed($test);
-    $self->output()->print_message("DIED. " . $txt);
+
+    my (undef, $canon) = $self->_canonfailed($test);
+
+    $self->_report_premature_test_dubious_summary($args);
+
     return 
     {
         failed => scalar(@{$test->failed()}),

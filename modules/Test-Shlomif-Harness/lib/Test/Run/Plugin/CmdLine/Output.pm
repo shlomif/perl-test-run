@@ -261,4 +261,15 @@ sub _report_dubious_summary_all_subtests_successful
     $self->output()->print_message("\tafter all the subtests completed successfully");
 }
 
+sub _report_premature_test_dubious_summary
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{'test_struct'};
+
+    my ($txt) = $self->_canonfailed($test);
+
+    $self->output()->print_message("DIED. " . $txt);
+}
+
 1;
