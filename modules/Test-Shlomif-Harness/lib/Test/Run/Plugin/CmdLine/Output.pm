@@ -220,4 +220,38 @@ sub _report_final_stats
        );
 }
 
+sub _fail_other_report_test
+{
+    my $self = shift;
+    my $script = shift;
+
+    my $test = $self->failed_tests()->{$script};
+    my $max_namelen = $self->max_namelen();
+    my $list_len = $self->list_len();
+
+    my @canon = split(/\s+/, $test->canon());
+
+    my $canon_strings = $self->_fail_other_get_canon_strings([@canon]);
+    
+    $self->output()->print_message(
+        sprintf(
+            ("%-" . $max_namelen . "s  " . 
+                "%3s %5s %5s %4s %6.2f%%  %s"),
+            $test->name(), $test->estat(),
+            $test->wstat(), $test->max(),
+            $test->failed(), $test->percent(),
+            shift(@$canon_strings)
+        )
+    );
+    foreach my $c (@$canon_strings)
+    {
+        $self->output()->print_message(
+            sprintf((" " x ($self->format_columns() - $list_len) . 
+                "%s"),
+                $c
+            ),
+        );
+    }
+}
+
 1;

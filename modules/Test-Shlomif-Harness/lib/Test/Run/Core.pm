@@ -1338,39 +1338,14 @@ sub _fail_other_get_canon_strings
     return \@ret;
 }
 
-sub _fail_other_print_test
-{
-    my $self = shift;
-    my $script = shift;
-    my $test = $self->failed_tests()->{$script};
+=head2 $self->_fail_other_report_test($script_name)
 
-    my $max_namelen = $self->max_namelen();
-    my $list_len = $self->list_len();
+[This is a method that needs to be over-rided.]
 
-    my @canon = split(/\s+/, $test->canon());
+In case of failure from a different reason - report that test script.
+Test::Run iterates over all the scripts and reports them one by one.
 
-    my $canon_strings = $self->_fail_other_get_canon_strings([@canon]);
-    
-    $self->output()->print_message(
-        sprintf(
-            ("%-" . $max_namelen . "s  " . 
-                "%3s %5s %5s %4s %6.2f%%  %s"),
-            $test->name(), $test->estat(),
-            $test->wstat(), $test->max(),
-            $test->failed(), $test->percent(),
-            shift(@$canon_strings)
-        )
-    );
-    foreach my $c (@$canon_strings)
-    {
-        $self->output()->print_message(
-            sprintf((" " x ($self->format_columns() - $list_len) . 
-                "%s"),
-                $c
-            ),
-        );
-    }
-}
+=cut
 
 sub _create_fmts 
 {
@@ -1428,7 +1403,7 @@ sub _fail_other_print_all_tests
     # Now write to formats
     for my $script (@{$self->_fail_other_get_script_names()})
     {
-         $self->_fail_other_print_test($script);
+         $self->_fail_other_report_test($script);
     }
 }
 
@@ -1661,6 +1636,49 @@ $args are the test-context - see above.
 
 =cut
 
+sub _get_dubious_summary
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{'test_struct'};
+
+    if ($test->max())
+    {
+        if ($test->next() == $test->max() + 1 and not @{$test->failed()})
+        {
+            $self->output()->print_message("\tafter all the subtests completed successfully");
+            return
+            {
+                failed => 0,
+                percent => 0,
+                canon => "??",
+            };
+        }
+        else
+        {
+            $test->add_to_failed($test->next()..$test->max());
+            my ($txt, $canon) = $self->_canonfailed($test);
+            $self->output()->print_message("DIED. " . $txt);
+            return 
+            {
+                failed => scalar(@{$test->failed()}),
+                canon => $canon,
+                percent => (100*(scalar @{$test->failed()})/$test->max()),
+            };
+        }
+    }
+    else
+    {
+        return
+        {
+            failed => "??",
+            canon => "??",
+            percent => undef,
+        };
+    }
+
+}
+
 # Test program go boom.
 sub _dubious_return 
 {
@@ -1671,35 +1689,17 @@ sub _dubious_return
     my $wstatus = $args->{'wstatus'};
     my $filename = $args->{'filename'};
     
-    my ($failed, $canon, $percent) = ('??', '??');
-
     $self->_report_dubious($args);
 
     $self->_tot_inc('bad');
 
-    if ($test->max()) {
-        if ($test->next() == $test->max() + 1 and not @{$test->failed()}) {
-            $self->output()->print_message("\tafter all the subtests completed successfully");
-            $percent = 0;
-            $failed = 0;        # But we do not set $canon!
-        }
-        else {
-            $test->add_to_failed($test->next()..$test->max());
-            $failed = @{$test->failed()};
-            my $txt;
-            ($txt, $canon) = $self->_canonfailed($test);
-            $percent = 100*(scalar @{$test->failed()})/$test->max();
-            $self->output()->print_message("DIED. " . $txt);
-        }
-    }
+    my $dubious_summary = $self->_get_dubious_summary($args);
 
     return 
         $self->_create_failed_obj_instance(
             {
-                canon => $canon,
+                %{$dubious_summary},
                 max => $test->max() || '??',
-                failed => $failed,
-                percent => $percent,
                 estat => $estatus,
                 wstat => $wstatus,
                 name => $filename,
