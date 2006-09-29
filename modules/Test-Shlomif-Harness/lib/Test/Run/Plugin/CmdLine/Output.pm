@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Carp;
+use Benchmark qw(timestr); 
 
 =head1 Test::Run::Plugin::CmdLine::Output
 
@@ -205,6 +206,18 @@ sub _fail_other_print_top
         $self->_get_format_list_str()
     );
     $self->output()->print_message("-" x $self->format_columns());
+}
+
+sub _report_final_stats
+{
+    my ($self) = @_;
+
+    my $tot = $self->tot();
+
+    $self->output()->print_message(
+        sprintf("Files=%d, Tests=%d, %s",
+           $tot->files(), $tot->max(), timestr($tot->bench(), 'nop'))
+       );
 }
 
 1;

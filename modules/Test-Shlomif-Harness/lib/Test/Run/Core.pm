@@ -1173,15 +1173,13 @@ sub _fail_no_tests_output
     );
 }
 
-sub _print_final_stats
-{
-    my ($self) = @_;
-    my $tot = $self->tot();
-    $self->output()->print_message(
-        sprintf("Files=%d, Tests=%d, %s",
-           $tot->files(), $tot->max(), timestr($tot->bench(), 'nop'))
-       );
-}
+=head2 $self->_report_final_stats()
+
+[This is a method that needs to be over-rided.]
+
+Reports the final statistics.
+
+=cut
 
 sub _get_tests_good_percent
 {
@@ -1480,7 +1478,7 @@ sub _show_results {
     {
         $self->_fail_other();
     }
-    $self->_print_final_stats();
+    $self->_report_final_stats();
 }
 
 
