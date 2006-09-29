@@ -107,7 +107,8 @@ The C<$width> is the width of the "yada/blah.." string.
 
 =cut
 
-sub _mk_leader {
+sub _mk_leader
+{
     my ($self, $te, $width) = @_;
     chomp($te);
     $te =~ s/\.\w+$/./;
@@ -118,8 +119,9 @@ sub _mk_leader {
     my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 
-    if ( -t STDOUT and not $self->NoTty() and not $self->Verbose()) {
-        $ml = "\r" . (' ' x 77) . "\r$leader"
+    if ( -t STDOUT and not $self->NoTty() and not $self->Verbose())
+    {
+        $ml = "\r" . (' ' x 77) . "\r$leader";
     }
 
     return($leader, $ml);

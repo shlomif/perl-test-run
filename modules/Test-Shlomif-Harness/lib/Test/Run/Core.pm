@@ -589,9 +589,9 @@ sub _get_failed_and_max_msg
 {
     my ($self, $args) = @_;
     my $test = $args->{'test_struct'};
-    
-    my ($txt, $canon) = $self->_canonfailed($test);
-    
+
+    my ($txt) = $self->_canonfailed($test);
+
     return ($test->ml().$txt);
 }
 
@@ -930,6 +930,11 @@ sub _create_test_obj_instance
     return Test::Run::Obj::TestObj->new($args);
 }
 
+sub _calc_test_struct_ml
+{
+    return "";
+}
+
 sub _get_test_struct
 {
     my $self = shift;
@@ -952,7 +957,7 @@ sub _get_test_struct
                 skipped     => $results->skip(),
                 skip_reason => $results->skip_reason(),
                 skip_all    => $results->skip_all(),
-                ml          => $self->output()->ml(),
+                ml          => $self->_calc_test_struct_ml($results),
             }
         );
 }
