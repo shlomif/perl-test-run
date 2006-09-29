@@ -930,6 +930,12 @@ sub _create_test_obj_instance
     return Test::Run::Obj::TestObj->new($args);
 }
 
+=head2 $self->_calc_test_struct_ml($results)
+
+Calculates the ml(). (See L<Test::Run::Output>) for the test. 
+
+=cut
+
 sub _calc_test_struct_ml
 {
     return "";
