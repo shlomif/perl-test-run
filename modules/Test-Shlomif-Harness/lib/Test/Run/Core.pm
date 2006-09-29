@@ -964,10 +964,10 @@ sub _prepare_for_single_test_run
     my $tfile = $args->{'test_file'};
 
     $self->output()->last_test_print(0); # so each test prints at least once
-    $self->output()->print_leader(
+    $self->output()->print_leader({
         filename => $tfile,
         width => $self->width(),
-    );
+    });
 
     $self->_tot_inc('files');
 

@@ -57,15 +57,17 @@ sub _newline
     my $self = shift;
     $self->_print_message_raw("\n");
 }
+
 sub print_leader
 {
-    my $self = shift;
-    my (%args) = @_;
+    my ($self, $args) = @_;
+
     my ($leader, $ml) =
         $self->_mk_leader(
-            $args{filename},
-            $args{width},
+            $args->{filename},
+            $args->{width},
         );
+
     $self->ml($ml);
     $self->_print_message_raw(
         $leader,
