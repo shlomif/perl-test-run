@@ -1529,9 +1529,12 @@ sub header_handler {
 
     $self->_inc_seen_header();
 
-    warn "1..M can only appear at the beginning or end of tests\n"
-      if $totals->{seen} && 
-         $totals->{max}  < $totals->{seen};
+    if ($totals->seen() && 
+        ($totals->max()  < $totals->seen())
+       )
+    {
+        warn "1..M can only appear at the beginning or end of tests\n";
+    }
 };
 
 sub test_handler {
