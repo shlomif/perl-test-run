@@ -770,7 +770,7 @@ sub _get_failed_struct
                 $args
                 );
     }
-    elsif($args->{'results'}->{seen}) {
+    elsif($args->{'results'}->seen()) {
         return
             $self->_failed_with_results_seen(
                 $args,
