@@ -1644,6 +1644,23 @@ $args are the test-context - see above.
 
 =cut
 
+sub _get_premature_test_dubious_summary
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{'test_struct'};
+
+    $test->add_to_failed($test->next()..$test->max());
+    my ($txt, $canon) = $self->_canonfailed($test);
+    $self->output()->print_message("DIED. " . $txt);
+    return 
+    {
+        failed => scalar(@{$test->failed()}),
+        canon => $canon,
+        percent => (100*(scalar @{$test->failed()})/$test->max()),
+    };
+}
+
 sub _get_dubious_summary
 {
     my ($self, $args) = @_;
@@ -1665,15 +1682,8 @@ sub _get_dubious_summary
         }
         else
         {
-            $test->add_to_failed($test->next()..$test->max());
-            my ($txt, $canon) = $self->_canonfailed($test);
-            $self->output()->print_message("DIED. " . $txt);
-            return 
-            {
-                failed => scalar(@{$test->failed()}),
-                canon => $canon,
-                percent => (100*(scalar @{$test->failed()})/$test->max()),
-            };
+            return
+                $self->_get_premature_test_dubious_summary($args);
         }
     }
     else
