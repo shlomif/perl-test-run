@@ -1636,6 +1636,14 @@ $args are the test-context - see above.
 
 =cut
 
+=head2 $test_run->_report_dubious_summary_all_subtests_successful($args)
+
+[This is a method that needs to be over-rided.]
+
+$args are the test-context - see above.
+
+=cut
+
 sub _get_dubious_summary
 {
     my ($self, $args) = @_;
@@ -1646,7 +1654,8 @@ sub _get_dubious_summary
     {
         if ($test->next() == $test->max() + 1 and not @{$test->failed()})
         {
-            $self->output()->print_message("\tafter all the subtests completed successfully");
+            $self->_report_dubious_summary_all_subtests_successful($args);
+            
             return
             {
                 failed => 0,
