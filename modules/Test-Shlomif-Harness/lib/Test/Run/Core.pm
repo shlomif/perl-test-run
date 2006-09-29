@@ -957,24 +957,29 @@ sub _get_test_struct
         );
 }
 
+=head2 $self->_report_single_test_file_start({test_file => "t/my_test_file.t"})
+
+[This is a method that needs to be over-rided.]
+
+Should start the report for the C<test_file> file.
+
+=cut
+
+
 sub _prepare_for_single_test_run
 {
     my ($self, $args) = @_;
 
-    my $tfile = $args->{'test_file'};
-
-    $self->output()->last_test_print(0); # so each test prints at least once
-    $self->output()->print_leader({
-        filename => $tfile,
-        width => $self->width(),
-    });
+    $self->_report_single_test_file_start($args);
 
     $self->_tot_inc('files');
 
     $self->Strap()->_seen_header(0);
     if ( $self->Debug() )
     {
-        $self->output()->print_message("# Running: " . $self->Strap()->_command_line($tfile));
+        $self->output()->print_message(
+            "# Running: " . $self->Strap()->_command_line($args->{test_file})
+        );
     }
 
     return;
