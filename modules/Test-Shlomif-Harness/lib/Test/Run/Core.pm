@@ -612,7 +612,7 @@ sub _get_failed_with_results_seen_msg
     my $test = $args->{'test_struct'};
     
     return 
-        $self->_is_failed_and_max($args) 
+        $self->_is_failed_and_max($args)
             ? $self->_get_failed_and_max_msg($args)
             : $self->_get_dont_know_which_tests_failed_msg($args)
             ;
@@ -696,8 +696,6 @@ sub _get_failed_with_results_seen_params
 sub _failed_with_results_seen
 {
     my ($self, $args) = @_;
-    my $test = $args->{'test_struct'};
-    my $tfile = $args->{'filename'};
 
     $self->_tot_inc('bad');
 
