@@ -36,6 +36,7 @@ my @fields= (qw(
     _parser
     saw_bailout
     saw_header
+    _seen_header
     Switches
     Switches_Env
     Test_Interpreter
@@ -421,6 +422,13 @@ sub _inc_seen
     my $self = shift;
 
     $self->_file_totals->inc_field('seen');
+}
+
+sub _inc_seen_header
+{
+    my $self = shift;
+
+    $self->inc_field('_seen_header');
 }
 
 sub _handle_test_event

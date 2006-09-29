@@ -971,7 +971,7 @@ sub _prepare_for_single_test_run
 
     $self->_tot_inc('files');
 
-    $self->Strap()->{_seen_header} = 0;
+    $self->Strap()->_seen_header(0);
     if ( $self->Debug() )
     {
         $self->output()->print_message("# Running: " . $self->Strap()->_command_line($tfile));
@@ -1522,9 +1522,12 @@ sub header_handler {
 
     my $totals = $args->{totals};
 
-    warn "Test header seen more than once!\n" if $self->{_seen_header};
+    if ($self->_seen_header())
+    {
+        warn "Test header seen more than once!\n";
+    }
 
-    $self->{_seen_header}++;
+    $self->_inc_seen_header();
 
     warn "1..M can only appear at the beginning or end of tests\n"
       if $totals->{seen} && 
