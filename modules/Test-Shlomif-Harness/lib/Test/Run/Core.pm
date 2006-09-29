@@ -957,9 +957,10 @@ sub _get_test_struct
         );
 }
 
-sub _run_single_test
+sub _prepare_for_single_test_run
 {
     my ($self, $args) = @_;
+
     my $tfile = $args->{'test_file'};
 
     $self->output()->last_test_print(0); # so each test prints at least once
@@ -971,9 +972,22 @@ sub _run_single_test
     $self->_tot_inc('files');
 
     $self->Strap()->{_seen_header} = 0;
-    if ( $self->Debug() ) {
+    if ( $self->Debug() )
+    {
         $self->output()->print_message("# Running: " . $self->Strap()->_command_line($tfile));
     }
+
+    return;
+}
+
+sub _run_single_test
+{
+    my ($self, $args) = @_;
+
+    my $tfile = $args->{'test_file'};
+
+    $self->_prepare_for_single_test_run($args);
+
     my ($results, $elapsed) = $self->_time_single_test($tfile);
 
     my $test = $self->_get_test_struct($results);
