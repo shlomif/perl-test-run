@@ -145,4 +145,13 @@ sub _fail_other_print_bonus_message
     }
 }
 
+sub _report_failed_with_results_seen
+{
+    my ($self, $args) = @_;
+
+    $self->output()->print_message(
+        $self->_get_failed_with_results_seen_msg($args),
+    );
+}
+
 1;

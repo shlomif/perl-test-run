@@ -618,14 +618,39 @@ sub _get_failed_with_results_seen_msg
             ;
 }
 
-sub _print_failed_with_results_seen_msg
-{
-    my ($self, $args) = @_;
+=head2 $self->_report_failed_with_results_seen({%args})
 
-    $self->output()->print_message(
-        $self->_get_failed_with_results_seen_msg($args),
-    );
-}
+[This is a method that needs to be over-rided.]
+
+Should report (or ignore) the failed tests in the test file.
+
+Arguments are:
+
+=over 4
+
+=item * test_struct 
+
+The test struct as returned by straps.
+
+=item * filename
+
+The filename
+
+=item * estatus
+
+Exit status.
+
+=item * wstatus
+
+Wait status.
+
+=item * results
+
+The results of the test.
+
+=back
+
+=cut
 
 sub _get_failed_and_max_params
 {
@@ -699,7 +724,7 @@ sub _failed_with_results_seen
 
     $self->_tot_inc('bad');
 
-    $self->_print_failed_with_results_seen_msg($args);
+    $self->_report_failed_with_results_seen($args);
 
     return
         $self->_create_failed_obj_instance(
