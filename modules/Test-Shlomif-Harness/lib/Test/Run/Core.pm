@@ -1310,19 +1310,13 @@ sub _calc_format_widths
     return 0;
 }
 
-sub _fail_other_print_top
-{
-    my $self = shift;
+=head2 $self->_fail_other_print_top()
 
-    my $max_namelen = $self->max_namelen();
+[This is a method that needs to be over-rided.]
 
-    $self->output()->print_message(
-        sprintf("%-${max_namelen}s", $self->_get_format_failed_str()) .
-        $self->_get_format_middle_str() .
-        $self->_get_format_list_str()
-    );
-    $self->output()->print_message("-" x $self->format_columns());
-}
+Prints the header of the files that failed.
+
+=cut
 
 sub _fail_other_get_canon_strings
 {

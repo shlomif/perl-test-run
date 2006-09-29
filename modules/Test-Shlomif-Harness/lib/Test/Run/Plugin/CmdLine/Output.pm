@@ -193,4 +193,18 @@ sub _report
     return $self->output()->print_message($msg);
 }
 
+sub _fail_other_print_top
+{
+    my $self = shift;
+
+    my $max_namelen = $self->max_namelen();
+
+    $self->output()->print_message(
+        sprintf("%-${max_namelen}s", $self->_get_format_failed_str()) .
+        $self->_get_format_middle_str() .
+        $self->_get_format_list_str()
+    );
+    $self->output()->print_message("-" x $self->format_columns());
+}
+
 1;
