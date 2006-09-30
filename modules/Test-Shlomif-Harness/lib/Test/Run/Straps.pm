@@ -22,7 +22,9 @@ my @fields= (qw(
     Debug
     error
     _event
+    exception
     file
+    _file_handle
     _file_totals
     _is_macos
     _is_vms
@@ -34,6 +36,7 @@ my @fields= (qw(
     _old5lib
     output
     _parser
+    results
     saw_bailout
     saw_header
     _seen_header
@@ -69,9 +72,9 @@ Test::Run::Straps - detailed analysis of test results
   my $strap = Test::Run::Straps->new;
 
   # Various ways to interpret a test
-  my %results = $strap->analyze($name, \@test_output);
-  my %results = $strap->analyze_fh($name, $test_filehandle);
-  my %results = $strap->analyze_file($test_file);
+  my $results = $strap->analyze($name, \@test_output);
+  my $results = $strap->analyze_fh($name, $test_filehandle);
+  my $results = $strap->analyze_file($test_file);
 
   # UNIMPLEMENTED
   my %total = $strap->total_results;
@@ -149,12 +152,12 @@ sub analyze
 {
     my($self, $name, $test_output_orig) = @_;
 
+    # Assign it here so it won't be passed around.
+    $self->file($name);
+
     $self->_parser($self->_create_parser($test_output_orig));
 
-    return
-        $self->_analyze_with_parser(
-            $name,
-        );
+    return $self->_analyze_with_parser();
 }
 
 sub _init_totals_obj_instance
@@ -188,10 +191,8 @@ sub _get_initial_totals_obj_params
 sub _start_new_file
 {
     my $self = shift;
-    my $name = shift;
 
     $self->_reset_file_state;
-    $self->file($name);
     my $totals =
         $self->_init_totals_obj_instance(
             $self->_get_initial_totals_obj_params(),
@@ -200,7 +201,7 @@ sub _start_new_file
     $self->_file_totals($totals);
 
     # Set them up here so callbacks can have them.
-    $self->totals()->{$name}         = $totals;
+    $self->totals()->{$self->file()}         = $totals;
 
     return;
 }
@@ -249,13 +250,13 @@ sub _events_loop
 
 sub _analyze_with_parser
 {
-    my($self, $name) = @_;
+    my($self) = @_;
 
-    $self->_start_new_file($name);
+    $self->_start_new_file();
 
     $self->_events_loop();
 
-    $self->_end_file($name);
+    $self->_end_file();
 
     return $self->_file_totals;
 }
@@ -513,8 +514,10 @@ Like C<analyze>, but it reads from the given filehandle.
 sub analyze_fh
 {
     my $self = shift;
-    # The same as analyze due to TAPx::Parser polymorphism
-    return $self->analyze(@_);
+
+    $self->_parser($self->_create_parser($self->_file_handle()));
+
+    return $self->_analyze_with_parser();
 }
 
 =head2 $strap->analyze_file( $test_file )
@@ -527,7 +530,9 @@ results.  It will also use that name for the total report.
 =cut
 sub _get_analysis_file_handle
 {
-    my($self, $file) = @_;
+    my($self) = @_;
+
+    my $file = $self->file();
 
     unless( -e $file ) {
         $self->error("$file does not exist");
@@ -553,42 +558,65 @@ sub _get_analysis_file_handle
         $self->output()->print_message("can't run $file. $!");
         return;
     }
-    return $file_handle;
+
+    $self->_restore_PERL5LIB();
+
+    return $self->_file_handle($file_handle);
 }
 
-sub analyze_file
+sub _cleanup_analysis
 {
-    my ($self, $file) = @_;
+    my ($self) = @_;
 
-    my $file_handle = $self->_get_analysis_file_handle($file);
-    if (!defined($file_handle))
-    {
-        return;
-    }
+    my $results = $self->results();
 
-    my $results;
-    eval {
-    $results = $self->analyze_fh($file, $file_handle);
-    };
-    my $error = $@;
-    my $exit    = close ($file_handle);
-    if ($error ne "")
+    close ($self->_file_handle());
+    $self->_file_handle(undef);
+
+    if ($self->exception() ne "")
     {
-        die $error;
+        die $self->exception();
     }
 
     $results->wait($?);
     if( $? && $self->_is_vms() ) {
-        eval q{use vmsish "status"; $results{'exit'} = $?};
+        eval q{use vmsish "status"; $results->exit($?)};
     }
     else {
         $results->exit(_wait2exit($?));
     }
     $results->passing(0) unless $? == 0;
 
-    $self->_restore_PERL5LIB();
+    return;
+}
 
-    return $results;
+sub _analyze_fh_wrapper
+{
+    my ($self, $file) = @_;
+
+    eval {
+    $self->results($self->analyze_fh());
+    };
+    $self->exception($@);
+
+    return;
+}
+
+sub analyze_file
+{
+    my ($self, $file) = @_;
+
+    # Assign it here so it won't be passed around.
+    $self->file($file);
+
+    $self->_get_analysis_file_handle()
+        or return;
+
+    $self->_analyze_fh_wrapper();
+
+    $self->_cleanup_analysis();
+
+    return $self->results();
 }
 
 
