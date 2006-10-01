@@ -131,7 +131,6 @@ sub _initialize
             }
         )
     );
-    $self->Strap()->callback(\&strap_callback);
     return 0;
 }
 
@@ -849,9 +848,20 @@ sub _time_single_test
     my $test_start_time = $self->Timer() ? time : 0;
 
     $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
-
-    my $results = $self->Strap()->analyze_file($tfile) or
-      do { warn $self->Strap()->error(), "\n";  next };
+    $self->Strap()->callback(sub { $self->_strap_callback(@_); });
+    # We trap exceptions so we can nullify the callback to avoid memory
+    # leaks.
+    my $results;
+    eval {
+        $results = $self->Strap()->analyze_file($tfile) or
+          do { warn $self->Strap()->error(), "\n";  next };
+    };
+    $self->Strap()->callback(undef);
+    if ($@ ne "")
+    {
+        die $@;
+    }
+    
     my $elapsed = $self->_get_elapsed({'start_time' => $test_start_time});
     return ($results, $elapsed);
 }
@@ -1467,15 +1477,9 @@ sub _show_results {
     $self->_report_final_stats();
 }
 
-
-my %Handlers = (
-    header => \&header_handler,
-    test => \&test_handler,
-    bailout => \&bailout_handler,
-);
-
-sub strap_callback
+sub _strap_callback
 {
+    my $self = shift;
     my ($strap, $args) = @_;
 
     my $event = $args->{event};
@@ -1485,22 +1489,30 @@ sub strap_callback
     {
         my $line_wo_newline = $event->raw();
         chomp($line_wo_newline);
-        $strap->output()->print_message($line_wo_newline);
+        $self->output()->print_message($line_wo_newline);
     }
 
-    my $type = $event->is_plan() ? "header" :
-               $event->is_bailout() ? "bailout" :
-               $event->is_test() ? "test" : "+++560===NON-EXIST===065+++";
-    my $meth = $Handlers{$type};
-    if ($meth)
+    if ($event->is_plan())
     {
-        $meth->($strap, $args);
+        return $self->_strap_header_handler(@_);
+    }
+    elsif ($event->is_bailout())
+    {
+        return $self->_strap_bailout_handler(@_);
+    }
+    elsif ($event->is_test())
+    {
+        return $self->_strap_test_handler(@_);
+    }
+    else
+    {
+        return;
     }
 };
 
 
-sub header_handler {
-    my($strap, $args) = @_;
+sub _strap_header_handler {
+    my($self, $strap, $args) = @_;
 
     my $totals = $args->{totals};
 
@@ -1517,10 +1529,13 @@ sub header_handler {
     {
         warn "1..M can only appear at the beginning or end of tests\n";
     }
+
+    return;
 };
 
-sub test_handler {
-    my($strap, $args) = @_;
+sub _strap_test_handler
+{
+    my ($self, $strap, $args) = @_;
 
     my $totals = $args->{totals};
 
@@ -1530,28 +1545,30 @@ sub test_handler {
     my $detail = $totals->details()->[-1];
 
     if( $detail->ok() ) {
-        $strap->output()->print_ml_less("ok $curr/$max");
+        $self->output()->print_ml_less("ok $curr/$max");
 
         $totals->update_skip_reason($detail);
     }
     else {
-        $strap->output()->print_ml("NOK $curr");
+        $self->output()->print_ml("NOK $curr");
     }
 
     if( $curr > $next ) {
-        $strap->output()->print_message("Test output counter mismatch [test $curr]");
+        $self->output()->print_message("Test output counter mismatch [test $curr]");
     }
     elsif( $curr < $next ) {
-        $strap->output()->print_message(
+        $self->output()->print_message(
             "Confused test output: test $curr answered after test " . 
             ($next - 1)
         );
     }
 
-};
+    return;
+}
 
-sub bailout_handler {
-    my($strap, $args) = @_;
+sub _strap_bailout_handler
+{
+    my ($self, $strap, $args) = @_;
 
     die Test::Run::Obj::Error::TestsFail::Bailout->new(
         {
