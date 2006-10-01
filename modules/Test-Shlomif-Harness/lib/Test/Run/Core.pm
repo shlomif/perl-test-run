@@ -851,7 +851,7 @@ sub _time_single_test
     $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
 
     my $results = $self->Strap()->analyze_file($tfile) or
-      do { warn $self->Strap()->{error}, "\n";  next };
+      do { warn $self->Strap()->error(), "\n";  next };
     my $elapsed = $self->_get_elapsed({'start_time' => $test_start_time});
     return ($results, $elapsed);
 }

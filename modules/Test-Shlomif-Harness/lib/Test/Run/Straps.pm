@@ -528,6 +528,7 @@ Like C<analyze>, but it runs the given C<$test_file> and parses its
 results.  It will also use that name for the total report.
 
 =cut
+
 sub _get_analysis_file_handle
 {
     my($self) = @_;
