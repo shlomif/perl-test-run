@@ -1476,16 +1476,16 @@ my %Handlers = (
 
 sub strap_callback
 {
-    my ($self, $args) = @_;
+    my ($strap, $args) = @_;
 
     my $event = $args->{event};
     my $totals = $args->{totals};
 
-    if ($self->Verbose())
+    if ($strap->Verbose())
     {
         my $line_wo_newline = $event->raw();
         chomp($line_wo_newline);
-        $self->output()->print_message($line_wo_newline);
+        $strap->output()->print_message($line_wo_newline);
     }
 
     my $type = $event->is_plan() ? "header" :
@@ -1494,22 +1494,22 @@ sub strap_callback
     my $meth = $Handlers{$type};
     if ($meth)
     {
-        $meth->($self, $args);
+        $meth->($strap, $args);
     }
 };
 
 
 sub header_handler {
-    my($self, $args) = @_;
+    my($strap, $args) = @_;
 
     my $totals = $args->{totals};
 
-    if ($self->_seen_header())
+    if ($strap->_seen_header())
     {
         warn "Test header seen more than once!\n";
     }
 
-    $self->_inc_seen_header();
+    $strap->_inc_seen_header();
 
     if ($totals->seen() && 
         ($totals->max()  < $totals->seen())
@@ -1520,29 +1520,29 @@ sub header_handler {
 };
 
 sub test_handler {
-    my($self, $args) = @_;
+    my($strap, $args) = @_;
 
     my $totals = $args->{totals};
 
     my $curr = $totals->seen();
-    my $next = $self->next();
+    my $next = $strap->next();
     my $max  = $totals->max();
     my $detail = $totals->details()->[-1];
 
     if( $detail->ok() ) {
-        $self->output()->print_ml_less("ok $curr/$max");
+        $strap->output()->print_ml_less("ok $curr/$max");
 
         $totals->update_skip_reason($detail);
     }
     else {
-        $self->output()->print_ml("NOK $curr");
+        $strap->output()->print_ml("NOK $curr");
     }
 
     if( $curr > $next ) {
-        $self->output()->print_message("Test output counter mismatch [test $curr]");
+        $strap->output()->print_message("Test output counter mismatch [test $curr]");
     }
     elsif( $curr < $next ) {
-        $self->output()->print_message(
+        $strap->output()->print_message(
             "Confused test output: test $curr answered after test " . 
             ($next - 1)
         );
@@ -1551,11 +1551,11 @@ sub test_handler {
 };
 
 sub bailout_handler {
-    my($self, $args) = @_;
+    my($strap, $args) = @_;
 
     die Test::Run::Obj::Error::TestsFail::Bailout->new(
         {
-            bailout_reason => $self->bailout_reason(),
+            bailout_reason => $strap->bailout_reason(),
             text => "FOOBAR",
         }
     );
