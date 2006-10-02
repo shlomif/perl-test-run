@@ -1488,7 +1488,7 @@ sub _show_results {
 sub _strap_callback
 {
     my $self = shift;
-    my ($strap, $args) = @_;
+    my ($args) = @_;
 
     my $event = $args->{event};
     my $totals = $args->{totals};
@@ -1515,16 +1515,16 @@ sub _strap_callback
 
 
 sub _strap_header_handler {
-    my($self, $strap, $args) = @_;
+    my($self, $args) = @_;
 
     my $totals = $args->{totals};
 
-    if ($strap->_seen_header())
+    if ($self->Strap->_seen_header())
     {
         warn "Test header seen more than once!\n";
     }
 
-    $strap->_inc_seen_header();
+    $self->Strap->_inc_seen_header();
 
     if ($totals->seen() && 
         ($totals->max()  < $totals->seen())
@@ -1547,7 +1547,7 @@ or NOK.
 
 sub _strap_test_handler
 {
-    my ($self, $strap, $args) = @_;
+    my ($self, $args) = @_;
 
     my $totals = $args->{totals};
 
@@ -1564,11 +1564,11 @@ sub _strap_test_handler
 
 sub _strap_bailout_handler
 {
-    my ($self, $strap, $args) = @_;
+    my ($self, $args) = @_;
 
     die Test::Run::Obj::Error::TestsFail::Bailout->new(
         {
-            bailout_reason => $strap->bailout_reason(),
+            bailout_reason => $self->Strap->bailout_reason(),
             text => "FOOBAR",
         }
     );

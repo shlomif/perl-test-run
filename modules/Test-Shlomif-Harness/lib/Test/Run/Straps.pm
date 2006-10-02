@@ -268,7 +268,6 @@ sub _call_callback
     if ($self->callback())
     {
         $self->callback()->(
-            $self, 
             {
                 event => $self->_event(),
                 totals => $self->_file_totals(),
