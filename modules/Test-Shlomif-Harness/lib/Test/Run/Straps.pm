@@ -335,7 +335,7 @@ sub _handle_comment_event
 {
     my $self = shift;
 
-    my $test = $self->_file_totals->details()->[-1];
+    my $test = $self->_file_totals->last_detail();
     if (defined($test))
     {
         $test->append_to_diag($self->_event->comment());

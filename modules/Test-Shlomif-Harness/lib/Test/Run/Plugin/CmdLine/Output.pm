@@ -301,7 +301,7 @@ sub _report_test_progress
     my $curr = $totals->seen();
     my $next = $self->Strap()->next();
     my $max  = $totals->max();
-    my $detail = $totals->details()->[-1];
+    my $detail = $totals->last_detail;
 
     if ( $detail->ok() )
     {

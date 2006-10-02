@@ -17,9 +17,5 @@ Test::Harness.
 
 * Eliminate the rest of the unnecessary global variables.
 
-* Abstract:
-
-:grep -rP --include '*.pm' -- '->details(?:\(\))?->\[-1\]' lib
-
 Bugs:
 -----

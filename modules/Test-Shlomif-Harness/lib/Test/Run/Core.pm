@@ -1549,7 +1549,7 @@ sub _strap_test_handler
 
     my $totals = $args->{totals};
 
-    my $detail = $totals->details()->[-1];
+    my $detail = $totals->last_detail;
 
     if ( $detail->ok() )
     {
