@@ -46,7 +46,6 @@ my @fields= (qw(
     todo
     too_many_tests
     totals
-    Verbose
 ));
 
 sub _get_fields

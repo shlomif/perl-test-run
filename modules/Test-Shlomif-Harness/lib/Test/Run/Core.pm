@@ -839,7 +839,7 @@ sub _get_elapsed
 
 sub _get_copied_strap_fields
 {
-    return [qw(Verbose Debug Test_Interpreter Switches Switches_Env)];
+    return [qw(Debug Test_Interpreter Switches Switches_Env)];
 }
 
 sub _time_single_test
