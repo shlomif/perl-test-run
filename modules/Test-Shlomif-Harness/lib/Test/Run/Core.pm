@@ -118,7 +118,9 @@ sub _get_new_output
 sub _initialize
 {
     my $self = shift;
+
     my (%args) = (@_);
+
     $self->Columns(80);
     $self->Switches("-w");
     $self->_init_simple_params(\%args);
