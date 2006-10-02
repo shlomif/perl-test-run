@@ -1534,36 +1534,29 @@ sub _strap_header_handler {
     return;
 };
 
+=head2 $self->_report_test_progress($args)
+
+[This is a method that needs to be over-rided.]
+
+Report the text progress. In the command line it would be a ok $curr/$total
+or NOK.
+
+=cut
+
 sub _strap_test_handler
 {
     my ($self, $strap, $args) = @_;
 
     my $totals = $args->{totals};
 
-    my $curr = $totals->seen();
-    my $next = $strap->next();
-    my $max  = $totals->max();
     my $detail = $totals->details()->[-1];
 
-    if( $detail->ok() ) {
-        $self->output()->print_ml_less("ok $curr/$max");
-
+    if ( $detail->ok() )
+    {
         $totals->update_skip_reason($detail);
     }
-    else {
-        $self->output()->print_ml("NOK $curr");
-    }
 
-    if( $curr > $next ) {
-        $self->output()->print_message("Test output counter mismatch [test $curr]");
-    }
-    elsif( $curr < $next ) {
-        $self->output()->print_message(
-            "Confused test output: test $curr answered after test " . 
-            ($next - 1)
-        );
-    }
-
+    $self->_report_test_progress($args);
     return;
 }
 

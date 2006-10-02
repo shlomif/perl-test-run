@@ -292,4 +292,37 @@ sub _report_tap_event
     }
 }
 
+sub _report_test_progress
+{
+    my ($self, $args) = @_;
+
+    my $totals = $args->{totals};
+
+    my $curr = $totals->seen();
+    my $next = $self->Strap()->next();
+    my $max  = $totals->max();
+    my $detail = $totals->details()->[-1];
+
+    if ( $detail->ok() )
+    {
+        $self->output()->print_ml_less("ok $curr/$max");
+    }
+    else
+    {
+        $self->output()->print_ml("NOK $curr");
+    }
+
+    if ($curr > $next) 
+    {
+        $self->output()->print_message("Test output counter mismatch [test $curr]");
+    }
+    elsif ($curr < $next)
+    {
+        $self->output()->print_message(
+            "Confused test output: test $curr answered after test " . 
+            ($next - 1)
+        );
+    }
+}
+    
 1;
