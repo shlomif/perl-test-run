@@ -279,4 +279,17 @@ sub _calc_test_struct_ml
     return $self->output()->ml();
 }
 
+sub _report_tap_event
+{
+    my ($self, $args) = @_;
+    
+    my $raw_event = $args->{'raw_event'};
+
+    if ($self->Verbose())
+    {
+        chomp($raw_event);
+        $self->output()->print_message($raw_event);
+    }
+}
+
 1;

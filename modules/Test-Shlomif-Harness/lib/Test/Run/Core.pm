@@ -1477,6 +1477,12 @@ sub _show_results {
     $self->_report_final_stats();
 }
 
+=head2 $self->_report_tap_event({ 'raw_event' => $event->raw() })
+
+[This is a method that needs to be over-rided.]
+
+=cut
+
 sub _strap_callback
 {
     my $self = shift;
@@ -1485,12 +1491,7 @@ sub _strap_callback
     my $event = $args->{event};
     my $totals = $args->{totals};
 
-    if ($strap->Verbose())
-    {
-        my $line_wo_newline = $event->raw();
-        chomp($line_wo_newline);
-        $self->output()->print_message($line_wo_newline);
-    }
+    $self->_report_tap_event({ 'raw_event' => $event->raw()});
 
     if ($event->is_plan())
     {
