@@ -6,8 +6,10 @@ use Test::Run::CmdLine::Prove;
 
 my $p =
     Test::Run::CmdLine::Prove->new(
-        'args' => [@ARGV],
-        'env_switches' => $ENV{'PROVE_SWITCHES'},
+        {
+            'args' => [@ARGV],
+            'env_switches' => $ENV{'PROVE_SWITCHES'},
+        }
     );
 exit($p->run());
 

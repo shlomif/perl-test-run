@@ -19,7 +19,7 @@ use File::Spec;
 sub get_test_files
 {
     my $args = shift;
-    my $prove = Test::Run::CmdLine::Prove->new('args' => $args);
+    my $prove = Test::Run::CmdLine::Prove->new({'args' => $args});
     return $prove->_get_test_files();
 }
 

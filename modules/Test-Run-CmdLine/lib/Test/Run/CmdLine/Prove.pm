@@ -35,7 +35,7 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 
     use Test::Run::CmdLine::Prove;
 
-    my $tester = Test::Run::CmdLine::Prove->new('args' => [@ARGV]);
+    my $tester = Test::Run::CmdLine::Prove->new({'args' => [@ARGV]});
 
     $tester->run();
 
@@ -43,12 +43,10 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 
 sub _initialize
 {
-    my $self = shift;
+    my ($self, $args) = @_;
 
-    my (%args) = (@_);
-
-    my $arguments = $args{'args'};
-    my $env_switches = $args{'env_switches'};
+    my $arguments = $args->{'args'};
+    my $env_switches = $args->{'env_switches'};
 
     $self->arguments($arguments);
 
@@ -157,7 +155,7 @@ sub _print_version
 
 =head1 Interface Functions
 
-=head2 $prove = Test::Run::CmdLine::Prove->new('args' => [@ARGV], 'env_switches' => $env_switches);
+=head2 $prove = Test::Run::CmdLine::Prove->new({'args' => [@ARGV], 'env_switches' => $env_switches});
 
 Initializes a new object. C<'args'> is a keyed parameter that gives the
 command line for the prove utility (as an array ref of strings). 
@@ -194,8 +192,10 @@ sub _wet_run
 
     my $test_run =
         Test::Run::CmdLine::Iface->new(
-            'test_files' => [@$tests],
-            'backend_params' => $self->_get_backend_params(),
+            {
+                'test_files' => [@$tests],
+                'backend_params' => $self->_get_backend_params(),
+            }
         );
 
     return $test_run->run();

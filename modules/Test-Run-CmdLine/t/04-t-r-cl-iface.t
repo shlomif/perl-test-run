@@ -41,7 +41,9 @@ my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
 {
     my $obj =
         Test::Run::CmdLine::Iface->new(
-            'test_files' => [ $test_file ],
+            {
+                'test_files' => [ $test_file ],
+            }
         );
     # TEST
     ok ($obj, "Construction");
@@ -63,8 +65,11 @@ my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
     delete($ENV{'PROVE_SWITCHES'});
     
     my $obj = Test::Run::CmdLine::Iface->new(
+        {
             'test_files' => [ $test_file ],
-        );
+        }
+    );
+
     my ($output, $error) = trap(sub { $obj->run() });
     # TEST
     like ($output, qr/All tests success/,

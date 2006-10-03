@@ -29,7 +29,9 @@ use vars (qw(@ISA));
     use Test::Run::CmdLine;
 
     my $tester = Test::Run::CmdLine->new(
-        'test_files' => ["t/one.t", "t/two.t"],
+        {
+            'test_files' => ["t/one.t", "t/two.t"],
+        },
     );
 
     $tester->run();
@@ -45,14 +47,13 @@ __PACKAGE__->mk_accessors(qw(
 
 sub _initialize
 {
-    my $self = shift;
-
+    my ($self, $args) = @_;
+    
     $self->backend_class("Test::Run::Iface");
     $self->backend_plugins([]);
 
-    my (%args) = @_;
-    $self->test_files($args{'test_files'});
-    $self->_process_args(\%args);
+    $self->test_files($args->{'test_files'});
+    $self->_process_args($args);
 
     return 0;
 }
@@ -70,7 +71,7 @@ sub _process_args
 
 =head1 Interface Functions
 
-=head2 $tester = Test::Run::CmdLine->new('test_files' => \@test_files, ....);
+=head2 $tester = Test::Run::CmdLine->new({'test_files' => \@test_files, ....});
 
 Initializes a new testing front end. C<test_files> is a named argument that
 contains the files to test.

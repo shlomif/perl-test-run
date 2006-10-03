@@ -13,7 +13,7 @@ use Cwd;
 sub mytest
 {
     my $args = shift;
-    my $prove = Test::Run::CmdLine::Prove->new('args' => $args);
+    my $prove = Test::Run::CmdLine::Prove->new({'args' => $args});
     return $prove->ext_regex_string();
 }
 
@@ -33,7 +33,7 @@ is (mytest (['--ext=cgi,.pl', '--ext=.hello,perl', 't']),
 sub get_test_files
 {
     my $args = shift;
-    my $prove = Test::Run::CmdLine::Prove->new('args' => $args);
+    my $prove = Test::Run::CmdLine::Prove->new({'args' => $args});
     return $prove->_get_test_files();
 }
 

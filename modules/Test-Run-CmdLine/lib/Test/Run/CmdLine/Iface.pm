@@ -18,7 +18,9 @@ Test::Run::CmdLine::Iface - Analyze tests from the command line using Test::Run
     use Test::Run::CmdLine::Iface;
 
     my $tester = Test::Run::CmdLine::Iface->new(
-        'test_files' => ["t/one.t", "t/two.t"],
+        {
+            'test_files' => ["t/one.t", "t/two.t"],
+        }
     );
 
     $tester->run();
@@ -34,35 +36,41 @@ __PACKAGE__->mk_accessors(qw(
 
 sub _initialize
 {
-    my $self = shift;
-    my (%args) = @_;
+    my ($self, $args) = @_;
+
     $self->driver_plugins([]);
-    if ($args{'driver_class'} || $args{'driver_plugins'})
+    if ($args->{'driver_class'} || $args->{'driver_plugins'})
     {
         $self->_set_driver(
-            'class' => ($args{'driver_class'} ||
-                "Test::Run::CmdLine::Drivers::Default"),
-            'plugins' => ($args{'driver_plugins'} || []),
+            {
+                'class' => ($args->{'driver_class'} ||
+                    "Test::Run::CmdLine::Drivers::Default"),
+                'plugins' => ($args->{'driver_plugins'} || []),
+            }
         );
     }
     elsif ($ENV{'HARNESS_DRIVER'} || $ENV{'HARNESS_PLUGINS'})
     {
         $self->_set_driver(
-            'class' => ($ENV{'HARNESS_DRIVER'} ||
-                "Test::Run::CmdLine::Drivers::Default"),
-            'plugins' => [split(/\s+/, $ENV{'HARNESS_PLUGINS'} || "")]
+            {
+                'class' => ($ENV{'HARNESS_DRIVER'} ||
+                    "Test::Run::CmdLine::Drivers::Default"),
+                'plugins' => [split(/\s+/, $ENV{'HARNESS_PLUGINS'} || "")]
+            }
         );
     }
     else
     {
         $self->_set_driver(
-            'class' => "Test::Run::CmdLine::Drivers::Default",
-            'plugins' => [],
+            {
+                'class' => "Test::Run::CmdLine::Drivers::Default",
+                'plugins' => [],
+            }
         );
     }
     
-    $self->test_files($args{'test_files'});
-    $self->_process_args(\%args);
+    $self->test_files($args->{'test_files'});
+    $self->_process_args($args);
 
     return 0;
 }
@@ -80,7 +88,7 @@ sub _process_args
 
 =head1 Interface Functions
 
-=head2 $tester = Test::Run::CmdLine::Iface->new('test_files' => \@test_files, ....);
+=head2 $tester = Test::Run::CmdLine::Iface->new({'test_files' => \@test_files, ....});
 
 Initializes a new testing front end. C<test_files> is a named argument that
 contains the files to test.
@@ -146,8 +154,10 @@ sub run
     }
 
     my $driver = $driver_class->new(
-        'test_files' => $self->test_files(),
-        'backend_params' => $self->backend_params(),
+        {
+            'test_files' => $self->test_files(),
+            'backend_params' => $self->backend_params(),
+        }
     );
 
     return $driver->run();
@@ -182,20 +192,22 @@ sub _is_class_name
 
 sub _set_driver
 {
-    my $self = shift;
-    my (%args) = @_;
-    my $class = $args{'class'};
+    my ($self, $args) = @_;
+
+    my $class = $args->{'class'};
     if (! $self->_check_driver_class($class))
     {
         die "Invalid Driver Class \"$class\"!";
     }
     $self->driver_class($class);
-    my $plugins = $args{'plugins'};
+
+    my $plugins = $args->{'plugins'};
     if (! $self->_check_plugins($plugins))
     {
         die "Invalid Plugins for Test::Run::CmdLine::Iface!";
     }
     $self->driver_plugins($plugins);
+
     return 0;
 }
 
@@ -213,6 +225,7 @@ sub _calc_single_plugin_for_ISA
 {
     my $self = shift;
     my $p = shift;
+
     return "Test::Run::CmdLine::Plugin::$p";
 }
 
