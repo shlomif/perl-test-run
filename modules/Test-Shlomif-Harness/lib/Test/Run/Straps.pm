@@ -683,6 +683,33 @@ sub _command {
     return $^X;
 }
 
+sub _handle_test_file_opening_error
+{
+    my ($self, $args) = @_;
+
+    $self->_invoke_cb({type => "test_file_opening_error", %$args});
+}
+
+sub _get_shebang
+{
+    my($self, $file) = @_;
+
+    my $test_fh;
+    if (!open($test_fh, $file))
+    {
+        $self->_handle_test_file_opening_error(
+            {
+                file => $file,
+                error => $!,
+            }
+        );
+        return "";
+    }
+    my $shebang = <$test_fh>;
+    close($test_fh) or 
+        $self->output()->print_message("can't close $file. $!");    
+    return $shebang;
+}
 
 =head2 $strap->_switches( $file )
 
@@ -697,10 +724,7 @@ sub _switches {
     my @existing_switches = $self->_cleaned_switches( $self->Switches(), $self->Switches_Env());
     my @derived_switches;
 
-    local *TEST;
-    open(TEST, $file) or $self->output()->print_message("can't open $file. $!");
-    my $shebang = <TEST>;
-    close(TEST) or $self->output()->print_message("can't close $file. $!");
+    my $shebang = $self->_get_shebang($file);
 
     my $taint = ( $shebang =~ /^#!.*\bperl.*\s-\w*([Tt]+)/ );
     push( @derived_switches, "-$1" ) if $taint;

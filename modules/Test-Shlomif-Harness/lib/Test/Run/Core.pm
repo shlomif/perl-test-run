@@ -1489,6 +1489,12 @@ sub _show_results {
 
 Should report the environment of the script at its beginning.
 
+=head2 $self->_handle_test_file_opening_error($args)
+
+[This is a method that needs to be over-rided.]
+
+Should handle the case where the test file cannot be opened.
+
 =cut
 
 sub _strap_callback
@@ -1508,6 +1514,10 @@ sub _strap_callback
     elsif ($type eq "could_not_run_script")
     {
         return $self->_report_could_not_run_script($args);
+    }
+    elsif ($type eq "test_file_opening_error")
+    {
+        return $self->_handle_test_file_opening_error($args);
     }
 }
 

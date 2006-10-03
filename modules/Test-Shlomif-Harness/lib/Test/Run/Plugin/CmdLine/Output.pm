@@ -351,5 +351,14 @@ sub _report_could_not_run_script
     $self->output()->print_message("can't run $file. $error");
 }
 
+sub _handle_test_file_opening_error
+{
+    my ($self, $args) = @_;
+
+    my $file = $args->{file};
+    my $error = $args->{error};
+
+    $self->output()->print_message("can't open $file. $error");
+}
 
 1;
