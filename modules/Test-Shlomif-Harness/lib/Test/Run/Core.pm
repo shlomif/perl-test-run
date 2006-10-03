@@ -127,11 +127,7 @@ sub _initialize
     $self->dir_files([]);
     $self->output($self->_get_new_output(\%args));
     $self->Strap(
-        Test::Run::Straps->new(
-            {
-                output => $self->output(),
-            }
-        )
+        Test::Run::Straps->new(+{})
     );
     return 0;
 }

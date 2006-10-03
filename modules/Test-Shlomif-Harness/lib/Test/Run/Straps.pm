@@ -34,7 +34,6 @@ my @fields= (qw(
     max
     next
     _old5lib
-    output
     _parser
     results
     saw_bailout
@@ -117,7 +116,6 @@ sub _initialize {
     $self->_is_win32( $^O =~ /^(MS)?Win32$/ );
     $self->_is_macos( $^O eq 'MacOS' );
 
-    $self->output($args->{output}); 
     $self->totals(+{});
     $self->todo(+{});
 }
