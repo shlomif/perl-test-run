@@ -1519,6 +1519,10 @@ sub _strap_callback
     {
         return $self->_handle_test_file_opening_error($args);
     }
+    elsif ($type eq "test_file_closing_error")
+    {
+        return $self->_handle_test_file_closing_error($args);
+    }
 }
 
 sub _tap_event_strap_callback

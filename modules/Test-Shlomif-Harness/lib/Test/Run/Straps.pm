@@ -690,6 +690,13 @@ sub _handle_test_file_opening_error
     $self->_invoke_cb({type => "test_file_opening_error", %$args});
 }
 
+sub _handle_test_file_closing_error
+{
+    my ($self, $args) = @_;
+
+    $self->_invoke_cb({type => "test_file_closing_error", %$args});
+}
+
 sub _get_shebang
 {
     my($self, $file) = @_;
@@ -706,8 +713,15 @@ sub _get_shebang
         return "";
     }
     my $shebang = <$test_fh>;
-    close($test_fh) or 
-        $self->output()->print_message("can't close $file. $!");    
+    if (!close($test_fh))
+    {
+        $self->_handle_test_file_closing_error(
+            {
+                file => $file,
+                error => $1,
+            }
+        );
+    }
     return $shebang;
 }
 

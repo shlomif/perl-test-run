@@ -361,4 +361,14 @@ sub _handle_test_file_opening_error
     $self->output()->print_message("can't open $file. $error");
 }
 
+sub _handle_test_file_closing_error
+{
+    my ($self, $args) = @_;
+
+    my $file = $args->{file};
+    my $error = $args->{error};
+
+    $self->output()->print_message("can't close $file. $error");
+}
+
 1;
