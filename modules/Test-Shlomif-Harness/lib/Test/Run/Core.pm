@@ -115,16 +115,14 @@ sub _get_new_strap
 
 sub _initialize
 {
-    my $self = shift;
-
-    my (%args) = (@_);
+    my ($self, $args) = @_;
 
     $self->Columns(80);
     $self->Switches("-w");
-    $self->_init_simple_params(\%args);
+    $self->_init_simple_params($args);
     $self->dir_files([]);
     $self->Strap(
-        $self->_get_new_strap(\%args),
+        $self->_get_new_strap($args),
     );
     return 0;
 }
@@ -133,7 +131,7 @@ sub _initialize
 
   use Test::Run::Obj;
 
-  my $tester = Test::Run::Obj->new('test_files' => \@test_files);
+  my $tester = Test::Run::Obj->new({'test_files' => \@test_files});
   $tester->runtests();
 
 =head1 DESCRIPTION
@@ -172,8 +170,10 @@ their name along with a value on the constructor (along with the compulsory
 C<'test_files'> argument):
 
     my $tester = Test::Run::Obj->new(
-        'test_files' => \@mytests,
-        'Verbose' => 1,
+        {
+            'test_files' => \@mytests,
+            'Verbose' => 1,
+        }
     );
 
 Alternatively, before C<runtests()> is called, they can be set by passing a 

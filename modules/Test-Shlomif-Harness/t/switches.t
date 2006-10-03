@@ -27,8 +27,10 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
     open STDOUT, ">&ALTOUT";
 
     my $tester = Test::Run::Obj->new(
-        test_files => ["t/sample-tests/with-myhello"],
-        Switches => $switches,
+        {
+            test_files => ["t/sample-tests/with-myhello"],
+            Switches => $switches,
+        }   
         );
 
     $tester->runtests();
@@ -50,8 +52,10 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
     open STDOUT, ">&ALTOUT";
 
     my $tester = Test::Run::Obj->new(
-        test_files => ["t/sample-tests/with-myhello"],
-        Switches_Env => $switches,
+        {
+            test_files => ["t/sample-tests/with-myhello"],
+            Switches_Env => $switches,
+        }
         );
 
     $tester->runtests();
@@ -73,10 +77,12 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
     open STDOUT, ">&ALTOUT";
 
     my $tester = Test::Run::Obj->new(
-        test_files => ["t/sample-tests/with-myhello-and-myfoo"],
-        Switches => $switches_lib2,
-        Switches_Env => $switches,
-        );
+        {
+            test_files => ["t/sample-tests/with-myhello-and-myfoo"],
+            Switches => $switches_lib2,
+            Switches_Env => $switches,
+        }
+    );
 
     $tester->runtests();
 

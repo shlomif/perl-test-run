@@ -494,8 +494,10 @@ SKIP: {
         select NULL;    # _run_all_tests() isn't as quiet as it should be.
         local $SIG{__WARN__} = sub { $warning .= join '', @_; };
         $obj = Test::Run::Obj->new(
-            test_files => [$test_path],
-            Switches => "@_INC -Mstrict",
+            {
+                test_files => [$test_path],
+                Switches => "@_INC -Mstrict",
+            }
         );
         ($failed) = 
           $obj->_run_all_tests();

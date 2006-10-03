@@ -128,8 +128,10 @@ sub run
     }
 
     my $backend = $backend_class->new(
-        'test_files' => $self->test_files(),
-        @{$self->get_backend_args()},
+        {
+            'test_files' => $self->test_files(),
+            @{$self->get_backend_args()},
+        },
     );
 
     return $backend->runtests();

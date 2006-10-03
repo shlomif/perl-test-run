@@ -39,9 +39,9 @@ sub _initialize
 {
     my $self = shift;
 
-    my (%args) = @_;
+    my ($args) = @_;
 
-    $self->output($self->_get_new_output(\%args));
+    $self->output($self->_get_new_output($args));
 
     return $self->NEXT::_initialize(@_);
 }

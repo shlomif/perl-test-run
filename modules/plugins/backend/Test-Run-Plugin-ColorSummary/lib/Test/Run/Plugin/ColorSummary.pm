@@ -68,11 +68,13 @@ sub _get_default_success_summary_color
     @ISA = (qw(Test::Run::Plugin::ColorSummary Test::Run::Obj));
 
     my $tester = MyTestRun->new(
-        test_files => 
-        [
-            "t/sample-tests/one-ok.t",
-            "t/sample-tests/several-oks.t"
-        ],
+        {
+            test_files => 
+            [
+                "t/sample-tests/one-ok.t",
+                "t/sample-tests/several-oks.t"
+            ],
+        }
         );
 
     $tester->runtests();

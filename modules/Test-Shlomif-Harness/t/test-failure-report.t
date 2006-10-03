@@ -38,8 +38,10 @@ use Test::Run::Obj;
     open STDOUT, ">&ALTOUT";
         
     my $tester = Test::Run::Obj->new(
-        test_files => ["t/sample-tests/simple_fail"]
-        );
+        {
+            test_files => ["t/sample-tests/simple_fail"]
+        }
+    );
     eval {
     $tester->runtests();
     };
@@ -66,9 +68,12 @@ EOF
     open STDOUT, ">&ALTOUT";
         
     my $tester = Test::Run::Obj->new(
-        test_files => ["t/sample-tests/simple_fail"],
-        Columns => 100,
-        );
+        {
+            test_files => ["t/sample-tests/simple_fail"],
+            Columns => 100,
+        }
+    );
+
     eval {
     $tester->runtests();
     };
@@ -97,8 +102,11 @@ EOF
     open STDERR, ">&ALTERR";
         
     my $tester = Test::Run::Obj->new(
-        test_files => ["t/sample-tests/test_more_fail.t"],
-        );
+        {
+            test_files => ["t/sample-tests/test_more_fail.t"],
+        }
+    );
+
     eval {
     $tester->runtests();
     };

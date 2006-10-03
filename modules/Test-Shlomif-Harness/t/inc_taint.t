@@ -18,13 +18,15 @@ push @INC, 'we_added_this_lib';
 
 tie *NULL, 'Dev::Null' or die $!;
 select NULL;
-my $obj = Test::Run::Obj->new(    
+my $obj = Test::Run::Obj->new(
+    {
     test_files =>
     [
            $ENV{PERL_CORE}
             ? 'lib/sample-tests/inc_taint'
             : 't/sample-tests/inc_taint'
     ],
+    }
 );
 
 my($failed) = $obj->_run_all_tests();

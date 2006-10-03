@@ -26,7 +26,7 @@ sub trap_output
 
 
     my $tester = Test::Run::Obj->new(
-        @$args,
+        {@$args},
         );
 
     eval { $tester->runtests(); };

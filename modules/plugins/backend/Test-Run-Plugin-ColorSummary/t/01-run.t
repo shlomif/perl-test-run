@@ -24,11 +24,13 @@ use Term::ANSIColor;
     open STDOUT, ">&ALTOUT";
 
     my $tester = MyTestRun->new(
-        test_files => 
-        [
-            "t/sample-tests/one-ok.t",
-            "t/sample-tests/several-oks.t"
-        ],
+        {
+            test_files => 
+            [
+                "t/sample-tests/one-ok.t",
+                "t/sample-tests/several-oks.t"
+            ],
+        }
         );
 
     $tester->runtests();
@@ -55,10 +57,12 @@ use Term::ANSIColor;
     open STDERR, ">&ALTERR";
 
     my $tester = MyTestRun->new(
-        test_files => 
-        [
-            "t/sample-tests/one-fail.t",
-        ],
+        {
+            test_files => 
+            [
+                "t/sample-tests/one-fail.t",
+            ],
+        }
         );
 
     eval {
@@ -89,13 +93,15 @@ use Term::ANSIColor;
     open STDOUT, ">&ALTOUT";
 
     my $tester = MyTestRun->new(
-        test_files => 
-        [
-            "t/sample-tests/one-ok.t",
-            "t/sample-tests/several-oks.t"
-        ],
-        summary_color_success => "green",
-        summary_color_failure => "yellow",
+        {
+            test_files => 
+            [
+                "t/sample-tests/one-ok.t",
+                "t/sample-tests/several-oks.t"
+            ],
+            summary_color_success => "green",
+            summary_color_failure => "yellow",
+        }
         );
 
     $tester->runtests();
@@ -123,12 +129,14 @@ use Term::ANSIColor;
     open STDERR, ">&ALTERR";
 
     my $tester = MyTestRun->new(
-        test_files => 
-        [
-            "t/sample-tests/one-fail.t",
-        ],
-        summary_color_success => "green",
-        summary_color_failure => "yellow",
+        {
+            test_files => 
+            [
+                "t/sample-tests/one-fail.t",
+            ],
+            summary_color_success => "green",
+            summary_color_failure => "yellow",
+        }
         );
 
     eval {
