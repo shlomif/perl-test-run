@@ -6,6 +6,8 @@ use warnings;
 use Carp;
 use Benchmark qw(timestr); 
 
+use Test::Run::Core;
+
 =head1 Test::Run::Plugin::CmdLine::Output
 
 This a module that implements the command line/STDOUT specific output of 
