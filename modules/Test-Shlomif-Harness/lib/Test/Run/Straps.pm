@@ -22,7 +22,9 @@ my @fields= (qw(
     Debug
     error
     _event
+    exception
     file
+    _file_handle
     _file_totals
     _is_macos
     _is_vms
@@ -32,18 +34,17 @@ my @fields= (qw(
     max
     next
     _old5lib
-    output
     _parser
+    results
     saw_bailout
     saw_header
-    skip_all
+    _seen_header
     Switches
     Switches_Env
     Test_Interpreter
     todo
     too_many_tests
     totals
-    Verbose
 ));
 
 sub _get_fields
@@ -69,9 +70,9 @@ Test::Run::Straps - detailed analysis of test results
   my $strap = Test::Run::Straps->new;
 
   # Various ways to interpret a test
-  my %results = $strap->analyze($name, \@test_output);
-  my %results = $strap->analyze_fh($name, $test_filehandle);
-  my %results = $strap->analyze_file($test_file);
+  my $results = $strap->analyze($name, \@test_output);
+  my $results = $strap->analyze_fh($name, $test_filehandle);
+  my $results = $strap->analyze_file($test_file);
 
   # UNIMPLEMENTED
   my %total = $strap->total_results;
@@ -115,7 +116,6 @@ sub _initialize {
     $self->_is_win32( $^O =~ /^(MS)?Win32$/ );
     $self->_is_macos( $^O eq 'MacOS' );
 
-    $self->output($args->{output}); 
     $self->totals(+{});
     $self->todo(+{});
 }
@@ -149,12 +149,12 @@ sub analyze
 {
     my($self, $name, $test_output_orig) = @_;
 
+    # Assign it here so it won't be passed around.
+    $self->file($name);
+
     $self->_parser($self->_create_parser($test_output_orig));
 
-    return
-        $self->_analyze_with_parser(
-            $name,
-        );
+    return $self->_analyze_with_parser();
 }
 
 sub _init_totals_obj_instance
@@ -188,10 +188,8 @@ sub _get_initial_totals_obj_params
 sub _start_new_file
 {
     my $self = shift;
-    my $name = shift;
 
     $self->_reset_file_state;
-    $self->file($name);
     my $totals =
         $self->_init_totals_obj_instance(
             $self->_get_initial_totals_obj_params(),
@@ -200,7 +198,7 @@ sub _start_new_file
     $self->_file_totals($totals);
 
     # Set them up here so callbacks can have them.
-    $self->totals()->{$name}         = $totals;
+    $self->totals()->{$self->file()}         = $totals;
 
     return;
 }
@@ -249,31 +247,40 @@ sub _events_loop
 
 sub _analyze_with_parser
 {
-    my($self, $name) = @_;
+    my($self) = @_;
 
-    $self->_start_new_file($name);
+    $self->_start_new_file();
 
     $self->_events_loop();
 
-    $self->_end_file($name);
+    $self->_end_file();
 
     return $self->_file_totals;
+}
+
+sub _invoke_cb
+{
+    my $self = shift;
+    my $args = shift;
+
+    if ($self->callback())
+    {
+        $self->callback()->(
+            $args
+        );
+    }
 }
 
 sub _call_callback
 {
     my $self = shift;
-
-    if ($self->callback())
-    {
-        $self->callback()->(
-            $self, 
-            {
-                event => $self->_event(),
-                totals => $self->_file_totals(),
-            }
-        );
-    }
+    return $self->_invoke_cb(
+        {
+            type => "tap_event",
+            event => $self->_event(),
+            totals => $self->_file_totals(),
+        }
+    );
 }
 
 sub _bump_next
@@ -334,7 +341,7 @@ sub _handle_comment_event
 {
     my $self = shift;
 
-    my $test = $self->_file_totals->details()->[-1];
+    my $test = $self->_file_totals->last_detail();
     if (defined($test))
     {
         $test->append_to_diag($self->_event->comment());
@@ -424,6 +431,13 @@ sub _inc_seen
     $self->_file_totals->inc_field('seen');
 }
 
+sub _inc_seen_header
+{
+    my $self = shift;
+
+    $self->inc_field('_seen_header');
+}
+
 sub _handle_test_event
 {
     my $self = shift;
@@ -445,7 +459,9 @@ sub _handle_plan_event
     # If it's a skip line.
     if ($self->_event->tests_planned() == 0)
     {
-        $self->_file_totals->skip_all($self->_event->explanation());
+        my $reason = $self->_event->explanation();
+        $reason =~ s{^[\w:]+\s?}{};
+        $self->_file_totals->skip_all($reason);
     }
 
     return;
@@ -504,8 +520,10 @@ Like C<analyze>, but it reads from the given filehandle.
 sub analyze_fh
 {
     my $self = shift;
-    # The same as analyze due to TAPx::Parser polymorphism
-    return $self->analyze(@_);
+
+    $self->_parser($self->_create_parser($self->_file_handle()));
+
+    return $self->_analyze_with_parser();
 }
 
 =head2 $strap->analyze_file( $test_file )
@@ -517,8 +535,11 @@ results.  It will also use that name for the total report.
 
 =cut
 
-sub analyze_file {
-    my($self, $file) = @_;
+sub _get_analysis_file_handle
+{
+    my($self) = @_;
+
+    my $file = $self->file();
 
     unless( -e $file ) {
         $self->error("$file does not exist");
@@ -531,43 +552,82 @@ sub analyze_file {
     }
 
     local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
-    if ( $self->Debug() ) {
-        local $^W=0; # ignore undef warnings
-        $self->output()->print_message("# PERL5LIB=$ENV{PERL5LIB}");
-    }
+    $self->_invoke_cb({'type' => "report_start_env"});
 
     # *sigh* this breaks under taint, but open -| is unportable.
     my $line = $self->_command_line($file);
 
     my $file_handle;
     unless ( open($file_handle, "$line|" )) {
-        $self->output()->print_message("can't run $file. $!");
+        $self->_invoke_cb(
+            {
+                type => "could_not_run_script",
+                cmd_line => $line,
+                file => $file,
+                error => $!,
+            }
+        );
         return;
     }
 
-    my $results;
-    eval {
-    $results = $self->analyze_fh($file, $file_handle);
-    };
-    my $error = $@;
-    my $exit    = close ($file_handle);
-    if ($error ne "")
+    $self->_restore_PERL5LIB();
+
+    return $self->_file_handle($file_handle);
+}
+
+sub _cleanup_analysis
+{
+    my ($self) = @_;
+
+    my $results = $self->results();
+
+    close ($self->_file_handle());
+    $self->_file_handle(undef);
+
+    if ($self->exception() ne "")
     {
-        die $error;
+        die $self->exception();
     }
 
     $results->wait($?);
     if( $? && $self->_is_vms() ) {
-        eval q{use vmsish "status"; $results{'exit'} = $?};
+        eval q{use vmsish "status"; $results->exit($?)};
     }
     else {
         $results->exit(_wait2exit($?));
     }
     $results->passing(0) unless $? == 0;
 
-    $self->_restore_PERL5LIB();
+    return;
+}
 
-    return $results;
+sub _analyze_fh_wrapper
+{
+    my ($self, $file) = @_;
+
+    eval {
+    $self->results($self->analyze_fh());
+    };
+    $self->exception($@);
+
+    return;
+}
+
+sub analyze_file
+{
+    my ($self, $file) = @_;
+
+    # Assign it here so it won't be passed around.
+    $self->file($file);
+
+    $self->_get_analysis_file_handle()
+        or return;
+
+    $self->_analyze_fh_wrapper();
+
+    $self->_cleanup_analysis();
+
+    return $self->results();
 }
 
 
@@ -621,6 +681,47 @@ sub _command {
     return $^X;
 }
 
+sub _handle_test_file_opening_error
+{
+    my ($self, $args) = @_;
+
+    $self->_invoke_cb({type => "test_file_opening_error", %$args});
+}
+
+sub _handle_test_file_closing_error
+{
+    my ($self, $args) = @_;
+
+    $self->_invoke_cb({type => "test_file_closing_error", %$args});
+}
+
+sub _get_shebang
+{
+    my($self, $file) = @_;
+
+    my $test_fh;
+    if (!open($test_fh, $file))
+    {
+        $self->_handle_test_file_opening_error(
+            {
+                file => $file,
+                error => $!,
+            }
+        );
+        return "";
+    }
+    my $shebang = <$test_fh>;
+    if (!close($test_fh))
+    {
+        $self->_handle_test_file_closing_error(
+            {
+                file => $file,
+                error => $1,
+            }
+        );
+    }
+    return $shebang;
+}
 
 =head2 $strap->_switches( $file )
 
@@ -635,10 +736,7 @@ sub _switches {
     my @existing_switches = $self->_cleaned_switches( $self->Switches(), $self->Switches_Env());
     my @derived_switches;
 
-    local *TEST;
-    open(TEST, $file) or $self->output()->print_message("can't open $file. $!");
-    my $shebang = <TEST>;
-    close(TEST) or $self->output()->print_message("can't close $file. $!");
+    my $shebang = $self->_get_shebang($file);
 
     my $taint = ( $shebang =~ /^#!.*\bperl.*\s-\w*([Tt]+)/ );
     push( @derived_switches, "-$1" ) if $taint;
@@ -769,7 +867,7 @@ Methods for identifying what sort of line you're looking at.
 
   $strap->_reset_file_state;
 
-Resets things like C<< $strap->{max} >> , C<< $strap->{skip_all} >>,
+Resets things like C<< $strap->{max} >>,
 etc. so it's ready to parse the next file.
 
 =cut
@@ -777,7 +875,7 @@ etc. so it's ready to parse the next file.
 sub _reset_file_state {
     my($self) = shift;
 
-    delete @{$self}{qw(max skip_all too_many_tests)};
+    delete @{$self}{qw(max too_many_tests)};
     $self->todo(+{});
     
     foreach my $field (qw(saw_header saw_bailout lone_not_line))

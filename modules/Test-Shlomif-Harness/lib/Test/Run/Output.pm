@@ -57,15 +57,17 @@ sub _newline
     my $self = shift;
     $self->_print_message_raw("\n");
 }
+
 sub print_leader
 {
-    my $self = shift;
-    my (%args) = @_;
+    my ($self, $args) = @_;
+
     my ($leader, $ml) =
         $self->_mk_leader(
-            $args{filename},
-            $args{width},
+            $args->{filename},
+            $args->{width},
         );
+
     $self->ml($ml);
     $self->_print_message_raw(
         $leader,
@@ -105,7 +107,8 @@ The C<$width> is the width of the "yada/blah.." string.
 
 =cut
 
-sub _mk_leader {
+sub _mk_leader
+{
     my ($self, $te, $width) = @_;
     chomp($te);
     $te =~ s/\.\w+$/./;
@@ -116,8 +119,9 @@ sub _mk_leader {
     my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 
-    if ( -t STDOUT and not $self->NoTty() and not $self->Verbose()) {
-        $ml = "\r" . (' ' x 77) . "\r$leader"
+    if ( -t STDOUT and not $self->NoTty() and not $self->Verbose())
+    {
+        $ml = "\r" . (' ' x 77) . "\r$leader";
     }
 
     return($leader, $ml);
