@@ -1483,9 +1483,31 @@ sub _show_results {
 
 [This is a method that needs to be over-rided.]
 
+=head2 $self->_report_script_start_environment()
+
+[This is a method that needs to be over-rided.]
+
+Should report the environment of the script at its beginning.
+
 =cut
 
 sub _strap_callback
+{
+    my ($self, $args) = @_;
+    
+    my $type = $args->{type};
+
+    if ($type eq "tap_event")
+    {
+        return $self->_tap_event_strap_callback($args);
+    }
+    elsif ($type eq "report_start_env")
+    {
+        return $self->_report_script_start_environment($args);
+    }
+}
+
+sub _tap_event_strap_callback
 {
     my $self = shift;
     my ($args) = @_;

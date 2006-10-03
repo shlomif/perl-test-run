@@ -260,19 +260,29 @@ sub _analyze_with_parser
     return $self->_file_totals;
 }
 
-sub _call_callback
+sub _invoke_cb
 {
     my $self = shift;
+    my $args = shift;
 
     if ($self->callback())
     {
         $self->callback()->(
-            {
-                event => $self->_event(),
-                totals => $self->_file_totals(),
-            }
+            $args
         );
     }
+}
+
+sub _call_callback
+{
+    my $self = shift;
+    return $self->_invoke_cb(
+        {
+            type => "tap_event",
+            event => $self->_event(),
+            totals => $self->_file_totals(),
+        }
+    );
 }
 
 sub _bump_next
@@ -544,10 +554,7 @@ sub _get_analysis_file_handle
     }
 
     local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
-    if ( $self->Debug() ) {
-        local $^W=0; # ignore undef warnings
-        $self->output()->print_message("# PERL5LIB=$ENV{PERL5LIB}");
-    }
+    $self->_invoke_cb({'type' => "report_start_env"});
 
     # *sigh* this breaks under taint, but open -| is unportable.
     my $line = $self->_command_line($file);

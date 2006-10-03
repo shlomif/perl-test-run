@@ -324,5 +324,21 @@ sub _report_test_progress
         );
     }
 }
-    
+
+sub _report_script_start_environment
+{
+    my $self = shift;
+
+    if ( $self->Debug() )
+    {
+        my $perl5lib = 
+            ((exists($ENV{PERL5LIB}) && defined($ENV{PERL5LIB})) ?
+                $ENV{PERL5LIB} :
+                ""
+            );
+
+        $self->output()->print_message("# PERL5LIB=$perl5lib");
+    }
+}
+
 1;
