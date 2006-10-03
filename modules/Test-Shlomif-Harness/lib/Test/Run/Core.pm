@@ -115,6 +115,13 @@ sub _get_new_output
     );
 }
 
+sub _get_new_strap
+{
+    my $self = shift;
+
+    return Test::Run::Straps->new(+{})
+}
+
 sub _initialize
 {
     my $self = shift;
@@ -127,7 +134,7 @@ sub _initialize
     $self->dir_files([]);
     $self->output($self->_get_new_output(\%args));
     $self->Strap(
-        Test::Run::Straps->new(+{})
+        $self->_get_new_strap(\%args),
     );
     return 0;
 }
