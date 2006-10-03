@@ -1505,6 +1505,10 @@ sub _strap_callback
     {
         return $self->_report_script_start_environment($args);
     }
+    elsif ($type eq "could_not_run_script")
+    {
+        return $self->_report_could_not_run_script($args);
+    }
 }
 
 sub _tap_event_strap_callback

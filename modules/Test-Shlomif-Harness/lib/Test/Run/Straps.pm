@@ -561,7 +561,14 @@ sub _get_analysis_file_handle
 
     my $file_handle;
     unless ( open($file_handle, "$line|" )) {
-        $self->output()->print_message("can't run $file. $!");
+        $self->_invoke_cb(
+            {
+                type => "could_not_run_script",
+                cmd_line => $line,
+                file => $file,
+                error => $!,
+            }
+        );
         return;
     }
 

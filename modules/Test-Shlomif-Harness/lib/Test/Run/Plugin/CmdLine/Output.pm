@@ -341,4 +341,15 @@ sub _report_script_start_environment
     }
 }
 
+sub _report_could_not_run_script
+{
+    my ($self, $args) = @_;
+
+    my $file = $args->{file};
+    my $error = $args->{error};
+
+    $self->output()->print_message("can't run $file. $error");
+}
+
+
 1;
