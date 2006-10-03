@@ -4,7 +4,8 @@ use strict;
 use warnings;
 
 use Carp;
-use Benchmark qw(timestr); 
+use Benchmark qw(timestr);
+use NEXT;
 
 use Test::Run::Core;
 
@@ -19,6 +20,31 @@ modularity.
 use vars qw(@ISA);
 
 @ISA=(qw(Test::Run::Core));
+
+__PACKAGE__->mk_accessors(qw(
+    output
+));
+
+sub _get_new_output
+{
+    my $self = shift;
+    my $args = shift;
+
+    return Test::Run::Output->new(
+        $args,
+    );
+}
+
+sub _initialize
+{
+    my $self = shift;
+
+    my (%args) = @_;
+
+    $self->output($self->_get_new_output(\%args));
+
+    return $self->NEXT::_initialize(@_);
+}
 
 sub _report_dubious
 {

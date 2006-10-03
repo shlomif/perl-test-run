@@ -105,15 +105,6 @@ sub _init_simple_params
     }
 }
 
-sub _get_new_output
-{
-    my $self = shift;
-    my $args = shift;
-
-    return Test::Run::Output->new(
-        $args,
-    );
-}
 
 sub _get_new_strap
 {
@@ -132,7 +123,6 @@ sub _initialize
     $self->Switches("-w");
     $self->_init_simple_params(\%args);
     $self->dir_files([]);
-    $self->output($self->_get_new_output(\%args));
     $self->Strap(
         $self->_get_new_strap(\%args),
     );
