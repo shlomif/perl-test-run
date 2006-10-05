@@ -15,6 +15,7 @@ my %parms = (
         'Test::Harness' => "2.53",
         'Scalar::Util' => 0,
         'TAPx::Parser' => "0.30",
+        'NEXT' => 0,
     },
     INSTALLDIRS     => 'perl',
     clean           => { FILES => join( " ", FLAG_SKIP_PROVE, 'Test-Harness-*', '*~' ) },
