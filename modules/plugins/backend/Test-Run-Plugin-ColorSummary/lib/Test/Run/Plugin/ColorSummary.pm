@@ -18,7 +18,7 @@ colors the summary.
 
 =cut
 
-our $VERSION = '0.0100_02';
+our $VERSION = '0.0100_03';
 
 __PACKAGE__->mk_accessors(qw(
     summary_color_failure

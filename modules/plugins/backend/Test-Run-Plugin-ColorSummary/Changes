@@ -1,5 +1,13 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+0.0100_03    Thu Oct  5 16:12:23 IST 2006
+    * Fixed the annoying problem with the colored error message followed by some
+    empty lines.
+    * Changed to the new Test-Run interface. (%args -> $args) 
+    * Removed a redundant "use" call.
+    * Changed the T::R::Obj interface to accept one hash ref, instead of 
+      key1 => "value1", key2 => "value2" (%args) arguments.
+
 0.0100_02    Sun Apr 23 23:07:36 IDT 2006
     Now over-riding _handle_runtests_error_text instead of 
     _handle_runtests_error, per the refactoring of Test::Run::Obj.
