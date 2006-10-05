@@ -1,5 +1,13 @@
 Revision history for Test-Run-CmdLine
 
+0.0001_03   Thu Oct  5 13:52:55 IST 2006
+    * Fixed the tests in Test-Run-CmdLine so they'll pass even if plugins 
+    are specified by deafult (or any other $ENV{HARNESS_.*}) shenanigan.
+    * Adapted to the new ($self, $args) instead of ($self, %args) interface
+    of Test::Run.
+    * Changed the interface of the classes' constructors to accept a single
+    $args hash ref, instead of %args.
+
 0.0001_02   Mon Mar 13 18:44:23 IST 2006
     * Added docs/Namespace-Planning.txt for the namespace planning.
     * Made Test::Run::CmdLine into a driver+plugins architecture
