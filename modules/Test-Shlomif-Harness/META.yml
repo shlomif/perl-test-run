@@ -1,15 +1,16 @@
 ---
 name: Test-Run
-version: 0.0100_09
+version: 0.0100_10
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Run Perl standard test scripts with statistics
-license: bsd
+license: perl
 resources:
-  license: http://www.opensource.org/licenses/bsd-license.php
+  license: http://dev.perl.org/licenses/
 requires:
   Class::Accessor: 0
   File::Spec: 0.6
+  NEXT: 0
   Scalar::Util: 0
   TAPx::Parser: 0.30
   Test::Harness: 2.53
@@ -23,7 +24,7 @@ provides:
     file: lib/Test/Run/Base.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0100_09
+    version: 0.0100_10
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
   Test::Run::Obj:
