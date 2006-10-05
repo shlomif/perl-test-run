@@ -16,7 +16,10 @@ package main;
 
 use Test::More tests => 4;
 
+sub tester
 {
+    my $args = shift;
+
     open ALTOUT, ">", "altout.txt";
     open SAVEOUT, ">&STDOUT";
     open STDOUT, ">&ALTOUT";
@@ -26,11 +29,7 @@ use Test::More tests => 4;
     open STDERR, ">&ALTERR";
 
     my $tester = MyTestRun->new(
-        test_files => 
-        [
-            "t/sample-tests/one-ok.t",
-            "t/sample-tests/one-fail.t"
-        ],
+        $args,
         );
 
     eval {
@@ -46,127 +45,80 @@ use Test::More tests => 4;
     close(SAVEERR);
     close(ALTERR);
 
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};   
+    my $stderr = do { local $/; local *I; open I, "<", "alterr.txt"; <I>};   
+
+    return 
+    {
+        'stdout' => $text,
+        'stderr' => $stderr,
+        'exception' => $err,
+    };
+}
+
+{
+    my $results = tester({test_files =>
+        [
+            "t/sample-tests/one-ok.t",
+            "t/sample-tests/one-fail.t"
+        ]});
+
+    my $err = $results->{exception};
 
     my $expected = qq{Failed 1/2 test scripts, 50.00% okay. 1/2 subtests failed, 50.00% okay.\n};
 
     # TEST
-    is ($err, $expected, "Failed string is right.");
+    is ("$err", $expected, "Failed string is right.");
 }
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    open ALTERR, ">", "alterr.txt";
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-
-    my $tester = MyTestRun->new(
-        test_files => 
+    my $results = tester({test_files => 
         [
             "t/sample-tests/one-ok.t",
             "t/sample-tests/one-fail.t"
         ],
         'failsumm_remove_test_scripts_number' => 1,
-        );
+        });
 
-    eval {
-    $tester->runtests();
-    };
-    my $err = $@;
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    my $err = $results->{exception};
 
     my $expected = qq{Failed test scripts, 50.00% okay. 1/2 subtests failed, 50.00% okay.\n};
 
     # TEST
-    is ($err, $expected, "failsumm_remove_test_scripts_number");
+    is ("$err", $expected, "failsumm_remove_test_scripts_number");
 }
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    open ALTERR, ">", "alterr.txt";
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-
-    my $tester = MyTestRun->new(
-        test_files => 
+    my $results = tester({test_files => 
         [
             "t/sample-tests/one-ok.t",
             "t/sample-tests/one-fail.t"
         ],
         failsumm_remove_test_scripts_percent => 1,
-        );
+    });
 
-    eval {
-    $tester->runtests();
-    };
-    my $err = $@;
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    my $err = $results->{exception};
 
     my $expected = qq{Failed 1/2 test scripts. 1/2 subtests failed, 50.00% okay.\n};
 
     # TEST
-    is ($err, $expected, "failsumm_remove_test_scripts_percent => 1 behavior");
+    is ("$err", $expected, "failsumm_remove_test_scripts_percent => 1 behavior");
 }
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    open ALTERR, ">", "alterr.txt";
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-
-    my $tester = MyTestRun->new(
+    my $results = tester({
         test_files => 
         [
             "t/sample-tests/one-ok.t",
             "t/sample-tests/one-fail.t"
         ],
         failsumm_remove_subtests_percent => 1,
-        );
+    });
 
-    eval {
-    $tester->runtests();
-    };
-    my $err = $@;
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    my $err = $results->{exception};
 
     my $expected = qq{Failed 1/2 test scripts, 50.00% okay. 1/2 subtests failed.\n};
 
     # TEST
-    is ($err, $expected, "failsumm_remove_substests_percent => 1 behavior");
+    is ("$err", $expected, "failsumm_remove_substests_percent => 1 behavior");
 }

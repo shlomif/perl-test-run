@@ -16,7 +16,7 @@ customizes the failure summary line.
 
 =cut
 
-our $VERSION = '0.0100_01';
+our $VERSION = '0.0100_02';
 
 my @params = (qw(
     failsumm_remove_test_scripts_number

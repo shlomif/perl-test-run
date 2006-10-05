@@ -1,5 +1,8 @@
 Revision history for Test-Run-Plugin-FailSummaryComponents
 
+0.0100_02    Thu Oct  5 17:26:41 IST 2006
+    Fixed the tests to compile with the new Test::Run.
+
 0.0100_01    Sat May 13 13:26:49 IDT 2006
     First version, released on an unsuspecting world.
 
