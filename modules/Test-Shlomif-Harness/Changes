@@ -1,3 +1,22 @@
+0.0100_10 Thu Oct  5 12:19:09 IST 2006
+    * Changed ($self,%args) = @_ into ($self,$args) = @_ in the calling
+    conventions of many functions.
+    * Changed the interface of all the classes to this convention.
+    * Extracted many methods and other refactorings.
+    * Replaced Test::Run::Point and friends with TAPx::Parser
+    * Added a Build.PL file (with enabled Test::Run::Builder, to test
+    using Test::Run).
+    * Changed most exception throwing to either throwing an object, (if
+    a test fails or so) or Carp::confess (in case the programmer does something
+    wrong) for better debugability.
+    * A lot of refactoring of Test::Run::Straps.
+    * Added several tests for the output of tests' outcomes.
+    * Moved all the ->output()'s outputs to a separate plugin 
+    (Test::Run::Plugin::CmdLine::Output), and moved the rest of the core
+    functionality to Test::Run::Core.
+    * Converted the strap handlers to be methods of Test::Run::Core, and
+    the callback to be a closure that calls its method.
+
 0.0100_09 Sat May 13 11:56:41 IDT 2006
     * Extracted the _get_fail_test_scripts_string() and 
     _get_fail_tests_good_percent_string() methods out of 
