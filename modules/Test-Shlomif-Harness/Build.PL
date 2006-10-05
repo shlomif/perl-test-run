@@ -18,7 +18,7 @@ my $build = Test::Run::Builder->new(
         'NEXT' => 0,
     },
     dist_version_from => "lib/Test/Run/Core.pm",
-    license => "bsd",
+    license => "perl",
 );
 
 $build->create_build_script;

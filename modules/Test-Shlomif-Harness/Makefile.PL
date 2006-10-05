@@ -7,7 +7,7 @@ use constant FLAG_SKIP_PROVE => "t/SKIP-PROVE";
 
 my %parms = (
     NAME            => "Test::Run",
-    VERSION_FROM    => "lib/Test/Run/Obj.pm",
+    VERSION_FROM    => "lib/Test/Run/Core.pm",
     PREREQ_PM       => 
     {
         'Class::Accessor' => 0,
