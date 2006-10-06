@@ -306,7 +306,7 @@ sub _is_event_pass
 
     return 
     (
-        $self->_event->passed() ||
+        $self->_event->is_ok() ||
         $self->_is_event_todo() ||
         $self->_event->has_skip()
     );
@@ -322,7 +322,7 @@ sub _update_details
         $self->_init_details_obj_instance(
             {
                 ok          => $self->_is_event_pass(),
-                actual_ok   => scalar($event->passed),
+                actual_ok   => scalar($event->is_ok()),
                 name        => _def_or_blank( $event->description ),
                 # $event->directive returns "SKIP" or "TODO" in uppercase
                 # and we expect them to be in lowercase.
@@ -400,7 +400,7 @@ sub _handle_labeled_test_event
     if ($self->_is_event_todo())
     {
         $totals->inc_field('todo');
-        if ( $event->actual_passed() )
+        if ( $event->is_actual_ok() )
         {
             $totals->inc_field('bonus');
         }
