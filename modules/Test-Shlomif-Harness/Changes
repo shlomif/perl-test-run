@@ -1,3 +1,7 @@
+0.0100_11 Fri Oct  6 18:28:07 IST 2006
+    * Updated the documentation to Test::Run.
+    * Adapted the code to TAPx::Parser 0.33.
+
 0.0100_10 Thu Oct  5 12:19:09 IST 2006
     * Changed ($self,%args) = @_ into ($self,$args) = @_ in the calling
     conventions of many functions.
