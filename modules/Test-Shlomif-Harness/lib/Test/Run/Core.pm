@@ -31,7 +31,7 @@ BEGIN {
 
 =head1 NAME
 
-Test::Run::Obj - Run Perl standard test scripts with statistics
+Test::Run::Core - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
@@ -137,21 +137,22 @@ sub _initialize
 =head1 DESCRIPTION
 
 B<STOP!> If all you want to do is write a test script, consider
-using Test::Simple.  Test::Run::Obj is the module that reads the
+using Test::Simple.  Test::Run::Core is the module that reads the
 output from Test::Simple, Test::More and other modules based on
-Test::Builder.  You don't need to know about Test::Run::Obj to use
+Test::Builder.  You don't need to know about Test::Run::Core to use
 those modules.
 
-Test::Run::Obj runs tests and expects output from the test in a
+Test::Run::Core runs tests and expects output from the test in a
 certain format.  That format is called TAP, the Test Anything
 Protocol.  It is defined in L<Test::Harness::TAP>.
 
-C<$tester->runtests(@tests)> runs all the testscripts named
+C<$tester->runtests()> runs all the testscripts named
 as arguments and checks standard output for the expected strings
 in TAP format.
 
-Test::Run::Obj provides a programmer API for running and analyzing
-the output of TAP files. For calling from the command line, look at
+L<Test::Run::Obj> is an applicative derived class of Test::Run::Core
+that provides a programmer API for running and analyzing the output of TAP 
+files. For calling from the command line, look at
 L<Test::Run::CmdLine>.
 
 =head2 Taint mode
@@ -242,23 +243,6 @@ programmer).
 
 =back
 
-=head2 Configuration variables.
-
-These variables can be used to configure the behavior of
-Test::Run.  They are exported on request.
-
-=over 4
-
-
-=item C<$Test::Run::switches>
-
-The package variable C<$Test::Run::switches> is exportable and can be
-used to set perl command line options used for running the test
-script(s). The default value is C<-w>. It overrides C<HARNESS_SWITCHES>.
-
-=back
-
-
 =head2 Failure
 
 When tests fail, analyze the summary report:
@@ -318,13 +302,13 @@ abbreviated (ie. 15-20 to indicate that tests 15, 16, 17, 18, 19 and
 
 =head2 Functions
 
-Test::Run currently only has one function, here it is.
+Test::Run currently only has one interface function, here it is.
 
 =over 4
 
 =item B<runtests>
 
-  my $allok = $self->runtests('test_files' => \@test_files);
+  my $allok = $self->runtests();
 
 This runs all the given I<@test_files> and divines whether they passed
 or failed based on their output to STDOUT (details above).  It prints
@@ -1090,7 +1074,7 @@ sub _run_all_tests {
 
 =item B<_leader_width>
 
-  my($width) = $self->_leader_width('test_files' => \@test_files);
+  my($width) = $self->_leader_width();
 
 Calculates how wide the leader should be based on the length of the
 longest test name.
@@ -1886,9 +1870,7 @@ __END__
 
 =head1 EXPORT
 
-C<&runtests> is exported by Test::Run by default.
-
-C<$verbose>, C<$switches> and C<$debug> are exported upon request.
+None.
 
 =head1 DIAGNOSTICS
 
