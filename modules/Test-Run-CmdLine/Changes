@@ -1,5 +1,8 @@
 Revision history for Test-Run-CmdLine
 
+0.0001_04   Sat Oct  7 20:43:36 IST 2006
+    * Added UNIVERSAL::require to the pre-requisites.
+
 0.0001_03   Thu Oct  5 13:52:55 IST 2006
     * Fixed the tests in Test-Run-CmdLine so they'll pass even if plugins 
     are specified by deafult (or any other $ENV{HARNESS_.*}) shenanigan.
