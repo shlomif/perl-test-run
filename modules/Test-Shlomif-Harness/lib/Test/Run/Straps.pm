@@ -11,7 +11,6 @@ use List::Util qw(first);
 
 use Test::Run::Base;
 use Test::Run::Assert;
-use TAPx::Parser;
 use Test::Run::Obj::Structs;
 
 @ISA = (qw(Test::Run::Base::Struct));
