@@ -716,7 +716,7 @@ sub _get_shebang
         $self->_handle_test_file_closing_error(
             {
                 file => $file,
-                error => $1,
+                error => $!,
             }
         );
     }
