@@ -2020,6 +2020,49 @@ Test::Harness was then maintained by Andy Lester C<< <andy at petdance.com> >>.
 
 Shlomi Fish C<< <shlomif@iglu.org.il> >>
 
+=head1 BUGS
+
+Please report any bugs or feature requests to
+C<bug-test-run at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test::Run>.
+I will be notified, and then you'll automatically be notified of progress on
+your bug as I make changes.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc Test::Run::Core
+
+You can also look for information at:
+
+=over 4
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/Test::Run::Core>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Test::Run::Core>
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/Test::Run>
+
+=back
+
+=head1 SOURCE AVAILABILITY
+
+The latest source of Test::Run is available from its BerliOS Subversion
+repository:
+
+L<https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/>
+
 =head1 COPYRIGHT
 
 Copyright 2002-2005
