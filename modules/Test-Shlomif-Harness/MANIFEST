@@ -1,5 +1,6 @@
 Build.PL
 Changes
+examples/eumm-and-test-manifest/Makefile.PL
 examples/mini_harness.plx
 inc/Test/Run/Builder.pm
 lib/Test/Run/Assert.pm
