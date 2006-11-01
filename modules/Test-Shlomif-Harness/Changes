@@ -1,3 +1,12 @@
+0.0101    Wed Nov  1 21:43:36 IST 2006
+    * Fixed the error indicator in the call to 
+    _handle_test_file_closing_error() - $! instead of $1.
+    * Added more POD for web resources of the module.
+    * Added an example for integrating Test::Run into an EU::MM and 
+    Test::Manifest setup.
+    * Updated the TODO.
+    * First non-Developer release!
+
 0.0100_11 Fri Oct  6 18:28:07 IST 2006
     * Updated the documentation to Test::Run.
     * Adapted the code to TAPx::Parser 0.33.
