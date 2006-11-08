@@ -1,5 +1,9 @@
 Revision history for Test-Run-CmdLine-Plugin-ColorSummary
 
+0.0101       Wed Nov  8 16:58:01 IST 2006
+    - Enhanced the POD.
+    - First stable release.
+
 0.0100_01    Sat Apr  8 18:16:28 IDT 2006
     Configurable colours and more tests.
 
