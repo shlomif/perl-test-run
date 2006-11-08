@@ -68,6 +68,11 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Run-CmdLine-Plugin-ColorSu
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
+=head1 SEE ALSO
+
+L<Test::Run::Obj>, L<Term::ANSIColor>, 
+L<Test::Run::Plugin::ColorSummary>.
+
 =head1 ACKNOWLEDGEMENTS
 
 =head1 COPYRIGHT & LICENSE
