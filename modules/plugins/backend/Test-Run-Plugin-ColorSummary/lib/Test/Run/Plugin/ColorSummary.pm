@@ -18,7 +18,7 @@ colors the summary.
 
 =cut
 
-our $VERSION = '0.0100_03';
+our $VERSION = '0.0101';
 
 __PACKAGE__->mk_accessors(qw(
     summary_color_failure
@@ -137,6 +137,41 @@ C<bug-test-run-plugin-colorsummary@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Run-Plugin-ColorSummary>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc Test::Run::Plugin::ColorSummary
+
+You can also look for information at:
+
+=over 4
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/Test::Run::Plugin::ColorSummary>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Test::Run::Plugin::ColorSummary>
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::ColorSummary>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/Test::Run::Plugin::ColorSummary/>
+
+=back
+
+=head1 SOURCE AVAILABILITY
+
+The latest source of Test::Run::Plugin::ColorSummary is available from the 
+Test::Run BerliOS Subversion repository:
+
+L<https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/>
 
 =head1 SEE ALSO
 
