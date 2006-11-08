@@ -1,5 +1,8 @@
 Revision history for Test-Run-CmdLine
 
+    * Added some links to the POD, most of which are inserted by new versions
+    of Module-Starter.
+
 0.0001_04   Sat Oct  7 20:43:36 IST 2006
     * Added UNIVERSAL::require to the pre-requisites.
 
