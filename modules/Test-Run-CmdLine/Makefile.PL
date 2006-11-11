@@ -11,7 +11,7 @@ WriteMakefile(
     EXE_FILES => [ "bin/runprove", ],
     PREREQ_PM => {
         'Test::More' => 0,
-        'Test::Run::Obj' => 0,
+        'Test::Run::Core' => '0.0101',
         'UNIVERSAL::require' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

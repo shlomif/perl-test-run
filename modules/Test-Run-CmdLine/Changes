@@ -1,5 +1,9 @@
 Revision history for Test-Run-CmdLine
 
+0.0102      Sat Nov 11 12:41:16 IST 2006
+    * Changed the dependency from Test::Run::Obj to Test::Run::Core to make
+    CPAN.pm happy. Don't know why Test::Run::Obj wasn't indexed.
+
 0.0101      Wed Nov  8 10:03:00 IST 2006
     * Added some links to the POD, most of which are inserted by new versions
     of Module-Starter.
