@@ -18,7 +18,7 @@ Version 0.0100_09
 
 =cut
 
-$VERSION = "0.0100_09";
+$VERSION = "0.0101";
 
 @ISA = (qw(
     Test::Run::Plugin::CmdLine::Output
