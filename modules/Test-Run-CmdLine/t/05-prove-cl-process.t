@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 11;
+use Test::More tests => 12;
 
 use Test::Run::CmdLine::Prove;
 
@@ -139,4 +139,14 @@ is_deeply (
     );
 
     chdir($cwd);
+}
+
+{
+    my $prove = Test::Run::CmdLine::Prove->new({'args' => ["t/mytest.t"]});
+    # TEST
+    is_deeply (
+        $prove->_get_backend_params(),
+        { 'Switches' => "", },
+        "Non-specified Switches results in an empty string to avoid passing -w."
+    );
 }

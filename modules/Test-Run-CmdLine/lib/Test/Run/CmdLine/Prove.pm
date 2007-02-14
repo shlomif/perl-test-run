@@ -251,10 +251,7 @@ sub _get_backend_params
         my $value = $self->get($key);
         if (ref($value) eq "ARRAY")
         {
-            if (@$value)
-            {
-                $ret->{$key} = join(" ", @$value);
-            }
+            $ret->{$key} = join(" ", @$value);
         }
         else
         {
