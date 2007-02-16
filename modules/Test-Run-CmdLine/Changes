@@ -1,5 +1,11 @@
 Revision history for Test-Run-CmdLine
 
+0.0103      Fri Feb 16 23:00:19 IST 2007
+
+    * Fixed a bug in Test::Run::CmdLine::Prove where the Switches parameter
+    was not over-rided from its "-w" default. This caused -w to be passed
+    to the interpreter which broken non-perl test scripts.
+
 0.0102      Sat Nov 11 12:41:16 IST 2006
     * Changed the dependency from Test::Run::Obj to Test::Run::Core to make
     CPAN.pm happy. Don't know why Test::Run::Obj wasn't indexed.
