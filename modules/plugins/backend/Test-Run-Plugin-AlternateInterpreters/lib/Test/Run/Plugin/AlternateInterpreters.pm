@@ -3,6 +3,11 @@ package Test::Run::Plugin::AlternateInterpreters;
 use warnings;
 use strict;
 
+use NEXT;
+
+use base 'Test::Run::Base';
+use base 'Class::Accessor';
+
 =head1 NAME
 
 Test::Run::Plugin::AlternateInterpreters - Define different interpreters for different test scripts with Test::Run.
@@ -15,6 +20,20 @@ Version 0.01
 
 our $VERSION = '0.01';
 
+__PACKAGE__->mk_accessors(qw(
+    alternate_interpreters
+));
+
+sub _get_simple_params
+{
+    my $self = shift;
+    return 
+    [
+        qw(alternate_interpreters), 
+        @{$self->NEXT::_get_simple_params()}
+    ];
+}
+
 =head1 SYNOPSIS
 
     package MyTestRun;
@@ -26,6 +45,35 @@ our $VERSION = '0.01';
 
 =cut
 
+
+sub _init_strap
+{
+    my ($self, $test_file) = @_;
+    $self->NEXT::_init_strap($test_file);
+    
+    if (defined(my $interpreters_ref = $self->alternate_interpreters()))
+    {
+        SCAN_INTERPRETERS:
+        foreach my $i_ref (@$interpreters_ref)
+        {
+            if ($self->_does_interpreter_match($i_ref, $test_file))
+            {
+                $self->Strap()->Test_Interpreter($i_ref->{'cmd'});
+                $self->Strap()->Switches("");
+                $self->Strap()->Switches_Env("");
+                last SCAN_INTERPRETERS;
+            }
+        }
+    }
+}
+
+sub _does_interpreter_match
+{
+    my ($self, $i_ref, $test_file) = @_;
+
+    my $pattern = $i_ref->{pattern};
+    return ($test_file =~ m{$pattern});
+}
 
 =head1 AUTHOR
 
@@ -68,6 +116,15 @@ L<http://search.cpan.org/dist/Test::Run::Plugin::AlternateInterpreters>
 =back
 
 =head1 ACKNOWLEDGEMENTS
+
+Curtis "Ovid" Poe ( L<http://search.cpan.org/~ovid/> ) who gave the idea
+of testing several tests from several interpreters in one go here:
+
+L<http://use.perl.org/~Ovid/journal/32092>
+
+=head1 SEE ALSO
+
+L<Test::Run>, L<Test::Run::CmdLine>, L<TAPx::Parser>
 
 =head1 COPYRIGHT & LICENSE
 
