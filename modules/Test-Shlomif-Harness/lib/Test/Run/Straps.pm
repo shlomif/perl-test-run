@@ -841,8 +841,7 @@ sub _default_inc {
     my $self = shift;
 
     local $ENV{PERL5LIB};
-    my $perl = $self->_command;
-    my @inc =`$perl -le "print join qq[\\n], \@INC"`;
+    my @inc = `$^X -le "print join qq[\\n], \@INC"`;
     chomp @inc;
     return @inc;
 }
