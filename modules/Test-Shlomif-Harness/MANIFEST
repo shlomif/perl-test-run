@@ -19,6 +19,7 @@ META.yml                                 Module meta-data (added by MakeMaker)
 NOTES
 t/00compile.t
 t/base.t
+t/data/interpreters/wrong-mini-ok.pl
 t/harness.t
 t/inc_taint.t
 t/lib/Dev/Null.pm
@@ -55,6 +56,7 @@ t/sample-tests/skipall
 t/sample-tests/skipall_nomsg
 t/sample-tests/skip_and_todo
 t/sample-tests/skip_nomsg
+t/sample-tests/success1.mok
 t/sample-tests/switches
 t/sample-tests/taint
 t/sample-tests/taint_warn
@@ -71,4 +73,5 @@ t/test-failure-report.t
 t/test-harness.t
 t/test-libs/lib1/MyHello.pm
 t/test-libs/lib2/MyFoo.pm
+t/undef-warnings.t
 t/version.t

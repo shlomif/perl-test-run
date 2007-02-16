@@ -267,7 +267,7 @@ sub _fail_other_report_test
                 "%3s %5s %5s %4s %6.2f%%  %s"),
             $test->name(), $test->estat(),
             $test->wstat(), $test->max(),
-            $test->failed(), $test->percent(),
+            $test->failed(), $test->_defined_percent(),
             shift(@$canon_strings)
         )
     );

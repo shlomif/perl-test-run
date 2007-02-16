@@ -28,6 +28,13 @@ sub _get_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
+sub _defined_percent
+{
+    my $self = shift;
+
+    return defined($self->percent()) ? $self->percent() : 0;
+}
+
 1;
 
 package Test::Run::Obj::TestObj;
