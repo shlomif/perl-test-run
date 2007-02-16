@@ -819,6 +819,13 @@ sub _get_copied_strap_fields
     return [qw(Debug Test_Interpreter Switches Switches_Env)];
 }
 
+sub _init_strap
+{
+    my ($self, $tfile) = @_;
+
+    $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
+}
+
 sub _time_single_test
 {
     my $self = shift;
@@ -826,7 +833,7 @@ sub _time_single_test
 
     my $test_start_time = $self->Timer() ? time : 0;
 
-    $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
+    $self->_init_strap($tfile);
     $self->Strap()->callback(sub { $self->_strap_callback(@_); });
     # We trap exceptions so we can nullify the callback to avoid memory
     # leaks.
