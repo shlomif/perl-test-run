@@ -1,3 +1,12 @@
+0.0103    Fri Feb 16 23:09:24 IST 2007
+    * Made part of the Straps code clearer.
+    * Extracted out the _init_strap method. This will be used by future
+    plugins.
+    * Fixed a bug where the modified Test_Interperter was used to query the 
+    Perl paths.
+    * Fixed a bug with the percent being possibly undefined in output. 
+    Added a regression test.
+
 0.0102    Wed Nov 15 22:18:10 IST 2006
     * Fixed the $VERSION variable of Test::Run::Obj to be a non-developer
     release.

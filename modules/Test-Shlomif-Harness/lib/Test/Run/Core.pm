@@ -35,11 +35,11 @@ Test::Run::Core - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
-Version 0.0101
+Version 0.0103
 
 =cut
 
-$VERSION = '0.0102';
+$VERSION = '0.0103';
 
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;

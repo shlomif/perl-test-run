@@ -1,6 +1,6 @@
 ---
 name: Test-Run
-version: 0.0102
+version: 0.0103
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Run Perl standard test scripts with statistics
@@ -24,7 +24,7 @@ provides:
     file: lib/Test/Run/Base.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0102
+    version: 0.0103
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
   Test::Run::Obj:
