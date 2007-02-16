@@ -675,9 +675,18 @@ such as a PHP interpreter for a PHP-based strap.
 sub _command {
     my $self = shift;
 
-    return $self->Test_Interpreter()    if defined $self->Test_Interpreter();
-    return Win32::GetShortPathName($^X) if $self->_is_win32();
-    return $^X;
+    if (defined(my $interp = $self->Test_Interpreter()))
+    {
+        return $interp;
+    }
+    elsif ($self->_is_win32())
+    {
+        return Win32::GetShortPathName($^X);
+    }
+    else
+    {
+        return $^X;
+    }
 }
 
 sub _handle_test_file_opening_error
