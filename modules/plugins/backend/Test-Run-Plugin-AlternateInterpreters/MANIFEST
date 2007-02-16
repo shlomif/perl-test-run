@@ -15,3 +15,5 @@ t/sample-tests/one-fail.t
 t/sample-tests/one-ok.t
 t/sample-tests/several-oks.t
 t/sample-tests/success1.cat
+t/sample-tests/success1.mok
+t/sample-tests/success2.mok.cat

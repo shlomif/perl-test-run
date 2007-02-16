@@ -9,7 +9,7 @@ while(<>)
     chomp;
     if (/^plan (\d+)..(\d+)/)
     {
-        print "plan $1..$2\n";
+        print "$1..$2\n";
     }
     elsif (/^ok (\d+)\+(\d+)==(\d+)$/)
     {
