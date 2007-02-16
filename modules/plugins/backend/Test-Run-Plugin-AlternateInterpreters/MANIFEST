@@ -1,10 +1,12 @@
 Build.PL
 Changes
+lib/Test/Run/Plugin/AlternateInterpreters.pm
 MANIFEST
 META.yml # Will be created by "make dist"
 README
-lib/Test/Run/Plugin/AlternateInterpreters.pm
 t/00-load.t
 t/boilerplate.t
+t/data/interpreters/cat.pl
+t/data/interpreters/mini-ok.pl
 t/pod-coverage.t
 t/pod.t
