@@ -18,7 +18,7 @@ my %parms = (
         'NEXT' => 0,
     },
     INSTALLDIRS     => 'perl',
-    clean           => { FILES => join( " ", FLAG_SKIP_PROVE, 'Test-Harness-*', '*~' ) },
+    PL_FILES => {},
 );
 
 sub MY::postamble {
