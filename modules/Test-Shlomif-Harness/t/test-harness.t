@@ -479,7 +479,7 @@ tie *NULL, 'Dev::Null' or die $!;
 
 for my $test ( sort keys %samples ) {
 SKIP: {
-    skip "-t introduced in 5.8.0", 8 if $test eq 'taint_warn' and $] < 5.008;
+    skip "-t introduced in 5.8.0", 7 if $test eq 'taint_warn' and $] < 5.008;
 
     my $expect = $samples{$test};
 
