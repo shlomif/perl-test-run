@@ -1,3 +1,9 @@
+0.0104    Fri Feb 23 14:25:29 IST 2007
+    * Added an empty PL_FILES key to the Makefile.PL to please old 
+      ExtUtils::MakeMaker's that try to invoke "Build.PL Build".
+    * Fixed the skip to skip 7 tests instead of 8 - it broke the build 
+      in perl-5.6.2.
+
 0.0103    Fri Feb 16 23:09:24 IST 2007
     * Made part of the Straps code clearer.
     * Extracted out the _init_strap method. This will be used by future
