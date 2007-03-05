@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 34;
+use Test::More tests => 36;
 use File::Spec;
 use File::Path;
 use Config;
@@ -351,6 +351,18 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         like ($results, qr/All tests successful\./,
             "Good results for the presence of the --lib flag in ENV{PROVE_SWITCHES}");
         chdir($cwd);
+    }
+    {
+        my ($out, $err) = trap($abs_runprove);
+        
+        # TEST
+        is ($out, "",
+            "Empty file list does not croak with weird errors (STDOUT)"
+        );
+        # TEST
+        is ($err, "",
+            "Empty file list does not croak with weird errors (STDERR)"
+        );
     }
 }
 1;

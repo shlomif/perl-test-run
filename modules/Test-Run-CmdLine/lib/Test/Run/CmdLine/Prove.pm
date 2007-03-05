@@ -173,16 +173,37 @@ sub run
 {
     my $self = shift;
 
-    my $tests = $self->_get_test_files(); 
+    my $tests = $self->_get_test_files();
 
-    if ($self->dry())
+    if ($self->_should_run_tests($tests))
     {
-        return $self->_dry_run($tests);
+        return $self->_actual_run_tests($tests);
     }
     else
     {
-        return $self->_wet_run($tests);
+        return $self->_dont_run_tests($tests);
     }
+}
+
+sub _should_run_tests
+{
+    my ($self, $tests) = @_;
+
+    return scalar(@$tests);
+}
+
+sub _actual_run_tests
+{
+    my ($self, $tests) = @_;
+
+    my $method = $self->dry() ? "_dry_run" : "_wet_run";
+
+    return $self->$method($tests);
+}
+
+sub _dont_run_tests
+{
+    return 0;
 }
 
 sub _wet_run
