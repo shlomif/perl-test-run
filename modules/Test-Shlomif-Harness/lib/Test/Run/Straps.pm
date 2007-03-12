@@ -6,7 +6,7 @@ use vars qw($VERSION @ISA);
 $VERSION = '0.24';
 
 use Config;
-use TAPx::Parser;
+use TAP::Parser;
 use List::Util qw(first);
 
 use Test::Run::Base;
@@ -137,7 +137,7 @@ newlines.
 sub _create_parser
 {
     my ($self, $source) = @_;
-    return TAPx::Parser->new(
+    return TAP::Parser->new(
             {
                 source => $source,
             }
@@ -321,7 +321,7 @@ sub _update_details
         $self->_init_details_obj_instance(
             {
                 ok          => $self->_is_event_pass(),
-                actual_ok   => scalar($event->is_ok()),
+                actual_ok   => _def_or_blank(scalar($event->is_ok())),
                 name        => _def_or_blank( $event->description ),
                 # $event->directive returns "SKIP" or "TODO" in uppercase
                 # and we expect them to be in lowercase.

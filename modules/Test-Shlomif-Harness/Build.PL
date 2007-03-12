@@ -14,7 +14,7 @@ my $build = Test::Run::Builder->new(
         'File::Spec' => 0.6,
         'Test::Harness' => "2.53",
         'Scalar::Util' => 0,
-        'TAPx::Parser' => "0.33",
+        'TAP::Parser' => "0.51",
         'NEXT' => 0,
     },
     dist_version_from => "lib/Test/Run/Core.pm",
