@@ -1,3 +1,7 @@
+0.0105    Mon Mar 12 23:46:34 IST 2007
+    * Converted from TAPx::Parser 0.3x to TAP::Parser 0.51, including various
+    changes to the tests and code to get over several regressions.
+
 0.0104    Fri Feb 23 14:25:29 IST 2007
     * Added an empty PL_FILES key to the Makefile.PL to please old 
       ExtUtils::MakeMaker's that try to invoke "Build.PL Build".

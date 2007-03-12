@@ -1,6 +1,6 @@
 ---
 name: Test-Run
-version: 0.0104
+version: 0.0105
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Run Perl standard test scripts with statistics
@@ -12,7 +12,7 @@ requires:
   File::Spec: 0.6
   NEXT: 0
   Scalar::Util: 0
-  TAPx::Parser: 0.33
+  TAP::Parser: 0.51
   Test::Harness: 2.53
 provides:
   Test::Run::Assert:
@@ -24,7 +24,7 @@ provides:
     file: lib/Test/Run/Base.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0104
+    version: 0.0105
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
   Test::Run::Obj:
