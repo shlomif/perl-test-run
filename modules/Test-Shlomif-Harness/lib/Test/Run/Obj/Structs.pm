@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::Run::Base;
+use Test::Run::Base::Struct;
 use Carp;
 
 package Test::Run::Obj::FailedObj;

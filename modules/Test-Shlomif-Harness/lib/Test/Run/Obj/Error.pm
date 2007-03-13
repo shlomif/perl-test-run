@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::Run::Base;
+use Test::Run::Base::Struct;
 
 package Test::Run::Obj::Error;
 

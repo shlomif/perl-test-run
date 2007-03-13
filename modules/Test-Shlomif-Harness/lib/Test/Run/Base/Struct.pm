@@ -1,0 +1,109 @@
+package Test::Run::Base::Struct;
+
+=head1 NAME
+
+Test::Run::Base::Struct - base class for Test::Run's "structs", that are
+simple classes that hold several values.
+
+=head1 DESCRIPTION
+
+Inherits from L<Test::Run::Base>.
+
+=cut
+
+use Test::Run::Base;
+
+use vars (qw(@ISA));
+
+@ISA = (qw(Test::Run::Base));
+
+sub _pre_init
+{
+}
+
+sub _get_fields
+{
+    return [];
+}
+
+sub _get_fields_map
+{
+    my $self = shift;
+    return +{ map { $_ => 1 } @{$self->_get_fields()} };
+}
+
+use Carp;
+
+sub _initialize
+{
+    my ($self, $args) = @_;
+    
+    Carp::confess '$args not a hash' if (ref($args) ne "HASH");
+    $self->_pre_init();
+
+    my $fields_map = $self->_get_fields_map();
+
+    while (my ($k, $v) = each(%$args))
+    {
+        if (exists($fields_map->{$k}))
+        {
+            $self->set($k, $v);
+        }
+        else
+        {
+            Carp::confess "Called with undefined field \"$k\"";
+        }
+    }
+}
+
+=head1 METHODS
+
+=head2 $struct->inc_field($field_name)
+
+Increment the slot $field_name by 1.
+
+=cut
+
+sub inc_field
+{
+    my ($self, $field) = @_;
+    return $self->add_to_field($field, 1);
+}
+
+=head2 $struct->add_to_field($field_name, $difference)
+
+Add $difference to the slot $field_name.
+
+=cut
+
+sub add_to_field
+{
+    my ($self, $field, $diff) = @_;
+    if (exists($self->_get_fields_map()->{$field}))
+    {
+        $self->set($field, $self->get($field)+$diff);
+    }
+    else
+    {
+        Carp::confess "Trying to increment non-existent field \"$field\"";
+    }
+}
+
+1;
+
+__END__
+
+=head1 SEE ALSO
+
+L<Test::Run::Base>, L<Test::Run::Obj>, L<Test::Run::Core>
+
+=head1 LICENSE
+
+This file is freely distributable under the MIT X11 license.
+
+=head1 AUTHOR
+
+Shlomi Fish, L<http://www.shlomifish.org/>.
+
+=cut
+

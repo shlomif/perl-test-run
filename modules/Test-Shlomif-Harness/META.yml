@@ -21,7 +21,7 @@ provides:
   Test::Run::Base:
     file: lib/Test/Run/Base.pm
   Test::Run::Base::Struct:
-    file: lib/Test/Run/Base.pm
+    file: lib/Test/Run/Base/Struct.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
     version: 0.0105
@@ -61,7 +61,7 @@ provides:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Obj/Structs.pm
-generated_by: Module::Build version 0.2805
+generated_by: Module::Build version 0.2806
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2
