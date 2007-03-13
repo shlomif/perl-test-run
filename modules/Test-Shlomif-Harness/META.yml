@@ -49,7 +49,7 @@ provides:
   Test::Run::Obj::TestObj:
     file: lib/Test/Run/Obj/TestObj.pm
   Test::Run::Obj::TotObj:
-    file: lib/Test/Run/Obj/Structs.pm
+    file: lib/Test/Run/Obj/TotObj.pm
   Test::Run::Output:
     file: lib/Test/Run/Output.pm
   Test::Run::Plugin::CmdLine::Output:
