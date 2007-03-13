@@ -44,8 +44,6 @@ provides:
     file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::Error::TestsFail::Other:
     file: lib/Test/Run/Obj/Error.pm
-  Test::Run::Obj::FailedObj:
-    file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Obj::TestObj:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Obj::TotObj:

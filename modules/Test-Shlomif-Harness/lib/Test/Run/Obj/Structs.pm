@@ -5,37 +5,7 @@ use warnings;
 use Test::Run::Base::Struct;
 use Carp;
 
-package Test::Run::Obj::FailedObj;
-
-use vars qw(@ISA @fields);
-
-@ISA = (qw(Test::Run::Base::Struct));
-
-@fields = (qw(
-    canon
-    estat
-    failed
-    max
-    name
-    percent
-    wstat
-));
-
-sub _get_fields
-{
-    return [@fields];
-}
-
-__PACKAGE__->mk_accessors(@fields);
-
-sub _defined_percent
-{
-    my $self = shift;
-
-    return defined($self->percent()) ? $self->percent() : 0;
-}
-
-1;
+use Test::Run::Obj::FailedObj;
 
 package Test::Run::Obj::TestObj;
 
