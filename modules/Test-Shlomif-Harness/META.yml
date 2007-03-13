@@ -31,7 +31,7 @@ provides:
     file: lib/Test/Run/Obj.pm
     version: 0.0101
   Test::Run::Obj::CanonFailedObj:
-    file: lib/Test/Run/Obj/Structs.pm
+    file: lib/Test/Run/Obj/CanonFailedObj.pm
   Test::Run::Obj::Error:
     file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::Error::TestsFail:
@@ -61,7 +61,7 @@ provides:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Obj/Structs.pm
-generated_by: Module::Build version 0.2806
+generated_by: Module::Build version 0.2805
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2

@@ -8,9 +8,10 @@ lib/Test/Run/Base.pm
 lib/Test/Run/Base/Struct.pm
 lib/Test/Run/Core.pm
 lib/Test/Run/Iface.pm
+lib/Test/Run/Obj/CanonFailedObj.pm
 lib/Test/Run/Obj/Error.pm
-lib/Test/Run/Obj.pm
 lib/Test/Run/Obj/FailedObj.pm
+lib/Test/Run/Obj.pm
 lib/Test/Run/Obj/Structs.pm
 lib/Test/Run/Obj/TestObj.pm
 lib/Test/Run/Obj/TotObj.pm

@@ -8,71 +8,8 @@ use Carp;
 use Test::Run::Obj::FailedObj;
 use Test::Run::Obj::TestObj;
 use Test::Run::Obj::TotObj;
-    
-package Test::Run::Obj::CanonFailedObj;
+use Test::Run::Obj::CanonFailedObj;
 
-use vars qw(@ISA @fields);
-
-@ISA = (qw(Test::Run::Base::Struct));
-
-@fields = (qw(
-    canon
-    result
-    failed_num
-));
-
-sub _get_fields
-{
-    return [@fields];
-}
-
-sub add_result
-{
-    my $self = shift;
-    push @{$self->result()}, @_;
-}
-
-sub get_ser_results
-{
-    my $self = shift;
-    return join("", @{$self->result()});
-}
-
-sub add_Failed
-{
-    my ($self, $test) = @_;
-
-    my $max = $test->max();
-    my $failed_num = $self->failed_num();
-
-    $self->add_result("\tFailed $failed_num/$max tests, ");
-    $self->add_result(
-        $max ?
-            (sprintf("%.2f",100*(1-$failed_num/$max)),"% okay") :
-            "?% okay"
-        );
-}
-
-sub add_skipped
-{
-    my ($self, $test) = @_;
-
-    my $skipped = $test->skipped();
-    my $max = $test->max();
-
-    if ($skipped) {
-        my $good = $max - $self->failed_num() - $skipped;
-        my $ender = ($skipped > 1) ? "s" : "";
-        $self->add_result(
-            " (less $skipped skipped test$ender: $good okay, " .
-            ($max ? sprintf("%.2f%%)",100*($good/$max)) : "?%)")
-        );
-    }
-}
-
-__PACKAGE__->mk_accessors(@fields);
-
-1;
 
 package Test::Run::Straps::StrapsTotalsObj;
 
