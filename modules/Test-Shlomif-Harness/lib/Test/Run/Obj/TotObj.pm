@@ -67,6 +67,19 @@ sub add
     return $self->get($field);
 }
 
+=head2 $self->inc($field)
+
+Increments the field $field by 1.
+
+=cut
+
+sub inc
+{
+    my ($self, $field) = @_;
+
+    return $self->add($field, 1);
+}
+
 1;
 
 __END__

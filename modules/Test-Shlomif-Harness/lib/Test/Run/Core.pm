@@ -537,13 +537,15 @@ sub _recheck_dir_files
 sub _tot_add
 {
     my ($self, $field, $diff) = @_;
+
     $self->tot()->add($field, $diff);
 }
 
 sub _tot_inc
 {
     my ($self, $field) = @_;
-    $self->_tot_add($field,1);
+
+    $self->tot()->inc($field);
 }
 
 sub _create_failed_obj_instance
