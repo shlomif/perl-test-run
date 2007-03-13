@@ -7,7 +7,7 @@ use Carp;
 
 package Test::Run::Obj::FailedObj;
 
-use vars qw(@ISA @fields %fields_map);
+use vars qw(@ISA @fields);
 
 @ISA = (qw(Test::Run::Base::Struct));
 
@@ -43,7 +43,7 @@ package Test::Run::Obj::TestObj;
 
 =cut
 
-use vars qw(@ISA @fields %fields_map);
+use vars qw(@ISA @fields);
 
 @ISA = (qw(Test::Run::Base::Struct));
 
@@ -98,7 +98,7 @@ sub get_reason
 
 package Test::Run::Obj::TotObj;
 
-use vars qw(@ISA @fields %fields_map @counter_fields %counter_fields_map);
+use vars qw(@ISA @fields @counter_fields %counter_fields_map);
 
 @ISA = (qw(Test::Run::Base::Struct));
 
@@ -151,7 +151,7 @@ sub add
 
 package Test::Run::Obj::CanonFailedObj;
 
-use vars qw(@ISA @fields %fields_map);
+use vars qw(@ISA @fields);
 
 @ISA = (qw(Test::Run::Base::Struct));
 
@@ -216,7 +216,7 @@ __PACKAGE__->mk_accessors(@fields);
 
 package Test::Run::Straps::StrapsTotalsObj;
 
-use vars qw(@ISA @fields %fields_map);
+use vars qw(@ISA @fields);
 
 @ISA = (qw(Test::Run::Base::Struct));
 
@@ -297,7 +297,7 @@ sub last_detail
 
 package Test::Run::Straps::StrapsDetailsObj;
 
-use vars qw(@ISA @fields %fields_map);
+use vars qw(@ISA @fields);
 
 @ISA = (qw(Test::Run::Base::Struct));
 
