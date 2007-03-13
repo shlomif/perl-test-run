@@ -6,7 +6,7 @@ use Test::Run::Base::Struct;
 
 package Test::Run::Obj::Error;
 
-use vars qw(@ISA @fields %fields_map);
+use vars qw(@ISA @fields);
 
 sub _polymorphic_stringify
 {
@@ -85,7 +85,7 @@ use vars qw(@ISA);
 
 package Test::Run::Obj::Error::TestsFail::Bailout;
 
-use vars qw(@ISA @fields %fields_map);
+use vars qw(@ISA @fields);
 
 sub _get_fields
 {
