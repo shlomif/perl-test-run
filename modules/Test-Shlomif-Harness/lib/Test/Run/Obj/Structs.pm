@@ -6,65 +6,7 @@ use Test::Run::Base::Struct;
 use Carp;
 
 use Test::Run::Obj::FailedObj;
-
-package Test::Run::Obj::TestObj;
-
-=head1 Test::Run::Obj::TestObj
-
-=cut
-
-use vars qw(@ISA @fields);
-
-@ISA = (qw(Test::Run::Base::Struct));
-
-@fields = (qw(
-    ok
-    next
-    max
-    failed
-    bonus
-    skipped
-    skip_reason
-    skip_all
-    ml
-));
-
-sub _get_fields
-{
-    return [@fields];
-}
-
-__PACKAGE__->mk_accessors(@fields);
-
-sub add_to_failed
-{
-    my $self = shift;
-    push @{$self->failed()}, @_;
-}
-
-sub _get_reason_default
-{
-    return "no reason given";
-}
-
-=head2 $self->get_reason()
-
-Gets the reason or defaults to the default.
-
-=cut 
-
-sub get_reason
-{
-    my $self = shift;
-
-    return
-        +(defined($self->skip_all()) && length($self->skip_all())) ?
-            $self->skip_all() :
-            $self->_get_reason_default()
-        ;
-}
-
-1;
+use Test::Run::Obj::TestObj;
 
 package Test::Run::Obj::TotObj;
 
