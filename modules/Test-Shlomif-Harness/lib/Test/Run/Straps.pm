@@ -2,7 +2,7 @@
 package Test::Run::Straps;
 
 use strict;
-use vars qw($VERSION @ISA);
+use vars qw($VERSION);
 $VERSION = '0.24';
 
 use Config;
@@ -11,9 +11,11 @@ use List::Util qw(first);
 
 use Test::Run::Base;
 use Test::Run::Assert;
-use Test::Run::Obj::Structs;
 
-@ISA = (qw(Test::Run::Base::Struct));
+use base 'Test::Run::Base::Struct';
+
+use Test::Run::Straps::StrapsTotalsObj;
+use Test::Run::Straps::StrapsDetailsObj;
 
 my @fields= (qw(
     bailout_reason
