@@ -18,6 +18,7 @@ lib/Test/Run/Obj/TotObj.pm
 lib/Test/Run/Output.pm
 lib/Test/Run/Plugin/CmdLine/Output.pm
 lib/Test/Run/Straps.pm
+lib/Test/Run/Straps/StrapsTotalsObj.pm
 Makefile.PL
 MANIFEST
 META.yml                                 Module meta-data (added by MakeMaker)

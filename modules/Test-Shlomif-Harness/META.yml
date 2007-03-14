@@ -60,8 +60,8 @@ provides:
   Test::Run::Straps::StrapsDetailsObj:
     file: lib/Test/Run/Obj/Structs.pm
   Test::Run::Straps::StrapsTotalsObj:
-    file: lib/Test/Run/Obj/Structs.pm
-generated_by: Module::Build version 0.2805
+    file: lib/Test/Run/Straps/StrapsTotalsObj.pm
+generated_by: Module::Build version 0.2806
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2
