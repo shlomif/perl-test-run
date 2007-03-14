@@ -7,8 +7,14 @@ use Test::Run::Straps;
 use Test::Run::Output;
 use Test::Run::Base;
 use Test::Run::Assert;
-use Test::Run::Obj::Structs;
+
+use Test::Run::Obj::FailedObj;
+use Test::Run::Obj::TestObj;
+use Test::Run::Obj::TotObj;
+use Test::Run::Obj::CanonFailedObj;
+
 use Test::Run::Obj::Error;
+
 use Exporter;
 use Benchmark;
 use Config;
