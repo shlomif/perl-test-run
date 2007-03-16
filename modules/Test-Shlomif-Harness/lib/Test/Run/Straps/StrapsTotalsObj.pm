@@ -23,6 +23,7 @@ use Test::Run::Straps::StrapsDetailsObj;
     _enormous_num_cb
     _event
     exit
+    filename
     max
     ok
     passing

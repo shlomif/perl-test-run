@@ -993,19 +993,13 @@ sub _prepare_for_single_test_run
     return;
 }
 
-sub _run_single_test
+sub _process_test_file_results
 {
-    my ($self, $args) = @_;
-
-    my $tfile = $args->{'test_file'};
-
-    $self->_prepare_for_single_test_run($args);
-
-    my ($results, $elapsed) = $self->_time_single_test($tfile);
+    my ($self, $results, $elapsed) = @_;
 
     my $test = $self->_get_test_struct($results);
 
-    my($estatus, $wstatus) = @{$results}{qw(exit wait)};
+    my $test_file = $results->filename;
 
     if ($results->{passing}) 
     {
@@ -1016,24 +1010,40 @@ sub _run_single_test
             },
         );
     }
-    else {
+    else
+    {
         $self->_list_tests_as_failures(
             {
                 'test_struct' => $test,
                 'results' => $results,
             }
         ); 
-        $self->failed_tests()->{$tfile} = 
+        $self->failed_tests()->{$test_file} = 
             $self->_get_failed_struct(
                 {
                     test_struct => $test,
-                    estatus => $estatus,
-                    wstatus => $wstatus,
-                    filename => $tfile,
+                    estatus => $results->{exit},
+                    wstatus => $results->{wait},
+                    filename => $test_file,
                     results => $results,
                 }
             );
     }
+
+    return;
+}
+
+sub _run_single_test
+{
+    my ($self, $args) = @_;
+
+    my $tfile = $args->{'test_file'};
+
+    $self->_prepare_for_single_test_run($args);
+
+    my ($results, $elapsed) = $self->_time_single_test($tfile);
+
+    $self->_process_test_file_results($results, $elapsed);
 
     $self->_recheck_dir_files();
 }
