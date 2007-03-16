@@ -114,6 +114,23 @@ sub get_num_collected_tests
     return scalar(@{$self->_recorded_test_files_data});
 }
 
+=head2 $tester->get_filename_test_data($filename)
+
+Returns theL<Test::Run::Plugin::CollectStats::TestFileData> instance 
+representing the results of the (last) test with the filename $filename.
+
+=cut
+
+sub get_filename_test_data
+{
+    my $self = shift;
+    my $filename = shift;
+
+    return $self->get_recorded_test_file_data(
+        $self->find_test_file_idx_by_filename($filename)
+    );
+}
+
 =head1 AUTHOR
 
 Shlomi Fish, C<< <shlomif at cpan.org> >>
