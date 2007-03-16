@@ -728,9 +728,7 @@ sub _failed_with_results_seen
 
 sub _failed_before_any_test_output
 {
-    my ($self, $args) = @_;
-
-    my $tfile = $args->{'filename'};
+    my ($self) = @_;
 
     $self->_report_failed_before_any_test_output();
 
@@ -741,7 +739,7 @@ sub _failed_before_any_test_output
             canon       => '??',
             max         => '??',
             failed      => '??',
-            name        => $tfile,
+            name        => $self->_get_last_test_filename(),
             percent     => undef,
             estat       => '', 
             wstat       => '',
