@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 package MyTestRun;
 
@@ -51,6 +51,12 @@ package main;
     is ($tester->find_test_file_idx_by_filename("t/sample-tests/todo"),
         1,
         "t/sample-test/todo is the 1th element"
+    );
+
+    # TEST
+    is ($tester->get_recorded_test_file_data(0)->summary_object->ok(),
+        5,
+        "simple 'ok' count"
     );
 }
 
