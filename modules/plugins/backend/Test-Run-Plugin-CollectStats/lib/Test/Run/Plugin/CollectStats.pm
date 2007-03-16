@@ -3,9 +3,15 @@ package Test::Run::Plugin::CollectStats;
 use warnings;
 use strict;
 
+use NEXT;
+
+use base 'Test::Run::Base';
+use base 'Class::Accessor';
+
 =head1 NAME
 
-Test::Run::Plugin::CollectStats - The great new Test::Run::Plugin::CollectStats!
+Test::Run::Plugin::CollectStats - Test::Run plugin to collect statistics and 
+data.
 
 =head1 VERSION
 
@@ -17,35 +23,14 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+    package MyTestRun;
 
-Perhaps a little code snippet.
+    use base 'Test::Run::Plugin::AlternateInterpreters';
+    use base 'Test::Run::Obj';
 
-    use Test::Run::Plugin::CollectStats;
-
-    my $foo = Test::Run::Plugin::CollectStats->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 FUNCTIONS
-
-=head2 function1
+=head1 METHODS
 
 =cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
 
 =head1 AUTHOR
 
@@ -93,7 +78,7 @@ L<http://search.cpan.org/dist/Test-Run-Plugin-CollectStats>
 
 Copyright 2007 Shlomi Fish, all rights reserved.
 
-This program is released under the following license: bsd
+This program is released under the following license: MIT/X11.
 
 =cut
 
