@@ -106,6 +106,28 @@ sub last_detail
     return $self->details()->[-1];
 }
 
+sub _update_todo_event
+{
+    my ($self, $event) = @_;
+
+    $self->inc_field('todo');
+    if ( $event->is_actual_ok() )
+    {
+        $self->inc_field('bonus');
+    }
+
+    return;
+}
+
+sub _update_skip_event
+{
+    my ($self, $event) = @_;
+
+    $self->inc_field('skip');
+
+    return;
+}
+
 =head2 $self->update_by_labeled_test_event($event)
 
 Update the file totals object $self according to the TAP::Parser event $event.
@@ -118,14 +140,12 @@ sub update_by_labeled_test_event
 
     if ($event->has_todo())
     {
-        $self->inc_field('todo');
-        if ( $event->is_actual_ok() )
-        {
-            $self->inc_field('bonus');
-        }
+        $self->_update_todo_event($event);
     }
-    elsif ( $event->has_skip ) {
-        $self->inc_field('skip');
+    elsif ($event->has_skip())
+    {
+        $self->_update_skip_event($event);
+
     }
 
     return;
