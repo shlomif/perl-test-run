@@ -1448,8 +1448,10 @@ sub _fail_other
     }
 }
 
-sub _show_results {
-    my($self) = @_;
+sub _show_success_or_failure
+{
+    my $self = shift;
+
     my $tot = $self->tot();
 
     if ($self->_all_ok())
@@ -1467,7 +1469,15 @@ sub _show_results {
     else
     {
         $self->_fail_other();
-    }
+    }    
+}
+
+sub _show_results
+{
+    my($self) = @_;
+
+    $self->_show_success_or_failure();
+
     $self->_report_final_stats();
 }
 
