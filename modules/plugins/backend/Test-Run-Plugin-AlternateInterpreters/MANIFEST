@@ -1,12 +1,15 @@
 Build.PL
 Changes
+lib/Test/Run/CmdLine/Plugin/AlternateInterpreters.pm
 lib/Test/Run/Plugin/AlternateInterpreters.pm
 MANIFEST
 META.yml # Will be created by "make dist"
 README
 t/00-load.t
 t/01-run.t
+t/02-cmdline-run.t
 t/boilerplate.t
+t/data/config-files/placeholder
 t/data/interpreters/cat.pl
 t/data/interpreters/mini-ok.pl
 t/pod-coverage.t

@@ -111,7 +111,7 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::AlternateInterpret
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Test::Run::Plugin::AlternateInterpreters>
+L<http://search.cpan.org/dist/Test-Run-Plugin-AlternateInterpreters/>
 
 =back
 
@@ -124,7 +124,7 @@ L<http://use.perl.org/~Ovid/journal/32092>
 
 =head1 SEE ALSO
 
-L<Test::Run>, L<Test::Run::CmdLine>, L<TAPx::Parser>
+L<Test::Run>, L<Test::Run::CmdLine>, L<TAP::Parser>
 
 =head1 COPYRIGHT & LICENSE
 
