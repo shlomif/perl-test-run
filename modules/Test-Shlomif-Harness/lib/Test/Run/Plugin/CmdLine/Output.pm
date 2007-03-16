@@ -48,14 +48,14 @@ sub _initialize
 
 sub _report_dubious
 {
-    my ($self, $args) = @_;
-    my $test = $args->{test_struct};
-    my $estatus = $args->{estatus};
+    my ($self) = @_;
+    my $test = $self->last_test_obj;
+    my $estatus = $self->_get_estatus();
 
     $self->output()->print_message(
         sprintf($test->ml()."dubious\n\tTest returned status $estatus ".
             "(wstat %d, 0x%x)",
-            (($args->{'wstatus'}) x 2))
+            (($self->_get_wstatus()) x 2))
         );
     if ($^O eq "VMS")
     {
@@ -178,10 +178,10 @@ sub _fail_other_print_bonus_message
 
 sub _report_failed_with_results_seen
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     $self->output()->print_message(
-        $self->_get_failed_with_results_seen_msg($args),
+        $self->_get_failed_with_results_seen_msg(),
     );
 }
 
@@ -284,16 +284,16 @@ sub _fail_other_report_test
 
 sub _report_dubious_summary_all_subtests_successful
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     $self->output()->print_message("\tafter all the subtests completed successfully");
 }
 
 sub _report_premature_test_dubious_summary
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
-    my $test = $args->{'test_struct'};
+    my $test = $self->last_test_obj;
 
     my ($txt) = $self->_canonfailed($test);
 

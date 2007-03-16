@@ -568,16 +568,17 @@ sub _create_failed_obj_instance
 
 sub _is_failed_and_max
 {
-    my ($self, $args) = @_;
-    my $test = $args->{'test_struct'};
+    my ($self) = @_;
+
+    my $test = $self->last_test_obj;
 
     return (@{$test->failed()} and $test->max());
 }
 
 sub _get_failed_and_max_msg
 {
-    my ($self, $args) = @_;
-    my $test = $args->{'test_struct'};
+    my ($self) = @_;
+    my $test = $self->last_test_obj;
 
     my ($txt) = $self->_canonfailed($test);
 
@@ -587,7 +588,7 @@ sub _get_failed_and_max_msg
 sub _get_dont_know_which_tests_failed_msg
 {
     my ($self, $args) = @_;
-    my $test = $args->{'test_struct'};
+    my $test = $self->last_test_obj;
     
     return
         ("Don't know which tests failed: got " . $test->ok() . " ok, ".
@@ -597,13 +598,13 @@ sub _get_dont_know_which_tests_failed_msg
 
 sub _get_failed_with_results_seen_msg
 {
-    my ($self, $args) = @_;
-    my $test = $args->{'test_struct'};
+    my ($self) = @_;
+    my $test = $self->last_test_obj;
     
     return 
-        $self->_is_failed_and_max($args)
-            ? $self->_get_failed_and_max_msg($args)
-            : $self->_get_dont_know_which_tests_failed_msg($args)
+        $self->_is_failed_and_max()
+            ? $self->_get_failed_and_max_msg()
+            : $self->_get_dont_know_which_tests_failed_msg()
             ;
 }
 
@@ -643,9 +644,9 @@ The results of the test.
 
 sub _get_failed_and_max_params
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
     
-    my $test = $args->{'test_struct'};
+    my $test = $self->last_test_obj;
 
     my (undef, $canon) = $self->_canonfailed($test);
 
@@ -671,14 +672,12 @@ sub _get_undef_tests_params
 
 sub get_common_FWRS_params
 {
-    my ($self, $args) = @_;
-
-    my $test = $args->{'test_struct'};
+    my ($self) = @_;
 
     return
         [
-            max     => $test->max(),
-            name    => $args->{'filename'},
+            max     => $self->last_test_obj->max(),
+            name    => $self->_get_last_test_filename(),
             estat   => '',
             wstat   => '',
         ];
@@ -686,38 +685,38 @@ sub get_common_FWRS_params
 
 sub _get_FWRS_tests_existence_params
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     return
         [
-            $self->_is_failed_and_max($args)
-            ? (@{$self->_get_failed_and_max_params($args)})
-            : (@{$self->_get_undef_tests_params($args)})
+            $self->_is_failed_and_max()
+            ? (@{$self->_get_failed_and_max_params()})
+            : (@{$self->_get_undef_tests_params()})
         ]
 }
 
 sub _get_failed_with_results_seen_params
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     return 
         {
-            @{$self->get_common_FWRS_params($args)},
-            @{$self->_get_FWRS_tests_existence_params($args)},
+            @{$self->get_common_FWRS_params()},
+            @{$self->_get_FWRS_tests_existence_params()},
         }
 }
 
 sub _failed_with_results_seen
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     $self->_tot_inc('bad');
 
-    $self->_report_failed_with_results_seen($args);
+    $self->_report_failed_with_results_seen();
 
     return
         $self->_create_failed_obj_instance(
-            $self->_get_failed_with_results_seen_params($args)
+            $self->_get_failed_with_results_seen_params()
         );
 }
 
@@ -750,33 +749,56 @@ sub _failed_before_any_test_output
         );
 }
 
+=for Hello
+            {
+                test_struct => $self->last_test_obj(),
+                estatus => $results->{exit},
+                wstatus => $results->{wait},
+                filename => $test_file,
+                results => $results,
+            }
+=cut
+
+sub _get_wstatus
+{
+    my $self = shift;
+
+    return $self->last_test_results()->{'wait'};
+}
+
+sub _get_estatus
+{
+    my $self = shift;
+
+    return $self->last_test_results()->{'exit'};
+}
+
+sub _is_last_test_seen
+{
+    return shift->last_test_results->seen;
+}
+
 sub _get_failed_struct
 {
-    my ($self, $args) = @_;
-    if ($args->{'wstatus'}) {
-         return
-            $self->_dubious_return(
-                $args
-                );
+    my ($self) = @_;
+
+    if ($self->_get_wstatus())
+    {
+         return $self->_dubious_return();
     }
-    elsif($args->{'results'}->seen()) {
-        return
-            $self->_failed_with_results_seen(
-                $args,
-            );
+    elsif($self->_is_last_test_seen())
+    {
+        return $self->_failed_with_results_seen();
     }
-    else {
-        return
-            $self->_failed_before_any_test_output(
-                $args,
-            );
+    else
+    {
+        return $self->_failed_before_any_test_output();
     }
 }
 
 sub _list_tests_as_failures
 {
     my $self = shift;
-    my $args = shift;
 
     my $test = $self->last_test_obj;
     my $results = $self->last_test_results;
@@ -863,7 +885,7 @@ sub _time_single_test
     return ($results, $elapsed);
 }
 
-=head2 $self->_report_skipped_test({test_struct => $test, elapsed => $elapsed})
+=head2 $self->_report_skipped_test()
 
 [This is a method that needs to be over-rided.]
 
@@ -878,7 +900,7 @@ sub _process_skipped_test
     return $self->_report_skipped_test();
 }
 
-=head2 $self->_report_all_ok_test({test_struct => $test, elapsed => $elapsed})
+=head2 $self->_report_all_ok_test()
 
 [This is a method that needs to be over-rided.]
 
@@ -892,7 +914,7 @@ sub _process_all_ok_test
     return $self->_report_all_ok_test();
 }
 
-=head2 $self->_report_all_skipped_test({test_struct => $test, elapsed => $elapsed})
+=head2 $self->_report_all_skipped_test()
 
 [This is a method that needs to be over-rided.]
 
@@ -997,24 +1019,19 @@ sub _prepare_for_single_test_run
     return;
 }
 
+sub _get_last_test_filename
+{
+    my $self = shift;
+
+    return $self->last_test_results->filename;
+}
+
 sub _add_to_failed_tests
 {
     my $self = shift;
 
-    my $results = $self->last_test_results;
-
-    my $test_file = $results->filename;
-
-    $self->failed_tests()->{$test_file} = 
-        $self->_get_failed_struct(
-            {
-                test_struct => $self->last_test_obj(),
-                estatus => $results->{exit},
-                wstatus => $results->{wait},
-                filename => $test_file,
-                results => $results,
-            }
-        );
+    $self->failed_tests()->{$self->_get_last_test_filename()} = 
+        $self->_get_failed_struct();
 
     return;
 }
@@ -1741,15 +1758,15 @@ $args are the test-context - see above.
 
 sub _get_premature_test_dubious_summary
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
-    my $test = $args->{'test_struct'};
+    my $test = $self->last_test_obj;
 
     $test->add_to_failed($test->next()..$test->max());
 
     my (undef, $canon) = $self->_canonfailed($test);
 
-    $self->_report_premature_test_dubious_summary($args);
+    $self->_report_premature_test_dubious_summary();
 
     return 
     {
@@ -1763,13 +1780,13 @@ sub _get_dubious_summary
 {
     my ($self, $args) = @_;
 
-    my $test = $args->{'test_struct'};
+    my $test = $self->last_test_obj;
 
     if ($test->max())
     {
         if ($test->next() == $test->max() + 1 and not @{$test->failed()})
         {
-            $self->_report_dubious_summary_all_subtests_successful($args);
+            $self->_report_dubious_summary_all_subtests_successful();
             
             return
             {
@@ -1781,7 +1798,7 @@ sub _get_dubious_summary
         else
         {
             return
-                $self->_get_premature_test_dubious_summary($args);
+                $self->_get_premature_test_dubious_summary();
         }
     }
     else
@@ -1799,18 +1816,18 @@ sub _get_dubious_summary
 # Test program go boom.
 sub _dubious_return 
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
     
-    my $test = $args->{'test_struct'};
-    my $estatus = $args->{'estatus'};
-    my $wstatus = $args->{'wstatus'};
-    my $filename = $args->{'filename'};
+    my $test = $self->last_test_obj;
+    my $estatus = $self->_get_estatus();
+    my $wstatus = $self->_get_wstatus();
+    my $filename = $self->_get_last_test_filename();
     
-    $self->_report_dubious($args);
+    $self->_report_dubious();
 
     $self->_tot_inc('bad');
 
-    my $dubious_summary = $self->_get_dubious_summary($args);
+    my $dubious_summary = $self->_get_dubious_summary();
 
     return 
         $self->_create_failed_obj_instance(
