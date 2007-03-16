@@ -14,6 +14,7 @@ my %parms = (
         'File::Spec' => 0.6,
         'Test::Harness' => "2.53",
         'Scalar::Util' => 0,
+        'Last::Util' => 0,
         'TAP::Parser' => "0.51",
         'NEXT' => 0,
     },
