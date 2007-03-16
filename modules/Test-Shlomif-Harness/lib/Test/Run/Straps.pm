@@ -395,22 +395,7 @@ sub _handle_labeled_test_event
 {
     my $self = shift;
 
-    my $event = $self->_event;
-    my $totals = $self->_file_totals();
-
-    if ($self->_is_event_todo())
-    {
-        $totals->inc_field('todo');
-        if ( $event->is_actual_ok() )
-        {
-            $totals->inc_field('bonus');
-        }
-    }
-    elsif ( $event->has_skip ) {
-        $totals->inc_field('skip');
-    }
-
-    return;
+    return $self->_file_totals->update_by_labeled_test_event($self->_event);
 }
 
 sub _update_if_pass
