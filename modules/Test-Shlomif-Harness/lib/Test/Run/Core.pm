@@ -62,22 +62,25 @@ __PACKAGE__->mk_accessors(qw(
     _bonusmsg
     Columns
     Debug
-    Leaked_Dir
-    NoTty
-    Strap
-    Switches
-    Switches_Env
-    Test_Interpreter
-    Timer
-    Verbose
     dir_files
     failed_tests
     format_columns
+    last_test_elapsed
+    last_test_obj
+    last_test_results
+    Leaked_Dir
     list_len
     max_namelen
+    NoTty
     output
+    Strap
+    Switches
+    Switches_Env
     test_files
+    Test_Interpreter
+    Timer
     tot
+    Verbose
     width
 ));
 
@@ -775,8 +778,8 @@ sub _list_tests_as_failures
     my $self = shift;
     my $args = shift;
 
-    my $test = $args->{test_struct};
-    my $results = $args->{results};
+    my $test = $self->last_test_obj;
+    my $results = $self->last_test_results;
 
     # List unrun tests as failures.
     if ($test->next() <= $test->max()) {
@@ -907,23 +910,25 @@ sub _process_all_skipped_test
 
 sub _process_passing_test
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
-    my $test = $args->{test_struct};
-    my $elapsed = $args->{elapsed};
+    my $test = $self->last_test_obj;
+    my $elapsed = $self->last_test_elapsed;
+
+    my $new_args = { 'test_struct' => $test, elapsed => $elapsed };
 
     # XXX Combine these first two
     if ($test->max() and $test->skipped() + $test->bonus())
     {
-        $self->_process_skipped_test($args);
+        $self->_process_skipped_test($new_args);
     }
     elsif ( $test->max() )
     {
-        $self->_process_all_ok_test($args);        
+        $self->_process_all_ok_test($new_args);        
     }
     else
     {
-        $self->_process_all_skipped_test($args);
+        $self->_process_all_skipped_test($new_args);
     }
     $self->_tot_inc('good');
 }
@@ -945,14 +950,14 @@ sub _calc_test_struct_ml
     return "";
 }
 
-sub _get_test_struct
+sub _calc_test_struct
 {
     my $self = shift;
-    my $results = shift;
+    my $results = $self->last_test_results;
 
     $self->_tot_add_results($results);
 
-    return 
+    return $self->last_test_obj(
         $self->_create_test_obj_instance(
             {
                 ok          => $results->ok(),
@@ -969,7 +974,8 @@ sub _get_test_struct
                 skip_all    => $results->skip_all(),
                 ml          => $self->_calc_test_struct_ml($results),
             }
-        );
+        )
+    );
 }
 
 =head2 $self->_report_single_test_file_start({test_file => "t/my_test_file.t"})
@@ -995,33 +1001,26 @@ sub _prepare_for_single_test_run
 
 sub _process_test_file_results
 {
-    my ($self, $results, $elapsed) = @_;
+    my ($self) = @_;
 
-    my $test = $self->_get_test_struct($results);
+    my $results = $self->last_test_results;
+    my $elapsed = $self->last_test_elapsed;
+
+    $self->_calc_test_struct();
 
     my $test_file = $results->filename;
 
     if ($results->{passing}) 
     {
-        $self->_process_passing_test(
-            {
-                test_struct => $test,
-                elapsed => $elapsed,
-            },
-        );
+        $self->_process_passing_test();
     }
     else
     {
-        $self->_list_tests_as_failures(
-            {
-                'test_struct' => $test,
-                'results' => $results,
-            }
-        ); 
+        $self->_list_tests_as_failures(); 
         $self->failed_tests()->{$test_file} = 
             $self->_get_failed_struct(
                 {
-                    test_struct => $test,
+                    test_struct => $self->last_test_obj(),
                     estatus => $results->{exit},
                     wstatus => $results->{wait},
                     filename => $test_file,
@@ -1043,7 +1042,10 @@ sub _run_single_test
 
     my ($results, $elapsed) = $self->_time_single_test($tfile);
 
-    $self->_process_test_file_results($results, $elapsed);
+    $self->last_test_results($results);
+    $self->last_test_elapsed($elapsed);
+
+    $self->_process_test_file_results();
 
     $self->_recheck_dir_files();
 }
