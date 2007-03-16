@@ -1859,10 +1859,12 @@ sub _get_failed_string
 sub _canonfailed_get_canon_ranges
 {
     my ($self, $failed) = @_;
-    my $min = shift @$failed;
+
+    my @failed_copy = @$failed;
+    my $min = shift @failed_copy;
     my $last = $min;
     my @canon;
-    for my $test (@$failed, $failed->[-1]) # don't forget the last one
+    for my $test (@failed_copy, $failed_copy[-1]) # don't forget the last one
     {
         if ($test > $last+1 || $test == $last) {
             push @canon, ($min == $last) ? $last : "$min-$last";
@@ -1886,21 +1888,33 @@ sub _canonfailed_get_canon_helper
     }
 }
 
+sub _get_failed_list
+{
+    my $self = shift;
+
+    return$self->last_test_obj->failed
+}
+
+sub _canonfailed_get_failed
+{
+    my $self = shift;
+
+    return $self->filter_failed($self->_get_failed_list());
+}
+
 sub _canonfailed_get_canon
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
-    my $failed_in = $args->{failed_in};
-
-    my $failed = $self->filter_failed($failed_in);
-    my $failed_num = @$failed;
+    my $failed = $self->_canonfailed_get_failed();
 
     my $canon = $self->_canonfailed_get_canon_helper($failed);
+
     return Test::Run::Obj::CanonFailedObj->new(
         {
             canon => join(' ', @$canon),
             result => [$self->_get_failed_string($canon)],
-            failed_num => $failed_num,
+            failed_num => scalar(@$failed),
         },
     );
 }
@@ -1910,12 +1924,7 @@ sub _canonfailed {
 
     my $test = $self->last_test_obj;
 
-    my $canon_obj =
-        $self->_canonfailed_get_canon(
-            {
-                'failed_in' => $test->failed(),
-            },
-        );
+    my $canon_obj = $self->_canonfailed_get_canon();
 
     $canon_obj->add_Failed($test);
     $canon_obj->add_skipped($test);
