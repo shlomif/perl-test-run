@@ -1,4 +1,18 @@
+0.0106     Fri Mar 16 15:29:14 IST 2007
+    * Removed the %fields_map variables that were not used.
     * Placed Test::Run::Base::Struct in its own .pm file.
+    * Placed the structs objects in their own .pm files.
+    * Implemented _tot_inc as tot()->inc($field) for better encapsulation.
+      Added the relevant method to TotObj.pm.
+    * Replaced the loading of Test::Run::Obj::Structs with the loading
+      of its individual modules.
+    * Moved a lot of logic to Test::Run::Straps::StrapsTotalsObj.
+    * Extracted some methods.
+    * Refactored the maximal numbers/length handling.
+    * Added the List::Util to the dependencies.
+    * Passing the filename inside Test::Run::Straps::StrapsTotalsObj.
+    * In the test script analysis phase - eliminated passing objects from
+      one method to another by making them instance slots.
 
 0.0105    Mon Mar 12 23:46:34 IST 2007
     * Converted from TAPx::Parser 0.3x to TAP::Parser 0.51, including various
