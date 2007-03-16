@@ -761,14 +761,14 @@ sub _get_wstatus
 {
     my $self = shift;
 
-    return $self->last_test_results()->{'wait'};
+    return $self->last_test_results->wait;
 }
 
 sub _get_estatus
 {
     my $self = shift;
 
-    return $self->last_test_results()->{'exit'};
+    return $self->last_test_results->exit;
 }
 
 sub _is_last_test_seen
@@ -1042,7 +1042,7 @@ sub _is_test_passing
 {
     my $self = shift;
 
-    return $self->last_test_results->{passing};
+    return $self->last_test_results->passing;
 }
 
 sub _process_test_file_results
