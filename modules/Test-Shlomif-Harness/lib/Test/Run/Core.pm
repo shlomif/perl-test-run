@@ -1815,11 +1815,6 @@ sub _dubious_return
 {
     my ($self) = @_;
     
-    my $test = $self->last_test_obj;
-    my $estatus = $self->_get_estatus();
-    my $wstatus = $self->_get_wstatus();
-    my $filename = $self->_get_last_test_filename();
-    
     $self->_report_dubious();
 
     $self->_tot_inc('bad');
@@ -1830,10 +1825,10 @@ sub _dubious_return
         $self->_create_failed_obj_instance(
             {
                 %{$dubious_summary},
-                max => $test->max() || '??',
-                estat => $estatus,
-                wstat => $wstatus,
-                name => $filename,
+                max => $self->last_test_obj->max() || '??',
+                estat => $self->_get_estatus(),
+                wstat => $self->_get_wstatus(),
+                name => $self->_get_last_test_filename(),
             }
         );
 }
