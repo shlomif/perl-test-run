@@ -23,7 +23,7 @@ use strict;
 use Class::Accessor;
 
 use Scalar::Util ();
-
+use List::Util qw(max);
 use vars qw(
     $VERSION
     @ISA
@@ -1096,14 +1096,20 @@ longest test name.
 
 =cut
 
-sub _leader_width {
+sub _max_len
+{
+    my ($self, $array_ref) = @_;
+
+    return max(map { length($_) } @$array_ref);
+}
+
+sub _leader_width
+{
     my ($self) = @_;
     my $tests = $self->test_files();
 
-    my $maxlen = 
-        $self->__max_num_flat(map {length($_)} @$tests);
-    my $maxsuflen =
-        $self->__max_num_flat(map {length(/\.(\w+)$/ ? $1 : '')} @$tests);
+    my $maxlen =    $self->_max_len($tests);
+    my $maxsuflen = $self->_max_len([map { /\.(\w+)\z/ ? $1 : '' } @$tests]);
 
     # + 3 : we want three dots between the test name and the "ok"
     return $maxlen + 3 - $maxsuflen;
@@ -1234,23 +1240,6 @@ sub _get_format_failed_str_len
     return length($self->_get_format_failed_str());
 }
 
-sub __max_num_flat
-{
-    my $self = shift;
-    my $n = shift;
-    return $self->__max_num($n, [@_]);
-}
-
-sub __max_num
-{
-    my ($self, $max, $others )= @_;
-    foreach my $n (@$others)
-    {
-        $max = $n if $n > $max;
-    }
-    return $max;
-}
-
 sub _get_format_tests_namelens
 {
     my $self = shift;
@@ -1261,10 +1250,10 @@ sub _get_initial_max_namelen
 {
     my $self = shift;
     # Figure out our longest name string for formatting purposes.
-    return 
-        $self->__max_num(
+    return
+        max(
             $self->_get_format_failed_str_len(),
-            $self->_get_format_tests_namelens(),
+            @{$self->_get_format_tests_namelens()},
         );
 }
 
