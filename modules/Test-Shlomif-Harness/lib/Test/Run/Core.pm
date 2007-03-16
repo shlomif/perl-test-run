@@ -1320,25 +1320,34 @@ Prints the header of the files that failed.
 
 =cut
 
+sub _fail_other_get_canon_strings_concat
+{
+    my ($self, $ret, $first) = @_;
+
+    my $new_last_ret = "$ret->[-1] $first";
+
+    if (length($new_last_ret) < $self->list_len())
+    {
+        $ret->[-1] = $new_last_ret;
+    }
+    else
+    {
+        push @$ret, $first;
+    }
+}
+
 sub _fail_other_get_canon_strings
 {
     my $self = shift;
     my $canon = shift;
-    my @ret = ();
-    my $string = shift(@$canon);
+
+    my @ret = (shift(@$canon));
+
     while (@$canon)
     {
-        if (length($canon->[0]) + 1 + length($string)< $self->list_len())
-        {
-            $string .= " ".shift(@$canon);
-        }
-        else
-        {
-            push @ret, $string;
-            $string = shift(@$canon);
-        }
+        $self->_fail_other_get_canon_strings_concat(\@ret, shift(@$canon));
     }
-    push @ret, $string;
+
     return \@ret;
 }
 
