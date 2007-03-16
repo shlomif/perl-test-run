@@ -10,12 +10,10 @@ use TAP::Parser;
 use List::Util qw(first);
 
 use Test::Run::Base;
-use Test::Run::Assert;
 
 use base 'Test::Run::Base::Struct';
 
 use Test::Run::Straps::StrapsTotalsObj;
-use Test::Run::Straps::StrapsDetailsObj;
 
 my @fields= (qw(
     bailout_reason
@@ -164,12 +162,6 @@ sub _init_totals_obj_instance
     return Test::Run::Straps::StrapsTotalsObj->new($args);
 }
 
-sub _init_details_obj_instance
-{
-    my ($self, $args) = @_;
-    return Test::Run::Straps::StrapsDetailsObj->new($args);
-}
-
 sub _get_initial_totals_obj_params
 {
     return
@@ -313,31 +305,6 @@ sub _is_event_pass
     );
 }
 
-sub _update_details
-{
-    my $self = shift;
-
-    my $event = $self->_event;
-
-    my $details =
-        $self->_init_details_obj_instance(
-            {
-                ok          => $self->_is_event_pass(),
-                actual_ok   => _def_or_blank(scalar($event->is_ok())),
-                name        => _def_or_blank( $event->description ),
-                # $event->directive returns "SKIP" or "TODO" in uppercase
-                # and we expect them to be in lowercase.
-                type        => lc(_def_or_blank( $event->directive )),
-                reason      => _def_or_blank( $event->explanation ),
-            },
-        );
-
-    assert( defined( $details->ok() ) && defined( $details->actual_ok() ) );
-    $self->_file_totals->details()->[$event->number - 1] = $details;
-
-    return;
-}
-
 sub _handle_comment_event
 {
     my $self = shift;
@@ -349,18 +316,6 @@ sub _handle_comment_event
     }
 
     return;
-}
-
-sub _is_enormous_event_num
-{
-    my $self = shift;
-
-    return 
-    (
-        ($self->_event->number > 100_000)
-            &&
-        ($self->_event->number > ($self->max()||100_000))
-    )
 }
 
 sub _handle_enormous_event_num
@@ -375,46 +330,11 @@ sub _handle_enormous_event_num
     }
 }
 
-sub _update_details_wrapper
-{
-    my $self = shift;
-
-    my $event = $self->_event;
-
-    if ($self->_is_enormous_event_num())
-    {
-        $self->_handle_enormous_event_num();
-    }
-    else
-    {
-        $self->_update_details();
-    }
-}
 
 sub _handle_labeled_test_event
 {
     my $self = shift;
 
-    return $self->_file_totals->update_by_labeled_test_event($self->_event);
-}
-
-sub _update_if_pass
-{
-    my $self = shift;
-
-    if ($self->_is_event_pass())
-    {
-        $self->_file_totals->inc_field('ok');
-    }
-
-    return;
-}
-
-sub _inc_seen
-{
-    my $self = shift;
-
-    $self->_file_totals->inc_field('seen');
 }
 
 sub _inc_seen_header
@@ -427,11 +347,13 @@ sub _inc_seen_header
 sub _handle_test_event
 {
     my $self = shift;
-
-    $self->_inc_seen();
-    $self->_handle_labeled_test_event();
-    $self->_update_if_pass();
-    $self->_update_details_wrapper();
+    return $self->_file_totals->handle_event(
+        {
+            event => $self->_event,
+            enormous_num_cb =>
+                sub { return $self->_handle_enormous_event_num(); },
+        }
+    );
 
     return;
 }
@@ -943,9 +865,5 @@ L<Test::Run>
 
 =cut
 
-sub _def_or_blank {
-    return $_[0] if defined $_[0];
-    return "";
-}
 
 1;
