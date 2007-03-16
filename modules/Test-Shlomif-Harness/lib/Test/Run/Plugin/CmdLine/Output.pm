@@ -293,9 +293,7 @@ sub _report_premature_test_dubious_summary
 {
     my ($self) = @_;
 
-    my $test = $self->last_test_obj;
-
-    my ($txt) = $self->_canonfailed($test);
+    my ($txt) = $self->_canonfailed();
 
     $self->output()->print_message("DIED. " . $txt);
 }

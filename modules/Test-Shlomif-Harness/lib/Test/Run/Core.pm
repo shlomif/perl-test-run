@@ -580,7 +580,7 @@ sub _get_failed_and_max_msg
     my ($self) = @_;
     my $test = $self->last_test_obj;
 
-    my ($txt) = $self->_canonfailed($test);
+    my ($txt) = $self->_canonfailed();
 
     return ($test->ml().$txt);
 }
@@ -648,7 +648,7 @@ sub _get_failed_and_max_params
     
     my $test = $self->last_test_obj;
 
-    my (undef, $canon) = $self->_canonfailed($test);
+    my (undef, $canon) = $self->_canonfailed();
 
     return 
         [
@@ -1761,11 +1761,11 @@ sub _get_premature_test_dubious_summary
 
     $test->add_to_failed($test->next()..$test->max());
 
-    my (undef, $canon) = $self->_canonfailed($test);
+    my (undef, $canon) = $self->_canonfailed();
 
     $self->_report_premature_test_dubious_summary();
 
-    return 
+    return
     {
         failed => scalar(@{$test->failed()}),
         canon => $canon,
@@ -1904,7 +1904,9 @@ sub _canonfailed_get_canon
 }
 
 sub _canonfailed {
-    my ($self, $test) = @_;
+    my ($self) = @_;
+
+    my $test = $self->last_test_obj;
 
     my $canon_obj =
         $self->_canonfailed_get_canon(
