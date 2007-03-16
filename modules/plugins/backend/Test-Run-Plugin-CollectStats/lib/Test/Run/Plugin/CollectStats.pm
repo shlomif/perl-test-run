@@ -4,9 +4,12 @@ use warnings;
 use strict;
 
 use NEXT;
+use Storable ();
 
 use base 'Test::Run::Base';
 use base 'Class::Accessor';
+
+use Test::Run::Plugin::CollectStats::TestFileData;
 
 =head1 NAME
 
@@ -19,6 +22,10 @@ Version 0.01
 
 =cut
 
+__PACKAGE__->mk_accessors(qw(
+    _recorded_test_files_data
+    _test_files_names_map
+));
 our $VERSION = '0.01';
 
 =head1 SYNOPSIS
@@ -31,6 +38,81 @@ our $VERSION = '0.01';
 =head1 METHODS
 
 =cut
+
+sub _initialize
+{
+    my ($self, $args) = @_;
+
+    my $ret = $self->NEXT::_initialize($args);
+
+    $self->_recorded_test_files_data([]);
+    $self->_test_files_names_map({});
+}
+
+sub _run_single_test
+{
+    my ($self, $args) = @_;
+
+    my $filename = $args->{test_file};
+
+    $self->NEXT::_run_single_test($args);
+
+    $self->_test_files_names_map->{$filename} =
+        scalar(@{$self->_recorded_test_files_data()});
+    
+    push @{$self->_recorded_test_files_data},
+        Test::Run::Plugin::CollectStats::TestFileData->new(
+            {
+                elapsed_time => $self->last_test_elapsed(),
+                results => Storable::dclone($self->last_test_results()),
+                summary_object => Storable::dclone($self->last_test_obj()),
+            }
+        );
+
+    return;
+}
+
+=head2 $tester->get_recorded_test_file_data($index)
+
+Returns the L<Test::Run::Plugin::CollectStats::TestFileData> instance 
+representing the results of test number $index.
+
+=cut
+
+sub get_recorded_test_file_data
+{
+    my $self = shift;
+    my $idx = shift;
+
+    return $self->_recorded_test_files_data->[$idx];
+}
+
+=head2 $tester->find_test_file_idx_by_filename($filename)
+
+Retrieves the (last) index of the test file $filename.
+
+=cut
+
+sub find_test_file_idx_by_filename
+{
+    my $self = shift;
+    my $filename = shift;
+
+    return $self->_test_files_names_map->{$filename};
+}
+
+=head2 $tester->get_num_collected_tests()
+
+Retrieves the number of collected tests.
+
+=cut
+
+sub get_num_collected_tests
+{
+    my $self = shift;
+
+    return scalar(@{$self->_recorded_test_files_data});
+}
 
 =head1 AUTHOR
 
