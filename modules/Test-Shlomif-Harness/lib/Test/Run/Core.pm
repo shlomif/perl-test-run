@@ -852,7 +852,7 @@ sub _get_copied_strap_fields
 
 sub _init_strap
 {
-    my ($self, $tfile) = @_;
+    my ($self) = @_;
 
     $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
 }
@@ -860,17 +860,17 @@ sub _init_strap
 sub _time_single_test
 {
     my $self = shift;
-    my $tfile = shift;
+    my $args = shift;
 
     my $test_start_time = $self->Timer() ? time : 0;
 
-    $self->_init_strap($tfile);
+    $self->_init_strap();
     $self->Strap()->callback(sub { $self->_strap_callback(@_); });
     # We trap exceptions so we can nullify the callback to avoid memory
     # leaks.
     my $results;
     eval {
-        $results = $self->Strap()->analyze_file($tfile) or
+        $results = $self->Strap()->analyze_file($args->{test_file}) or
           do { warn $self->Strap()->error(), "\n";  next };
     };
     $self->Strap()->callback(undef);
@@ -879,8 +879,12 @@ sub _time_single_test
         die $@;
     }
     
-    my $elapsed = $self->_get_elapsed({'start_time' => $test_start_time});
-    return ($results, $elapsed);
+    $self->last_test_elapsed(
+        $self->_get_elapsed({'start_time' => $test_start_time})
+    );
+    $self->last_test_results($results);
+    
+    return;
 }
 
 =head2 $self->_report_skipped_test()
@@ -1062,14 +1066,9 @@ sub _run_single_test
 {
     my ($self, $args) = @_;
 
-    my $tfile = $args->{'test_file'};
-
     $self->_prepare_for_single_test_run($args);
 
-    my ($results, $elapsed) = $self->_time_single_test($tfile);
-
-    $self->last_test_results($results);
-    $self->last_test_elapsed($elapsed);
+    $self->_time_single_test($args);
 
     $self->_calc_test_struct();
 
