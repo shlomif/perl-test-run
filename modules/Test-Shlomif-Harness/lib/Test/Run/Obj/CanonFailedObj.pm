@@ -103,7 +103,7 @@ L<Test::Run::Base::Struct>, L<Test::Run::Obj>, L<Test::Run::Core>
 
 =head1 LICENSE
 
-This file is freely distributable under the MIT X11 license.
+This file is freely distributable under the same terms as Perl itself.
 
 =head1 AUTHOR
 
