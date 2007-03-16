@@ -1810,14 +1810,9 @@ sub _get_dubious_summary
 
 }
 
-# Test program go boom.
-sub _dubious_return 
+sub _calc_dubious_return_ret_value
 {
-    my ($self) = @_;
-    
-    $self->_report_dubious();
-
-    $self->_tot_inc('bad');
+    my $self = shift;
 
     my $dubious_summary = $self->_get_dubious_summary();
 
@@ -1831,6 +1826,18 @@ sub _dubious_return
                 name => $self->_get_last_test_filename(),
             }
         );
+}
+
+# Test program go boom.
+sub _dubious_return 
+{
+    my ($self) = @_;
+    
+    $self->_report_dubious();
+
+    $self->_tot_inc('bad');
+
+    return $self->_calc_dubious_return_ret_value();
 }
 
 sub filter_failed
