@@ -1045,8 +1045,6 @@ sub _process_test_file_results
 {
     my ($self) = @_;
 
-    $self->_calc_test_struct();
-
     if ($self->_is_test_passing()) 
     {
         $self->_process_passing_test();
@@ -1072,6 +1070,8 @@ sub _run_single_test
 
     $self->last_test_results($results);
     $self->last_test_elapsed($elapsed);
+
+    $self->_calc_test_struct();
 
     $self->_process_test_file_results();
 
