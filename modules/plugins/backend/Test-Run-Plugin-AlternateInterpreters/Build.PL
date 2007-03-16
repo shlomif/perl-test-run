@@ -10,7 +10,14 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
     },
-    add_to_cleanup      => [ 'Test::Run::Plugin::AlternateInterpreters-*' ],
+    requires => {
+        'Test::Run::CmdLine' => 0,
+        'Test::Run::Core' => "0.0105",
+        'YAML' => 0,
+        'NEXT' => 0,
+    },
+    add_to_cleanup      => [ 'Test-Run-Plugin-AlternateInterpreters-*' ],
+    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();

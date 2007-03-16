@@ -2,6 +2,7 @@ Build.PL
 Changes
 lib/Test/Run/CmdLine/Plugin/AlternateInterpreters.pm
 lib/Test/Run/Plugin/AlternateInterpreters.pm
+Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
 README
