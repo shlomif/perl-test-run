@@ -873,9 +873,9 @@ Should report the skipped test.
 
 sub _process_skipped_test
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
-    return $self->_report_skipped_test($args);
+    return $self->_report_skipped_test();
 }
 
 =head2 $self->_report_all_ok_test({test_struct => $test, elapsed => $elapsed})
@@ -888,8 +888,8 @@ Should report the all OK test.
 
 sub _process_all_ok_test
 {
-    my ($self, $args) = @_;
-    return $self->_report_all_ok_test($args);
+    my ($self) = @_;
+    return $self->_report_all_ok_test();
 }
 
 =head2 $self->_report_all_skipped_test({test_struct => $test, elapsed => $elapsed})
@@ -902,9 +902,9 @@ Should report the all-skipped test.
 
 sub _process_all_skipped_test
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
-    $self->_report_all_skipped_test($args);
+    $self->_report_all_skipped_test();
     $self->_tot_inc('skipped');
 }
 
@@ -915,20 +915,18 @@ sub _process_passing_test
     my $test = $self->last_test_obj;
     my $elapsed = $self->last_test_elapsed;
 
-    my $new_args = { 'test_struct' => $test, elapsed => $elapsed };
-
     # XXX Combine these first two
     if ($test->max() and $test->skipped() + $test->bonus())
     {
-        $self->_process_skipped_test($new_args);
+        $self->_process_skipped_test();
     }
     elsif ( $test->max() )
     {
-        $self->_process_all_ok_test($new_args);        
+        $self->_process_all_ok_test();
     }
     else
     {
-        $self->_process_all_skipped_test($new_args);
+        $self->_process_all_skipped_test();
     }
     $self->_tot_inc('good');
 }
@@ -999,34 +997,49 @@ sub _prepare_for_single_test_run
     return;
 }
 
+sub _add_to_failed_tests
+{
+    my $self = shift;
+
+    my $results = $self->last_test_results;
+
+    my $test_file = $results->filename;
+
+    $self->failed_tests()->{$test_file} = 
+        $self->_get_failed_struct(
+            {
+                test_struct => $self->last_test_obj(),
+                estatus => $results->{exit},
+                wstatus => $results->{wait},
+                filename => $test_file,
+                results => $results,
+            }
+        );
+
+    return;
+}
+
+sub _is_test_passing
+{
+    my $self = shift;
+
+    return $self->last_test_results->{passing};
+}
+
 sub _process_test_file_results
 {
     my ($self) = @_;
 
-    my $results = $self->last_test_results;
-    my $elapsed = $self->last_test_elapsed;
-
     $self->_calc_test_struct();
 
-    my $test_file = $results->filename;
-
-    if ($results->{passing}) 
+    if ($self->_is_test_passing()) 
     {
         $self->_process_passing_test();
     }
     else
     {
-        $self->_list_tests_as_failures(); 
-        $self->failed_tests()->{$test_file} = 
-            $self->_get_failed_struct(
-                {
-                    test_struct => $self->last_test_obj(),
-                    estatus => $results->{exit},
-                    wstatus => $results->{wait},
-                    filename => $test_file,
-                    results => $results,
-                }
-            );
+        $self->_list_tests_as_failures();
+        $self->_add_to_failed_tests();
     }
 
     return;
