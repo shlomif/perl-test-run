@@ -14,6 +14,10 @@ my $builder = Test::Run::Builder->new(
     build_requires => {
         'Test::More' => 0,
     },
+    requires => {
+        "Term::ANSIColor" => 0,
+        "Test::Run::Core" => "0.0108",
+    },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorFileVerdicts-*' ],
     create_makefile_pl => 'traditional',
 );
