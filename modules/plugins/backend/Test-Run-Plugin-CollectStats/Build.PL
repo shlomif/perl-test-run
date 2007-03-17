@@ -14,6 +14,12 @@ my $builder = Test::Run::Builder->new(
     build_requires => {
         'Test::More' => 0,
     },
+    requires => {
+        'Test::Run::Core' => '0.0106',
+        'NEXT' => 0,
+        'Storable' => 0,
+        'Test::Run::Base::Struct' => 0,
+    },
     add_to_cleanup      => [ 'Test-Run-Plugin-CollectStats-*' ],
 );
 
