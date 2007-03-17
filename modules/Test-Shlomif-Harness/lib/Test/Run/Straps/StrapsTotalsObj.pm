@@ -73,6 +73,28 @@ a success or not.
 
 =head2 $self->seen()
 
+The number of tests that were actually run.
+
+=head2 $self->skip()
+
+The number of skipped tests.
+
+=head2 $self->skip_all()
+
+This filed will contain the reason for why the entire test script was skipped,
+in cases when it was.
+
+=head2 $self->skip_reason()
+
+The skip reason for the last skipped test that specified such a reason.
+
+=head2 $self->todo()
+
+The number of "Todo" tests that were encountered.
+
+=head2 $self->wait()
+
+The wait code of the test script.
 
 =cut
 
