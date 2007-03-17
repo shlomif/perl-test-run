@@ -81,7 +81,7 @@ The number of skipped tests.
 
 =head2 $self->skip_all()
 
-This filed will contain the reason for why the entire test script was skipped,
+This field will contain the reason for why the entire test script was skipped,
 in cases when it was.
 
 =head2 $self->skip_reason()

@@ -22,6 +22,43 @@ use base 'Test::Run::Base::Struct';
     ml
 ));
 
+=head1 FIELDS
+
+=head2 $self->bonus()
+
+Number of TODO tests that unexpectedly passed.
+
+=head2 $self->failed()
+
+Returns an array reference containing list of test numbers that failed.
+
+=head2 $self->ok()
+
+Number of tests that passed.
+
+=head2 $self->next()
+
+The next expected event.
+
+=head2 $self->max()
+
+The number of plannedt tests.
+
+=head2 $self->skipped()
+
+The number of skipped tests.
+
+=head2 $self->skip_all()
+
+This field will contain the reason for why the entire test script was skipped,
+in cases when it was.
+
+=head2 $self->skip_reason()
+
+The skip reason for the last skipped test that specified such a reason.
+
+=cut
+
 sub _get_fields
 {
     return [@fields];
