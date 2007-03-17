@@ -2,11 +2,15 @@ Build.PL
 Changes
 inc/Test/Run/Builder.pm
 lib/Test/Run/Plugin/ColorFileVerdicts.pm
+Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
 README
 t/00-load.t
+t/01-run.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
-Makefile.PL
+t/sample-tests/one-fail.t
+t/sample-tests/one-ok.t
+t/sample-tests/several-oks.t

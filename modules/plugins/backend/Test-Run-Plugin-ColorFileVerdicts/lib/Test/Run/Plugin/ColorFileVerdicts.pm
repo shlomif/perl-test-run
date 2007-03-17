@@ -3,6 +3,8 @@ package Test::Run::Plugin::ColorFileVerdicts;
 use warnings;
 use strict;
 
+use Term::ANSIColor;
+
 =head1 NAME
 
 Test::Run::Plugin::ColorFileVerdicts - make the file verdict ("ok", "NOT OK")
@@ -39,10 +41,21 @@ Perhaps a little code snippet.
 
     $tester->runtests();
 
+=cut
+
 =head1 METHODS
 
 =cut
 
+sub _report_all_ok_test
+{
+    my ($self, $args) = @_;
+
+    my $test = $self->last_test_obj;
+    my $elapsed = $self->last_test_elapsed;
+
+    $self->output()->print_message($test->ml().color("green")."ok$elapsed".color("reset"));
+}
 
 =head1 AUTHOR
 
