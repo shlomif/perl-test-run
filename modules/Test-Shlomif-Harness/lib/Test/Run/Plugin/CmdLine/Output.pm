@@ -66,16 +66,37 @@ sub _get_dubious_status_message
         . sprintf("(wstat %d, 0x%x)", ($self->_get_wstatus()) x 2);
 }
 
+sub _get_dubious_message_line_end
+{
+    return "\n";
+}
+
+sub _get_dubious_status_message_indent_prefix
+{
+    return "\t";
+}
+
+sub _get_dubious_message_components
+{
+    my $self = shift;
+
+    return 
+    [
+           $self->_get_dubious_message_ml()
+        ,  $self->_get_dubious_verdict_message()
+        ,  $self->_get_dubious_message_line_end() 
+        ,  $self->_get_dubious_status_message_indent_prefix()
+        ,  $self->_get_dubious_status_message()
+    ];
+}
+
 sub _get_dubious_message
 {
     my $self = shift;
 
-    
-    return    $self->_get_dubious_message_ml()
-           .  $self->_get_dubious_verdict_message()
-           .  "\n" .  "\t"
-           .  $self->_get_dubious_status_message()
-           ;
+    return join("",
+        @{$self->_get_dubious_message_components()}
+    );
 }
 
 sub _vms_specific_report_dubious
