@@ -12,7 +12,7 @@ my $builder = Module::Build->new(
     },
     requires => {
         'Test::Run::CmdLine' => 0,
-        'Test::Run::Core' => "0.0105",
+        'Test::Run::Core' => "0.0108",
         'YAML' => 0,
         'NEXT' => 0,
     },

@@ -41,11 +41,11 @@ Test::Run::Core - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
-Version 0.0107
+Version 0.0108
 
 =cut
 
-$VERSION = '0.0107';
+$VERSION = '0.0108';
 
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;
@@ -852,7 +852,7 @@ sub _get_copied_strap_fields
 
 sub _init_strap
 {
-    my ($self) = @_;
+    my ($self, $args) = @_;
 
     $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
 }
@@ -864,7 +864,7 @@ sub _time_single_test
 
     my $test_start_time = $self->Timer() ? time : 0;
 
-    $self->_init_strap();
+    $self->_init_strap($args);
     $self->Strap()->callback(sub { $self->_strap_callback(@_); });
     # We trap exceptions so we can nullify the callback to avoid memory
     # leaks.

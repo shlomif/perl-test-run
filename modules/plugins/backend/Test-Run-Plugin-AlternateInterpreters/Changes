@@ -1,5 +1,9 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+0.0102  Sat Mar 17 18:14:14 IST 2007
+        Fixed the code to build against the latest Test::Run, while fixing
+        Test::Run::Core in the process.
+
 0.0101  Fri Mar 16 10:05:21 IST 2007
         Added the prerequisites to the Build.PL
 

@@ -14,11 +14,11 @@ Test::Run::Plugin::AlternateInterpreters - Define different interpreters for dif
 
 =head1 VERSION
 
-Version 0.01
+Version 0.0102
 
 =cut
 
-our $VERSION = '0.0101';
+our $VERSION = '0.0102';
 
 __PACKAGE__->mk_accessors(qw(
     alternate_interpreters
@@ -48,8 +48,10 @@ sub _get_simple_params
 
 sub _init_strap
 {
-    my ($self, $test_file) = @_;
-    $self->NEXT::_init_strap($test_file);
+    my ($self, $args) = @_;
+    $self->NEXT::_init_strap($args);
+
+    my $test_file = $args->{test_file};
     
     if (defined(my $interpreters_ref = $self->alternate_interpreters()))
     {
