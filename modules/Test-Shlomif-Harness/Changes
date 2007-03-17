@@ -1,3 +1,14 @@
+0.0107    Sat Mar 17 15:01:00 IST 2007
+    * Moved a method call to a better place.
+    * Normalized the parameters to _time_single_test().
+    * Changed Direct hash value acecsses to accessors.
+    * Eliminated the $test argument to _canonfailed() and friends because
+    it's essentially $self->last_test_obj().
+    * Inlined some assignemnts in _dubious_return().
+    * Refactored the canonfailed functions.
+    * Corrected the license in lib/Test/Run/Obj/CanonFailedObj.pm
+    * Added more doucmentation to StrapsTotalObj and TestObj.
+
 0.0106     Fri Mar 16 15:29:14 IST 2007
     * Removed the %fields_map variables that were not used.
     * Placed Test::Run::Base::Struct in its own .pm file.

@@ -41,7 +41,7 @@ Test::Run::Core - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
-Version 0.0106
+Version 0.0107
 
 =cut
 
