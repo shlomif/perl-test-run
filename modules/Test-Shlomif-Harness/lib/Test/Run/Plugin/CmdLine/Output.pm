@@ -62,8 +62,8 @@ sub _get_dubious_status_message
 {
     my $self = shift;
     
-    return "Test returned status " . $self->_get_estatus() . " " .
-        sprintf("(wstat %d, 0x%x)", ($self->_get_wstatus()) x 2);
+    return "Test returned status " . $self->_get_estatus() . " "
+        . sprintf("(wstat %d, 0x%x)", ($self->_get_wstatus()) x 2);
 }
 
 sub _get_dubious_message
@@ -71,11 +71,10 @@ sub _get_dubious_message
     my $self = shift;
 
     
-    return $self->_get_dubious_message_ml() .
-           $self->_get_dubious_verdict_message() .
-           "\n" .
-           "\t" .
-           $self->_get_dubious_status_message()
+    return    $self->_get_dubious_message_ml()
+           .  $self->_get_dubious_verdict_message()
+           .  "\n" .  "\t"
+           .  $self->_get_dubious_status_message()
            ;
 }
 
