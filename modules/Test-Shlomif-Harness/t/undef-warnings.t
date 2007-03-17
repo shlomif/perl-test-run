@@ -16,8 +16,10 @@ use base 'Test::Run::Obj';
 
 sub _init_strap
 {
-    my ($self, $test_file) = @_;
-    $self->NEXT::_init_strap($test_file);
+    my ($self, $args) = @_;
+    $self->NEXT::_init_strap($args);
+
+    my $test_file = $args->{test_file};
 
     if ($test_file =~ /\.mok\z/)
     {
