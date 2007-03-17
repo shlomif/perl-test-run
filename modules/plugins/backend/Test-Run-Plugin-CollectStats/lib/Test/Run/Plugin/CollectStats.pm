@@ -131,6 +131,11 @@ sub get_filename_test_data
     );
 }
 
+=head1 SEE ALSO
+
+L<Test::Run::Plugin::CollectStats::TestFileData>, L<Test::Run::Core>,
+L<Test::Run::Obj>.
+
 =head1 AUTHOR
 
 Shlomi Fish, C<< <shlomif at cpan.org> >>

@@ -8,7 +8,7 @@ use warnings;
 Test::Run::Plugin::CollectStats::TestFileData - an object representing the
 data for a single test file in Test::Run.
 
-=head1 VERSIO
+=head1 VERSION
 
 Version 0.01
 
@@ -33,6 +33,23 @@ sub _get_fields
 1;
 
 __END__
+
+=head1 METHODS
+
+=head2 $test_file_data->elapsed_time()
+
+The elapsed time in seconds, with a leading space. Could have a fraction if
+L<Time::HiRes> is installed or could be "<1" if less than one second.
+
+=head2 $test_file_data->results()
+
+The L<Test::Run::Straps::StrapsTotalsObj> object representing the test file
+totals information.
+
+=head2 $test_file_data->summary_object()
+
+The L<Test::Run::Obj::TestObj> object that summarizes and analzes the
+results.
 
 =head1 AUTHOR
 
