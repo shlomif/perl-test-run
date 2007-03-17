@@ -48,3 +48,4 @@ t/sample-tests/vms_nit
 t/sample-tests/with_comments
 t/sample-tests/with-myhello
 t/sample-tests/with-myhello-and-myfoo
+Makefile.PL

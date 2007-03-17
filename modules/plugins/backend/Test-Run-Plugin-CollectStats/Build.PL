@@ -21,6 +21,7 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::Base::Struct' => 0,
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-CollectStats-*' ],
+    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();
