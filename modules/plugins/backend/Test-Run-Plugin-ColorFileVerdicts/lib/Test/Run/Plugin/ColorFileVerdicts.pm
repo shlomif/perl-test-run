@@ -107,6 +107,18 @@ sub _report_all_ok_test
     $self->output()->print_message($test->ml().color($color)."ok$elapsed".color("reset"));
 }
 
+sub _get_failed_string
+{
+    my ($self, $canon) = @_;
+
+    my $color = $self->_get_invividual_test_file_color("failure");
+
+    return
+        (color($color)."FAILED test" . ((@$canon > 1) ? "s" : "") .
+         " " . join(", ", @$canon) . color("reset"). "\n"
+        );
+}
+
 =head1 AUTHOR
 
 Shlomi Fish, C<< <shlomif at cpan.org> >>
