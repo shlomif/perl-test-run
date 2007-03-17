@@ -1,8 +1,12 @@
 use strict;
 use warnings;
-use Module::Build;
 
-my $builder = Module::Build->new(
+use File::Spec;
+use lib File::Spec->catdir(File::Spec->curdir(), "inc");
+
+use Test::Run::Builder;
+
+my $builder = Test::Run::Builder->new(
     module_name         => 'Test::Run::Plugin::ColorFileVerdicts',
     license             => 'bsd',
     dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
@@ -11,6 +15,7 @@ my $builder = Module::Build->new(
         'Test::More' => 0,
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorFileVerdicts-*' ],
+    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();
