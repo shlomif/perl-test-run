@@ -46,21 +46,60 @@ sub _initialize
     return $self->NEXT::_initialize(@_);
 }
 
-sub _report_dubious
+sub _get_dubious_message_ml
+{
+    my $self = shift;
+
+    return $self->last_test_obj->ml();
+}
+
+sub _get_dubious_verdict_message
+{
+    return "dubious";
+}
+
+sub _get_dubious_status_message
+{
+    my $self = shift;
+    
+    return "Test returned status " . $self->_get_estatus() . " " .
+        sprintf("(wstat %d, 0x%x)", ($self->_get_wstatus()) x 2);
+}
+
+sub _get_dubious_message
+{
+    my $self = shift;
+
+    
+    return $self->_get_dubious_message_ml() .
+           $self->_get_dubious_verdict_message() .
+           "\n" .
+           "\t" .
+           $self->_get_dubious_status_message()
+           ;
+}
+
+sub _vms_specific_report_dubious
 {
     my ($self) = @_;
-    my $test = $self->last_test_obj;
     my $estatus = $self->_get_estatus();
-
-    $self->output()->print_message(
-        sprintf($test->ml()."dubious\n\tTest returned status $estatus ".
-            "(wstat %d, 0x%x)",
-            (($self->_get_wstatus()) x 2))
-        );
+    
     if ($^O eq "VMS")
     {
         $self->output()->print_message("\t\t(VMS status is $estatus)");
     }
+}
+
+sub _report_dubious
+{
+    my ($self) = @_;
+    my $estatus = $self->_get_estatus();
+
+    $self->output()->print_message(
+        $self->_get_dubious_message()
+        );
+
+    $self->_vms_specific_report_dubious();
 }
 
 sub _report_leaked_files
