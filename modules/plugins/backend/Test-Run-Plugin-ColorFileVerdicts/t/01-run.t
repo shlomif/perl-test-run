@@ -10,7 +10,7 @@ use base 'Test::Run::Obj';
 
 package main;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use Term::ANSIColor;
 
@@ -128,3 +128,50 @@ use Term::ANSIColor;
         "FAILED test 1 colored.");
 }
 
+{
+    open ALTOUT, ">", "altout.txt";
+    open SAVEOUT, ">&STDOUT";
+    open STDOUT, ">&ALTOUT";
+
+    open ALTERR, ">", "alterr.txt";
+    open SAVEERR, ">&STDERR";
+    open STDERR, ">&ALTERR";
+
+    my $tester = MyTestRun->new(
+        {
+            test_files => 
+            [
+                "t/sample-tests/one-ok.t",
+                "t/sample-tests/one-fail.t"
+            ],
+            individual_test_file_verdict_colors => 
+            {
+                success => "yellow",
+                failure => "blue",
+                dubious => "magenta",
+            },
+        }
+        );
+
+    eval {
+    $tester->runtests();
+    };
+    my $err = $@;
+
+    open STDOUT, ">&SAVEOUT";
+    close(SAVEOUT);
+    close(ALTOUT);
+
+    open STDERR, ">&SAVEERR";
+    close(SAVEERR);
+    close(ALTERR);
+    
+    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+
+    my $color = color("magenta");
+    my $reset = color("reset");
+
+    # TEST
+    ok (($text =~ m/\Q${color}\Edubious\Q${reset}\E/),
+        "dubious colored.");
+}

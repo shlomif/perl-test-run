@@ -6,7 +6,7 @@ use strict;
 use NEXT;
 use Term::ANSIColor;
 
-use base 'Test::Run::Base';
+use base 'Test::Run::Plugin::CmdLine::Output';
 use base 'Class::Accessor';
 
 =head1 NAME
@@ -74,7 +74,7 @@ sub _get_individual_test_file_verdict_user_set_color
         undef;
 }
 
-sub _get_invividual_test_file_color
+sub _get_individual_test_file_color
 {
     my ($self, $event) = @_;
 
@@ -90,7 +90,8 @@ sub _get_default_individual_test_file_verdict_color
     my %mapping =
     (
         "success" => "green",
-        "failure" => "red",        
+        "failure" => "red",
+        "dubious" => "red",
     );
     return $mapping{$event};
 }
@@ -102,7 +103,7 @@ sub _report_all_ok_test
     my $test = $self->last_test_obj;
     my $elapsed = $self->last_test_elapsed;
 
-    my $color = $self->_get_invividual_test_file_color("success");
+    my $color = $self->_get_individual_test_file_color("success");
 
     $self->output()->print_message($test->ml().color($color)."ok$elapsed".color("reset"));
 }
@@ -111,12 +112,21 @@ sub _get_failed_string
 {
     my ($self, $canon) = @_;
 
-    my $color = $self->_get_invividual_test_file_color("failure");
+    my $color = $self->_get_individual_test_file_color("failure");
 
     return
         (color($color)."FAILED test" . ((@$canon > 1) ? "s" : "") .
          " " . join(", ", @$canon) . color("reset"). "\n"
         );
+}
+
+sub _get_dubious_verdict_message
+{
+    my $self = shift;
+
+    return color($self->_get_individual_test_file_color("dubious"))
+        . $self->NEXT::_get_dubious_verdict_message() .
+        color("reset");
 }
 
 =head1 AUTHOR
