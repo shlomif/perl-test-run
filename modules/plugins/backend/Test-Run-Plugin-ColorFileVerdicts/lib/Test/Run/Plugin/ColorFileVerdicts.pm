@@ -5,7 +5,8 @@ use strict;
 
 =head1 NAME
 
-Test::Run::Plugin::ColorFileVerdicts - The great new Test::Run::Plugin::ColorFileVerdicts!
+Test::Run::Plugin::ColorFileVerdicts - make the file verdict ("ok", "NOT OK")
+colorful.
 
 =head1 VERSION
 
@@ -17,35 +18,31 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
 Perhaps a little code snippet.
 
-    use Test::Run::Plugin::ColorFileVerdicts;
 
-    my $foo = Test::Run::Plugin::ColorFileVerdicts->new();
-    ...
+    package MyTestRun;
+    
+    use vars qw(@ISA);
 
-=head1 EXPORT
+    @ISA = (qw(Test::Run::Plugin::ColorFileVerdicts Test::Run::Obj));
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+    my $tester = MyTestRun->new(
+        {
+            test_files => 
+            [
+                "t/sample-tests/one-ok.t",
+                "t/sample-tests/several-oks.t"
+            ],
+        }
+        );
 
-=head1 FUNCTIONS
+    $tester->runtests();
 
-=head2 function1
+=head1 METHODS
 
 =cut
 
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
 
 =head1 AUTHOR
 
@@ -93,7 +90,7 @@ L<http://search.cpan.org/dist/Test-Run-Plugin-ColorFileVerdicts>
 
 Copyright 2007 Shlomi Fish, all rights reserved.
 
-This program is released under the following license: bsd
+This program is released under the following license: MIT X11
 
 =cut
 
