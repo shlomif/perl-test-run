@@ -5,7 +5,7 @@ package Test::Run::Straps::StrapsTotalsObj;
 Test::Run::Straps::StrapsTotalsObj - an object representing the totals of the
 straps class.
 
-=head1 METHODS
+=head1 FIELDS
 
 =cut
 
@@ -42,10 +42,46 @@ sub _get_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
+=head2 $self->bonus()
+
+Number of TODO tests that unexpectedly passed.
+
+=head2 $self->details()
+
+An array containing the details of the individual checks in the test file.
+
+=head2 $self->exit()
+
+The exit code of the test script.
+
+=head2 $self->filename()
+
+The filename of the test script.
+
+=head2 $self->max()
+
+The number of planned tests.
+
+=head2 $self-ok()
+
+The number of tests that passed.
+
+=head2 $self->passing()
+
+A boolean value that indicates whether the entire test script is considered
+a success or not.
+
+=head2 $self->seen()
+
+
+=cut
+
 sub _def_or_blank {
     return $_[0] if defined $_[0];
     return "";
 }
+
+=head1 METHODS
 
 =head2 $self->_calc_passing()
 
