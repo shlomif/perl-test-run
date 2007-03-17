@@ -3,7 +3,11 @@ package Test::Run::Plugin::ColorFileVerdicts;
 use warnings;
 use strict;
 
+use NEXT;
 use Term::ANSIColor;
+
+use base 'Test::Run::Base';
+use base 'Class::Accessor';
 
 =head1 NAME
 
@@ -47,6 +51,50 @@ Perhaps a little code snippet.
 
 =cut
 
+__PACKAGE__->mk_accessors(qw(
+    individual_test_file_verdict_colors
+));
+
+sub _get_simple_params
+{
+    my $self = shift;
+    return 
+    [
+        qw(individual_test_file_verdict_colors),
+        @{$self->NEXT::_get_simple_params()}
+    ];
+}
+
+sub _get_individual_test_file_verdict_user_set_color
+{
+    my ($self, $event) = @_;
+
+    return $self->individual_test_file_verdict_colors() ?
+        $self->individual_test_file_verdict_colors()->{$event} :
+        undef;
+}
+
+sub _get_invividual_test_file_color
+{
+    my ($self, $event) = @_;
+
+    return $self->_get_individual_test_file_verdict_user_set_color($event)
+        || $self->_get_default_individual_test_file_verdict_color($event);
+            
+}
+
+sub _get_default_individual_test_file_verdict_color
+{
+    my ($self, $event) = @_;
+
+    my %mapping =
+    (
+        "success" => "green",
+        "failure" => "red",        
+    );
+    return $mapping{$event};
+}
+
 sub _report_all_ok_test
 {
     my ($self, $args) = @_;
@@ -54,7 +102,9 @@ sub _report_all_ok_test
     my $test = $self->last_test_obj;
     my $elapsed = $self->last_test_elapsed;
 
-    $self->output()->print_message($test->ml().color("green")."ok$elapsed".color("reset"));
+    my $color = $self->_get_invividual_test_file_color("success");
+
+    $self->output()->print_message($test->ml().color($color)."ok$elapsed".color("reset"));
 }
 
 =head1 AUTHOR
