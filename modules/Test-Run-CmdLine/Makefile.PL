@@ -13,6 +13,7 @@ WriteMakefile(
         'Test::More' => 0,
         'Test::Run::Core' => '0.0101',
         'UNIVERSAL::require' => 0,
+        'Test::Trap' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Test-Run-CmdLine-*' },
