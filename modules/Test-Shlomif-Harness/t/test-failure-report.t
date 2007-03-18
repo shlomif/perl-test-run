@@ -21,7 +21,7 @@ my $SAMPLE_TESTS = $ENV{PERL_CORE}
 
 use Test::More tests => 3;
 
-use Test::Trap qw(trap $trap);
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
 my $IsMacPerl = $^O eq 'MacOS';
 my $IsVMS     = $^O eq 'VMS';

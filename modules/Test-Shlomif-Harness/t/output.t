@@ -14,35 +14,24 @@ use strict;
 
 use Test::More tests => 15;
 
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+
 use Test::Run::Obj;
 
 sub trap_output
 {
     my $args = shift;
 
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-
     my $tester = Test::Run::Obj->new(
         {@$args},
         );
 
-    eval { $tester->runtests(); };
-
-    my $error = $@;
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    trap { $tester->runtests(); };
 
     return
     {
-        'stdout' => $text,
-        'error' => $error,
+        'stdout' => $trap->stdout(),
+        'error' => $trap->die(),
     }
 }
 
