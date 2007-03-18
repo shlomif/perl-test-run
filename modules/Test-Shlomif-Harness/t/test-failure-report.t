@@ -21,6 +21,8 @@ my $SAMPLE_TESTS = $ENV{PERL_CORE}
 
 use Test::More tests => 3;
 
+use Test::Trap qw(trap $trap);
+
 my $IsMacPerl = $^O eq 'MacOS';
 my $IsVMS     = $^O eq 'VMS';
 
@@ -32,24 +34,15 @@ my $die_estat = $IsVMS     ? 44 :
 
 use Test::Run::Obj;
 
-{
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-        
+{      
     my $tester = Test::Run::Obj->new(
         {
             test_files => ["t/sample-tests/simple_fail"]
         }
     );
-    eval {
-    $tester->runtests();
-    };
 
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-    my $text = do { local $/; open I, "<", "altout.txt"; <I>};
+    trap { $tester->runtests() };
+
     my $right_text = <<"EOF";
 t/sample-tests/simple_fail...FAILED tests 2, 5
 	Failed 2/5 tests, 60.00% okay
@@ -58,15 +51,11 @@ Failed Test                Stat Wstat Total Fail  Failed  List of Failed
 t/sample-tests/simple_fail                5    2  40.00%  2 5
 EOF
     # TEST
-    is ($text, $right_text, "Testing for the right failure text");
+    is ($trap->stdout(), $right_text, "Testing for the right failure text");
 }
 
 # Test the output using a Columns of 100.
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-        
     my $tester = Test::Run::Obj->new(
         {
             test_files => ["t/sample-tests/simple_fail"],
@@ -74,14 +63,10 @@ EOF
         }
     );
 
-    eval {
+    trap {
     $tester->runtests();
     };
 
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-    my $text = do { local $/; open I, "<", "altout.txt"; <I>};
     my $right_text = <<"EOF";
 t/sample-tests/simple_fail...FAILED tests 2, 5
 	Failed 2/5 tests, 60.00% okay
@@ -90,34 +75,20 @@ Failed Test                Stat Wstat Total Fail  Failed  List of Failed
 t/sample-tests/simple_fail                5    2  40.00%  2 5
 EOF
     # TEST
-    is ($text, $right_text, "Right output with Columns == 100");
+    is ($trap->stdout(), $right_text, "Right output with Columns == 100");
 }
 
-{
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-    open ALTERR, ">", "alterr.txt";
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-        
+{       
     my $tester = Test::Run::Obj->new(
         {
             test_files => ["t/sample-tests/test_more_fail.t"],
         }
     );
 
-    eval {
+    trap {
     $tester->runtests();
     };
 
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
-    my $text = do { local $/; open I, "<", "altout.txt"; <I>};
     my $right_text = <<"EOF";
 t/sample-tests/test_more_fail....dubious
 	Test returned status 1 (wstat 256, 0x100)
@@ -129,5 +100,5 @@ t/sample-tests/test_more_fail.t    1   256     1    1 100.00%  1
 EOF
 
     # TEST
-    is ($text, $right_text, "Right output with a Test::More generated failure");
+    is ($trap->stdout(), $right_text, "Right output with a Test::More generated failure");
 }

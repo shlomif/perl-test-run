@@ -8,6 +8,10 @@ use Test::Run::Builder;
 
 my $build = Test::Run::Builder->new(
     module_name => "Test::Run",
+    build_requires =>
+    {
+        "Test::Trap" => 0,
+    },
     requires => 
     {
         'Class::Accessor' => 0,
