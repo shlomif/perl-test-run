@@ -7,6 +7,10 @@ my $builder = Module::Build->new(
     license             => 'bsd',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/Test/Run/Plugin/FailSummaryComponents.pm',
+    build_requires =>
+    {
+        'Test::Trap' => 0,
+    },
     requires => {
         'Test::More' => 0,
         'Term::ANSIColor' => 0,
