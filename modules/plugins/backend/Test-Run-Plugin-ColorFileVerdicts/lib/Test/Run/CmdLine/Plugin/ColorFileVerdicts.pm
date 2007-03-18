@@ -49,6 +49,11 @@ sub _get_file_verdicts_color_mappings
     {
         # FIXME 
         # Do something
+        return ();
+    }
+    else
+    {
+        return ();
     }
 }
 
