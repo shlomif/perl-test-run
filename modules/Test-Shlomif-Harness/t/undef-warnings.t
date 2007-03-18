@@ -5,6 +5,8 @@ use Test::More tests => 1;
 
 use File::Spec;
 
+use Test::Trap qw(trap $trap);
+
 BEGIN
 {
     $SIG{__WARN__} = sub { die $_[0] };
@@ -69,22 +71,20 @@ sub trap_output
 }
 
 {
-    my $got = trap_output(
-        {
-            class => "MyTestRun",
-            args =>
-            [
+    trap {
+        my $tester = 
+            MyTestRun->new(
                 test_files => 
                 [
                     "t/sample-tests/simple",
                     "t/sample-tests/success1.mok",
                 ],
-            ],
-        }
-    );
+            );
+        $tester->runtests();
+    };
 
     # TEST
-    ok (($got->{error} !~ /sprintf/), 
+    ok ($trap->stderr() !~ /sprintf/, 
         "No warning for undefined sprintf argument was emitted."
     );
 }
