@@ -8,6 +8,8 @@ use File::Spec;
 use Test::Run::Obj;
 use Test::Run::Plugin::AlternateInterpreters;
 
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+
 package MyTestRun;
 
 use vars qw(@ISA);
@@ -19,10 +21,6 @@ package main;
 use Test::More tests => 2;
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = MyTestRun->new(
         {
             test_files => 
@@ -46,24 +44,16 @@ use Test::More tests => 2;
         }
         );
 
+    trap {
     $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    };
 
     # TEST
-    ok (($text =~ m/All tests successful\./), 
+    ok (($trap->stdout() =~ m/All tests successful\./), 
         "All test are successful with multiple interpreters");
 }
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = MyTestRun->new(
         {
             test_files => 
@@ -99,16 +89,12 @@ use Test::More tests => 2;
         }
         );
 
+    trap {
     $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    };
 
     # TEST
-    ok (($text =~ m/All tests successful\./), 
+    ok (($trap->stdout() =~ m/All tests successful\./), 
         "Tests over-riding order is applied.");
 }
 
