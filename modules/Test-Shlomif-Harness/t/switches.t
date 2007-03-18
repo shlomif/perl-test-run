@@ -14,6 +14,8 @@ use strict;
 
 use Test::More tests => 3;
 
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+
 use File::Spec;
 
 use Test::Run::Obj;
@@ -22,10 +24,6 @@ my $switches = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-libs",
 my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-libs", "lib2");
 # Test Switches()
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = Test::Run::Obj->new(
         {
             test_files => ["t/sample-tests/with-myhello"],
@@ -33,24 +31,16 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
         }   
         );
 
+    trap {
     $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    };
 
     # TEST
-    ok (($text =~ m/All tests successful\./), "'All tests successful.' string as is");
+    ok (($trap->stdout() =~ m/All tests successful\./), "'All tests successful.' string as is");
 }
 
 # Test Switches_Env()
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = Test::Run::Obj->new(
         {
             test_files => ["t/sample-tests/with-myhello"],
@@ -58,24 +48,16 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
         }
         );
 
-    $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    trap {
+        $tester->runtests();
+    };
 
     # TEST
-    ok (($text =~ m/All tests successful\./), "'All tests successful.' string as is");
+    ok (($trap->stdout() =~ m/All tests successful\./), "'All tests successful.' string as is");
 }
 
 # Test both Switches() and Switches_Env().
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = Test::Run::Obj->new(
         {
             test_files => ["t/sample-tests/with-myhello-and-myfoo"],
@@ -84,14 +66,10 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
         }
     );
 
+    trap {
     $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    };
 
     # TEST
-    ok (($text =~ m/All tests successful\./), "'All tests successful.' string as is");
+    ok (($trap->stdout() =~ m/All tests successful\./), "'All tests successful.' string as is");
 }
