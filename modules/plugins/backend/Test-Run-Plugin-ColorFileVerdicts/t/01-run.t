@@ -3,6 +3,10 @@
 use strict;
 use warnings;
 
+use Test::More tests => 4;
+
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+
 package MyTestRun;
 
 use base 'Test::Run::Plugin::ColorFileVerdicts';
@@ -10,15 +14,9 @@ use base 'Test::Run::Obj';
 
 package main;
 
-use Test::More tests => 4;
-
 use Term::ANSIColor;
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = MyTestRun->new(
         {
             test_files => 
@@ -29,27 +27,19 @@ use Term::ANSIColor;
         }
         );
 
+    trap {
     $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    };
 
     my $color = color("green");
     my $reset = color("reset");
 
     # TEST
-    ok (($text =~ m/\Q${color}\Eok\Q${reset}\E/),
+    ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/),
         "ok is colored green");
 }
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = MyTestRun->new(
         {
             test_files => 
@@ -65,31 +55,19 @@ use Term::ANSIColor;
         }
         );
 
+    trap {
     $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    };
 
     my $color = color("yellow");
     my $reset = color("reset");
 
     # TEST
-    ok (($text =~ m/\Q${color}\Eok\Q${reset}\E/),
+    ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/),
         "ok is colored yellow per the explicit setup");
 }
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    open ALTERR, ">", "alterr.txt";
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-
     my $tester = MyTestRun->new(
         {
             test_files => 
@@ -105,38 +83,19 @@ use Term::ANSIColor;
         }
         );
 
-    eval {
+    trap {
     $tester->runtests();
     };
-    my $err = $@;
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
     
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
-
     my $color = color("blue");
     my $reset = color("reset");
 
     # TEST
-    ok (($text =~ m/\Q${color}\EFAILED test 1\Q${reset}\E/),
+    ok (($trap->stdout() =~ m/\Q${color}\EFAILED test 1\Q${reset}\E/),
         "FAILED test 1 colored.");
 }
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
-    open ALTERR, ">", "alterr.txt";
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-
     my $tester = MyTestRun->new(
         {
             test_files => 
@@ -153,25 +112,14 @@ use Term::ANSIColor;
         }
         );
 
-    eval {
+    trap {
     $tester->runtests();
     };
-    my $err = $@;
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
-    
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
 
     my $color = color("magenta");
     my $reset = color("reset");
 
     # TEST
-    ok (($text =~ m/\Q${color}\Edubious\Q${reset}\E/),
+    ok (($trap->stdout() =~ m/\Q${color}\Edubious\Q${reset}\E/),
         "dubious colored.");
 }
