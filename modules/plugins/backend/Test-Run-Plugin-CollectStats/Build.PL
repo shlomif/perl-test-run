@@ -13,6 +13,7 @@ my $builder = Test::Run::Builder->new(
     dist_version_from   => 'lib/Test/Run/Plugin/CollectStats.pm',
     build_requires => {
         'Test::More' => 0,
+        'Test::Trap' => 0,
     },
     requires => {
         'Test::Run::Core' => '0.0106',

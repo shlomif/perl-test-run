@@ -5,6 +5,8 @@ use warnings;
 
 use Test::More tests => 6;
 
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+
 package MyTestRun;
 
 use base 'Test::Run::Plugin::CollectStats';
@@ -13,10 +15,6 @@ use base 'Test::Run::Obj';
 package main;
 
 {
-    open ALTOUT, ">", "altout.txt";
-    open SAVEOUT, ">&STDOUT";
-    open STDOUT, ">&ALTOUT";
-
     my $tester = MyTestRun->new(
         {
             test_files => 
@@ -27,13 +25,9 @@ package main;
         }
         );
 
+    trap {
     $tester->runtests();
-
-    open STDOUT, ">&SAVEOUT";
-    close(SAVEOUT);
-    close(ALTOUT);
-
-    my $text = do { local $/; local *I; open I, "<", "altout.txt"; <I>};
+    };
 
     # TEST
     is ($tester->get_num_collected_tests(),
