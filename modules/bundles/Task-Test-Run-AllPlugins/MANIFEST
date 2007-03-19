@@ -1,5 +1,5 @@
 Changes
-lib/Task/Latemp.pm
+lib/Task/Test/Run/AllPlugins.pm
 Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
