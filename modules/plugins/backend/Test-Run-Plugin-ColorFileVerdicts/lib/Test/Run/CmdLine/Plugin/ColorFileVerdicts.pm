@@ -38,8 +38,26 @@ sub get_backend_args
 {
     my $self = shift;
 
-    return [@{$self->NEXT::get_backend_args()}, $self->_get_file_verdicts_color_mappings()];
+    return [ @{$self->NEXT::get_backend_args()},
+             @{$self->_get_file_verdicts_color_mappings()},
+           ];
 }
+
+=head1 ENVIRONMENT VARIABLES
+
+=head2 PERL_HARNESS_VERDICT_COLORS
+
+This environment variables specifies a mapping (or hash) where the keys
+are the verdict types and the values are the color strings (as understood
+by L<Term::ANSIColor>). So for example to specify the color "magenta" for
+success and "blue" for failure use:
+
+    export PERL_HARNESS_VERDICT_COLORS="success=magenta;failure=blue"
+    
+As you can see the key/value pairs are separated with "C<;>" and "C<=>" is 
+used for the assignment.
+
+=cut
 
 sub _get_file_verdicts_color_mappings
 {
@@ -48,18 +66,25 @@ sub _get_file_verdicts_color_mappings
     if (exists($ENV{PERL_HARNESS_VERDICT_COLORS}))
     {
         # FIXME 
-        # Do something
-        return ();
+        my $mapping_string = $ENV{PERL_HARNESS_VERDICT_COLORS};
+
+        my @assignments = split(/\s*;\s*/, $mapping_string);
+        return 
+        [
+            individual_test_file_verdict_colors => 
+            {map { /\A([^=]*)=(.*)\z/ms ? ($1 => $2) : () } @assignments}
+        ];
     }
     else
     {
-        return ();
+        return [];
     }
 }
 
 =head1 SEE ALSO
 
-L<Test::Run::CmdLine>, L<Test::Run::CmdLine::Plugin::ColorSummary>.
+L<Test::Run::CmdLine>, L<Test::Run::CmdLine::Plugin::ColorSummary>,
+L<Term::ANSIColor>.
 
 =head1 AUTHOR
 

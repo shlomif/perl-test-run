@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 3;
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
@@ -55,6 +55,42 @@ sub mydiag
         # TEST
         ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/), 
             "ok is colored") or mydiag();
+            
+    }
+
+    {
+        local $ENV{'PERL_HARNESS_VERDICT_COLORS'} = "success=magenta;failure=green";
+        trap {
+            system("runprove", 
+                "t/sample-tests/one-ok.t",
+                "t/sample-tests/several-oks.t"
+            );
+        };
+
+        my $color = color("magenta");
+        my $reset = color("reset");
+
+        # TEST
+        ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/), 
+            "ok is colored in a different color") or mydiag();
+            
+    }
+
+    {
+        local $ENV{'PERL_HARNESS_VERDICT_COLORS'} = "failure=green;success=magenta";
+        trap {
+            system("runprove", 
+                "t/sample-tests/one-ok.t",
+                "t/sample-tests/several-oks.t"
+            );
+        };
+
+        my $color = color("magenta");
+        my $reset = color("reset");
+
+        # TEST
+        ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/), 
+            "ok is colored in a different color") or mydiag();
             
     }
 }
