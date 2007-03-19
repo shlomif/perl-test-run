@@ -1,6 +1,6 @@
 ---
 name: Test-Run
-version: 0.0108
+version: 0.0109
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Run Perl standard test scripts with statistics
@@ -15,6 +15,8 @@ requires:
   Scalar::Util: 0
   TAP::Parser: 0.51
   Test::Harness: 2.53
+build_requires:
+  Test::Trap: 0
 provides:
   Test::Run::Assert:
     file: lib/Test/Run/Assert.pm
@@ -25,7 +27,7 @@ provides:
     file: lib/Test/Run/Base/Struct.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0108
+    version: 0.0109
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
   Test::Run::Obj:
@@ -62,7 +64,7 @@ provides:
     file: lib/Test/Run/Straps/StrapsDetailsObj.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Straps/StrapsTotalsObj.pm
-generated_by: Module::Build version 0.2805
+generated_by: Module::Build version 0.2806
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2

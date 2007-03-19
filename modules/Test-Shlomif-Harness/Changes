@@ -1,3 +1,9 @@
+0.0109    Mon Mar 19 15:22:35 IST 2007
+    * Refactored some code to make it more easily extensible and 
+    over-ridable. Used in some plugins.
+    * Added an ACTION_tags to Test::Run::Builder.
+    * Converted the tests to use Test::Trap.
+
 0.0108    Sat Mar 17 18:24:45 IST 2007
     * Now passing $args to _init_strap() so T-R-Plugin-AlternateInterpreters
     can make use of it.
