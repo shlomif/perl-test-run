@@ -36,6 +36,18 @@ sub _get_new_output
     return Test::Run::Output->new($args);
 }
 
+
+sub _initialize
+{
+    my $self = shift;
+
+    my ($args) = @_;
+
+    $self->output($self->_get_new_output($args));
+
+    return $self->NEXT::_initialize(@_);
+}
+
 sub _get_callbacks_list_for_dubious_message
 {
     my $self = shift;

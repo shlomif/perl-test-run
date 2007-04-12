@@ -26,17 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _initialize
-{
-    my $self = shift;
-
-    my ($args) = @_;
-
-    $self->output($self->_get_new_output($args));
-
-    return $self->NEXT::_initialize(@_);
-}
-
 sub _get_dubious_message_ml
 {
     my $self = shift;
