@@ -26,29 +26,12 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _get_dubious_message_ml
-{
-    my $self = shift;
-
-    return $self->last_test_obj->ml();
-}
-
-sub _get_dubious_verdict_message
-{
-    return "dubious";
-}
-
 sub _get_dubious_status_message
 {
     my $self = shift;
     
     return "Test returned status " . $self->_get_estatus() . " "
         . sprintf("(wstat %d, 0x%x)", ($self->_get_wstatus()) x 2);
-}
-
-sub _get_dubious_message_line_end
-{
-    return "\n";
 }
 
 sub _get_dubious_status_message_indent_prefix

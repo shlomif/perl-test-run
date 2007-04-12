@@ -48,6 +48,17 @@ sub _initialize
     return $self->NEXT::_initialize(@_);
 }
 
+sub _get_dubious_message_ml
+{
+    my $self = shift;
+    return $self->last_test_obj->ml();
+}
+
+sub _get_dubious_verdict_message
+{
+    return "dubious";
+}
+
 sub _get_callbacks_list_for_dubious_message
 {
     my $self = shift;
@@ -70,6 +81,11 @@ sub _get_dubious_message_components
         map { my $cb = $_; $self->$cb() } 
         @{$self->_get_callbacks_list_for_dubious_message()}
     ];
+}
+
+sub _get_dubious_message_line_end
+{
+    return "\n";
 }
 
 =head1 LICENSE
