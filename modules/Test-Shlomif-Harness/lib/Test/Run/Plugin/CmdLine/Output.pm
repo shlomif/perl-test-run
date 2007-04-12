@@ -29,6 +29,13 @@ __PACKAGE__->mk_accessors(qw(
     output
 ));
 
+sub _get_new_output
+{
+    my ($self, $args) = @_;
+
+    return Test::Run::Output->new($args);
+}
+
 sub _get_callbacks_list_for_dubious_message
 {
     my $self = shift;
@@ -51,13 +58,6 @@ sub _get_dubious_message_components
         map { my $cb = $_; $self->$cb() } 
         @{$self->_get_callbacks_list_for_dubious_message()}
     ];
-}
-
-sub _get_new_output
-{
-    my ($self, $args) = @_;
-
-    return Test::Run::Output->new($args);
 }
 
 =head1 LICENSE
