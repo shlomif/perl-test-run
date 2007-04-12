@@ -3,6 +3,12 @@ package Test::Run::Plugin::CmdLine::Output;
 use strict;
 use warnings;
 
+use Carp;
+use Benchmark qw(timestr);
+use NEXT;
+
+use Test::Run::Core;
+
 =head1 NAME
 
 Test::Run::Plugin::CmdLine::Output - the default output plugin for
@@ -19,11 +25,15 @@ avoid license complications. At the moment it inherits from it.
 
 use base 'Test::Run::Plugin::CmdLine::Output::GplArt';
 
-1;
+__PACKAGE__->mk_accessors(qw(
+    output
+));
 
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
 
 =cut
+
+1;
 

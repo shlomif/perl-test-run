@@ -24,13 +24,7 @@ implements a new code under the MIT X11 license.
 
 =cut
 
-use vars qw(@ISA);
-
-@ISA=(qw(Test::Run::Core));
-
-__PACKAGE__->mk_accessors(qw(
-    output
-));
+use base 'Test::Run::Core';
 
 sub _get_new_output
 {
