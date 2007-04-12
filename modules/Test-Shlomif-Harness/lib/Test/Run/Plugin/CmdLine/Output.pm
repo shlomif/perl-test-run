@@ -29,6 +29,30 @@ __PACKAGE__->mk_accessors(qw(
     output
 ));
 
+sub _get_callbacks_list_for_dubious_message
+{
+    my $self = shift;
+
+    return [qw(
+        _get_dubious_message_ml
+        _get_dubious_verdict_message
+        _get_dubious_message_line_end
+        _get_dubious_status_message_indent_prefix
+        _get_dubious_status_message
+    )];
+}
+
+sub _get_dubious_message_components
+{
+    my $self = shift;
+
+    return 
+    [ 
+        map { my $cb = $_; $self->$cb() } 
+        @{$self->_get_callbacks_list_for_dubious_message()}
+    ];
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
