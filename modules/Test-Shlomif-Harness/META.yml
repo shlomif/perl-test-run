@@ -57,6 +57,8 @@ provides:
     file: lib/Test/Run/Output.pm
   Test::Run::Plugin::CmdLine::Output:
     file: lib/Test/Run/Plugin/CmdLine/Output.pm
+  Test::Run::Plugin::CmdLine::Output::GplArt:
+    file: lib/Test/Run/Plugin/CmdLine/Output/GplArt.pm
   Test::Run::Straps:
     file: lib/Test/Run/Straps.pm
     version: 0.25
@@ -64,7 +66,7 @@ provides:
     file: lib/Test/Run/Straps/StrapsDetailsObj.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Straps/StrapsTotalsObj.pm
-generated_by: Module::Build version 0.2806
+generated_by: Module::Build version 0.2805
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2
