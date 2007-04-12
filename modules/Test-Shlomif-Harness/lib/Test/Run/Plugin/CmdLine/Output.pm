@@ -53,6 +53,13 @@ sub _get_dubious_message_components
     ];
 }
 
+sub _get_new_output
+{
+    my ($self, $args) = @_;
+
+    return Test::Run::Output->new($args);
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.

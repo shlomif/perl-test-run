@@ -26,16 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _get_new_output
-{
-    my $self = shift;
-    my $args = shift;
-
-    return Test::Run::Output->new(
-        $args,
-    );
-}
-
 sub _initialize
 {
     my $self = shift;
