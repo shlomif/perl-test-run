@@ -26,20 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _get_dubious_status_message
-{
-    my $self = shift;
-    
-    return "Test returned status " . $self->_get_estatus() . " "
-        . sprintf("(wstat %d, 0x%x)", ($self->_get_wstatus()) x 2);
-}
-
-sub _get_dubious_status_message_indent_prefix
-{
-    return "\t";
-}
-
-
 sub _get_dubious_message
 {
     my $self = shift;

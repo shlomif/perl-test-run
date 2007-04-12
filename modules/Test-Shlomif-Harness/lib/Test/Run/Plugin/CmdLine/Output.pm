@@ -7,7 +7,10 @@ use Carp;
 use Benchmark qw(timestr);
 use NEXT;
 
+use Text::Sprintf::Named;
 use Test::Run::Core;
+
+use base 'Test::Run::Plugin::CmdLine::Output::GplArt';
 
 =head1 NAME
 
@@ -23,9 +26,8 @@ avoid license complications. At the moment it inherits from it.
 =cut
 
 
-use base 'Test::Run::Plugin::CmdLine::Output::GplArt';
-
 __PACKAGE__->mk_accessors(qw(
+    _formatters
     output
 ));
 
@@ -36,6 +38,24 @@ sub _get_new_output
     return Test::Run::Output->new($args);
 }
 
+sub _register_formatter
+{
+    my ($self, $name, $fmt) = @_;
+
+    $self->_formatters->{$name} =
+        Text::Sprintf::Named->new(
+            { fmt => $fmt, },
+        );
+
+    return;
+}
+
+sub _format
+{
+    my ($self, $name, $args) = @_;
+
+    return $self->_formatters->{$name}->format({ args => $args});
+}
 
 sub _initialize
 {
@@ -44,6 +64,12 @@ sub _initialize
     my ($args) = @_;
 
     $self->output($self->_get_new_output($args));
+    $self->_formatters({});
+
+    $self->_register_formatter(
+        "dubious_status",
+        "Test returned status %(estatus)s (wstat %(wstatus)d, 0x%(wstatus)x)"
+    );
 
     return $self->NEXT::_initialize(@_);
 }
@@ -88,6 +114,22 @@ sub _get_dubious_message_line_end
     return "\n";
 }
 
+sub _get_dubious_status_message_indent_prefix
+{
+    return "\t";
+}
+
+sub _get_dubious_status_message
+{
+    my $self = shift;
+
+    return $self->_format("dubious_status",
+        {
+            estatus => $self->_get_estatus(),
+            wstatus => $self->_get_wstatus(),
+        }
+    );
+}
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
