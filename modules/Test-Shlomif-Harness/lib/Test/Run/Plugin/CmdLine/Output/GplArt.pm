@@ -26,18 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _report_dubious
-{
-    my ($self) = @_;
-    my $estatus = $self->_get_estatus();
-
-    $self->output()->print_message(
-        $self->_get_dubious_message()
-        );
-
-    $self->_vms_specific_report_dubious();
-}
-
 sub _report_leaked_files
 {
     my ($self, $args) = (@_);

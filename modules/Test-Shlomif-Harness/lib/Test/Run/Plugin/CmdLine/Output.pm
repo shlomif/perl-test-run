@@ -177,6 +177,14 @@ sub _vms_specific_report_dubious
     }
 }
 
+sub _report_dubious
+{
+    my ($self) = @_;
+
+    $self->_print($self->_get_dubious_message());
+    $self->_vms_specific_report_dubious();
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
