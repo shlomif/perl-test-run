@@ -185,6 +185,16 @@ sub _report_dubious
     $self->_vms_specific_report_dubious();
 }
 
+sub _handle_test_file_closing_error
+{
+    my ($self, $args) = @_;
+
+    return $self->_named_printf(
+        "can't close %(file)s. %(error)s",
+        $args,
+    );
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.

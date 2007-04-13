@@ -343,16 +343,6 @@ sub _handle_test_file_opening_error
     $self->output()->print_message("can't open $file. $error");
 }
 
-sub _handle_test_file_closing_error
-{
-    my ($self, $args) = @_;
-
-    my $file = $args->{file};
-    my $error = $args->{error};
-
-    $self->output()->print_message("can't close $file. $error");
-}
-
 =head1 LICENSE
 
 This module is licensed under the GPL v2 or later or the Artistic license
