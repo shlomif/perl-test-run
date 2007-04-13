@@ -130,6 +130,16 @@ sub _get_dubious_status_message
         }
     );
 }
+
+sub _get_dubious_message
+{
+    my $self = shift;
+
+    return join("",
+        @{$self->_get_dubious_message_components()}
+    );
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.

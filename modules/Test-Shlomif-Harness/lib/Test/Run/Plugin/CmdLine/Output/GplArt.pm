@@ -26,15 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _get_dubious_message
-{
-    my $self = shift;
-
-    return join("",
-        @{$self->_get_dubious_message_components()}
-    );
-}
-
 sub _vms_specific_report_dubious
 {
     my ($self) = @_;
