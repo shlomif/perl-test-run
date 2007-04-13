@@ -26,17 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _vms_specific_report_dubious
-{
-    my ($self) = @_;
-    my $estatus = $self->_get_estatus();
-    
-    if ($^O eq "VMS")
-    {
-        $self->output()->print_message("\t\t(VMS status is $estatus)");
-    }
-}
-
 sub _report_dubious
 {
     my ($self) = @_;
@@ -266,13 +255,6 @@ sub _fail_other_report_test
             ),
         );
     }
-}
-
-sub _report_dubious_summary_all_subtests_successful
-{
-    my ($self) = @_;
-
-    $self->output()->print_message("\tafter all the subtests completed successfully");
 }
 
 sub _report_premature_test_dubious_summary

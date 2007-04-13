@@ -57,6 +57,23 @@ sub _format
     return $self->_formatters->{$name}->format({ args => $args});
 }
 
+sub _print
+{
+    my ($self, $string) = @_;
+
+    return $self->output()->print_message($string);
+}
+
+sub _named_printf
+{
+    my ($self, $format, $args) = @_;
+
+    return 
+        $self->_print(
+            $self->_format($format, $args),
+        );
+}
+
 sub _initialize
 {
     my $self = shift;
@@ -138,6 +155,26 @@ sub _get_dubious_message
     return join("",
         @{$self->_get_dubious_message_components()}
     );
+}
+
+sub _report_dubious_summary_all_subtests_successful
+{
+    my $self = shift;
+
+    $self->_print("\tafter all the subtests complete successfully");
+}
+
+sub _vms_specific_report_dubious
+{
+    my ($self) = @_;
+
+    if ($^O eq "VMS")
+    {
+        $self->_named_printf(
+            "\t\t(VMS status is %(estatus)s)",
+            { estatus => $self->_get_estatus() },
+        );
+    }
 }
 
 =head1 LICENSE
