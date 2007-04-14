@@ -68,7 +68,7 @@ sub _named_printf
 {
     my ($self, $format, $args) = @_;
 
-    return 
+    return
         $self->_print(
             $self->_format($format, $args),
         );
@@ -87,6 +87,12 @@ sub _initialize
         "dubious_status",
         "Test returned status %(estatus)s (wstat %(wstatus)d, 0x%(wstatus)x)"
     );
+
+    $self->_register_formatter(
+        "vms_status",
+        "\t\t(VMS status is %(estatus)s)",
+    );
+
 
     return $self->NEXT::_initialize(@_);
 }
@@ -171,7 +177,7 @@ sub _vms_specific_report_dubious
     if ($^O eq "VMS")
     {
         $self->_named_printf(
-            "\t\t(VMS status is %(estatus)s)",
+            "vms_status",
             { estatus => $self->_get_estatus() },
         );
     }
@@ -226,6 +232,28 @@ sub _handle_test_file_opening_error
         "can't open %(file)s. %(error)s",
         $args
     );
+}
+
+sub _get_skipped_msgs
+{
+    my ($self) = @_;
+
+    my $test = $self->last_test_obj();
+
+    if ($test->skipped())
+    {
+        return
+        [
+            sprintf(
+                "%s/%s skipped: %s",
+                $test->skipped, $test->max, $test->skip_reason
+            )
+        ];
+    }
+    else
+    {
+        return [];
+    }
 }
 
 =head1 LICENSE
