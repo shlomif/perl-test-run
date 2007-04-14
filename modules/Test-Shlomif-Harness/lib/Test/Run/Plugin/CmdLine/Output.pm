@@ -185,6 +185,19 @@ sub _report_dubious
     $self->_vms_specific_report_dubious();
 }
 
+sub _get_leaked_files_string
+{
+    my ($self, $args) = @_;
+
+    return join(" ", sort @{$args->{leaked_files}});
+}
+
+sub _report_leaked_files
+{
+    my ($self, $args) = @_;
+    
+    $self->_print("LEAKED FILES: " . $self->_get_leaked_files_string($args));
+}
 sub _handle_test_file_closing_error
 {
     my ($self, $args) = @_;
@@ -192,6 +205,26 @@ sub _handle_test_file_closing_error
     return $self->_named_printf(
         "can't close %(file)s. %(error)s",
         $args,
+    );
+}
+
+sub _report_could_not_run_script
+{
+    my ($self, $args) = @_;
+
+    return $self->_named_printf(
+        "can't run %(file)s. %(error)s",
+        $args
+    );
+}
+
+sub _handle_test_file_opening_error
+{
+    my ($self, $args) = @_;
+
+    return $self->_named_printf(
+        "can't open %(file)s. %(error)s",
+        $args
     );
 }
 

@@ -26,15 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _report_leaked_files
-{
-    my ($self, $args) = (@_);
-
-    my @f = sort @{$args->{leaked_files}};
-
-    $self->output()->print_message("LEAKED FILES: @f");
-}
-
 sub _get_skipped_msgs
 {
     my ($self) = @_;
@@ -321,26 +312,6 @@ sub _report_script_start_environment
 
         $self->output()->print_message("# PERL5LIB=$perl5lib");
     }
-}
-
-sub _report_could_not_run_script
-{
-    my ($self, $args) = @_;
-
-    my $file = $args->{file};
-    my $error = $args->{error};
-
-    $self->output()->print_message("can't run $file. $error");
-}
-
-sub _handle_test_file_opening_error
-{
-    my ($self, $args) = @_;
-
-    my $file = $args->{file};
-    my $error = $args->{error};
-
-    $self->output()->print_message("can't open $file. $error");
 }
 
 =head1 LICENSE
