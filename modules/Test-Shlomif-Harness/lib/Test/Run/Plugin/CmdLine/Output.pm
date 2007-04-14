@@ -83,16 +83,24 @@ sub _initialize
     $self->output($self->_get_new_output($args));
     $self->_formatters({});
 
-    $self->_register_formatter(
-        "dubious_status",
-        "Test returned status %(estatus)s (wstat %(wstatus)d, 0x%(wstatus)x)"
+    my %formatters =
+    (
+        "dubious_status" =>
+            "Test returned status %(estatus)s (wstat %(wstatus)d, 0x%(wstatus)x)",
+        "vms_status" =>
+            "\t\t(VMS status is %(estatus)s)",
+        "test_file_closing_error" =>
+            "can't close %(file)s. %(error)s",
+        "could_not_run_script" =>
+            "can't run %(file)s. %(error)s",
+        "test_file_opening_error" =>
+            "can't open %(file)s. %(error)s",
     );
 
-    $self->_register_formatter(
-        "vms_status",
-        "\t\t(VMS status is %(estatus)s)",
-    );
-
+    while (my ($id, $format) = each(%formatters))
+    {
+        $self->_register_formatter($id, $format);
+    }
 
     return $self->NEXT::_initialize(@_);
 }
@@ -204,12 +212,13 @@ sub _report_leaked_files
     
     $self->_print("LEAKED FILES: " . $self->_get_leaked_files_string($args));
 }
+
 sub _handle_test_file_closing_error
 {
     my ($self, $args) = @_;
 
     return $self->_named_printf(
-        "can't close %(file)s. %(error)s",
+        "test_file_closing_error",
         $args,
     );
 }
@@ -219,8 +228,8 @@ sub _report_could_not_run_script
     my ($self, $args) = @_;
 
     return $self->_named_printf(
-        "can't run %(file)s. %(error)s",
-        $args
+        "could_not_run_script",
+        $args,
     );
 }
 
@@ -229,8 +238,8 @@ sub _handle_test_file_opening_error
     my ($self, $args) = @_;
 
     return $self->_named_printf(
-        "can't open %(file)s. %(error)s",
-        $args
+        "test_file_opening_error",
+        $args,
     );
 }
 
