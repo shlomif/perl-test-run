@@ -1,3 +1,5 @@
+* Fix the bug with the formatting sequences, while first adding a test.
+
 * Test the plug-in system in T::R::CL.
 
 * Update the documentation - currently it's mostly updated only to 
