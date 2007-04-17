@@ -265,6 +265,16 @@ sub _get_skipped_msgs
     }
 }
 
+sub _get_all_skipped_test_msgs
+{
+    my ($self) = @_;
+    return
+    [
+        @{$self->_get_skipped_msgs()}, 
+        @{$self->_get_bonus_msgs()}
+    ];
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.

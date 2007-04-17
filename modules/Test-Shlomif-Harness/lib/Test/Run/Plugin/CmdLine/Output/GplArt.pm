@@ -65,16 +65,6 @@ sub _get_bonus_msgs
     };
 }
 
-sub _get_all_skipped_test_msgs
-{
-    my ($self) = @_;
-    return
-    [
-        @{$self->_get_skipped_msgs()}, 
-        @{$self->_get_bonus_msgs()}
-    ];
-}
-
 sub _report_skipped_test
 {
     my ($self) = @_;
