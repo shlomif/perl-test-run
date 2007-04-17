@@ -129,26 +129,6 @@ sub _report_failed_with_results_seen
     );
 }
 
-sub _report_single_test_file_start
-{
-    my ($self, $args) = @_;
-
-    $self->output()->last_test_print(0); # so each test prints at least once
-    $self->output()->print_leader({
-        filename => $args->{test_file},
-        width => $self->width(),
-    });
-
-    if ( $self->Debug() )
-    {
-        $self->output()->print_message(
-            "# Running: " . $self->Strap()->_command_line($args->{test_file})
-        );
-    }
-
-    return;
-}
-
 sub _report
 {
     my ($self, $args) = @_;

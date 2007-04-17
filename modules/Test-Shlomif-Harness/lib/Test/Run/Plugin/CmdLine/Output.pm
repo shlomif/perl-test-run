@@ -275,6 +275,42 @@ sub _get_all_skipped_test_msgs
     ];
 }
 
+sub _report_single_test_file_start_leader
+{
+    my ($self, $args) = @_;
+
+    $self->output()->last_test_print(0);
+    $self->output()->print_leader(
+        {
+            filename => $args->{test_file},
+            width => $self->width(),
+        }
+    );
+}
+
+sub _report_single_test_file_start_debug
+{
+    my ($self, $args) = @_;
+
+    if ($self->Debug())
+    {
+        $self->_print(
+            "# Running: " . $self->Strap()->_command_line($args->{test_file})
+        );
+    }
+}
+
+sub _report_single_test_file_start
+{
+    my ($self, $args) = @_;
+
+    $self->_report_single_test_file_start_leader($args);
+
+    $self->_report_single_test_file_start_debug($args);
+
+    return;
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
