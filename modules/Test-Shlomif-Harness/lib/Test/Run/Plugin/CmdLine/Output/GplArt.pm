@@ -215,13 +215,6 @@ sub _report_premature_test_dubious_summary
     $self->output()->print_message("DIED. " . $txt);
 }
 
-sub _calc_test_struct_ml
-{
-    my $self = shift;
-
-    return $self->output()->ml();
-}
-
 sub _report_tap_event
 {
     my ($self, $args) = @_;

@@ -311,6 +311,13 @@ sub _report_single_test_file_start
     return;
 }
 
+sub _calc_test_struct_ml
+{
+    my $self = shift;
+
+    return $self->output->ml;
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
