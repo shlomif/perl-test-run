@@ -206,15 +206,6 @@ sub _fail_other_report_test
     }
 }
 
-sub _report_premature_test_dubious_summary
-{
-    my ($self) = @_;
-
-    my ($txt) = $self->_canonfailed();
-
-    $self->output()->print_message("DIED. " . $txt);
-}
-
 sub _report_tap_event
 {
     my ($self, $args) = @_;

@@ -95,6 +95,8 @@ sub _initialize
             "can't run %(file)s. %(error)s",
         "test_file_opening_error" =>
             "can't open %(file)s. %(error)s",
+        "premature_test_dubious_summary" =>
+            "DIED. %(canonfailed)s",
     );
 
     while (my ($id, $format) = each(%formatters))
@@ -316,6 +318,29 @@ sub _calc_test_struct_ml
     my $self = shift;
 
     return $self->output->ml;
+}
+
+sub _first_canonfailed
+{
+    my $self = shift;
+
+    my ($first) = $self->_canonfailed();
+
+    return $first;
+}
+
+sub _report_premature_test_dubious_summary
+{
+    my $self = shift;
+
+    $self->_named_printf(
+        "premature_test_dubious_summary",
+        {
+            canonfailed => $self->_first_canonfailed(),
+        }
+    );
+
+    return;
 }
 
 =head1 LICENSE
