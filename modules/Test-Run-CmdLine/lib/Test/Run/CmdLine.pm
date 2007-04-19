@@ -270,7 +270,7 @@ sub _handle_backend_env_spec
 
     if (exists($ENV{$env}))
     {
-        my $sub = $self->can("_back_end_spec_handler_for_$type");
+        my $sub = $self->can("_backend_spec_handler_for_$type");
 
         if (! $sub)
         {
@@ -284,7 +284,7 @@ sub _handle_backend_env_spec
     }
 }
 
-sub _back_end_spec_handler_for_direct
+sub _backend_spec_handler_for_direct
 {
     my ($self, $spec) = @_;
 
