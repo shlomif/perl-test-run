@@ -3,6 +3,7 @@ package Test::Run::CmdLine;
 use warnings;
 use strict;
 
+use Carp;
 use UNIVERSAL::require;
 
 use Test::Run::Base;
@@ -226,7 +227,7 @@ from the environment (%ENV), and puts them in C<$tester->backend_env_args()>
 
 =cut
 
-sub _get_backend_env_mapping
+sub _get_direct_backend_env_mapping
 {
     my $self = shift;
     return [
@@ -242,17 +243,56 @@ sub _get_backend_env_mapping
         ];
 }
 
+sub _get_non_direct_backend_env_mapping
+{
+    my $self = shift;
+
+    return [];
+}
+
+sub _get_backend_env_mapping
+{
+    my $self = shift;
+
+    return 
+    [
+        (map { +{ type => "direct", %$_ } } @{$self->_get_direct_backend_env_mapping()}),
+        @{$self->_get_non_direct_backend_env_mapping()},
+    ];
+}
+
 sub _handle_backend_env_spec
 {
     my ($self, $spec) = @_;
 
+    my $type = $spec->{type};
     my $env = $spec->{env};
-    my $arg = $spec->{arg};
 
     if (exists($ENV{$env}))
     {
-        push @{$self->backend_env_args()}, ($arg => $ENV{$env});
+        my $sub = $self->can("_back_end_spec_handler_for_$type");
+
+        if (! $sub)
+        {
+            confess "Cannot find type handler for $type!";
+        }
+
+        $sub->(
+            $self,
+            $spec,
+        );
     }
+}
+
+sub _back_end_spec_handler_for_direct
+{
+    my ($self, $spec) = @_;
+
+    my $arg = $spec->{arg};
+    my $env = $spec->{env};
+
+    push @{$self->backend_env_args()}, 
+         ($arg => $ENV{$env});
 }
 
 sub get_backend_env_args

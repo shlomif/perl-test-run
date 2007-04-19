@@ -20,7 +20,7 @@ sub _initialize
     $self->add_to_backend_plugins("ColorSummary");
 }
 
-sub _get_backend_env_mapping
+sub _get_direct_backend_env_mapping
 {
     my $self = shift;
     return
@@ -33,9 +33,10 @@ sub _get_backend_env_mapping
             'env' => "HARNESS_SUMMARY_COL_FAIL",
             'arg' => "summary_color_failure",
         },
-        @{$self->NEXT::_get_backend_env_mapping()}
+        @{$self->NEXT::_get_direct_backend_env_mapping()}
         ];
 }
+
 =head1 SYNOPSIS
 
 This plug-in colors the summary line in Test::Run::CmdLine.
