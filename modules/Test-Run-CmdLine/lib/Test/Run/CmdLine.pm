@@ -242,17 +242,25 @@ sub _get_backend_env_mapping
         ];
 }
 
+sub _handle_backend_env_spec
+{
+    my ($self, $spec) = @_;
+
+    my $env = $spec->{env};
+    my $arg = $spec->{arg};
+
+    if (exists($ENV{$env}))
+    {
+        push @{$self->backend_env_args()}, ($arg => $ENV{$env});
+    }
+}
+
 sub get_backend_env_args
 {
     my $self = shift;
     foreach my $spec (@{$self->_get_backend_env_mapping()})
     {
-        my $env = $spec->{env};
-        my $arg = $spec->{arg};
-        if (exists($ENV{$env}))
-        {
-            push @{$self->backend_env_args()}, ($arg => $ENV{$env});
-        }
+        $self->_handle_backend_env_spec($spec);
     }
 
     return 0;
