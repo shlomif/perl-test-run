@@ -73,3 +73,10 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
     # TEST
     ok (($trap->stdout() =~ m/All tests successful\./), "'All tests successful.' string as is");
 }
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+

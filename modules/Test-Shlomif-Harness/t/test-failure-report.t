@@ -102,3 +102,12 @@ EOF
     # TEST
     is ($trap->stdout(), $right_text, "Right output with a Test::More generated failure");
 }
+
+__END__
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+

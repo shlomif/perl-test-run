@@ -209,3 +209,12 @@ sub trap_output
     ok (scalar("$error" =~ m{^Failed 1/1 test scripts, 0.00% okay\. 2/5 subtests failed, 60\.00% okay\.$}m),
         "Matching the Failed summary line.");
 }
+
+__END__
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+
