@@ -306,6 +306,29 @@ sub _backend_spec_handler_for_yamldata
          ($arg => YAML::LoadFile($ENV{$env}));
 }
 
+sub _calc_backend_env_var_map
+{
+    my ($self, $mapping_string) = @_;
+
+    my @assignments = split(/\s*;\s*/, $mapping_string);
+    return 
+    +{
+        map { /\A([^=]*)=(.*)\z/ms ? ($1 => $2) : () } 
+            @assignments
+    };
+}
+
+sub _backend_spec_handler_for_varmap
+{
+    my ($self, $spec) = @_;
+
+    my $arg = $spec->{arg};
+    my $env = $spec->{env};
+
+    push @{$self->backend_env_args()},
+         ($arg => $self->_calc_backend_env_var_map($ENV{$env}));
+}
+
 sub get_backend_env_args
 {
     my $self = shift;

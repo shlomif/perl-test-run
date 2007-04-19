@@ -27,6 +27,21 @@ sub _initialize
     $self->add_to_backend_plugins("ColorFileVerdicts");
 }
 
+sub _get_non_direct_backend_env_mapping
+{
+    my $self = shift;
+
+    return
+    [
+        {
+            type => "varmap",
+            env => "PERL_HARNESS_VERDICT_COLORS",
+            arg => "individual_test_file_verdict_colors",
+        },
+        @{$self->NEXT::_get_non_direct_backend_env_mapping()},
+    ];
+}
+
 =head2 $self->get_backend_args()
 
 Over-rides the L<Test::Run::CmdLine> method to process the 

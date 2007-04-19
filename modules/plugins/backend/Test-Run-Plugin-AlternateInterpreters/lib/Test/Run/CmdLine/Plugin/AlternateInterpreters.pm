@@ -55,31 +55,6 @@ sub _get_non_direct_backend_env_mapping
     ];
 }
 
-=begin remove_me
-
-=head2 $self->get_backend_env_args()
-
-Overrides the appropriate method of L<Test::Run::CmdLine> to handle the
-C<'HARNESS_ALT_INTRP_FILE'> environment variable.
-
-sub get_backend_env_args
-{
-    my $self = shift;
-
-    $self->NEXT::get_backend_env_args();
-
-    if (exists($ENV{'HARNESS_ALT_INTRP_FILE'}))
-    {
-        my $data = YAML::LoadFile($ENV{'HARNESS_ALT_INTRP_FILE'});
-        push @{$self->backend_env_args()}, ("alternate_interpreters" => $data);
-    }
-}
-
-=end remove_me
-
-=cut
-
-
 =head1 AUTHOR
 
 Shlomi Fish, C<< <shlomif at cpan.org> >>
