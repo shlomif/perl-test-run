@@ -42,6 +42,7 @@ __PACKAGE__->mk_accessors(qw(
     backend_class
     backend_params
     backend_plugins
+    backend_env_args
     test_files
 ));
 
@@ -54,6 +55,7 @@ sub _initialize
 
     $self->test_files($args->{'test_files'});
     $self->_process_args($args);
+    $self->backend_env_args([]);
 
     return 0;
 }
@@ -210,17 +212,17 @@ sub get_backend_args
 {
     my $self = shift;
 
-    my $env_var_args = $self->get_backend_env_args();
+    $self->get_backend_env_args();
 
     my $init_args = $self->get_backend_init_args();
 
-    return [@$env_var_args, @$init_args,];
+    return [@{$self->backend_env_args()}, @$init_args,];
 }
 
-=head2 my $args_array_ref = $tester->get_backend_env_args()
+=head2 $tester->get_backend_env_args()
 
-Calculate and return the arguments for the backend class, that originated
-from the environment (%ENV).
+Calculate the arguments for the backend class, that originated
+from the environment (%ENV), and puts them in C<$tester->backend_env_args()>
 
 =cut
 
@@ -243,17 +245,17 @@ sub _get_backend_env_mapping
 sub get_backend_env_args
 {
     my $self = shift;
-    my @args;
     foreach my $spec (@{$self->_get_backend_env_mapping()})
     {
         my $env = $spec->{env};
         my $arg = $spec->{arg};
         if (exists($ENV{$env}))
         {
-            push @args, ($arg => $ENV{$env});
+            push @{$self->backend_env_args()}, ($arg => $ENV{$env});
         }
     }
-    return \@args;
+
+    return 0;
 }
 
 =head2 my $args_array_ref = $tester->get_backend_init_args()

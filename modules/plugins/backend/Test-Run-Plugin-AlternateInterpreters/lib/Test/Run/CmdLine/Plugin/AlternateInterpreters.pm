@@ -51,15 +51,13 @@ sub get_backend_env_args
 {
     my $self = shift;
 
-    my $ret = $self->NEXT::get_backend_env_args();
+    $self->NEXT::get_backend_env_args();
 
     if (exists($ENV{'HARNESS_ALT_INTRP_FILE'}))
     {
         my $data = YAML::LoadFile($ENV{'HARNESS_ALT_INTRP_FILE'});
-        push @$ret, ("alternate_interpreters" => $data);
+        push @{$self->backend_env_args()}, ("alternate_interpreters" => $data);
     }
-
-    return $ret;
 }
 
 
