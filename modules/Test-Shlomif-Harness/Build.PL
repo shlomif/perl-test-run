@@ -1,3 +1,6 @@
+# This file is under the MIT X11 License:
+# http://www.opensource.org/licenses/mit-license.php
+
 use strict;
 use warnings;
 
