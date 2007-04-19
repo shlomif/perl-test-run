@@ -291,8 +291,19 @@ sub _backend_spec_handler_for_direct
     my $arg = $spec->{arg};
     my $env = $spec->{env};
 
-    push @{$self->backend_env_args()}, 
+    push @{$self->backend_env_args()},
          ($arg => $ENV{$env});
+}
+
+sub _backend_spec_handler_for_yamldata
+{
+    my ($self, $spec) = @_;
+
+    my $arg = $spec->{arg};
+    my $env = $spec->{env};
+
+    push @{$self->backend_env_args()},
+         ($arg => YAML::LoadFile($ENV{$env}));
 }
 
 sub get_backend_env_args

@@ -40,12 +40,27 @@ sub _initialize
     $self->add_to_backend_plugins("AlternateInterpreters");
 }
 
+sub _get_non_direct_backend_env_mapping
+{
+    my $self = shift;
+
+    return
+    [
+        {
+            type => "yamldata",
+            env => "HARNESS_ALT_INTRP_FILE",
+            arg => "alternate_interpreters",
+        },
+        @{$self->NEXT::_get_non_direct_backend_env_mapping()},
+    ];
+}
+
+=begin remove_me
+
 =head2 $self->get_backend_env_args()
 
 Overrides the appropriate method of L<Test::Run::CmdLine> to handle the
 C<'HARNESS_ALT_INTRP_FILE'> environment variable.
-
-=cut
 
 sub get_backend_env_args
 {
@@ -59,6 +74,10 @@ sub get_backend_env_args
         push @{$self->backend_env_args()}, ("alternate_interpreters" => $data);
     }
 }
+
+=end remove_me
+
+=cut
 
 
 =head1 AUTHOR
