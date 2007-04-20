@@ -106,6 +106,15 @@ sub first_canon_string
     return $self->canon_strings()->[0];
 }
 
+sub rest_of_canons
+{
+    my $self = shift;
+
+    my $canons = $self->canon_strings();
+
+    return [ @{$canons}[ 1 .. ($#$canons-1) ] ];
+}
+
 1;
 
 __END__

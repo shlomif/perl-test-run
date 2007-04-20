@@ -104,19 +104,7 @@ sub _fail_other_report_test
     
     $self->_fail_other_report_tests_print_summary({ test => $test});
 
-    my $canon_strings = $test->canon_strings();
-
-    shift(@$canon_strings);
-
-    foreach my $c (@$canon_strings)
-    {
-        $self->output()->print_message(
-            sprintf((" " x ($self->format_columns() - $list_len) . 
-                "%s"),
-                $c
-            ),
-        );
-    }
+    $self->_fail_other_report_test_print_rest_of_canons({ test => $test});
 }
 
 sub _report_tap_event

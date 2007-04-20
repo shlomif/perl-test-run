@@ -478,6 +478,20 @@ sub _fail_other_report_tests_print_summary
     );
 }
 
+sub _fail_other_report_test_print_rest_of_canons
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{test};
+
+    my $whitespace = (" " x ($self->format_columns() - $self->list_len()));
+
+    foreach my $canon (@{$test->rest_of_canons()})
+    {
+        $self->_print($whitespace.$canon);
+    }
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
