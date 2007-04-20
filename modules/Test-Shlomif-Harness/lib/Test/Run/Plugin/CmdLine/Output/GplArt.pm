@@ -102,17 +102,13 @@ sub _fail_other_report_test
     my @canon = split(/\s+/, $test->canon());
 
     my $canon_strings = $self->_fail_other_get_canon_strings([@canon]);
+
+    $test->_assign_canon_strings({ main => $self, });
     
-    $self->output()->print_message(
-        sprintf(
-            ("%-" . $max_namelen . "s  " . 
-                "%3s %5s %5s %4s %6.2f%%  %s"),
-            $test->name(), $test->estat(),
-            $test->wstat(), $test->max(),
-            $test->failed(), $test->_defined_percent(),
-            shift(@$canon_strings)
-        )
-    );
+    $self->_fail_other_report_tests_print_summary({ test => $test});
+
+    shift(@$canon_strings);
+
     foreach my $c (@$canon_strings)
     {
         $self->output()->print_message(

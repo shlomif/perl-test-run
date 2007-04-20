@@ -14,5 +14,14 @@ sub calc_param
     return $args->{named_params}->{obj}->$method();
 }
 
+sub obj_format
+{
+    my ($self, $obj, $other_args) = @_;
+
+    $other_args ||= {};
+
+    return $self->format({args => {obj => $obj, %$other_args}});
+}
+
 1;
 

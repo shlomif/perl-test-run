@@ -133,6 +133,7 @@ sub _initialize
     $self->Strap(
         $self->_get_new_strap($args),
     );
+
     return 0;
 }
 
@@ -680,6 +681,7 @@ sub get_common_FWRS_params
             name    => $self->_get_last_test_filename(),
             estat   => '',
             wstat   => '',
+            list_len => $self->list_len(),
         ];
 }
 
@@ -1282,6 +1284,7 @@ sub _get_format_failed_str_len
 sub _get_format_tests_namelens
 {
     my $self = shift;
+    
     return [map { length($_->{name}) } values(%{$self->failed_tests()})];
 }
 
@@ -1402,7 +1405,6 @@ Test::Run iterates over all the scripts and reports them one by one.
 sub _create_fmts 
 {
     my $self = shift;
-    my $failedtests = $self->failed_tests();
 
     $self->_calc_format_widths();
 

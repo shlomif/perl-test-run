@@ -210,7 +210,8 @@ sub trap_output
         );
     # TEST
     ok (scalar("$error" =~ m{^Failed 1/1 test scripts, 0.00% okay\. 2/5 subtests failed, 60\.00% okay\.$}m),
-        "Matching the Failed summary line.");
+        "Matching the Failed summary line.") or
+    diag("$error");
 }
 
 __END__

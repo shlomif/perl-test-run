@@ -39,26 +39,40 @@ sub _get_new_output
     return Test::Run::Output->new($args);
 }
 
+sub _get_formatter
+{
+    my ($self, $fmt) = @_;
+
+    return
+        Text::Sprintf::Named->new(
+            { fmt => $fmt, },
+        );
+}
+
 sub _register_formatter
 {
     my ($self, $name, $fmt) = @_;
 
-    $self->_formatters->{$name} =
-        Text::Sprintf::Named->new(
-            { fmt => $fmt, },
-        );
+    $self->_formatters->{$name} = $self->_get_formatter($fmt);
 
     return;
+}
+
+sub _get_obj_formatter
+{
+    my ($self, $fmt) = @_;
+
+    return
+        Test::Run::Sprintf::Named::FromAccessors->new(
+            { fmt => $fmt, },
+        );    
 }
 
 sub _register_obj_formatter
 {
     my ($self, $name, $fmt) = @_;
 
-    $self->_formatters->{$name} =
-        Test::Run::Sprintf::Named::FromAccessors->new(
-            { fmt => $fmt, },
-        );
+    $self->_formatters->{$name} = $self->_get_obj_formatter($fmt);
 
     return;
 }
@@ -90,6 +104,8 @@ sub _named_printf
 sub _initialize
 {
     my $self = shift;
+
+    $self->NEXT::_initialize(@_);
 
     my ($args) = @_;
 
@@ -137,7 +153,7 @@ sub _initialize
         }
     }
 
-    return $self->NEXT::_initialize(@_);
+    return 0;
 }
 
 sub _get_dubious_message_ml
@@ -436,6 +452,29 @@ sub _report_all_skipped_test
     $self->_print(
         "skipped\n        all skipped: "
         . $self->last_test_obj->get_reason()
+    );
+}
+
+sub _calc_fail_other_format
+{
+    my $self = shift;
+
+    return
+    "%(name)-".$self->max_namelen()."s  "
+    . "%(estat)3s %(wstat)5s %(max)5s %(failed)4s "
+    . "%(_defined_percent)6.2f%%  %(first_canon_string)s",
+}
+
+sub _fail_other_report_tests_print_summary
+{
+    my ($self, $args) = @_;
+
+    my $test = $args->{test};
+
+    $self->_print(
+        $self->_get_obj_formatter(
+            $self->_calc_fail_other_format(),
+        )->obj_format($test)
     );
 }
 

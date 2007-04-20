@@ -21,8 +21,10 @@ use base 'Test::Run::Base::Struct';
 
 @fields = (qw(
     canon
+    canon_strings
     estat
     failed
+    list_len
     max
     name
     percent
@@ -48,6 +50,60 @@ sub _defined_percent
     my $self = shift;
 
     return defined($self->percent()) ? $self->percent() : 0;
+}
+
+sub _do_canon_concat
+{
+    my ($self, $ret, $canon) = @_;
+
+    my $first = shift(@$canon);
+
+    my $new_last_ret = "$ret->[-1] $first";
+
+    if (length($new_last_ret) < $self->list_len())
+    {
+        $ret->[-1] = $new_last_ret;
+    }
+    else
+    {
+        push @$ret, $first;
+    }
+}
+
+sub _calc_stringification
+{
+    my ($self, $canon) = @_;
+
+    my @ret = shift(@$canon);
+
+    while (@$canon)
+    {
+        $self->_do_canon_concat(\@ret, $canon);
+    }
+
+    return \@ret;
+}
+
+sub _assign_canon_strings
+{
+    my $self = shift;
+
+    my $args = shift;
+
+    $self->list_len($args->{main}->list_len());
+
+    $self->canon_strings(
+        $self->_calc_stringification(
+            [ split /\s+/, $self->canon() ],
+        )
+    );
+}
+
+sub first_canon_string
+{
+    my $self = shift;
+
+    return $self->canon_strings()->[0];
 }
 
 1;
