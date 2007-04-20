@@ -26,18 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _report_all_ok_test
-{
-    my ($self, $args) = @_;
-
-    my $test = $self->last_test_obj;
-    my $elapsed = $self->last_test_elapsed;
-
-    $self->output()->print_message($test->ml()."ok$elapsed");
-
-    return;
-}
-
 sub _report_all_skipped_test
 {
     my ($self, $args) = @_;

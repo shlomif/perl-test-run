@@ -112,6 +112,8 @@ sub _initialize
                 "DIED. %(canonfailed)s",
             "report_skipped_test" =>
                 "%(ml)sok%(elapsed)s\n        %(all_skipped_test_msgs)s",
+            "report_all_ok_test" =>
+                "%(ml)sok%(elapsed)s",
         );
 
         while (my ($id, $format) = each(%formatters))
@@ -407,6 +409,18 @@ sub _report_skipped_test
     );
 }
 
+sub _report_all_ok_test
+{
+    my ($self, $args) = @_;
+
+    $self->_named_printf(
+        "report_all_ok_test",
+        {
+            ml => $self->last_test_obj->ml(),
+            elapsed => $self->last_test_elapsed,
+        }
+    );
+}
 sub _report_failed_before_any_test_output
 {
     my $self = shift;
