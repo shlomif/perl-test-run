@@ -96,16 +96,15 @@ sub _fail_other_report_test
     my $script = shift;
 
     my $test = $self->failed_tests()->{$script};
+
     my $max_namelen = $self->max_namelen();
     my $list_len = $self->list_len();
-
-    my @canon = split(/\s+/, $test->canon());
-
-    my $canon_strings = $self->_fail_other_get_canon_strings([@canon]);
 
     $test->_assign_canon_strings({ main => $self, });
     
     $self->_fail_other_report_tests_print_summary({ test => $test});
+
+    my $canon_strings = $test->canon_strings();
 
     shift(@$canon_strings);
 

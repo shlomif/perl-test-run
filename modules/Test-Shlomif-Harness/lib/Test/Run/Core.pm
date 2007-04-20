@@ -1362,37 +1362,6 @@ Prints the header of the files that failed.
 
 =cut
 
-sub _fail_other_get_canon_strings_concat
-{
-    my ($self, $ret, $first) = @_;
-
-    my $new_last_ret = "$ret->[-1] $first";
-
-    if (length($new_last_ret) < $self->list_len())
-    {
-        $ret->[-1] = $new_last_ret;
-    }
-    else
-    {
-        push @$ret, $first;
-    }
-}
-
-sub _fail_other_get_canon_strings
-{
-    my $self = shift;
-    my $canon = shift;
-
-    my @ret = (shift(@$canon));
-
-    while (@$canon)
-    {
-        $self->_fail_other_get_canon_strings_concat(\@ret, shift(@$canon));
-    }
-
-    return \@ret;
-}
-
 =head2 $self->_fail_other_report_test($script_name)
 
 [This is a method that needs to be over-rided.]
