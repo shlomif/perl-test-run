@@ -90,23 +90,6 @@ sub _report_final_stats
        );
 }
 
-sub _fail_other_report_test
-{
-    my $self = shift;
-    my $script = shift;
-
-    my $test = $self->failed_tests()->{$script};
-
-    my $max_namelen = $self->max_namelen();
-    my $list_len = $self->list_len();
-
-    $test->_assign_canon_strings({ main => $self, });
-    
-    $self->_fail_other_report_tests_print_summary({ test => $test});
-
-    $self->_fail_other_report_test_print_rest_of_canons({ test => $test});
-}
-
 sub _report_tap_event
 {
     my ($self, $args) = @_;

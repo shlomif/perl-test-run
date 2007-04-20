@@ -492,6 +492,26 @@ sub _fail_other_report_test_print_rest_of_canons
     }
 }
 
+sub _fail_other_report_test
+{
+    my $self = shift;
+    my $script = shift;
+
+    my $test = $self->failed_tests()->{$script};
+
+    $test->_assign_canon_strings({ main => $self, });
+
+    my $args_to_pass =
+    {
+        test => $test,
+        script => $script,
+    };
+    
+    $self->_fail_other_report_tests_print_summary($args_to_pass);
+
+    $self->_fail_other_report_test_print_rest_of_canons($args_to_pass);
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
