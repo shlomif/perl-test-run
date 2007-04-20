@@ -421,11 +421,22 @@ sub _report_all_ok_test
         }
     );
 }
+
 sub _report_failed_before_any_test_output
 {
     my $self = shift;
 
     $self->_print("FAILED before any test output arrived");
+}
+
+sub _report_all_skipped_test
+{
+    my ($self, $args) = @_;
+
+    $self->_print(
+        "skipped\n        all skipped: "
+        . $self->last_test_obj->get_reason()
+    );
 }
 
 =head1 LICENSE

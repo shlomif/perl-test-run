@@ -26,17 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _report_all_skipped_test
-{
-    my ($self, $args) = @_;
-
-    my $test = $self->last_test_obj;
-
-    $self->output()->print_message(
-        "skipped\n        all skipped: " . $test->get_reason()
-        );
-}
-
 sub _fail_other_print_bonus_message
 {
     my $self = shift;
