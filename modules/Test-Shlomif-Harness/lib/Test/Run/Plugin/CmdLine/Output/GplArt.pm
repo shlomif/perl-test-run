@@ -26,18 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _fail_other_print_bonus_message
-{
-    my $self = shift;
-    
-    my $bonusmsg = $self->_bonusmsg() || "";
-    $bonusmsg =~ s/^,\s*//;
-    if ($bonusmsg)
-    {
-        $self->output()->print_message("$bonusmsg.");
-    }
-}
-
 sub _report_failed_with_results_seen
 {
     my ($self) = @_;

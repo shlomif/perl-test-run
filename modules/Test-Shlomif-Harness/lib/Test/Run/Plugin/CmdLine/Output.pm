@@ -512,6 +512,26 @@ sub _fail_other_report_test
     $self->_fail_other_report_test_print_rest_of_canons($args_to_pass);
 }
 
+sub _calc_fail_other_bonus_message
+{
+    my $self = shift;
+
+    my $message = $self->_bonusmsg() || "";
+    $message =~ s{\A,\s*}{};
+    
+    return $message ? "$message." : "";
+}
+
+sub _fail_other_print_bonus_message
+{
+    my $self = shift;
+
+    if (my $bonusmsg = $self->_calc_fail_other_bonus_message())
+    {
+        $self->_print($bonusmsg);
+    }
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
