@@ -26,26 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _get_skipped_msgs
-{
-    my ($self) = @_;
-
-    my $test = $self->last_test_obj();
-
-    if ($test->skipped())
-    {
-        return 
-        [
-            ($test->skipped()."/".$test->max()." skipped: ".
-            $test->skip_reason())
-        ];
-    }
-    else
-    {
-        return [];
-    }
-}
-
 sub _get_bonus_msgs
 {
     my ($self, $args) = @_;

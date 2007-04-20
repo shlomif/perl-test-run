@@ -15,7 +15,7 @@ WriteMakefile(
         'TAP::Parser' => "0.51",
         'Test::Harness' => "2.53",
         'Test::Trap' => 0,
-        'Text::Sprintf::Named' => 0,
+        'Text::Sprintf::Named' => '0.02',
     },
     PL_FILES => {},
 );

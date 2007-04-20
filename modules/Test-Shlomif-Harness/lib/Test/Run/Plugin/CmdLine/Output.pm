@@ -9,6 +9,7 @@ use NEXT;
 
 use Text::Sprintf::Named;
 use Test::Run::Core;
+use Test::Run::Sprintf::Named::FromAccessors;
 
 use base 'Test::Run::Plugin::CmdLine::Output::GplArt';
 
@@ -50,6 +51,18 @@ sub _register_formatter
     return;
 }
 
+sub _register_obj_formatter
+{
+    my ($self, $name, $fmt) = @_;
+
+    $self->_formatters->{$name} =
+        Test::Run::Sprintf::Named::FromAccessors->new(
+            { fmt => $fmt, },
+        );
+
+    return;
+}
+
 sub _format
 {
     my ($self, $name, $args) = @_;
@@ -82,26 +95,40 @@ sub _initialize
 
     $self->output($self->_get_new_output($args));
     $self->_formatters({});
-
-    my %formatters =
-    (
-        "dubious_status" =>
-            "Test returned status %(estatus)s (wstat %(wstatus)d, 0x%(wstatus)x)",
-        "vms_status" =>
-            "\t\t(VMS status is %(estatus)s)",
-        "test_file_closing_error" =>
-            "can't close %(file)s. %(error)s",
-        "could_not_run_script" =>
-            "can't run %(file)s. %(error)s",
-        "test_file_opening_error" =>
-            "can't open %(file)s. %(error)s",
-        "premature_test_dubious_summary" =>
-            "DIED. %(canonfailed)s",
-    );
-
-    while (my ($id, $format) = each(%formatters))
     {
-        $self->_register_formatter($id, $format);
+        my %formatters =
+        (
+            "dubious_status" =>
+                "Test returned status %(estatus)s (wstat %(wstatus)d, 0x%(wstatus)x)",
+            "vms_status" =>
+                "\t\t(VMS status is %(estatus)s)",
+            "test_file_closing_error" =>
+                "can't close %(file)s. %(error)s",
+            "could_not_run_script" =>
+                "can't run %(file)s. %(error)s",
+            "test_file_opening_error" =>
+                "can't open %(file)s. %(error)s",
+            "premature_test_dubious_summary" =>
+                "DIED. %(canonfailed)s",
+        );
+
+        while (my ($id, $format) = each(%formatters))
+        {
+            $self->_register_formatter($id, $format);
+        }
+    }
+
+    {
+        my %obj_formatters =
+        (
+            "skipped_msg" =>
+                "%(skipped)s/%(max)s skipped: %(skip_reason)s",
+        );
+
+        while (my ($id, $format) = each(%obj_formatters))
+        {
+            $self->_register_obj_formatter($id, $format);
+        }
     }
 
     return $self->NEXT::_initialize(@_);
@@ -245,21 +272,20 @@ sub _handle_test_file_opening_error
     );
 }
 
+sub _get_defined_skipped_msgs
+{
+    my ($self, $args) = @_;
+
+    return $self->_format("skipped_msg", { obj => $self->last_test_obj});
+}
+
 sub _get_skipped_msgs
 {
-    my ($self) = @_;
+    my ($self, $args) = @_;
 
-    my $test = $self->last_test_obj();
-
-    if ($test->skipped())
+    if ($self->last_test_obj->skipped())
     {
-        return
-        [
-            sprintf(
-                "%s/%s skipped: %s",
-                $test->skipped, $test->max, $test->skip_reason
-            )
-        ];
+        return [ $self->_get_defined_skipped_msgs() ];
     }
     else
     {

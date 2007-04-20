@@ -141,8 +141,11 @@ sub trap_output
     
     my $text = $got->{stdout};
     # TEST
-    ok ($text =~ m{t/sample-tests/todo\.+ok\n {8}1/5 unexpectedly succeeded\n},
-        "Matching the bonus line.");
+    if (!ok ($text =~ m{t/sample-tests/todo\.+ok\n {8}1/5 unexpectedly succeeded\n},
+        "Matching the bonus line."))
+    {
+        diag("Text is:\n{{{{{{{{{{\n$text\n}}}}}}}}}}\n");
+    }
 
     # TEST
     ok ($text =~ m{^\QAll tests successful (1 subtest UNEXPECTEDLY SUCCEEDED).\E$}m,
