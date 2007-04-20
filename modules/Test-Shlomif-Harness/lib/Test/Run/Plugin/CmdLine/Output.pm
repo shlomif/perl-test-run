@@ -123,6 +123,8 @@ sub _initialize
         (
             "skipped_msg" =>
                 "%(skipped)s/%(max)s skipped: %(skip_reason)s",
+            "bonus_msg" =>
+                "%(bonus)s/%(max)s unexpectedly succeeded",
         );
 
         while (my ($id, $format) = each(%obj_formatters))
@@ -291,6 +293,25 @@ sub _get_skipped_msgs
     {
         return [];
     }
+}
+
+sub _get_defined_bonus_msg
+{
+    my ($self, $args) = @_;
+
+    return $self->_format("bonus_msg", { obj => $self->last_test_obj() });
+}
+
+sub _get_bonus_msgs
+{
+    my ($self, $args) = @_;
+
+    return
+    [
+        ($self->last_test_obj->bonus()) ?
+            $self->_get_defined_bonus_msg() :
+            ()
+    ];
 }
 
 sub _get_all_skipped_test_msgs

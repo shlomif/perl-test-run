@@ -26,24 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _get_bonus_msgs
-{
-    my ($self, $args) = @_;
-
-    my $test = $self->last_test_obj;
-
-    if ($test->bonus())
-    {
-        return
-        [
-            ($test->bonus()."/".$test->max()." unexpectedly succeeded")
-        ];
-    }
-    else
-    {
-        return [];
-    };
-}
 
 sub _report_skipped_test
 {
