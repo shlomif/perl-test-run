@@ -110,6 +110,8 @@ sub _initialize
                 "can't open %(file)s. %(error)s",
             "premature_test_dubious_summary" =>
                 "DIED. %(canonfailed)s",
+            "report_skipped_test" =>
+                "%(ml)sok%(elapsed)s\n        %(all_skipped_test_msgs)s",
         );
 
         while (my ($id, $format) = each(%formatters))
@@ -390,6 +392,20 @@ sub _report_premature_test_dubious_summary
     return;
 }
 
+sub _report_skipped_test
+{
+    my $self = shift;
+
+    $self->_named_printf(
+        "report_skipped_test",
+        {
+            ml => $self->last_test_obj->ml(),
+            elapsed => $self->last_test_elapsed,
+            all_skipped_test_msgs =>
+                join(', ', @{$self->_get_all_skipped_test_msgs()}),
+        }
+    );
+}
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.

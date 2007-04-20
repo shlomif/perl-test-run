@@ -26,20 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-
-sub _report_skipped_test
-{
-    my ($self) = @_;
-
-    my $test = $self->last_test_obj();
-    my $elapsed = $self->last_test_elapsed();
-
-    $self->output()->print_message(
-        $test->ml()."ok$elapsed\n        ".
-        join(', ', @{$self->_get_all_skipped_test_msgs()})
-    );
-}
-
 sub _report_failed_before_any_test_output
 {
     my $self = shift;
