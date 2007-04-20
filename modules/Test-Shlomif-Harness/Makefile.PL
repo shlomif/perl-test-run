@@ -1,14 +1,11 @@
-require 5.005_03;
-
+# This file is licensed under the MIT X11 License:
+# http://www.opensource.org/licenses/mit-license.php
 use ExtUtils::MakeMaker;
-use ExtUtils::Command qw( touch rm_f );
 
-use constant FLAG_SKIP_PROVE => "t/SKIP-PROVE";
-
-my %parms = (
-    NAME            => "Test::Run",
-    VERSION_FROM    => "lib/Test/Run/Core.pm",
-    PREREQ_PM       => 
+WriteMakefile(
+    NAME => "Test::Run",
+    VERSION_FROM => "lib/Test/Run/Core.pm",
+    PREREQ_PM =>
     {
         'Class::Accessor' => 0,
         'File::Spec' => 0.6,
@@ -20,20 +17,5 @@ my %parms = (
         'Test::Trap' => 0,
         'Text::Sprintf::Named' => 0,
     },
-    INSTALLDIRS     => 'perl',
     PL_FILES => {},
 );
-
-sub MY::postamble {
-    return <<'MAKE_FRAG';
-.PHONY: tags
-
-tags:
-	ctags -f tags --recurse --totals \
-		--exclude=blib/ --exclude=t/lib \
-		--exclude=.svn --exclude='*~' \
-		--languages=Perl --langmap=Perl:+.t \
-MAKE_FRAG
-}
-
-WriteMakefile( %parms );
