@@ -26,13 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _report_failed_before_any_test_output
-{
-    my $self = shift;
-
-    $self->output()->print_message("FAILED before any test output arrived");
-}
-
 sub _report_all_ok_test
 {
     my ($self, $args) = @_;

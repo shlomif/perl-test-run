@@ -406,6 +406,14 @@ sub _report_skipped_test
         }
     );
 }
+
+sub _report_failed_before_any_test_output
+{
+    my $self = shift;
+
+    $self->_print("FAILED before any test output arrived");
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.
