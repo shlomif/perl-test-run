@@ -532,6 +532,59 @@ sub _fail_other_print_bonus_message
     }
 }
 
+sub _report_failed_with_results_seen
+{
+    my ($self) = @_;
+
+    $self->_print($self->_get_failed_with_results_seen_msg());
+}
+
+sub _report_test_progress__verdict
+{
+    my ($self, $args) = @_;
+
+    my $totals = $args->{totals};
+
+    if ($totals->last_detail->ok)
+    {
+        $self->output->print_ml_less(
+            "ok ". $totals->seen . "/" . $totals->max
+        );
+    }
+    else
+    {
+        $self->output->print_ml("NOK " . $totals->seen);
+    }
+}
+
+sub _report_test_progress__counter
+{
+    my ($self, $args) = @_;
+
+    my $totals = $args->{totals};
+
+    my $curr = $totals->seen;
+    my $next = $self->Strap->next();
+
+    if ($curr > $next)
+    {
+        $self->_print("Test output counter mismatch [test $curr]");
+    }
+    elsif ($curr < $next)
+    {
+        $self->_print(
+            "Confused test output: test $curr answered after test @{[$next-1]}",
+        );
+    }
+}
+
+sub _report_test_progress
+{
+    my ($self, $args) = @_;
+    $self->_report_test_progress__verdict($args);
+    $self->_report_test_progress__counter($args);
+}
+
 =head1 LICENSE
 
 This code is licensed under the MIT X11 License.

@@ -26,15 +26,6 @@ implements a new code under the MIT X11 license.
 
 use base 'Test::Run::Core';
 
-sub _report_failed_with_results_seen
-{
-    my ($self) = @_;
-
-    $self->output()->print_message(
-        $self->_get_failed_with_results_seen_msg(),
-    );
-}
-
 sub _report
 {
     my ($self, $args) = @_;
@@ -88,39 +79,6 @@ sub _report_tap_event
     {
         chomp($raw_event);
         $self->output()->print_message($raw_event);
-    }
-}
-
-sub _report_test_progress
-{
-    my ($self, $args) = @_;
-
-    my $totals = $args->{totals};
-
-    my $curr = $totals->seen();
-    my $next = $self->Strap()->next();
-    my $max  = $totals->max();
-    my $detail = $totals->last_detail;
-
-    if ( $detail->ok() )
-    {
-        $self->output()->print_ml_less("ok $curr/$max");
-    }
-    else
-    {
-        $self->output()->print_ml("NOK $curr");
-    }
-
-    if ($curr > $next) 
-    {
-        $self->output()->print_message("Test output counter mismatch [test $curr]");
-    }
-    elsif ($curr < $next)
-    {
-        $self->output()->print_message(
-            "Confused test output: test $curr answered after test " . 
-            ($next - 1)
-        );
     }
 }
 
