@@ -14,6 +14,8 @@ Inherits from L<Test::Run::Base::Struct>.
 
 use vars qw(@fields @counter_fields %counter_fields_map);
 
+use Benchmark qw();
+
 use base qw(Test::Run::Base::Struct);
 
 @counter_fields = (qw(
@@ -78,6 +80,19 @@ sub inc
     my ($self, $field) = @_;
 
     return $self->add($field, 1);
+}
+
+=head2 $self->bench_timestr()
+
+Retrieves the timestr() "nop" according to Benchmark.pm of the bench() field.
+
+=cut
+
+sub bench_timestr
+{
+    my $self = shift;
+
+    return Benchmark::timestr($self->bench(), 'nop');
 }
 
 1;

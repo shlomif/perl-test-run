@@ -7,11 +7,10 @@ use Carp;
 use Benchmark qw(timestr);
 use NEXT;
 
-use Text::Sprintf::Named;
-use Test::Run::Core;
-use Test::Run::Sprintf::Named::FromAccessors;
+use base 'Test::Run::Core';
 
-use base 'Test::Run::Plugin::CmdLine::Output::GplArt';
+use Text::Sprintf::Named;
+use Test::Run::Sprintf::Named::FromAccessors;
 
 =head1 NAME
 
@@ -79,9 +78,16 @@ sub _register_obj_formatter
 
 sub _format
 {
-    my ($self, $name, $args) = @_;
+    my ($self, $format, $args) = @_;
 
-    return $self->_formatters->{$name}->format({ args => $args});
+    if (ref($format) eq "")
+    {
+        return $self->_formatters->{$format}->format({ args => $args});
+    }
+    else
+    {
+        return $self->_get_formatter(${$format})->format({ args => $args});
+    }
 }
 
 sub _print
@@ -130,6 +136,8 @@ sub _initialize
                 "%(ml)sok%(elapsed)s\n        %(all_skipped_test_msgs)s",
             "report_all_ok_test" =>
                 "%(ml)sok%(elapsed)s",
+            "start_env" =>
+                "# PERL5LIB=%(p5lib)s",
         );
 
         while (my ($id, $format) = each(%formatters))
@@ -145,6 +153,8 @@ sub _initialize
                 "%(skipped)s/%(max)s skipped: %(skip_reason)s",
             "bonus_msg" =>
                 "%(bonus)s/%(max)s unexpectedly succeeded",
+            "report_final_stats" =>
+                "Files=%(files)d, Tests=%(max)d, %(bench_timestr)",
         );
 
         while (my ($id, $format) = each(%obj_formatters))
@@ -455,26 +465,39 @@ sub _report_all_skipped_test
     );
 }
 
-sub _calc_fail_other_format
+sub _namelenize_string
 {
-    my $self = shift;
+    my ($self, $string) = @_;
+    
+    $string =~ s{\${max_namelen}}{$self->max_namelen()}ge;
+
+    return $string;
+}
+
+sub _obj_named_printf
+{
+    my ($self, $string, $obj) = @_;
 
     return
-    "%(name)-".$self->max_namelen()."s  "
-    . "%(estat)3s %(wstat)5s %(max)5s %(failed)4s "
-    . "%(_defined_percent)6.2f%%  %(first_canon_string)s",
+    $self->_print(
+        $self->_get_obj_formatter(
+            $self->_namelenize_string(
+                $string,
+            ),
+        )->obj_format($obj)
+    );
 }
 
 sub _fail_other_report_tests_print_summary
 {
     my ($self, $args) = @_;
 
-    my $test = $args->{test};
-
-    $self->_print(
-        $self->_get_obj_formatter(
-            $self->_calc_fail_other_format(),
-        )->obj_format($test)
+    return $self->_obj_named_printf(
+        ( "%(name)-\${max_namelen}s  "
+        . "%(estat)3s %(wstat)5s %(max)5s %(failed)4s "
+        . "%(_defined_percent)6.2f%%  %(first_canon_string)s"
+        ),
+        $args->{test},
     );
 }
 
@@ -583,6 +606,98 @@ sub _report_test_progress
     my ($self, $args) = @_;
     $self->_report_test_progress__verdict($args);
     $self->_report_test_progress__counter($args);
+}
+
+sub _report_tap_event
+{
+    my ($self, $args) = @_;
+
+    my $raw_event = $args->{raw_event};
+    if ($self->Verbose())
+    {
+        chomp($raw_event);
+        $self->_print($raw_event);
+    }
+}
+
+sub _calc_PERL5LIB
+{
+    my $self = shift;
+
+    return
+        +(exists($ENV{PERL5LIB}) && defined($ENV{PERL5LIB}))
+            ? $ENV{PERL5LIB}
+            : ""
+        ;
+}
+
+sub _report_script_start_environment
+{
+    my $self = shift;
+
+    if ($self->Debug())
+    {
+        $self->_named_printf(
+            "start_env",
+            { 'p5lib' => $self->_calc_PERL5LIB()},
+        );
+    }
+}
+
+sub _report_final_stats
+{
+    my $self = shift;
+
+    return $self->_named_printf(
+        "report_final_stats",
+        { obj => $self->tot() },
+    );
+}
+
+sub _report_success_event
+{
+    my ($self, $args) = @_;
+
+    $self->_print($self->_get_success_msg());
+}
+
+sub _report_non_success_event
+{
+    my ($self, $args) = @_;
+
+    confess "Unknown \$event->{type} passed to _report!";
+}
+
+sub _report
+{
+    my ($self, $args) = @_;
+
+    my $event = $args->{event};
+
+    if ($event->{type} eq "success")
+    {
+        return $self->_report_success_event($args);
+    }
+    else
+    {
+        return $self->_report_non_success_event($args);
+    }
+}
+
+sub _fail_other_print_top
+{
+    my $self = shift;
+
+    $self->_named_printf(
+        \("%(failed)-" . $self->max_namelen() . "s%(middle)s%(list)s") ,
+        { 
+            failed => $self->_get_format_failed_str(),
+            middle => $self->_get_format_middle_str(),
+            list =>   $self->_get_format_list_str(),
+        }
+    );
+    
+    $self->_print("-" x $self->format_columns());
 }
 
 =head1 LICENSE
