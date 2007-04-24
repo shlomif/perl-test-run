@@ -26,3 +26,12 @@ $VERSION = "0.0101";
     ));
 
 1;
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+
+=cut
+
