@@ -16,5 +16,3 @@ __END__
 This file is licensed under the MIT X11 License:
 
 http://www.opensource.org/licenses/mit-license.php
-
-t/output.t lines 204-224
