@@ -59,8 +59,6 @@ provides:
     file: lib/Test/Run/Output.pm
   Test::Run::Plugin::CmdLine::Output:
     file: lib/Test/Run/Plugin/CmdLine/Output.pm
-  Test::Run::Plugin::CmdLine::Output::GplArt:
-    file: lib/Test/Run/Plugin/CmdLine/Output/GplArt.pm
   Test::Run::Sprintf::Named::FromAccessors:
     file: lib/Test/Run/Sprintf/Named/FromAccessors.pm
   Test::Run::Straps:

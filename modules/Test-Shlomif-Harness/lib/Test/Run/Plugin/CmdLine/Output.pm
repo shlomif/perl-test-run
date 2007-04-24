@@ -19,9 +19,9 @@ Test::Run::CmdLine.
 
 =head1 MOTIVATION
 
-This class will gradually re-implement all of the 
+This class has gradually re-implemented all of the 
 L<Test::Run::Plugin::CmdLine::Output::GplArt> functionality to 
-avoid license complications. At the moment it inherits from it.
+avoid license complications. 
 
 =cut
 
