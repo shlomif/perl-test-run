@@ -1,15 +1,20 @@
-BEGIN {
-    if( $ENV{PERL_CORE} ) {
-        chdir 't';
-        @INC = '../lib';
-    }
+use strict;
+use warnings;
+
+use Test::More tests => 1;
+
+{
+    # TEST
+    ok (scalar(eval 'require Test::Run::Obj'),
+        "Eval of Test::Run::Obj's require");
 }
 
+__END__
 
-print "1..1\n";
+=head1 LICENSE
 
-unless (eval 'require Test::Run::Obj') {
-  print "not ok 1\n";
-} else {
-  print "ok 1\n";
-}
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+
+t/output.t lines 204-224
