@@ -3,11 +3,7 @@ package Test::Run::Base;
 use strict;
 use warnings;
 
-use Class::Accessor;
-
-use vars (qw(@ISA));
-
-@ISA = (qw(Class::Accessor));
+use base 'Class::Accessor';
 
 sub new
 {
@@ -38,3 +34,14 @@ sub copy_from
 }
 
 1;
+
+__END__
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+
+=cut
+
