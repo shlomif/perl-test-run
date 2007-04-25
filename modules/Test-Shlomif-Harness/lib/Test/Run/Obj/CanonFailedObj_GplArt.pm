@@ -1,4 +1,4 @@
-package Test::Run::Obj::CanonFailedObj;
+package Test::Run::Obj::CanonFailedObj_GplArt;
 
 =head1 NAME
 
