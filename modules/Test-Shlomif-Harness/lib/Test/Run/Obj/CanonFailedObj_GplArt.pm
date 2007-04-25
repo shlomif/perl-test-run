@@ -10,51 +10,6 @@ Test::Run::Obj::CanonFailedObj - an object representing a canon that failed
 
 use base 'Test::Run::Base::Struct';
 
-=head2 $self->add_result($result)
-
-Pushes $result to the result() slot.
-
-=cut
-
-sub add_result
-{
-    my $self = shift;
-    push @{$self->result()}, @_;
-}
-
-=head2 $self->get_ser_results()
-
-Returns the serialized results.
-
-=cut
-
-sub get_ser_results
-{
-    my $self = shift;
-    return join("", @{$self->result()});
-}
-
-=head2 $self->add_Failed($test)
-
-Add a failed test $test to the diagnostics.
-
-=cut
-
-sub add_Failed
-{
-    my ($self, $test) = @_;
-
-    my $max = $test->max();
-    my $failed_num = $self->failed_num();
-
-    $self->add_result("\tFailed $failed_num/$max tests, ");
-    $self->add_result(
-        $max ?
-            (sprintf("%.2f",100*(1-$failed_num/$max)),"% okay") :
-            "?% okay"
-        );
-}
-
 =head2 $self->add_skipped($test)
 
 Add a skipped test.
