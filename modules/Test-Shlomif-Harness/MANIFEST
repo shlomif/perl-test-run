@@ -12,7 +12,6 @@ lib/Test/Run/Obj/CanonFailedObj.pm
 lib/Test/Run/Obj/Error.pm
 lib/Test/Run/Obj/FailedObj.pm
 lib/Test/Run/Obj.pm
-lib/Test/Run/Obj/Structs.pm
 lib/Test/Run/Obj/TestObj.pm
 lib/Test/Run/Obj/TotObj.pm
 lib/Test/Run/Output.pm
