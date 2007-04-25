@@ -29,6 +29,6 @@ for maximum flexibility of the codebase, and to relieve it of ownership hands.
 * One should consult the individual files for their copyrights' notices.
 
 * Note that the other CPAN Test::Run distributions (by "Shlomi Fish" and 
-possibly others) were written from scratchare fully licensed under the MIT
-X11 license.
+possibly others) were written from scratch and are fully licensed under the
+MIT X11 license.
 
