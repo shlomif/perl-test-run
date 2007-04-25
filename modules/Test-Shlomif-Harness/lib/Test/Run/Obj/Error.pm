@@ -1,10 +1,22 @@
+=head1 NAME
+
+Test::Run::Obj::Error - an error class hierarchy for Test::Run.
+
+=head1 DESCRIPTION
+
+This module provides an error class hieararchy for Test::Run. This is used
+for throwing exceptions that should be handled programatically.
+
+=head1 METHODS 
+=cut
+
+
+package Test::Run::Obj::Error;
 
 use strict;
 use warnings;
 
 use Test::Run::Base::Struct;
-
-package Test::Run::Obj::Error;
 
 use vars qw(@ISA @fields);
 
@@ -111,4 +123,12 @@ sub stringify
 }
 
 1;
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+
+=cut
 
