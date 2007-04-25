@@ -22,7 +22,7 @@ build_requires:
 provides:
   Test::Run::Assert:
     file: lib/Test/Run/Assert.pm
-    version: 0.02
+    version: 0.03
   Test::Run::Base:
     file: lib/Test/Run/Base.pm
   Test::Run::Base::Struct:
