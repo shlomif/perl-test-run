@@ -1,66 +1,64 @@
-# $Id: Assert.pm 250 2003-09-11 15:57:29Z andy $
-
 package Test::Run::Assert;
 
 use strict;
+use warnings;
+
 require Exporter;
 use vars qw($VERSION @EXPORT @ISA);
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 @ISA = qw(Exporter);
 @EXPORT = qw(assert);
 
-
 =head1 NAME
 
-Test::Run::Assert - simple assert
+Test::Run::Assert - A Simple Assert Function.
 
-=head1 SYNOPSIS
+=head1 SYNPOSIS
 
-  ### FOR INTERNAL USE ONLY ###
+B<This module is only for internal use>.
 
-  use Test::Run::Assert;
+    use Test::Run::Assert;
 
-  assert( EXPR, $name );
-
-=head1 DESCRIPTION
-
-A simple assert routine since we don't have Carp::Assert handy.
-
-B<For internal use by Test::Run ONLY!>
-
-=head1 FUNCTIONS
-
-=head2 C<assert()>
-
-  assert( EXPR, $name );
-
-If the expression is false the program aborts.
+    assert ( EXPR , $name );
 
 =cut
 
-sub assert ($;$) {
-    my($assert, $name) = @_;
+sub assert($;$)
+{
+    my ($condition, $name) = @_;
 
-    unless( $assert ) {
+    if (! $condition)
+    {
         require Carp;
-        my $msg = 'Assert failed';
-        $msg .= " - '$name'" if defined $name;
-        $msg .= '!';
+        
+        my $msg = 
+            sprintf("Assert failed%s!", 
+                defined($name) ? " - '$name'" : ""
+            );
+
         Carp::croak($msg);
     }
-
 }
 
 =head1 AUTHOR
 
+Originally written by:
+
 Michael G Schwern C<< <schwern@pobox.com> >>
 
-=head1 SEE ALSO
+Rewritten as MIT-X11 Licensed code by:
 
-L<Carp::Assert>
+Shlomi Fish L<http://www.shlomifish.org/>
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
 
 =cut
 
 1;
+
