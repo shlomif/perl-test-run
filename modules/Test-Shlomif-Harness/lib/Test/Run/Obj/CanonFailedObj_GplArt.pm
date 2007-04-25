@@ -8,22 +8,7 @@ Test::Run::Obj::CanonFailedObj - an object representing a canon that failed
 
 =cut
 
-use vars qw(@fields);
-
 use base 'Test::Run::Base::Struct';
-
-@fields = (qw(
-    canon
-    result
-    failed_num
-));
-
-sub _get_fields
-{
-    return [@fields];
-}
-
-__PACKAGE__->mk_accessors(@fields);
 
 =head2 $self->add_result($result)
 
