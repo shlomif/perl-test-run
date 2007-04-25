@@ -10,29 +10,6 @@ Test::Run::Obj::CanonFailedObj - an object representing a canon that failed
 
 use base 'Test::Run::Base::Struct';
 
-=head2 $self->add_skipped($test)
-
-Add a skipped test.
-
-=cut
-
-sub add_skipped
-{
-    my ($self, $test) = @_;
-
-    my $skipped = $test->skipped();
-    my $max = $test->max();
-
-    if ($skipped) {
-        my $good = $max - $self->failed_num() - $skipped;
-        my $ender = ($skipped > 1) ? "s" : "";
-        $self->add_result(
-            " (less $skipped skipped test$ender: $good okay, " .
-            ($max ? sprintf("%.2f%%)",100*($good/$max)) : "?%)")
-        );
-    }
-}
-
 1;
 
 __END__

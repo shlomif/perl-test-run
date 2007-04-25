@@ -3,7 +3,7 @@ package Test::Run::Obj::CanonFailedObj;
 use strict;
 use warnings;
 
-use base 'Test::Run::Obj::CanonFailedObj_GplArt';
+use base 'Test::Run::Base::Struct';
 
 use vars qw(@fields);
 
@@ -93,6 +93,55 @@ sub add_Failed
     $self->_add_Failed_summary($test);
     $self->_add_Failed_percent_okay($test);   
 }
+
+=head2 $self->add_skipped($test)
+
+Add a skipped test.
+
+=cut
+
+sub add_skipped
+{
+    my ($self, $test) = @_;
+
+    if ($test->skipped())
+    {
+        $self->_add_actual_skipped($test);
+    }
+}
+
+sub _add_actual_skipped
+{
+    my ($self, $test) = @_;
+
+    my $tests_string = (($test->skipped() > 1) ? "tests" : "test");
+
+    $self->add_result(
+        sprintf(
+            " (less %s skipped %s: %s okay, %s%%)",
+            $test->skipped(),
+            $tests_string,
+            $self->_calc_skipped_percent($test),
+        )
+    );
+}
+
+sub _calc_skipped_percent
+{
+    my ($self, $test) = @_;
+
+    return 
+        $test->max() 
+            ? sprintf("%.2f", 100*($test->good()/$test->max()))
+            : "?"
+        ;
+}
+
+=head2 $self->add_skipped($test)
+
+Add a skipped test.
+
+=cut
 
 
 =head1 LICENSE
