@@ -20,6 +20,7 @@ lib/Test/Run/Sprintf/Named/FromAccessors.pm
 lib/Test/Run/Straps.pm
 lib/Test/Run/Straps/StrapsDetailsObj.pm
 lib/Test/Run/Straps/StrapsTotalsObj.pm
+lib/Test/Run/Straps/StrapsTotalsObj_GplArt.pm
 Makefile.PL
 MANIFEST
 META.yml                                 Module meta-data (added by MakeMaker)

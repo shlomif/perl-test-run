@@ -1,4 +1,4 @@
-package Test::Run::Straps::StrapsTotalsObj;
+package Test::Run::Straps::StrapsTotalsObj_GplArt;
 
 =head1 NAME
 
