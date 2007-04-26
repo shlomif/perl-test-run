@@ -101,6 +101,26 @@ sub last_detail
     return $self->details->[-1];
 }
 
+sub _calc_enormous_event_num
+{
+    my $self = shift;
+
+    return 100_000;
+}
+
+sub _is_enormous_event_num
+{
+    my $self = shift;
+
+    my $large_num = $self->_calc_enormous_event_num();
+
+    return
+        +($self->_event->number > $large_num)
+            &&
+         ($self->_event->number > ($self->max || $large_num))
+        ;
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

@@ -37,18 +37,6 @@ sub update_skip_reason
     }
 }
 
-sub _is_enormous_event_num
-{
-    my $self = shift;
-
-    return 
-    (
-        ($self->_event->number > 100_000)
-            &&
-        ($self->_event->number > ($self->max()||100_000))
-    );
-}
-
 sub _update_todo_event
 {
     my ($self) = @_;
