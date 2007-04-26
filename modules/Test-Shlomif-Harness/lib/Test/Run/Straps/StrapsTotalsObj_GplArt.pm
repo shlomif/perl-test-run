@@ -37,18 +37,6 @@ sub update_skip_reason
     }
 }
 
-=head2 $self->last_detail()
-
-Returns the last detail.
-
-=cut
-
-sub last_detail
-{
-    my $self = shift;
-    return $self->details()->[-1];
-}
-
 sub _is_enormous_event_num
 {
     my $self = shift;

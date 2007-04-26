@@ -88,6 +88,19 @@ sub determine_passing
     $self->passing($self->_calc_passing() ? 1 : 0);
 }
 
+=head2 $self->last_detail()
+
+Returns the last detail.
+
+=cut
+
+sub last_detail
+{
+    my $self = shift;
+
+    return $self->details->[-1];
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
