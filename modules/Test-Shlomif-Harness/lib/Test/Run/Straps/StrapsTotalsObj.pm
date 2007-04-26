@@ -75,6 +75,19 @@ sub _calc_passing
     return ($self->_is_skip_all() || $self->_is_all_tests_passed());
 }
 
+=head2 $self->determine_passing()
+
+Calculates whether the test file has passed and caches it in the passing()
+slot.
+
+=cut
+
+sub determine_passing
+{
+    my $self = shift;
+    $self->passing($self->_calc_passing() ? 1 : 0);
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
