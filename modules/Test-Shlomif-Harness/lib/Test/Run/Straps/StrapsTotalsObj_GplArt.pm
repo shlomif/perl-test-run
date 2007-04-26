@@ -9,38 +9,11 @@ straps class.
 
 =cut
 
-use vars qw(@fields);
-
 use base 'Test::Run::Base::Struct';
 
 use Test::Run::Assert;
 
 use Test::Run::Straps::StrapsDetailsObj;
-
-@fields = (qw(
-    bonus
-    details
-    _enormous_num_cb
-    _event
-    exit
-    filename
-    max
-    ok
-    passing
-    seen
-    skip
-    skip_all
-    skip_reason
-    todo
-    wait
-));
-
-sub _get_fields
-{
-    return [@fields];
-}
-
-__PACKAGE__->mk_accessors(@fields);
 
 =head2 $self->bonus()
 
