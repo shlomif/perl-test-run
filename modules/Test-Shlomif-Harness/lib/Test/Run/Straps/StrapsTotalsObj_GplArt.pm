@@ -71,18 +71,6 @@ sub _inc_seen
     $self->inc_field('seen');
 }
 
-sub _is_event_pass
-{
-    my $self = shift;
-
-    return 
-    (
-        $self->_event->is_ok() ||
-        $self->_is_event_todo() ||
-        $self->_event->has_skip()
-    );
-}
-
 sub _handle_enormous_event_num
 {
     my $self = shift;
