@@ -156,9 +156,9 @@ sub _defined_hash_values
     };
 }
 
-sub _update_details
+sub _calc_details
 {
-    my ($self, $args) = @_;
+    my $self = shift;
 
     my $event = $self->_event;
 
@@ -170,14 +170,20 @@ sub _update_details
         reason => $event->explanation,
     );
     
-    my $details =
+    return
         $self->_init_details_obj_instance(
             {
                 ok => $self->_is_event_pass(),
                 %{$self->_defined_hash_values(\%always_defined)},
             }
         );
-    $self->details->[$event->number - 1] = $details;
+}
+
+sub _update_details
+{
+    my ($self) = @_;
+
+    $self->details->[$self->_event->number - 1] = $self->_calc_details();
 
     return ;
 }
