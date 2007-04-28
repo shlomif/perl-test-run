@@ -6,12 +6,6 @@ use Test::Run::Assert;
 
 use Test::Run::Straps::StrapsDetailsObj;
 
-
-sub _def_or_blank {
-    return $_[0] if defined $_[0];
-    return "";
-}
-
 =head2 $self->update_skip_reason($detail)
 
 Updates the skip reason according to the detail $detail.
@@ -113,31 +107,6 @@ sub _update_if_pass
     {
         $self->inc_field('ok');
     }
-
-    return;
-}
-
-sub _update_details
-{
-    my $self = shift;
-
-    my $event = $self->_event;
-
-    my $details =
-        $self->_init_details_obj_instance(
-            {
-                ok          => $self->_is_event_pass(),
-                actual_ok   => _def_or_blank(scalar($event->is_ok())),
-                name        => _def_or_blank( $event->description ),
-                # $event->directive returns "SKIP" or "TODO" in uppercase
-                # and we expect them to be in lowercase.
-                type        => lc(_def_or_blank( $event->directive )),
-                reason      => _def_or_blank( $event->explanation ),
-            },
-        );
-
-    assert( defined( $details->ok() ) && defined( $details->actual_ok() ) );
-    $self->details()->[$event->number - 1] = $details;
 
     return;
 }

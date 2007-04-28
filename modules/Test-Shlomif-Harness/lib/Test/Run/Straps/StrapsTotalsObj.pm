@@ -137,6 +137,51 @@ sub _handle_event_main
     $self->_update_details_wrapper();
 }
 
+sub _def_or_blank
+{
+    my $value = shift;
+
+    return defined($value) ? $value : "";
+}
+
+sub _defined_hash_values
+{
+    my ($self, $hash) = @_;
+
+    return
+    {
+        map 
+        { $_ => _def_or_blank($hash->{$_}) }
+        keys(%$hash)
+    };
+}
+
+sub _update_details
+{
+    my ($self, $args) = @_;
+
+    my $event = $self->_event;
+
+    my %always_defined =
+    (
+        actual_ok => scalar($event->is_ok()),
+        name => $event->description,
+        type => lc($event->directive),
+        reason => $event->explanation,
+    );
+    
+    my $details =
+        $self->_init_details_obj_instance(
+            {
+                ok => $self->_is_event_pass(),
+                %{$self->_defined_hash_values(\%always_defined)},
+            }
+        );
+    $self->details->[$event->number - 1] = $details;
+
+    return ;
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
