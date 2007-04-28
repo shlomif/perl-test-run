@@ -242,6 +242,13 @@ sub _is_event_pass
     );
 }
 
+sub _handle_enormous_event_num
+{
+    my $self = shift;
+
+    return $self->_enormous_num_cb->();
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

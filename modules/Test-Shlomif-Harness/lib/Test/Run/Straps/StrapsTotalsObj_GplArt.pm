@@ -71,13 +71,6 @@ sub _inc_seen
     $self->inc_field('seen');
 }
 
-sub _handle_enormous_event_num
-{
-    my $self = shift;
-
-    return $self->_enormous_num_cb->();
-}
-
 sub _update_details_wrapper
 {
     my $self = shift;
