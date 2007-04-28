@@ -154,7 +154,7 @@ sub _initialize
             "bonus_msg" =>
                 "%(bonus)s/%(max)s unexpectedly succeeded",
             "report_final_stats" =>
-                "Files=%(files)d, Tests=%(max)d, %(bench_timestr)",
+                "Files=%(files)d, Tests=%(max)d, %(bench_timestr)s",
         );
 
         while (my ($id, $format) = each(%obj_formatters))

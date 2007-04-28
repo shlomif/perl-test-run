@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 
-use Test::More tests => 15;
+use Test::More tests => 16;
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
@@ -39,6 +39,10 @@ sub trap_output
     my $got = trap_output([test_files => ["t/sample-tests/simple"]]);
     # TEST
     ok (($got->{stdout} =~ m/All tests successful\./), "'All tests successful.' string as is");
+    # TEST
+    ok (($got->{stdout} =~ m/^Files=\d+, Tests=\d+,  [^\n]*wallclock secs/m),
+        "Final Stats line matches format.")
+
 }
 
 # Run several tests.
