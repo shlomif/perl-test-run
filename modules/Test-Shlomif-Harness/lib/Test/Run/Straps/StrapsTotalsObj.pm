@@ -156,25 +156,41 @@ sub _defined_hash_values
     };
 }
 
+sub _calc_always_def_details_initializer
+{
+    my $self = shift;
+
+    my $event = $self->_event;
+
+    return 
+    {
+        actual_ok => scalar($event->is_ok()),
+        name => $event->description,
+        type => lc($event->directive),
+        reason => $event->explanation,
+    };
+}
+
+sub _calc_defined_details
+{
+    my $self = shift;
+
+    $self->_defined_hash_values(
+        $self->_calc_always_def_details_initializer()
+    );
+}
+
 sub _calc_details
 {
     my $self = shift;
 
     my $event = $self->_event;
 
-    my %always_defined =
-    (
-        actual_ok => scalar($event->is_ok()),
-        name => $event->description,
-        type => lc($event->directive),
-        reason => $event->explanation,
-    );
-    
     return
         $self->_init_details_obj_instance(
             {
                 ok => $self->_is_event_pass(),
-                %{$self->_defined_hash_values(\%always_defined)},
+                %{$self->_calc_defined_details()},
             }
         );
 }
