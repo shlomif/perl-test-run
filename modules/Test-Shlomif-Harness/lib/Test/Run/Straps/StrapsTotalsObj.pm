@@ -220,6 +220,15 @@ sub _is_event_todo
     return $self->_event->has_todo();
 }
 
+sub _update_if_pass
+{
+    my $self = shift;
+
+    if ($self->_is_event_pass())
+    {
+        $self->inc_field('ok');
+    }
+}
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

@@ -83,18 +83,6 @@ sub _is_event_pass
     );
 }
 
-sub _update_if_pass
-{
-    my $self = shift;
-
-    if ($self->_is_event_pass())
-    {
-        $self->inc_field('ok');
-    }
-
-    return;
-}
-
 sub _handle_enormous_event_num
 {
     my $self = shift;
