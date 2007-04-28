@@ -117,12 +117,6 @@ sub _update_if_pass
     return;
 }
 
-sub _init_details_obj_instance
-{
-    my ($self, $args) = @_;
-    return Test::Run::Straps::StrapsDetailsObj->new($args);
-}
-
 sub _update_details
 {
     my $self = shift;

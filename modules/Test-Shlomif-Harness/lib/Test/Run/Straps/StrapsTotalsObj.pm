@@ -121,6 +121,12 @@ sub _is_enormous_event_num
         ;
 }
 
+sub _init_details_obj_instance
+{
+    my ($self, $args) = @_;
+    return Test::Run::Straps::StrapsDetailsObj->new($args);
+}
+
 sub _handle_event_main
 {
     my $self = shift;
