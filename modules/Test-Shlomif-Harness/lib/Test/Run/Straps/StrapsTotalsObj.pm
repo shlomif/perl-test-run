@@ -121,6 +121,16 @@ sub _is_enormous_event_num
         ;
 }
 
+sub _handle_event_main
+{
+    my $self = shift;
+
+    $self->_inc_seen();
+    $self->_update_by_labeled_test_event();
+    $self->_update_if_pass();
+    $self->_update_details_wrapper();
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

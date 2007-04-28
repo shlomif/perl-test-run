@@ -169,16 +169,6 @@ sub _update_details_wrapper
     }
 }
 
-sub _handle_event_main
-{
-    my $self = shift;
-
-    $self->_inc_seen();
-    $self->_update_by_labeled_test_event();
-    $self->_update_if_pass();
-    $self->_update_details_wrapper();
-}
-
 =head2 $self->_handle_event({event => $event, enormous_num_cb => sub {...}});
 
 Updates the state of the details using a new TAP::Parser event - $event .
