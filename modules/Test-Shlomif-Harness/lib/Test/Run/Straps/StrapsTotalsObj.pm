@@ -212,6 +212,14 @@ sub _update_skip_event
 
     return;
 }
+
+sub _is_event_todo
+{
+    my $self = shift;
+
+    return $self->_event->has_todo();
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
