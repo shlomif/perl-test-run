@@ -46,15 +46,6 @@ sub _update_todo_event
     return;
 }
 
-sub _update_skip_event
-{
-    my ($self) = @_;
-
-    $self->inc_field('skip');
-
-    return;
-}
-
 sub _update_by_labeled_test_event
 {
     my $self = shift;

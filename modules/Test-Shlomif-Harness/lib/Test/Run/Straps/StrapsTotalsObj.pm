@@ -204,6 +204,14 @@ sub _update_details
     return ;
 }
 
+sub _update_skip_event
+{
+    my $self = shift;
+
+    $self->inc_field('skip');
+
+    return;
+}
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
