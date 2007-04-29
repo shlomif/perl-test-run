@@ -31,21 +31,6 @@ sub update_skip_reason
     }
 }
 
-sub _update_todo_event
-{
-    my ($self) = @_;
-
-    my $event = $self->_event;
-
-    $self->inc_field('todo');
-    if ( $event->is_actual_ok() )
-    {
-        $self->inc_field('bonus');
-    }
-
-    return;
-}
-
 sub _update_by_labeled_test_event
 {
     my $self = shift;

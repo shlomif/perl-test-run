@@ -249,6 +249,19 @@ sub _handle_enormous_event_num
     return $self->_enormous_num_cb->();
 }
 
+sub _update_todo_event
+{
+    my $self = shift;
+
+    $self->inc_field('todo');
+
+    if ($self->_event->is_actual_ok())
+    {
+        $self->inc_field('bonus');
+    }
+
+    return;
+}
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
