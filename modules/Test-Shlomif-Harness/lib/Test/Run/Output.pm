@@ -5,6 +5,25 @@ use warnings;
 
 use base 'Test::Run::Output_GplArt';
 
+__PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
+
+=head1 NAME
+
+Test::Run::Output - Base class for outputting messages to the user in a test
+harmess.
+
+=cut
+
+sub _initialize
+{
+    my ($self, $args) = @_;
+
+    $self->Verbose($args->{Verbose});
+    $self->NoTty($args->{NoTty});
+
+    return 0;
+}
+
 1;
 
 =head1 LICENSE

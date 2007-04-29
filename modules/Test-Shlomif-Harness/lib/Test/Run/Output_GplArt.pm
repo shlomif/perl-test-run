@@ -3,34 +3,7 @@ package Test::Run::Output_GplArt;
 use strict;
 use warnings;
 
-use base 'Class::Accessor';
-
-__PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
-
-=head1 NAME
-
-Test::Run::Output - Base class for outputting messages to the user in a test
-harmess.
-
-=cut
-
-sub new
-{
-    my $class = shift;
-    my $self = {};
-    bless $self, $class;
-    $self->_initialize(@_);
-    return $self;
-}
-
-sub _initialize
-{
-    my $self = shift;
-    my $args = shift;
-    $self->Verbose($args->{Verbose});
-    $self->NoTty($args->{NoTty});
-    return 0;
-}
+use base 'Test::Run::Base';
 
 =head2 METHODS 
 
