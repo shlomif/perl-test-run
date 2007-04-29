@@ -24,6 +24,22 @@ sub _initialize
     return 0;
 }
 
+sub _print_message_raw
+{
+    my ($self, $msg) = @_;
+    print $msg;
+}
+
+sub print_message
+{
+    my ($self, $msg) = @_;
+
+    $self->_print_message_raw($msg);
+    $self->_newline();
+
+    return;
+}
+
 1;
 
 =head1 LICENSE

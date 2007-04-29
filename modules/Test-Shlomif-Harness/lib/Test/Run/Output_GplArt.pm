@@ -11,20 +11,6 @@ use base 'Test::Run::Base';
 
 =cut
 
-sub _print_message_raw
-{
-    my ($self, $msg) = @_;
-    print $msg;
-}
-
-sub print_message
-{
-    my ($self, $msg) = @_;
-    $self->_print_message_raw($msg);
-    $self->_newline();
-
-}
-
 sub _newline
 {
     my $self = shift;
