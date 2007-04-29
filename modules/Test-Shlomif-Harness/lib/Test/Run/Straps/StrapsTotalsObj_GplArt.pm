@@ -49,13 +49,6 @@ sub _update_by_labeled_test_event
     return;
 }
 
-sub _inc_seen
-{
-    my $self = shift;
-
-    $self->inc_field('seen');
-}
-
 sub _update_details_wrapper
 {
     my $self = shift;

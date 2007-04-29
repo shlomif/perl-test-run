@@ -262,6 +262,15 @@ sub _update_todo_event
 
     return;
 }
+
+
+sub _inc_seen
+{
+    my $self = shift;
+
+    $self->inc_field('seen');
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
