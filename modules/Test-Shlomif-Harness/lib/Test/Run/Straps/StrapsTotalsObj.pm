@@ -12,7 +12,9 @@ straps class.
 
 =cut
 
-use base 'Test::Run::Straps::StrapsTotalsObj_GplArt';
+use Test::Run::Straps::StrapsDetailsObj;
+
+use base 'Test::Run::Base::Struct';
 
 use vars qw(@fields);
 
@@ -338,6 +340,48 @@ sub _update_by_labeled_test_event
     return;
 }
 
+=head2 $self->update_skip_reason($detail)
+
+Updates the skip reason according to the detail $detail.
+
+=cut
+
+sub _get_skip_reason
+{
+    my ($self, $detail) = @_;
+
+    if (!defined($self->skip_reason))
+    {
+        return $detail->reason();
+    }
+    elsif ($self->skip_reason ne $detail->reason())
+    {
+        return "various reasons";
+    }
+    else
+    {
+        return $self->skip_reason;
+    }
+}
+
+sub _real_update_skip_reason
+{
+    my ($self, $detail) = @_;
+
+    $self->skip_reason($self->_get_skip_reason($detail));
+}
+
+sub update_skip_reason
+{
+    my ($self, $detail) = @_;
+
+    if ($detail->type eq "skip")
+    {
+        $self->_real_update_skip_reason($detail);
+    }
+}
+
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
@@ -392,13 +436,19 @@ The number of "Todo" tests that were encountered.
 
 The wait code of the test script.
 
-=cut
+=head1 SEE ALSO
+
+L<Test::Run::Base::Struct>, L<Test::Run::Obj>, L<Test::Run::Core>
 
 =head1 LICENSE
 
 This file is licensed under the MIT X11 License:
 
 http://www.opensource.org/licenses/mit-license.php
+
+=head1 AUTHOR
+
+Shlomi Fish, L<http://www.shlomifish.org/>.
 
 =cut
 

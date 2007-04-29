@@ -2,33 +2,6 @@ package Test::Run::Straps::StrapsTotalsObj_GplArt;
 
 use base 'Test::Run::Base::Struct';
 
-use Test::Run::Straps::StrapsDetailsObj;
-
-=head2 $self->update_skip_reason($detail)
-
-Updates the skip reason according to the detail $detail.
-
-=cut
-
-sub update_skip_reason
-{
-    my $self = shift;
-    my $detail = shift;
-
-    if( $detail->type() eq 'skip' )
-    {
-        my $reason = $detail->reason();
-        if (!defined($self->skip_reason()))
-        {
-            $self->skip_reason($reason);
-        }
-        elsif ($self->skip_reason() ne $reason)
-        {
-            $self->skip_reason('various reasons');
-        }
-    }
-}
-
 1;
 
 __END__
