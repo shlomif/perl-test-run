@@ -47,20 +47,6 @@ sub _update_by_labeled_test_event
     return;
 }
 
-sub _update_details_wrapper
-{
-    my $self = shift;
-
-    if ($self->_is_enormous_event_num())
-    {
-        $self->_handle_enormous_event_num();
-    }
-    else
-    {
-        $self->_update_details();
-    }
-}
-
 1;
 
 __END__
