@@ -2,8 +2,6 @@ package Test::Run::Straps::StrapsTotalsObj_GplArt;
 
 use base 'Test::Run::Base::Struct';
 
-use Test::Run::Assert;
-
 use Test::Run::Straps::StrapsDetailsObj;
 
 =head2 $self->update_skip_reason($detail)
