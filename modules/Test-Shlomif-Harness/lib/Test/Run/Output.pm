@@ -40,6 +40,12 @@ sub print_message
     return;
 }
 
+sub _newline
+{
+    my $self = shift;
+    $self->_print_message_raw("\n");
+}
+
 1;
 
 =head1 LICENSE
