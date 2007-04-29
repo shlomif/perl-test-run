@@ -29,24 +29,6 @@ sub update_skip_reason
     }
 }
 
-sub _update_by_labeled_test_event
-{
-    my $self = shift;
-
-    my $event = $self->_event;
-
-    if ($event->has_todo())
-    {
-        $self->_update_todo_event();
-    }
-    elsif ($event->has_skip())
-    {
-        $self->_update_skip_event();
-    }
-
-    return;
-}
-
 1;
 
 __END__

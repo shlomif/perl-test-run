@@ -322,6 +322,22 @@ sub _update_details_wrapper
     }
 }
 
+sub _update_by_labeled_test_event
+{
+    my $self = shift;
+
+    if ($self->_event->has_todo())
+    {
+        $self->_update_todo_event();
+    }
+    elsif ($self->_event->has_skip())
+    {
+        $self->_update_skip_event();
+    }
+
+    return;
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
