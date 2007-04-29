@@ -11,22 +11,6 @@ use base 'Test::Run::Base';
 
 =cut
 
-sub print_leader
-{
-    my ($self, $args) = @_;
-
-    my ($leader, $ml) =
-        $self->_mk_leader(
-            $args->{filename},
-            $args->{width},
-        );
-
-    $self->ml($ml);
-    $self->_print_message_raw(
-        $leader,
-    );
-}
-
 sub print_ml
 {
     my $self = shift;
@@ -77,7 +61,9 @@ sub _mk_leader
         $ml = "\r" . (' ' x 77) . "\r$leader";
     }
 
-    return($leader, $ml);
+    $self->ml($ml);
+
+    return $leader;
 }
 
 =back

@@ -46,6 +46,17 @@ sub _newline
     $self->_print_message_raw("\n");
 }
 
+sub print_leader
+{
+    my ($self, $args) = @_;
+
+    $self->_print_message_raw(
+        $self->_mk_leader(
+            $args->{filename},
+            $args->{width}
+        )
+    );
+}
 1;
 
 =head1 LICENSE
