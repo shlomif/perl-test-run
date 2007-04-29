@@ -63,31 +63,6 @@ sub _update_details_wrapper
     }
 }
 
-=head2 $self->_handle_event({event => $event, enormous_num_cb => sub {...}});
-
-Updates the state of the details using a new TAP::Parser event - $event .
-C<enormous_num_cb> points to a subroutine reference that is the callback for
-handling enormous numbers.
-
-=cut
-
-sub handle_event
-{
-    my ($self, $args) = @_;
-
-    my $event = $args->{event};
-    my $callback = $args->{enormous_num_cb};
-
-    $self->_event($event);
-    $self->_enormous_num_cb($callback);
-
-    $self->_handle_event_main();
-    
-    # Cleanup to avoid circular loops, etc.
-    $self->_event(undef);
-    $self->_enormous_num_cb(undef);
-}
-
 1;
 
 __END__

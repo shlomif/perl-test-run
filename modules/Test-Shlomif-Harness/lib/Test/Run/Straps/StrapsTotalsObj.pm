@@ -271,6 +271,43 @@ sub _inc_seen
     $self->inc_field('seen');
 }
 
+=head2 $self->_handle_event({event => $event, enormous_num_cb => sub {...}});
+
+Updates the state of the details using a new TAP::Parser event - $event .
+C<enormous_num_cb> points to a subroutine reference that is the callback for
+handling enormous numbers.
+
+=cut
+
+sub _setup_event
+{
+	my ($self, $args) = @_;
+
+	$self->_event($args->{event});
+    $self->_enormous_num_cb($args->{enormous_num_cb});
+
+	return ;
+}
+
+sub _detach_event
+{
+    my ($self) = @_;
+
+	$self->_event(undef);
+    $self->_enormous_num_cb(undef);
+}
+
+sub handle_event
+{
+    my ($self, $args) = @_;
+
+    $self->_setup_event($args);
+
+    $self->_handle_event_main();
+
+    $self->_detach_event();
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
