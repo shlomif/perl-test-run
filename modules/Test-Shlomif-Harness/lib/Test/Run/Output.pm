@@ -46,6 +46,16 @@ sub _newline
     $self->_print_message_raw("\n");
 }
 
+sub print_ml
+{
+    my ($self, $msg) = @_;
+
+    if ($self->ml())
+    {
+        $self->_print_message_raw($self->ml . $msg);
+    }
+}
+
 sub print_leader
 {
     my ($self, $args) = @_;

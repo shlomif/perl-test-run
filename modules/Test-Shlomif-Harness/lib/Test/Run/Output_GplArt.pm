@@ -11,16 +11,6 @@ use base 'Test::Run::Base';
 
 =cut
 
-sub print_ml
-{
-    my $self = shift;
-    my $msg = shift;
-    if ($self->ml())
-    {
-        $self->_print_message_raw($self->ml(). $msg);
-    }
-}
-
 # Print updates only once per second.
 sub print_ml_less {
     my $self = shift;
