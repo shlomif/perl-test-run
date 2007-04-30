@@ -11,36 +11,6 @@ use base 'Test::Run::Base';
 
 =cut
 
-=item B<_mk_leader>
-
-  my($leader, $ml) = $self->_mk_leader($test_file, $width);
-
-Generates the 't/foo........' leader for the given C<$test_file> as well
-as a similar version which will overwrite the current line (by use of
-\r and such).  C<$ml> may be empty if Test::Run doesn't think 
-you're on TTY.
-
-The C<$width> is the width of the "yada/blah.." string.
-
-=cut
-
-sub _mk_leader
-{
-    my ($self, $_pre_te, $width) = @_;
-
-    my $leader = $self->_mk_leader__calc_leader(
-        +{ te => $_pre_te, width => $width, }
-    );
-
-    $self->ml(
-        $self->_mk_leader__calc_ml(
-            { leader => $leader, width => $width, },
-        )
-    );
-
-    return $leader;
-}
-
 =back
 
 =head1 AUTHOR

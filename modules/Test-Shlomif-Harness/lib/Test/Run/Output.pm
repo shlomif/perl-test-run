@@ -3,7 +3,7 @@ package Test::Run::Output;
 use strict;
 use warnings;
 
-use base 'Test::Run::Output_GplArt';
+use base 'Test::Run::Base';
 
 __PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
 
@@ -11,6 +11,10 @@ __PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
 
 Test::Run::Output - Base class for outputting messages to the user in a test
 harmess.
+
+=head1 METHODS
+
+=over 4
 
 =cut
 
@@ -128,7 +132,37 @@ sub _mk_leader__calc_ml
     }
 }
 
-1;
+=item B<_mk_leader>
+
+  my($leader, $ml) = $self->_mk_leader($test_file, $width);
+
+Generates the 't/foo........' leader for the given C<$test_file> as well
+as a similar version which will overwrite the current line (by use of
+\r and such).  C<$ml> may be empty if Test::Run doesn't think 
+you're on TTY.
+
+The C<$width> is the width of the "yada/blah.." string.
+
+=cut
+
+sub _mk_leader
+{
+    my ($self, $_pre_te, $width) = @_;
+
+    my $leader = $self->_mk_leader__calc_leader(
+        +{ te => $_pre_te, width => $width, }
+    );
+
+    $self->ml(
+        $self->_mk_leader__calc_ml(
+            { leader => $leader, width => $width, },
+        )
+    );
+
+    return $leader;
+}
+
+=back
 
 =head1 LICENSE
 
@@ -137,3 +171,5 @@ This file is licensed under the MIT X11 License:
 http://www.opensource.org/licenses/mit-license.php
 
 =cut
+
+1;
