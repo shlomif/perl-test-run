@@ -30,14 +30,6 @@ sub _mk_leader
 
     my $te = $self->_mk_leader__calc_te($_pre_te);
 
-    chomp($te);
-    $te =~ s/\.\w+$/./;
-
-    if ($^O eq 'VMS') {
-        $te =~ s/^.*\.t\./\[.t./s;
-    }
-
-    
     my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 
