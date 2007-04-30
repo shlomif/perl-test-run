@@ -15,7 +15,6 @@ lib/Test/Run/Obj.pm
 lib/Test/Run/Obj/TestObj.pm
 lib/Test/Run/Obj/TotObj.pm
 lib/Test/Run/Output.pm
-lib/Test/Run/Output_GplArt.pm
 lib/Test/Run/Plugin/CmdLine/Output.pm
 lib/Test/Run/Sprintf/Named/FromAccessors.pm
 lib/Test/Run/Straps.pm
