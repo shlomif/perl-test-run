@@ -33,7 +33,7 @@ sub _mk_leader
     my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 
-    if ( -t STDOUT and not $self->NoTty() and not $self->Verbose())
+    if ($self->_is_terminal())
     {
         $ml = "\r" . (' ' x 77) . "\r$leader";
     }

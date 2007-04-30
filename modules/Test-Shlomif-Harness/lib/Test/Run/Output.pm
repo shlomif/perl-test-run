@@ -98,6 +98,14 @@ sub _mk_leader__calc_te
 
     return $te;
 }
+
+sub _is_terminal
+{
+    my $self = shift;
+
+    return ((-t STDOUT) && (! $self->NoTty()) && (! $self->Verbose()));
+}
+
 1;
 
 =head1 LICENSE
