@@ -28,9 +28,10 @@ sub _mk_leader
 {
     my ($self, $_pre_te, $width) = @_;
 
-    my $te = $self->_mk_leader__calc_te($_pre_te);
+    my $leader = $self->_mk_leader__calc_leader(
+        +{ te => $_pre_te, width => $width, }
+    );
 
-    my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 
     if ($self->_is_terminal())

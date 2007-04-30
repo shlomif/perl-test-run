@@ -106,6 +106,14 @@ sub _is_terminal
     return ((-t STDOUT) && (! $self->NoTty()) && (! $self->Verbose()));
 }
 
+sub _mk_leader__calc_leader
+{
+    my ($self, $args) = @_;
+
+    my $te = $self->_mk_leader__calc_te($args->{te});
+    return ("$te" . '.' x ($args->{width} - length($te)));
+}
+
 1;
 
 =head1 LICENSE
