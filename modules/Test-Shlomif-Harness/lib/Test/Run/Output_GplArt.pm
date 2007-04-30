@@ -32,14 +32,11 @@ sub _mk_leader
         +{ te => $_pre_te, width => $width, }
     );
 
-    my $ml = "";
-
-    if ($self->_is_terminal())
-    {
-        $ml = "\r" . (' ' x 77) . "\r$leader";
-    }
-
-    $self->ml($ml);
+    $self->ml(
+        $self->_mk_leader__calc_ml(
+            { leader => $leader, width => $width, },
+        )
+    );
 
     return $leader;
 }

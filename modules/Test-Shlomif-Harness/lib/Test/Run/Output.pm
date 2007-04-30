@@ -114,6 +114,20 @@ sub _mk_leader__calc_leader
     return ("$te" . '.' x ($args->{width} - length($te)));
 }
 
+sub _mk_leader__calc_ml
+{
+    my ($self, $args) = @_;
+
+    if (! $self->_is_terminal())
+    {
+        return "";
+    }
+    else
+    {
+        return "\r" . (' ' x 77) . "\r" . $args->{leader};
+    }
+}
+
 1;
 
 =head1 LICENSE
