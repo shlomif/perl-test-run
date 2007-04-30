@@ -11,16 +11,6 @@ use base 'Test::Run::Base';
 
 =cut
 
-# Print updates only once per second.
-sub print_ml_less {
-    my $self = shift;
-    my $now = CORE::time;
-    if ( $self->last_test_print() != $now ) {
-        $self->print_ml(@_);
-        $self->last_test_print($now);
-    }
-}
-
 =item B<_mk_leader>
 
   my($leader, $ml) = $self->_mk_leader($test_file, $width);
@@ -36,13 +26,18 @@ The C<$width> is the width of the "yada/blah.." string.
 
 sub _mk_leader
 {
-    my ($self, $te, $width) = @_;
+    my ($self, $_pre_te, $width) = @_;
+
+    my $te = $self->_mk_leader__calc_te($_pre_te);
+
     chomp($te);
     $te =~ s/\.\w+$/./;
 
     if ($^O eq 'VMS') {
         $te =~ s/^.*\.t\./\[.t./s;
     }
+
+    
     my $leader = "$te" . '.' x ($width - length($te));
     my $ml = "";
 

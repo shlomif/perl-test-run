@@ -67,6 +67,37 @@ sub print_leader
         )
     );
 }
+
+# Print updates only once per second.
+sub print_ml_less
+{
+    my ($self, @args) = @_;
+
+    my $now = CORE::time();
+
+    if ($self->last_test_print() != $now)
+    {
+        $self->print_ml(@args);
+
+        $self->last_test_print($now);
+    }
+}
+
+sub _mk_leader__calc_te
+{
+    my ($self, $te) = @_;
+
+    chomp($te);
+
+    $te =~ s{\.\w+$}{.};
+
+    if ($^O eq "VMS")
+    {
+        $te =~ s{^.*\.t\.}{\[.t.}s;
+    }
+
+    return $te;
+}
 1;
 
 =head1 LICENSE
