@@ -5,7 +5,7 @@ use Test::More tests => 1;
 
 use File::Spec;
 
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+use Test::Run::Trap::Obj;
 
 BEGIN
 {
@@ -41,20 +41,20 @@ sub _init_strap
 package main;
 
 {
-    trap {
-        my $tester = 
-            MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run({
+            class => "MyTestRun",
+            args => 
+            [
                 test_files => 
                 [
                     "t/sample-tests/simple",
                     "t/sample-tests/success1.mok",
                 ],
-            );
-        $tester->runtests();
-    };
+            ],
+        });
 
     # TEST
-    ok ($trap->stderr() !~ /sprintf/, 
+    $got->field_unlike("stderr", qr/sprintf/,
         "No warning for undefined sprintf argument was emitted."
     );
 }

@@ -80,6 +80,20 @@ sub field_like
     }
 }
 
+sub field_unlike
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my ($what, $regex, $name) = @_;
+
+    if (! Test::More::unlike($self->$what(), $regex, $name))
+    {
+        $self->diag_all();
+    }
+}
+
+
 sub field_is
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -111,7 +125,7 @@ sub trap_run
         ( map { $_ => $trap->$_() } 
         (qw(stdout stderr die leaveby exit return warn wantarray)))
     });
-
 }
+
 1;
 
