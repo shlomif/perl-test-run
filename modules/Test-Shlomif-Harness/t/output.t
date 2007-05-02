@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 BEGIN {
     if( $ENV{PERL_CORE} ) {
@@ -11,12 +11,17 @@ BEGIN {
 }
 
 use strict;
+use warnings;
 
 use Test::More tests => 16;
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
 use Test::Run::Obj;
+use Test::Run::Trap::Obj;
+
+
+package main;
 
 sub trap_output
 {
@@ -28,17 +33,20 @@ sub trap_output
 
     trap { $tester->runtests(); };
 
-    return { 
+    return Test::Run::Trap::Obj->new({ 
         ( map { $_ => $trap->$_() } 
         (qw(stdout stderr die leaveby exit return warn wantarray)))
-    }
-
+    });
 }
 
 {
     my $got = trap_output([test_files => ["t/sample-tests/simple"]]);
+
     # TEST
-    ok (($got->{stdout} =~ m/All tests successful\./), "'All tests successful.' string as is");
+    $got->field_like("stdout", qr/All tests successful\./, 
+        "'All tests successful.' string as is"
+    );
+
     # TEST
     ok (($got->{stdout} =~ m/^Files=\d+, Tests=\d+,  [^\n]*wallclock secs/m),
         "Final Stats line matches format.")

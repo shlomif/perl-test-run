@@ -68,6 +68,8 @@ provides:
     file: lib/Test/Run/Straps/StrapsDetailsObj.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Straps/StrapsTotalsObj.pm
+  Test::Run::Trap::Obj:
+    file: lib/Test/Run/Trap/Obj.pm
 generated_by: Module::Build version 0.2805
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
