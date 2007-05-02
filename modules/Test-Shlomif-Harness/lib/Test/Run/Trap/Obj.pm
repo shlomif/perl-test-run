@@ -9,6 +9,10 @@ use Test::More;
 use Data::Dumper ();
 
 use Text::Sprintf::Named;
+    
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+
+use Test::Run::Obj;
 
 my @fields = qw(
     die
@@ -76,5 +80,25 @@ sub field_like
     }
 }
 
+sub trap_run
+{
+    my ($class, $args) = @_;
+
+    my $test_run_class = $args->{class} || "Test::Run::Obj";
+
+    my $test_run_args = $args->{args};
+
+    my $tester = $test_run_class->new(
+        {@{$test_run_args}},
+        );
+
+    trap { $tester->runtests(); };
+
+    return $class->new({ 
+        ( map { $_ => $trap->$_() } 
+        (qw(stdout stderr die leaveby exit return warn wantarray)))
+    });
+
+}
 1;
 
