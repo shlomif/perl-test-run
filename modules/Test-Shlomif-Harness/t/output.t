@@ -48,9 +48,10 @@ sub trap_output
     );
 
     # TEST
-    ok (($got->{stdout} =~ m/^Files=\d+, Tests=\d+,  [^\n]*wallclock secs/m),
-        "Final Stats line matches format.")
-
+    $got->field_like("stdout", 
+        qr/^Files=\d+, Tests=\d+,  [^\n]*wallclock secs/m,
+        "Final Stats line matches format."
+    );
 }
 
 # Run several tests.
@@ -67,7 +68,9 @@ sub trap_output
     );
 
     # TEST
-    ok (($got->{stdout} =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
+    $got->field_like("stdout", qr/All tests successful/, 
+        "'All tests successful' (without the period) string as is"
+    );
 }
 
 # Skipped sub-tests
@@ -83,7 +86,11 @@ sub trap_output
     );
 
     # TEST
-    ok (($got->{stdout} =~ m/All tests successful, 1 subtest skipped\./), "1 subtest skipped with a comma afterwards.");
+    $got->field_like(
+        "stdout",
+        qr/All tests successful, 1 subtest skipped\./,
+        "1 subtest skipped with a comma afterwards."
+    );
 }
 
 # Run several tests with debug.
@@ -100,11 +107,12 @@ sub trap_output
         ]
     );
     
-    my $text = $got->{stdout};
     # TEST
-    ok (($text =~ m/All tests successful/), "'All tests successful' (without the period) string as is");
+    $got->field_like("stdout", qr/All tests successful/, 
+        "'All tests successful' (without the period) string as is");
     # TEST
-    ok (($text =~ m/^# PERL5LIB=/m), "Matched a Debug diagnostics");
+    $got->field_like("stdout", qr/^# PERL5LIB=/m, 
+        "Matched a Debug diagnostics");
 }
 
 {
