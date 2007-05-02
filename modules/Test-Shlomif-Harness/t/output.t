@@ -28,11 +28,11 @@ sub trap_output
 
     trap { $tester->runtests(); };
 
-    return
-    {
-        'stdout' => $trap->stdout(),
-        'error' => $trap->die(),
+    return { 
+        ( map { $_ => $trap->$_() } 
+        (qw(stdout stderr die leaveby exit return warn wantarray)))
     }
+
 }
 
 {
@@ -109,7 +109,7 @@ sub trap_output
         ]
     );
     
-    my $error = $got->{error};
+    my $error = $got->{die};
     my $match = 'FAILED--Further testing stopped: GERONIMMMOOOOOO!!!';
     # TEST
     like ("$error", ('/' . quotemeta($match) . '/'), 
@@ -206,7 +206,7 @@ sub trap_output
     );
     
     my $text = $got->{stdout};
-    my $error = $got->{error};
+    my $error = $got->{die};
 
     # TEST
     ok (scalar($text =~ m{t/sample-tests/simple_fail\.+FAILED tests 2, 5\n\tFailed 2/5 tests, 60.00% okay}),
