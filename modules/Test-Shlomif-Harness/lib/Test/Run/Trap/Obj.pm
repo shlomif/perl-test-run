@@ -80,6 +80,19 @@ sub field_like
     }
 }
 
+sub field_is
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my ($what, $expected, $name) = @_;
+
+    if (! Test::More::is($self->$what(), $expected, $name))
+    {
+        $self->diag_all();
+    }
+}
+
 sub trap_run
 {
     my ($class, $args) = @_;

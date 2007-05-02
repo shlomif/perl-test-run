@@ -1,16 +1,8 @@
-#!/usr/bin/perl -w
-
-BEGIN {
-    if( $ENV{PERL_CORE} ) {
-        chdir 't';
-        @INC = ('../lib', 'lib');
-    }
-    else {
-        unshift @INC, 't/lib';
-    }
-}
+#!/usr/bin/perl
 
 use strict;
+use warnings;
+
 use File::Spec;
 
 my $Curdir = File::Spec->curdir;
@@ -21,7 +13,7 @@ my $SAMPLE_TESTS = $ENV{PERL_CORE}
 
 use Test::More tests => 3;
 
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+use Test::Run::Trap::Obj;
 
 my $IsMacPerl = $^O eq 'MacOS';
 my $IsVMS     = $^O eq 'VMS';
@@ -35,13 +27,11 @@ my $die_estat = $IsVMS     ? 44 :
 use Test::Run::Obj;
 
 {      
-    my $tester = Test::Run::Obj->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
-            test_files => ["t/sample-tests/simple_fail"]
+            args => [ test_files => ["t/sample-tests/simple_fail"], ],
         }
     );
-
-    trap { $tester->runtests() };
 
     my $right_text = <<"EOF";
 t/sample-tests/simple_fail...FAILED tests 2, 5
@@ -50,22 +40,24 @@ Failed Test                Stat Wstat Total Fail  Failed  List of Failed
 -------------------------------------------------------------------------------
 t/sample-tests/simple_fail                5    2  40.00%  2 5
 EOF
+
     # TEST
-    is ($trap->stdout(), $right_text, "Testing for the right failure text");
+    $got->field_is("stdout", $right_text, 
+        "simple_fail (only) - Right failure text"
+    );
 }
 
 # Test the output using a Columns of 100.
 {
-    my $tester = Test::Run::Obj->new(
+    my $tester = Test::Run::Trap::Obj->trap_run(
         {
-            test_files => ["t/sample-tests/simple_fail"],
-            Columns => 100,
+            args => 
+            [
+                test_files => ["t/sample-tests/simple_fail"],
+                Columns => 100,
+            ],
         }
     );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $right_text = <<"EOF";
 t/sample-tests/simple_fail...FAILED tests 2, 5
@@ -75,19 +67,19 @@ Failed Test                Stat Wstat Total Fail  Failed  List of Failed
 t/sample-tests/simple_fail                5    2  40.00%  2 5
 EOF
     # TEST
-    is ($trap->stdout(), $right_text, "Right output with Columns == 100");
+    $tester->field_is("stdout", $right_text, 
+        "simple_fail's right output with Columns == 100");
 }
 
 {       
-    my $tester = Test::Run::Obj->new(
+    my $tester = Test::Run::Trap::Obj->trap_run(
         {
-            test_files => ["t/sample-tests/test_more_fail.t"],
+            args =>
+            [
+                test_files => ["t/sample-tests/test_more_fail.t"],
+            ],
         }
     );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $right_text = <<"EOF";
 t/sample-tests/test_more_fail....dubious
@@ -100,7 +92,9 @@ t/sample-tests/test_more_fail.t    1   256     1    1 100.00%  1
 EOF
 
     # TEST
-    is ($trap->stdout(), $right_text, "Right output with a Test::More generated failure");
+    $tester->field_is("stdout", $right_text, 
+        "Right output with a Test::More generated failure"
+    );
 }
 
 __END__
