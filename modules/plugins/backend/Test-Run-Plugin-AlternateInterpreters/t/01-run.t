@@ -8,7 +8,7 @@ use File::Spec;
 use Test::Run::Obj;
 use Test::Run::Plugin::AlternateInterpreters;
 
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+use Test::Run::Trap::Obj;
 
 package MyTestRun;
 
@@ -21,80 +21,81 @@ package main;
 use Test::More tests => 2;
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
-            test_files => 
+            class => "MyTestRun",
+            args =>
             [
-                "t/sample-tests/success1.cat",
-                "t/sample-tests/one-ok.t"
-            ],
-            alternate_interpreters =>
-            [
-                {
-                    cmd => 
-                    ("$^X " . File::Spec->catfile(
-                        File::Spec->curdir(), "t", "data", 
-                        "interpreters", "cat.pl"
-                        ) . " "
-                    ),
-                    type => "regex",
-                    pattern => '\.cat$',
-                },
-            ],
+                test_files => 
+                [
+                    "t/sample-tests/success1.cat",
+                    "t/sample-tests/one-ok.t"
+                ],
+                alternate_interpreters =>
+                [
+                    {
+                        cmd => 
+                        ("$^X " . File::Spec->catfile(
+                            File::Spec->curdir(), "t", "data", 
+                            "interpreters", "cat.pl"
+                            ) . " "
+                        ),
+                        type => "regex",
+                        pattern => '\.cat$',
+                    },
+                ],
+            ]
         }
         );
 
-    trap {
-    $tester->runtests();
-    };
-
     # TEST
-    ok (($trap->stdout() =~ m/All tests successful\./), 
-        "All test are successful with multiple interpreters");
+    $got->field_like("stdout", qr/All tests successful\./, 
+        "All test are successful with multiple interpreters"
+    );
 }
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
-            test_files => 
+            class => "MyTestRun",
+            args =>
             [
-                "t/sample-tests/success2.mok.cat",
-                "t/sample-tests/success1.cat",
-                "t/sample-tests/one-ok.t",
-                "t/sample-tests/success1.mok",
-            ],
-            alternate_interpreters =>
-            [
-                {
-                    cmd => 
-                    ("$^X " . File::Spec->catfile(
-                        File::Spec->curdir(), "t", "data", 
-                        "interpreters", "mini-ok.pl"
-                        ) . " "
-                    ),
-                    type => "regex",
-                    pattern => '\.mok(?:\.cat)?\z',
-                },
-                {
-                    cmd => 
-                    ("$^X " . File::Spec->catfile(
-                        File::Spec->curdir(), "t", "data", 
-                        "interpreters", "cat.pl"
-                        ) . " "
-                    ),
-                    type => "regex",
-                    pattern => '\.cat\z',
-                },
+                test_files => 
+                [
+                    "t/sample-tests/success2.mok.cat",
+                    "t/sample-tests/success1.cat",
+                    "t/sample-tests/one-ok.t",
+                    "t/sample-tests/success1.mok",
+                ],
+                alternate_interpreters =>
+                [
+                    {
+                        cmd => 
+                        ("$^X " . File::Spec->catfile(
+                            File::Spec->curdir(), "t", "data", 
+                            "interpreters", "mini-ok.pl"
+                            ) . " "
+                        ),
+                        type => "regex",
+                        pattern => '\.mok(?:\.cat)?\z',
+                    },
+                    {
+                        cmd => 
+                        ("$^X " . File::Spec->catfile(
+                            File::Spec->curdir(), "t", "data", 
+                            "interpreters", "cat.pl"
+                            ) . " "
+                        ),
+                        type => "regex",
+                        pattern => '\.cat\z',
+                    },
+                ],
             ],
         }
-        );
-
-    trap {
-    $tester->runtests();
-    };
+    );
 
     # TEST
-    ok (($trap->stdout() =~ m/All tests successful\./), 
+    $got->field_like("stdout", qr/All tests successful\./, 
         "Tests over-riding order is applied.");
 }
 
