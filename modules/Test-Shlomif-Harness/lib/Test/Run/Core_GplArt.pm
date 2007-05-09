@@ -1,6 +1,6 @@
 # -*- Mode: cperl; cperl-indent-level: 4 -*-
 
-package Test::Run::Core;
+package Test::Run::Core_GplArt;
 
 require 5.00405;
 use Test::Run::Straps;
@@ -15,7 +15,6 @@ use Test::Run::Obj::CanonFailedObj;
 
 use Test::Run::Obj::Error;
 
-use Exporter;
 use Benchmark;
 use Config;
 use strict;
@@ -25,7 +24,6 @@ use Class::Accessor;
 use Scalar::Util ();
 use List::Util qw(max);
 use vars qw(
-    $VERSION
     @ISA
 );
 
@@ -39,24 +37,9 @@ BEGIN {
 
 Test::Run::Core - Run Perl standard test scripts with statistics
 
-=head1 VERSION
-
-Version 0.0108
-
 =cut
 
-$VERSION = '0.0110';
-
-$ENV{HARNESS_ACTIVE} = 1;
-$ENV{HARNESS_NG_VERSION} = $VERSION;
-
-END {
-    # For VMS.
-    delete $ENV{HARNESS_ACTIVE};
-    delete $ENV{HARNESS_NG_VERSION};
-}
-
-@ISA = ('Test::Run::Base', 'Exporter');
+@ISA = ('Test::Run::Base');
 
 __PACKAGE__->mk_accessors(qw(
     _bonusmsg

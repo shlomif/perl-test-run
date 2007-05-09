@@ -7,6 +7,7 @@ lib/Test/Run/Assert.pm
 lib/Test/Run/Base.pm
 lib/Test/Run/Base/Struct.pm
 lib/Test/Run/Core.pm
+lib/Test/Run/Core_GplArt.pm
 lib/Test/Run/Iface.pm
 lib/Test/Run/Obj/CanonFailedObj.pm
 lib/Test/Run/Obj/Error.pm
