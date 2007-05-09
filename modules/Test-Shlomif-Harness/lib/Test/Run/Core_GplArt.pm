@@ -1490,33 +1490,6 @@ Should handle the case where the test file cannot be opened.
 
 =cut
 
-sub _strap_callback
-{
-    my ($self, $args) = @_;
-    
-    my $type = $args->{type};
-
-    if ($type eq "tap_event")
-    {
-        return $self->_tap_event_strap_callback($args);
-    }
-    elsif ($type eq "report_start_env")
-    {
-        return $self->_report_script_start_environment($args);
-    }
-    elsif ($type eq "could_not_run_script")
-    {
-        return $self->_report_could_not_run_script($args);
-    }
-    elsif ($type eq "test_file_opening_error")
-    {
-        return $self->_handle_test_file_opening_error($args);
-    }
-    elsif ($type eq "test_file_closing_error")
-    {
-        return $self->_handle_test_file_closing_error($args);
-    }
-}
 
 sub _tap_event_strap_callback
 {

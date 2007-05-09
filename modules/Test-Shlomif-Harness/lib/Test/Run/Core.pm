@@ -29,6 +29,28 @@ END
     delete $ENV{HARNESS_NG_VERSION};
 }
 
+sub _calc_strap_callback_map
+{
+    return 
+    {
+        "tap_event"        => "_tap_event_strap_callback",
+        "report_start_env" => "_report_script_start_environment",
+        "could_not_run_script" => "_report_could_not_run_script",
+        "test_file_opening_error" => "_handle_test_file_opening_error",
+        "test_file_closing_error" => "_handle_test_file_closing_error",
+    };
+}
+
+sub _strap_callback
+{
+    my ($self, $args) = @_;
+    
+    my $type = $args->{type};
+    my $cb = $self->_calc_strap_callback_map()->{$type};
+
+    return $self->$cb($args);
+}
+
 1;
 
 =head1 LICENSE
