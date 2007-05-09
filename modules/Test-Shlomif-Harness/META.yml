@@ -1,9 +1,8 @@
 ---
 name: Test-Run
-version: 0.0109
-author:
-  - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
-abstract: Run Perl standard test scripts with statistics
+version: 0.0110
+author: []
+abstract: Base class to run standard TAP scripts.
 license: perl
 resources:
   license: http://dev.perl.org/licenses/
@@ -29,7 +28,9 @@ provides:
     file: lib/Test/Run/Base/Struct.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0109
+    version: 0.0110
+  Test::Run::Core_GplArt:
+    file: lib/Test/Run/Core_GplArt.pm
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
   Test::Run::Obj:

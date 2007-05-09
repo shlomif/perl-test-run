@@ -35,7 +35,7 @@ BEGIN {
 
 =head1 NAME
 
-Test::Run::Core - Run Perl standard test scripts with statistics
+Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
 
 =cut
 
