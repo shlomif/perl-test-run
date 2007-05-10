@@ -502,14 +502,6 @@ sub _init_dir_files
     }  
 }
 
-=head2 $self->_report_leaked_files({leaked_files => [@files]})
-
-[This is a method that needs to be over-rided.]
-
-Should report (or ignore) the files that were leaked in the directories
-that were specifies as leaking directories.
-
-=cut
 
 sub _recheck_dir_files
 {
@@ -592,39 +584,6 @@ sub _get_failed_with_results_seen_msg
             ;
 }
 
-=head2 $self->_report_failed_with_results_seen({%args})
-
-[This is a method that needs to be over-rided.]
-
-Should report (or ignore) the failed tests in the test file.
-
-Arguments are:
-
-=over 4
-
-=item * test_struct 
-
-The test struct as returned by straps.
-
-=item * filename
-
-The filename
-
-=item * estatus
-
-Exit status.
-
-=item * wstatus
-
-Wait status.
-
-=item * results
-
-The results of the test.
-
-=back
-
-=cut
 
 sub _get_failed_and_max_params
 {
@@ -705,11 +664,6 @@ sub _failed_with_results_seen
         );
 }
 
-=head2 $self->_report_failed_before_any_test_output();
-
-[This is a method that needs to be over-rided.]
-
-=cut
 
 sub _failed_before_any_test_output
 {
@@ -872,13 +826,6 @@ sub _time_single_test
     return;
 }
 
-=head2 $self->_report_skipped_test()
-
-[This is a method that needs to be over-rided.]
-
-Should report the skipped test.
-
-=cut
 
 sub _process_skipped_test
 {
@@ -887,13 +834,6 @@ sub _process_skipped_test
     return $self->_report_skipped_test();
 }
 
-=head2 $self->_report_all_ok_test()
-
-[This is a method that needs to be over-rided.]
-
-Should report the all OK test.
-
-=cut
 
 sub _process_all_ok_test
 {
@@ -901,13 +841,6 @@ sub _process_all_ok_test
     return $self->_report_all_ok_test();
 }
 
-=head2 $self->_report_all_skipped_test()
-
-[This is a method that needs to be over-rided.]
-
-Should report the all-skipped test.
-
-=cut
 
 sub _process_all_skipped_test
 {
@@ -985,13 +918,6 @@ sub _calc_test_struct
     );
 }
 
-=head2 $self->_report_single_test_file_start({test_file => "t/my_test_file.t"})
-
-[This is a method that needs to be over-rided.]
-
-Should start the report for the C<test_file> file.
-
-=cut
 
 
 sub _prepare_for_single_test_run
@@ -1139,36 +1065,6 @@ sub _leader_width
     return $maxlen + 3 - $maxsuflen;
 }
 
-=head2 $self->_report('channel' => $channel, 'event' => $event_handle);
-
-[This is a method that needs to be over-rided.]
-
-Reports the C<$event_handle> event to channel C<$channel>. This should be 
-overrided by derived classes to do alternate functionality besides calling 
-output()->print_message(), also different based on the channel.
-
-Currently available channels are:
-
-=over 4
-
-=item 'success'
-
-The success report.
-
-=back
-
-An event is a hash ref that should contain a 'type' property. Currently 
-supported types are:
-
-=over 4
-
-=item * success
-
-A success type.
-
-=back
-
-=cut
 
 sub _get_success_msg
 {
@@ -1217,14 +1113,6 @@ sub _fail_no_tests_output
         {text => $self->_get_fail_no_tests_output_text(),},
     );
 }
-
-=head2 $self->_report_final_stats()
-
-[This is a method that needs to be over-rided.]
-
-Reports the final statistics.
-
-=cut
 
 sub _get_tests_good_percent
 {
@@ -1337,22 +1225,6 @@ sub _calc_format_widths
     return 0;
 }
 
-=head2 $self->_fail_other_print_top()
-
-[This is a method that needs to be over-rided.]
-
-Prints the header of the files that failed.
-
-=cut
-
-=head2 $self->_fail_other_report_test($script_name)
-
-[This is a method that needs to be over-rided.]
-
-In case of failure from a different reason - report that test script.
-Test::Run iterates over all the scripts and reports them one by one.
-
-=cut
 
 sub _create_fmts 
 {
@@ -1413,14 +1285,6 @@ sub _fail_other_print_all_tests
     }
 }
 
-=head2 $self->_fail_other_print_bonus_message()
-
-[This is a method that needs to be over-rided.]
-
-Should report the bonus message in case of failure from a different
-reason.
-
-=cut
 
 sub _fail_other
 {
@@ -1471,25 +1335,6 @@ sub _show_results
 
     $self->_report_final_stats();
 }
-
-=head2 $self->_report_tap_event({ 'raw_event' => $event->raw() })
-
-[This is a method that needs to be over-rided.]
-
-=head2 $self->_report_script_start_environment()
-
-[This is a method that needs to be over-rided.]
-
-Should report the environment of the script at its beginning.
-
-=head2 $self->_handle_test_file_opening_error($args)
-
-[This is a method that needs to be over-rided.]
-
-Should handle the case where the test file cannot be opened.
-
-=cut
-
 
 sub _tap_event_strap_callback
 {
@@ -1542,14 +1387,6 @@ sub _strap_header_handler {
     return;
 };
 
-=head2 $self->_report_test_progress($args)
-
-[This is a method that needs to be over-rided.]
-
-Report the text progress. In the command line it would be a ok $curr/$total
-or NOK.
-
-=cut
 
 sub _strap_test_handler
 {
@@ -1639,46 +1476,6 @@ sub _get_bonusmsg {
     return $bonusmsg;
 }
 
-=head2 The common test-context $args param
-
-Contains:
-
-=over 4
-
-=item 'test_struct' => $test
-
-A reference to the test summary object.
-
-=item estatus
-
-The exit status of the test file.
-
-=back
-
-=head2 $test_run->_report_dubious($args)
-
-[This is a method that needs to be over-rided.]
-
-Is called to report the "dubious" error, when the test returns a non-true
-error code.
-
-$args are the test-context - see above.
-
-=cut
-
-=head2 $test_run->_report_dubious_summary_all_subtests_successful($args)
-
-[This is a method that needs to be over-rided.]
-
-$args are the test-context - see above.
-
-=head2 $test_run->_report_premature_test_dubious_summary($args)
-
-[This is a method that needs to be over-rided.]
-
-$args are the test-context - see above.
-
-=cut
 
 sub _get_premature_test_dubious_summary
 {
