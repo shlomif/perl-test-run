@@ -208,6 +208,19 @@ sub _strap_callback
     return $self->$cb($args);
 }
 
+sub _canonfailed
+{
+    my $self = shift;
+
+    my $canon_obj = $self->_canonfailed_get_canon();
+
+    $canon_obj->add_Failed_and_skipped($self->last_test_obj);
+
+    return $canon_obj;
+    # Originally returning get_ser_results, canon
+}
+
+
 sub filter_failed
 {
     my ($self, $failed_ref) = @_;

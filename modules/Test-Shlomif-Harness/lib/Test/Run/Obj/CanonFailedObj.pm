@@ -137,6 +137,16 @@ sub _calc_skipped_percent
         ;
 }
 
+sub add_Failed_and_skipped
+{
+    my ($self, $t) = @_;
+
+    $self->add_Failed($t);
+    $self->add_skipped($t);
+
+    return;
+}
+
 =head2 $self->add_skipped($test)
 
 Add a skipped test.

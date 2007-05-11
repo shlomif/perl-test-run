@@ -397,13 +397,11 @@ sub _calc_test_struct_ml
     return $self->output->ml;
 }
 
-sub _first_canonfailed
+sub _ser_failed_results
 {
     my $self = shift;
 
-    my ($first) = $self->_canonfailed();
-
-    return $first;
+    return $self->_canonfailed()->get_ser_results();
 }
 
 sub _report_premature_test_dubious_summary
@@ -413,7 +411,7 @@ sub _report_premature_test_dubious_summary
     $self->_named_printf(
         "premature_test_dubious_summary",
         {
-            canonfailed => $self->_first_canonfailed(),
+            canonfailed => $self->_ser_failed_results(),
         }
     );
 

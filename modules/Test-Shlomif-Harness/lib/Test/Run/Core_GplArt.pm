@@ -448,11 +448,10 @@ sub _is_failed_and_max
 sub _get_failed_and_max_msg
 {
     my ($self) = @_;
-    my $test = $self->last_test_obj;
 
-    my ($txt) = $self->_canonfailed();
-
-    return ($test->ml().$txt);
+    return $self->last_test_obj->ml(). 
+           $self->_canonfailed()->get_ser_results()
+           ;
 }
 
 sub _get_dont_know_which_tests_failed_msg
@@ -485,11 +484,9 @@ sub _get_failed_and_max_params
     
     my $test = $self->last_test_obj;
 
-    my (undef, $canon) = $self->_canonfailed();
-
     return 
         [
-            canon   => $canon,
+            canon   => $self->_canonfailed()->canon(),
             failed  => scalar @{$test->failed()},
             percent => 100*(scalar @{$test->failed()})/$test->max(),
         ];
@@ -1379,14 +1376,12 @@ sub _get_premature_test_dubious_summary
 
     $test->add_to_failed($test->next()..$test->max());
 
-    my (undef, $canon) = $self->_canonfailed();
-
     $self->_report_premature_test_dubious_summary();
 
     return
     {
         failed => scalar(@{$test->failed()}),
-        canon => $canon,
+        canon => $self->_canonfailed()->canon(),
         percent => (100*(scalar @{$test->failed()})/$test->max()),
     };
 }
@@ -1514,19 +1509,6 @@ sub _canonfailed_get_canon
             failed_num => scalar(@$failed),
         },
     );
-}
-
-sub _canonfailed {
-    my ($self) = @_;
-
-    my $test = $self->last_test_obj;
-
-    my $canon_obj = $self->_canonfailed_get_canon();
-
-    $canon_obj->add_Failed($test);
-    $canon_obj->add_skipped($test);
-
-    return ($canon_obj->get_ser_results(), $canon_obj->canon());
 }
 
 =end _private
