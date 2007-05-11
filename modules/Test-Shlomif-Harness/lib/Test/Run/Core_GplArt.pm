@@ -445,15 +445,6 @@ sub _is_failed_and_max
     return (@{$test->failed()} and $test->max());
 }
 
-sub _get_failed_and_max_msg
-{
-    my ($self) = @_;
-
-    return $self->last_test_obj->ml(). 
-           $self->_canonfailed()->get_ser_results()
-           ;
-}
-
 sub _get_dont_know_which_tests_failed_msg
 {
     my ($self, $args) = @_;

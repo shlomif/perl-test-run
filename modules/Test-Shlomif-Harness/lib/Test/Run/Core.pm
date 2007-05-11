@@ -208,6 +208,14 @@ sub _strap_callback
     return $self->$cb($args);
 }
 
+sub _get_failed_and_max_msg
+{
+    my $self = shift;
+
+    return $self->last_test_obj->ml()
+        .  $self->_canonfailed()->get_ser_results();
+}
+
 sub _canonfailed
 {
     my $self = shift;
