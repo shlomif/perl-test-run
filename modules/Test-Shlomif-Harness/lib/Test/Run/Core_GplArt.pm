@@ -43,47 +43,19 @@ Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
 
 __PACKAGE__->mk_accessors(qw(
     _bonusmsg
-    Columns
-    Debug
     dir_files
     failed_tests
     format_columns
     last_test_elapsed
     last_test_obj
     last_test_results
-    Leaked_Dir
     list_len
     max_namelen
-    NoTty
     output
     Strap
-    Switches
-    Switches_Env
-    test_files
-    Test_Interpreter
-    Timer
     tot
-    Verbose
     width
 ));
-
-
-sub _get_simple_params
-{
-    return
-        [qw(
-            Columns
-            Debug
-            Leaked_Dir
-            NoTty
-            Switches
-            Switches_Env
-            Verbose
-            Test_Interpreter
-            Timer
-            test_files
-       )];
-}
 
 sub _init_simple_params
 {

@@ -29,6 +29,25 @@ END
     delete $ENV{HARNESS_NG_VERSION};
 }
 
+__PACKAGE__->mk_accessors(@{__PACKAGE__->_get_simple_params()});
+
+sub _get_simple_params
+{
+    return
+        [qw(
+            Columns
+            Debug
+            Leaked_Dir
+            NoTty
+            Switches
+            Switches_Env
+            test_files
+            Test_Interpreter
+            Timer
+            Verbose
+       )];
+}
+
 =head2 METHODS
 
 Test::Run currently has only one interface method.
