@@ -1506,13 +1506,6 @@ sub _canonfailed_get_canon_helper
     }
 }
 
-sub _get_failed_list
-{
-    my $self = shift;
-
-    return$self->last_test_obj->failed
-}
-
 sub _canonfailed_get_failed
 {
     my $self = shift;

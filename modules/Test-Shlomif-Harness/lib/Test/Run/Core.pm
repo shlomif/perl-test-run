@@ -205,6 +205,13 @@ sub _strap_callback
     return $self->$cb($args);
 }
 
+sub _get_failed_list
+{
+    my $self = shift;
+
+    return $self->last_test_obj->failed;
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]
