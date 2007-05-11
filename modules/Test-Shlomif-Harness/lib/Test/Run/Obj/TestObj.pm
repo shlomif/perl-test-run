@@ -100,6 +100,20 @@ sub get_reason
         ;
 }
 
+sub num_failed
+{
+    my $self = shift;
+
+    return scalar(@{$self->failed()});
+}
+
+sub calc_percent
+{
+    my $self = shift;
+
+    return ( (100*$self->num_failed()) / $self->max() );
+}
+
 1;
 
 __END__

@@ -208,12 +208,26 @@ sub _strap_callback
     return $self->$cb($args);
 }
 
+sub _ser_failed_results
+{
+    my $self = shift;
+
+    return $self->_canonfailed()->get_ser_results();
+}
+
+sub _failed_canon
+{
+    my $self = shift;
+
+    return $self->_canonfailed()->canon();
+}
+
 sub _get_failed_and_max_msg
 {
     my $self = shift;
 
     return $self->last_test_obj->ml()
-        .  $self->_canonfailed()->get_ser_results();
+        .  $self->_ser_failed_results();
 }
 
 sub _canonfailed
@@ -247,6 +261,20 @@ sub _get_failed_list
     my $self = shift;
 
     return $self->last_test_obj->failed;
+}
+
+sub _get_failed_and_max_params
+{
+    my $self = shift;
+
+    my $last_test = $self->last_test_obj;
+
+    return
+    [
+        canon => $self->_failed_canon(),
+        failed => $last_test->num_failed(),
+        percent => $last_test->calc_percent(),
+    ];
 }
 
 =head2 $self->_report_failed_before_any_test_output();

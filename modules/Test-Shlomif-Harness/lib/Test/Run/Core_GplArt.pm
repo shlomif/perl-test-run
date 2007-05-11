@@ -468,21 +468,6 @@ sub _get_failed_with_results_seen_msg
             ;
 }
 
-
-sub _get_failed_and_max_params
-{
-    my ($self) = @_;
-    
-    my $test = $self->last_test_obj;
-
-    return 
-        [
-            canon   => $self->_canonfailed()->canon(),
-            failed  => scalar @{$test->failed()},
-            percent => 100*(scalar @{$test->failed()})/$test->max(),
-        ];
-}
-
 sub _get_undef_tests_params
 {
     return 

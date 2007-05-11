@@ -397,12 +397,6 @@ sub _calc_test_struct_ml
     return $self->output->ml;
 }
 
-sub _ser_failed_results
-{
-    my $self = shift;
-
-    return $self->_canonfailed()->get_ser_results();
-}
 
 sub _report_premature_test_dubious_summary
 {
