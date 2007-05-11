@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More tests => 3;
 
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+use Test::Run::Trap::Obj;
 
 use File::Spec;
 
@@ -41,16 +41,18 @@ my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
     delete($ENV{'HARNESS_PLUGINS'});
     delete($ENV{'PROVE_SWITCHES'});
     
-    my $obj = Test::Run::CmdLine::Iface->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
-            'test_files' => [ $test_file ],
+            class => "Test::Run::CmdLine::Iface",
+            args => [ 'test_files' => [ $test_file ],],
+            run_func => "run",
         }
     );
 
-    trap{ $obj->run() };
     # TEST
-    like ($trap->stdout(), qr/All tests success/,
-        "Good output by default");
+    $got->field_like ("stdout", qr/All tests success/,
+        "Good output by default"
+    );
 }
 
 1;

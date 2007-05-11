@@ -23,6 +23,7 @@ my @fields = qw(
     stdout
     wantarray
     warn
+    run_func
 );
 
 sub _get_fields
@@ -115,11 +116,13 @@ sub trap_run
 
     my $test_run_args = $args->{args};
 
+    my $run_func = $args->{run_func} || "runtests";
+
     my $tester = $test_run_class->new(
         {@{$test_run_args}},
         );
 
-    trap { $tester->runtests(); };
+    trap { $tester->$run_func(); };
 
     return $class->new({ 
         ( map { $_ => $trap->$_() } 
