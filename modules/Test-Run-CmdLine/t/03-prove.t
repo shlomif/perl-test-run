@@ -88,10 +88,15 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     delete($ENV{'PROVE_SWITCHES'});
     $ENV{'COLUMNS'} = 80;
     {
-        my $results = qx{$runprove $test_file};
+        my $got = TestRunCmdLineTrapper->trap_run(
+            {
+                runprove => $runprove,
+                cmdline => qq{$test_file},
+            }
+        );
         
         # TEST
-        ok (($results =~ m/All tests successful\./), 
+        $got->field_like("stdout", qr/All tests successful\./, 
             "Good results from runprove");
     }
 
@@ -129,11 +134,17 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Testing is not 'Verbose' if HARNESS_VERBOSE is 0.");
     }
     {
-        my $results = qx{$runprove -v $test_file};
+        my $got = TestRunCmdLineTrapper->trap_run(
+            {
+                runprove => $runprove,
+                cmdline => qq{-v $test_file},
+            }
+        );
         
         # TEST
-        ok (($results =~ m/^ok 1/m),
-            "Testing is 'Verbose' with the '-v' flag.");
+        $got->field_like("stdout", qr/^ok 1/m,
+            "Testing is 'Verbose' with the '-v' flag."
+        );
     }
     {
         local $ENV{'HARNESS_DEBUG'} = 1;
@@ -144,11 +155,17 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Testing is 'Debug' if HARNESS_DEBUG is 1.");
     }
     {
-        my $results = qx{$runprove -d $test_file};
+        my $got = TestRunCmdLineTrapper->trap_run(
+            {
+                runprove => $runprove,
+                cmdline => qq{-d $test_file},
+            }
+        );
         
         # TEST
-        ok (($results =~ m/# Running:/),
-            "Testing is 'Debug' is the '-d' flag was specified.");
+        $got->field_like("stdout", qr/# Running:/,
+            "Testing is 'Debug' is the '-d' flag was specified."
+        );
     }
     {
         my $results = trap("$runprove $simple_fail_file");
@@ -348,21 +365,27 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         chdir($cwd);
     }
     {
-        my $results = qx{$runprove --dry $test_file $with_myhello_file};
+        my $got = TestRunCmdLineTrapper->trap_run(
+            {
+                runprove => $runprove,
+                cmdline => qq{--dry $test_file $with_myhello_file},
+            }
+        );
         
         # TEST
-        is ($results, "$test_file\n$with_myhello_file\n",
-            "Testing dry run");
+        $got->field_is("stdout", "$test_file\n$with_myhello_file\n",
+            "Testing dry run"
+        );
     }
     {
-        my $got = TestRunCmdLineTrapper->new(
+        my $got = TestRunCmdLineTrapper->trap_run(
             {
                 runprove => $runprove,
                 cmdline => $simple_fail_file,
             },
         );
         # TEST
-        $got->field_unlike("stderr", m/\n\n$/s,
+        $got->field_unlike("stderr", qr/\n\n$/s,
             "Testing that the output does not end with two "
             . "newlines on failure."
         );
