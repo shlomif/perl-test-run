@@ -11,7 +11,7 @@ WriteMakefile(
     EXE_FILES => [ "bin/runprove", ],
     PREREQ_PM => {
         'Test::More' => 0,
-        'Test::Run::Core' => '0.0101',
+        'Test::Run::Core' => '0.0110',
         'UNIVERSAL::require' => 0,
         'Test::Trap' => 0,
     },
