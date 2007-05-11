@@ -7,6 +7,9 @@ use base 'Test::Run::Core_GplArt';
 
 use vars qw($VERSION);
 
+use List::MoreUtils ();
+
+
 =head1 NAME
 
 Test::Run::Core - Base class to run standard TAP scripts.
@@ -203,6 +206,19 @@ sub _strap_callback
     my $cb = $self->_calc_strap_callback_map()->{$type};
 
     return $self->$cb($args);
+}
+
+sub filter_failed
+{
+    my ($self, $failed_ref) = @_;
+    return [ List::MoreUtils::uniq(sort { $a <=> $b } @$failed_ref) ];
+}
+
+sub _canonfailed_get_failed
+{
+    my $self = shift;
+
+    return $self->filter_failed($self->_get_failed_list());
 }
 
 sub _get_failed_list

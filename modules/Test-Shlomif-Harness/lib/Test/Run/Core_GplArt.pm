@@ -1458,13 +1458,6 @@ sub _dubious_return
     return $self->_calc_dubious_return_ret_value();
 }
 
-sub filter_failed
-{
-    my ($self, $failed_ref) = @_;
-    my %seen;
-    return [ sort {$a <=> $b} grep !$seen{$_}++, @$failed_ref ];
-}
-
 sub _get_failed_string
 {
     my ($self, $canon) = @_;
@@ -1504,13 +1497,6 @@ sub _canonfailed_get_canon_helper
     {
         return $self->_canonfailed_get_canon_ranges($failed);
     }
-}
-
-sub _canonfailed_get_failed
-{
-    my $self = shift;
-
-    return $self->filter_failed($self->_get_failed_list());
 }
 
 sub _canonfailed_get_canon

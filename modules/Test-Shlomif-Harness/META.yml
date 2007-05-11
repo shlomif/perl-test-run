@@ -9,6 +9,7 @@ resources:
 requires:
   Class::Accessor: 0
   File::Spec: 0.6
+  List::MoreUtils: 0
   List::Util: 0
   NEXT: 0
   Scalar::Util: 0

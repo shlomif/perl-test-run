@@ -20,6 +20,7 @@ my $build = Test::Run::Builder->new(
         'Class::Accessor' => 0,
         'File::Spec' => 0.6,
         'List::Util' => 0,
+        'List::MoreUtils' => 0,
         'NEXT' => 0,
         'Scalar::Util' => 0,
         'TAP::Parser' => "0.51",
@@ -29,6 +30,7 @@ my $build = Test::Run::Builder->new(
     },
     dist_version_from => "lib/Test/Run/Core.pm",
     license => "perl",
+    create_makefile_pl => 'traditional',
 );
 
 $build->create_build_script;
