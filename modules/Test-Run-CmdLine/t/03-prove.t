@@ -8,6 +8,29 @@ use File::Path;
 use Config;
 use Cwd;
 
+package TestRunCmdLineTrapper;
+
+use base 'Test::Run::Trap::Obj';
+
+use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+
+sub trap_run
+{
+    my ($class, $args) = @_;
+
+    my $cmdline = $args->{cmdline};
+    my $runprove = $args->{runprove};
+
+    trap { system("$runprove $cmdline"); };
+
+    return $class->new({ 
+        ( map { $_ => $trap->$_() } 
+        (qw(stdout stderr die leaveby exit return warn wantarray)))
+    });
+}
+
+package main;
+
 my $abs_cur = getcwd();
 my $alterr_filename = File::Spec->catfile($abs_cur, "alterr.txt");
 
@@ -332,12 +355,16 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Testing dry run");
     }
     {
-        my ($results, $err) = trap("$runprove $simple_fail_file");
-
+        my $got = TestRunCmdLineTrapper->new(
+            {
+                runprove => $runprove,
+                cmdline => $simple_fail_file,
+            },
+        );
         # TEST
-        ok (($err !~ m/\n\n$/s),
-            "Testing that the output does not end with two ". 
-            "newlines on failure."
+        $got->field_unlike("stderr", m/\n\n$/s,
+            "Testing that the output does not end with two "
+            . "newlines on failure."
         );
     }
     {
