@@ -1343,25 +1343,6 @@ sub _get_bonusmsg {
     return $bonusmsg;
 }
 
-
-sub _get_premature_test_dubious_summary
-{
-    my ($self) = @_;
-
-    my $test = $self->last_test_obj;
-
-    $test->add_to_failed($test->next()..$test->max());
-
-    $self->_report_premature_test_dubious_summary();
-
-    return
-    {
-        failed => scalar(@{$test->failed()}),
-        canon => $self->_canonfailed()->canon(),
-        percent => (100*(scalar @{$test->failed()})/$test->max()),
-    };
-}
-
 sub _get_dubious_summary
 {
     my ($self, $args) = @_;

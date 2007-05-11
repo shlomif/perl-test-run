@@ -114,6 +114,13 @@ sub calc_percent
     return ( (100*$self->num_failed()) / $self->max() );
 }
 
+sub add_next_to_failed
+{
+    my $self = shift;
+
+    return $self->add_to_failed($self->next() .. $self->max());
+}
+
 1;
 
 __END__

@@ -263,6 +263,17 @@ sub _get_failed_list
     return $self->last_test_obj->failed;
 }
 
+sub _get_premature_test_dubious_summary
+{
+    my $self = shift;
+
+    $self->last_test_obj->add_next_to_failed();
+
+    $self->_report_premature_test_dubious_summary();
+
+    return +{ @{$self->_get_failed_and_max_params()} };
+}
+
 sub _get_failed_and_max_params
 {
     my $self = shift;
