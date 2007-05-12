@@ -234,6 +234,22 @@ sub _glob_dir
     return \@contents;
 }
 
+sub _init_tot_obj_instance
+{
+    my $self = shift;
+    return Test::Run::Obj::TotObj->new(
+        { @{$self->_get_tot_counter_tests()} },
+    );
+}
+
+sub _init_tot
+{
+    my $self = shift;
+    $self->tot(
+        $self->_init_tot_obj_instance()
+    );
+}
+
 =begin _private
 
 =over 4

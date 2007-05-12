@@ -745,22 +745,6 @@ sub _get_tot_counter_tests
     return [tests => (scalar @{$self->test_files()})];
 }
 
-sub _init_tot_obj_instance
-{
-    my $self = shift;
-    return Test::Run::Obj::TotObj->new(
-        { @{$self->_get_tot_counter_tests()} },
-    );
-}
-
-sub _init_tot
-{
-    my $self = shift;
-    $self->tot(
-        $self->_init_tot_obj_instance()
-    );
-}
-
 sub _run_all_tests {
     my $self = shift;
 
