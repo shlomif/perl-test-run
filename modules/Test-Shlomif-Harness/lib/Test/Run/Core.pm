@@ -9,6 +9,7 @@ use vars qw($VERSION);
 
 use List::MoreUtils ();
 
+use Fatal qw(opendir);
 
 =head1 NAME
 
@@ -220,6 +221,25 @@ The results of the test.
 =back
 
 =cut
+
+sub _glob_dir
+{
+    my ($self, $dirname) = @_;
+
+    my $dir;
+    opendir $dir, $dirname;
+    my @contents = readdir($dir);
+    closedir($dir);
+
+    return \@contents;
+}
+
+sub _get_dir
+{
+    my $self = shift;
+
+    return $self->_glob_dir($self->Leaked_Filed());
+}
 
 sub _calc_strap_callback_map
 {

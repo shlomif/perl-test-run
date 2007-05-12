@@ -278,23 +278,6 @@ sub _all_ok {
     );
 }
 
-=item B<_globdir>
-
-  my @files = _globdir $dir;
-
-Returns all the files in a directory.  This is shorthand for backwards
-compatibility on systems where C<glob()> doesn't work right.
-
-=cut
-
-sub _globdir {
-    opendir DIRH, shift; 
-    my @f = readdir DIRH; 
-    closedir DIRH; 
-
-    return @f;
-}
-
 =item B<_run_all_tests>
 
   my($total, $failed) = _run_all_tests();
@@ -342,12 +325,6 @@ sub _autoflush {
     my $old_fh = select $flushy_fh;
     $| = 1;
     select $old_fh;
-}
-
-sub _get_dir_files
-{
-    my $self = shift;
-    return [ _globdir($self->Leaked_Dir()) ];
 }
 
 sub _init_dir_files
