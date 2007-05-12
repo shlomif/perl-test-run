@@ -67,6 +67,25 @@ __PACKAGE__->mk_accessors(qw(
     width
     ));
 
+sub _init_simple_params
+{
+    my ($self, $args) = @_;
+    foreach my $key (@{$self->_get_simple_params()})
+    {
+        if (exists($args->{$key}))
+        {
+            $self->set($key, $args->{$key});
+        }
+    }
+}
+
+sub _get_new_strap
+{
+    my $self = shift;
+
+    return Test::Run::Straps->new({});
+}
+
 =head2 Object Parameters
 
 These parameters are accessors. They can be set at object creation by passing

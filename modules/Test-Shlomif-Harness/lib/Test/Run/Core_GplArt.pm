@@ -41,26 +41,6 @@ Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
 
 @ISA = ('Test::Run::Base');
 
-sub _init_simple_params
-{
-    my ($self, $args) = @_;
-    foreach my $key (@{$self->_get_simple_params()})
-    {
-        if (exists($args->{$key}))
-        {
-            $self->set($key, $args->{$key});
-        }
-    }
-}
-
-
-sub _get_new_strap
-{
-    my $self = shift;
-
-    return Test::Run::Straps->new(+{})
-}
-
 sub _initialize
 {
     my ($self, $args) = @_;
