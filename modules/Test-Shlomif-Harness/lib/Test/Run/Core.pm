@@ -208,6 +208,15 @@ sub _strap_callback
     return $self->$cb($args);
 }
 
+sub _inc_bad
+{
+    my $self = shift;
+
+    $self->_tot_inc('bad');
+
+    return;
+}
+
 sub _ser_failed_results
 {
     my $self = shift;
@@ -280,7 +289,7 @@ sub _failed_before_any_test_output
 
     $self->_report_failed_before_any_test_output();
 
-    $self->_tot_inc('bad');
+    $self->_inc_bad();
 
     return $self->_calc_failed_before_any_test_obj();
 }
@@ -316,6 +325,18 @@ sub _get_failed_and_max_params
         failed => $last_test->num_failed(),
         percent => $last_test->calc_percent(),
     ];
+}
+
+# The test program exited with a bad exit status.
+sub _dubious_return
+{
+    my $self = shift;
+
+    $self->_report_dubious();
+
+    $self->_inc_bad();
+
+    return $self->_calc_dubious_return_ret_value();
 }
 
 =head2 $self->_report_failed_before_any_test_output();

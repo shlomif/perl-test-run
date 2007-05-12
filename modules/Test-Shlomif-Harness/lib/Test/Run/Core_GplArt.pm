@@ -521,7 +521,7 @@ sub _failed_with_results_seen
 {
     my ($self) = @_;
 
-    $self->_tot_inc('bad');
+    $self->_inc_bad();
 
     $self->_report_failed_with_results_seen();
 
@@ -1359,18 +1359,6 @@ sub _calc_dubious_return_ret_value
                 name => $self->_get_last_test_filename(),
             }
         );
-}
-
-# Test program go boom.
-sub _dubious_return 
-{
-    my ($self) = @_;
-    
-    $self->_report_dubious();
-
-    $self->_tot_inc('bad');
-
-    return $self->_calc_dubious_return_ret_value();
 }
 
 sub _get_failed_string
