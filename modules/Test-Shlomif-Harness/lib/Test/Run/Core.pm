@@ -51,6 +51,22 @@ sub _get_simple_params
        )];
 }
 
+__PACKAGE__->mk_accessors(qw(
+    _bonusmsg
+    dir_files
+    failed_tests
+    format_columns
+    last_test_elapsed
+    last_test_obj
+    last_test_results
+    list_len
+    max_namelen
+    output
+    Strap
+    tot
+    width
+    ));
+
 =head2 Object Parameters
 
 These parameters are accessors. They can be set at object creation by passing

@@ -41,22 +41,6 @@ Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
 
 @ISA = ('Test::Run::Base');
 
-__PACKAGE__->mk_accessors(qw(
-    _bonusmsg
-    dir_files
-    failed_tests
-    format_columns
-    last_test_elapsed
-    last_test_obj
-    last_test_results
-    list_len
-    max_namelen
-    output
-    Strap
-    tot
-    width
-));
-
 sub _init_simple_params
 {
     my ($self, $args) = @_;
