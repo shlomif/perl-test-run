@@ -117,6 +117,15 @@ sub _normalize_cond
     return ($cond ? 1 : 0);
 }
 
+sub fail_test_scripts_string
+{
+    my $self = shift;
+
+    return $self->_get_obj_formatter(
+        "%(bad)s/%(tests)s test scripts",
+    )->obj_format($self);
+}
+
 1;
 
 __END__

@@ -970,13 +970,6 @@ sub _create_fmts
     return 0;
 }
 
-sub _get_fail_test_scripts_string
-{
-    my $self = shift;
-    return $self->tot()->bad() . "/" .
-        $self->tot()->tests(). " test scripts";
-}
-
 sub _get_fail_tests_good_percent_string
 {
     my $self = shift;

@@ -432,6 +432,13 @@ sub _dubious_return
     return $self->_calc_dubious_return_ret_value();
 }
 
+sub _get_fail_test_scripts_string
+{
+    my $self = shift;
+
+    return $self->tot->fail_test_scripts_string();
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

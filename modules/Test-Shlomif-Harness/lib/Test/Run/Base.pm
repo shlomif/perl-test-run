@@ -5,6 +5,13 @@ use warnings;
 
 use base 'Class::Accessor';
 
+use Text::Sprintf::Named;
+use Test::Run::Sprintf::Named::FromAccessors;
+
+__PACKAGE__->mk_accessors(qw(
+    _formatters
+));
+
 sub new
 {
     my $class = shift;
@@ -31,6 +38,58 @@ sub copy_from
     }
 
     return;
+}
+
+sub _get_formatter
+{
+    my ($self, $fmt) = @_;
+
+    return
+        Text::Sprintf::Named->new(
+            { fmt => $fmt, },
+        );
+}
+
+sub _register_formatter
+{
+    my ($self, $name, $fmt) = @_;
+
+    $self->_formatters->{$name} = $self->_get_formatter($fmt);
+
+    return;
+}
+
+sub _get_obj_formatter
+{
+    my ($self, $fmt) = @_;
+
+    return
+        Test::Run::Sprintf::Named::FromAccessors->new(
+            { fmt => $fmt, },
+        );    
+}
+
+sub _register_obj_formatter
+{
+    my ($self, $name, $fmt) = @_;
+
+    $self->_formatters->{$name} = $self->_get_obj_formatter($fmt);
+
+    return;
+}
+
+sub _format
+{
+    my ($self, $format, $args) = @_;
+
+    if (ref($format) eq "")
+    {
+        return $self->_formatters->{$format}->format({ args => $args});
+    }
+    else
+    {
+        return $self->_get_formatter(${$format})->format({ args => $args});
+    }
 }
 
 1;
