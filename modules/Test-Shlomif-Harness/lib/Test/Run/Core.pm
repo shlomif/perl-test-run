@@ -274,6 +274,31 @@ sub _get_premature_test_dubious_summary
     return +{ @{$self->_get_failed_and_max_params()} };
 }
 
+sub _failed_before_any_test_output
+{
+    my $self = shift;
+
+    $self->_report_failed_before_any_test_output();
+
+    $self->_tot_inc('bad');
+
+    return $self->_calc_failed_before_any_test_obj();
+}
+
+sub _calc_failed_before_any_test_obj
+{
+    my $self = shift;
+
+    return $self->_create_failed_obj_instance(
+        {
+            (map { $_ => "??", } qw(canon max failed)),
+            (map { $_ => "", } qw(estat wstat)),
+            percent => undef,
+            name => $self->_get_last_test_filename(),
+        },
+    );
+}
+
 sub _is_last_test_seen
 {
     return shift->last_test_results->seen;

@@ -531,38 +531,6 @@ sub _failed_with_results_seen
         );
 }
 
-
-sub _failed_before_any_test_output
-{
-    my ($self) = @_;
-
-    $self->_report_failed_before_any_test_output();
-
-    $self->_tot_inc('bad');
-
-    return $self->_create_failed_obj_instance(
-        {
-            canon       => '??',
-            max         => '??',
-            failed      => '??',
-            name        => $self->_get_last_test_filename(),
-            percent     => undef,
-            estat       => '', 
-            wstat       => '',
-        }
-        );
-}
-
-=for Hello
-            {
-                test_struct => $self->last_test_obj(),
-                estatus => $results->{exit},
-                wstatus => $results->{wait},
-                filename => $test_file,
-                results => $results,
-            }
-=cut
-
 sub _get_wstatus
 {
     my $self = shift;
