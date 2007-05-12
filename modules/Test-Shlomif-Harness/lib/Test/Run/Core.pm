@@ -274,6 +274,11 @@ sub _get_premature_test_dubious_summary
     return +{ @{$self->_get_failed_and_max_params()} };
 }
 
+sub _is_last_test_seen
+{
+    return shift->last_test_results->seen;
+}
+
 sub _get_failed_and_max_params
 {
     my $self = shift;

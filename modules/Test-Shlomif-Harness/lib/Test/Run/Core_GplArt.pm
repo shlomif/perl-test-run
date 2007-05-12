@@ -577,11 +577,6 @@ sub _get_estatus
     return $self->last_test_results->exit;
 }
 
-sub _is_last_test_seen
-{
-    return shift->last_test_results->seen;
-}
-
 sub _get_failed_struct
 {
     my ($self) = @_;
