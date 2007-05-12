@@ -234,6 +234,28 @@ sub _glob_dir
     return \@contents;
 }
 
+=begin _private
+
+=over 4
+
+=item B<_all_ok>
+
+    my $ok = $self->_all_ok();
+
+Tells you if the current test run is OK or not.
+
+=cut
+
+sub _all_ok
+{
+    my $self = shift;
+    return $self->tot->all_ok();
+}
+
+=back
+
+=cut
+
 sub _get_dir
 {
     my $self = shift;

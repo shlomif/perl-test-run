@@ -258,26 +258,6 @@ sub runtests
 
 =begin _private
 
-=item B<_all_ok>
-
-  my $ok = $self->_all_ok();
-
-Tells you if this test run is overall successful or not.
-
-=cut
-
-sub _all_ok {
-    my $self = shift;
-    my $tot = $self->tot();
-
-    return (
-        (
-            ($tot->bad() == 0) &&
-            ($tot->max() || $tot->skipped())
-        ) ? 1 : 0
-    );
-}
-
 =item B<_run_all_tests>
 
   my($total, $failed) = _run_all_tests();

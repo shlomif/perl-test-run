@@ -95,6 +95,28 @@ sub bench_timestr
     return Benchmark::timestr($self->bench(), 'nop');
 }
 
+=head2 $self->all_ok()
+
+Returns a boolean value - 0 or 1 if all tests were OK.
+
+=cut
+
+sub all_ok
+{
+    my $self = shift;
+
+    return $self->_normalize_cond(
+           ($self->bad() == 0) 
+        && ($self->max() || $self->skipped())
+    );
+}
+
+sub _normalize_cond
+{
+    my ($self, $cond) = @_;
+    return ($cond ? 1 : 0);
+}
+
 1;
 
 __END__
