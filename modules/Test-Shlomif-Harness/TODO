@@ -3,5 +3,7 @@
 * Update the documentation - currently it's mostly updated only to 
 Test::Harness.
 
+* Add an arbitrary number of leaked directories.
+
 Bugs:
 -----
