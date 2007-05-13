@@ -11,6 +11,8 @@ use List::MoreUtils ();
 
 use Fatal qw(opendir);
 
+use Time::HiRes ();
+
 =head1 NAME
 
 Test::Run::Core - Base class to run standard TAP scripts.
@@ -63,6 +65,7 @@ __PACKAGE__->mk_accessors(qw(
     list_len
     max_namelen
     output
+    _start_time
     Strap
     tot
     width
@@ -315,6 +318,85 @@ sub _ser_failed_results
     my $self = shift;
 
     return $self->_canonfailed()->get_ser_results();
+}
+
+sub _get_current_time
+{
+    my $self = shift;
+
+    return Time::HiRes::time();
+}
+
+sub _set_start_time
+{
+    my $self = shift;
+
+    if ($self->Timer())
+    {
+        $self->_start_time($self->_get_current_time());
+    }
+}
+
+sub _get_elapsed
+{
+    my $self = shift;
+
+    if ($self->Timer())
+    {
+        return sprintf(" %8.3f",
+            $self->_get_current_time() - $self->_start_time()
+        );
+    }
+    else
+    {
+        return "";
+    }
+}
+
+sub _set_last_test_elapsed
+{
+    my $self = shift;
+
+    $self->last_test_elapsed($self->_get_elapsed());
+}
+
+sub _time_single_test
+{
+    my ($self, $args) = @_;
+
+    $self->_set_start_time($args);
+
+    $self->_init_strap($args);
+
+    $self->Strap->callback(sub { return $self->_strap_callback(@_); });
+
+    # We trap exceptions so we can nullify the callback to avoid memory
+    # leaks.
+    my $results;
+    eval
+    {
+        if (! ($results = $self->Strap()->analyze_file($args->{test_file})))
+        {
+            do
+            {
+                warn $self->Strap()->error(), "\n";
+                next;
+            }
+        }
+    };
+
+    # To avoid circular references
+    $self->Strap->callback(undef);
+
+    if ($@ ne "")
+    {
+        die $@;
+    }
+    $self->_set_last_test_elapsed($args);
+
+    $self->last_test_results($results);
+
+    return;
 }
 
 sub _failed_canon

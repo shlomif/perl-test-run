@@ -27,12 +27,6 @@ use vars qw(
     @ISA
 );
 
-use vars qw($has_time_hires);
-BEGIN {
-    eval "use Time::HiRes 'time'";
-    $has_time_hires = !$@;
-}
-
 =head1 NAME
 
 Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
@@ -517,24 +511,6 @@ sub _tot_add_results
     $self->_tot_add(sub_skipped => $results->skip());
 }
 
-sub _get_elapsed
-{
-    my ($self, $args) = @_;
-
-    if ( $self->Timer() ) {
-        my $elapsed = time - $args->{start_time};
-        if ( $has_time_hires ) {
-            return sprintf( " %8.3fs", $elapsed );
-        }
-        else {
-            return sprintf( " %8ss", $elapsed ? $elapsed : "<1" );
-        }
-    }
-    else {
-        return "";
-    }
-}
-
 sub _get_copied_strap_fields
 {
     return [qw(Debug Test_Interpreter Switches Switches_Env)];
@@ -546,37 +522,6 @@ sub _init_strap
 
     $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
 }
-
-sub _time_single_test
-{
-    my $self = shift;
-    my $args = shift;
-
-    my $test_start_time = $self->Timer() ? time : 0;
-
-    $self->_init_strap($args);
-    $self->Strap()->callback(sub { $self->_strap_callback(@_); });
-    # We trap exceptions so we can nullify the callback to avoid memory
-    # leaks.
-    my $results;
-    eval {
-        $results = $self->Strap()->analyze_file($args->{test_file}) or
-          do { warn $self->Strap()->error(), "\n";  next };
-    };
-    $self->Strap()->callback(undef);
-    if ($@ ne "")
-    {
-        die $@;
-    }
-    
-    $self->last_test_elapsed(
-        $self->_get_elapsed({'start_time' => $test_start_time})
-    );
-    $self->last_test_results($results);
-    
-    return;
-}
-
 
 sub _process_skipped_test
 {
