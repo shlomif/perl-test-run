@@ -275,11 +275,11 @@ sub _all_ok
 
 =cut
 
-sub _get_dir
+sub _get_dir_files
 {
     my $self = shift;
 
-    return $self->_glob_dir($self->Leaked_Filed());
+    return $self->_glob_dir($self->Leaked_Dir());
 }
 
 sub _calc_strap_callback_map
@@ -343,7 +343,7 @@ sub _get_elapsed
 
     if ($self->Timer())
     {
-        return sprintf(" %8.3f",
+        return sprintf(" %8.3fs",
             $self->_get_current_time() - $self->_start_time()
         );
     }
