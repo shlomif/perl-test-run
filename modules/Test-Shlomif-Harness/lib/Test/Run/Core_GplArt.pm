@@ -193,41 +193,6 @@ sub _is_error_object
     );
 }
 
-sub _handle_runtests_error_text
-{
-    my $self = shift;
-    my $args = shift;
-
-    my $text = $args->{'text'};
-
-    die $text;
-}
-
-sub _get_runtests_error_text
-{
-    my $self = shift;
-    my $error = shift;
-    
-    return 
-        ($self->_is_error_object($error)
-            ? $error->stringify()
-            : $error
-        );
-}
-
-sub _handle_runtests_error
-{
-    my $self = shift;
-    my $args = shift;
-    my $error = $args->{'error'};
-
-    $self->_handle_runtests_error_text(
-        {
-            'text' => $self->_get_runtests_error_text($error),
-        },
-    );
-}
-
 sub runtests
 {
     my $self = shift;

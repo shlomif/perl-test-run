@@ -521,6 +521,41 @@ sub _get_fail_test_scripts_string
     return $self->tot->fail_test_scripts_string();
 }
 
+sub _handle_runtests_error_text
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $text = $args->{'text'};
+
+    die $text;
+}
+
+sub _get_runtests_error_text
+{
+    my $self = shift;
+    my $error = shift;
+    
+    return 
+        ($self->_is_error_object($error)
+            ? $error->stringify()
+            : $error
+        );
+}
+
+sub _handle_runtests_error
+{
+    my $self = shift;
+    my $args = shift;
+    my $error = $args->{'error'};
+
+    $self->_handle_runtests_error_text(
+        {
+            'text' => $self->_get_runtests_error_text($error),
+        },
+    );
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]
