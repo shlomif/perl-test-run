@@ -293,24 +293,6 @@ sub _recheck_dir_files
     }
 }
 
-sub _create_failed_obj_instance
-{
-    my $self = shift;
-    my $args = shift;
-    return Test::Run::Obj::FailedObj->new(
-        $args
-    );
-}
-
-sub _is_failed_and_max
-{
-    my ($self) = @_;
-
-    my $test = $self->last_test_obj;
-
-    return (@{$test->failed()} and $test->max());
-}
-
 sub _get_dont_know_which_tests_failed_msg
 {
     my ($self, $args) = @_;
@@ -520,11 +502,6 @@ sub _process_passing_test
     $self->_tot_inc('good');
 }
 
-sub _create_test_obj_instance
-{
-    my ($self, $args) = @_;
-    return Test::Run::Obj::TestObj->new($args);
-}
 
 =head2 $self->_calc_test_struct_ml($results)
 

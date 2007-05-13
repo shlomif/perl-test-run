@@ -121,6 +121,13 @@ sub add_next_to_failed
     return $self->add_to_failed($self->next() .. $self->max());
 }
 
+sub is_failed_and_max
+{
+    my $self = shift;
+
+    return scalar(@{$self->failed()}) && $self->max();
+}
+
 1;
 
 __END__

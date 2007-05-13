@@ -267,6 +267,28 @@ sub _tot_inc
     $self->tot()->inc($field);
 }
 
+sub _create_failed_obj_instance
+{
+    my $self = shift;
+    my $args = shift;
+    return Test::Run::Obj::FailedObj->new(
+        $args
+    );
+}
+
+sub _create_test_obj_instance
+{
+    my ($self, $args) = @_;
+    return Test::Run::Obj::TestObj->new($args);
+}
+
+sub _is_failed_and_max
+{
+    my $self = shift;
+
+    return $self->last_test_obj->is_failed_and_max();
+}
+
 =begin _private
 
 =over 4
