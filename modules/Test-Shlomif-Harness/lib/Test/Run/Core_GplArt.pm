@@ -316,16 +316,6 @@ sub _get_failed_with_results_seen_msg
             ;
 }
 
-sub _get_undef_tests_params
-{
-    return 
-        [
-            canon   => '??',
-            failed  => '??',
-            percent => undef,
-        ];
-}
-
 # FWRS == failed_with_results_seen
 
 sub get_common_FWRS_params
@@ -342,17 +332,6 @@ sub get_common_FWRS_params
         ];
 }
 
-sub _get_FWRS_tests_existence_params
-{
-    my ($self) = @_;
-
-    return
-        [
-            $self->_is_failed_and_max()
-            ? (@{$self->_get_failed_and_max_params()})
-            : (@{$self->_get_undef_tests_params()})
-        ]
-}
 
 sub _get_failed_with_results_seen_params
 {

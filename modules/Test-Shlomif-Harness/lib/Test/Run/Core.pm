@@ -557,6 +557,30 @@ sub _get_fail_test_scripts_string
     return $self->tot->fail_test_scripts_string();
 }
 
+sub _get_undef_tests_params
+{
+    my $self = shift;
+
+    return
+    [
+        canon => "??",
+        failed => "??",
+        percent => undef,
+    ];
+}
+
+sub _get_FWRS_tests_existence_params
+{
+    my ($self) = @_;
+
+    return
+        [
+            $self->_is_failed_and_max()
+            ? (@{$self->_get_failed_and_max_params()})
+            : (@{$self->_get_undef_tests_params()})
+        ]
+}
+
 sub _handle_runtests_error_text
 {
     my $self = shift;
