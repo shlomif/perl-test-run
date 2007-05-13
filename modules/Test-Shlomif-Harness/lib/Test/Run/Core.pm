@@ -253,6 +253,20 @@ sub _init_tot
     );
 }
 
+sub _tot_add
+{
+    my ($self, $field, $diff) = @_;
+
+    $self->tot()->add($field, $diff);
+}
+
+sub _tot_inc
+{
+    my ($self, $field) = @_;
+
+    $self->tot()->inc($field);
+}
+
 =begin _private
 
 =over 4
