@@ -283,6 +283,13 @@ sub _tot_inc
     $self->tot()->inc($field);
 }
 
+sub _tot_add_results
+{
+    my ($self, $results) = @_;
+
+    return $self->tot->add_results($results);
+}
+
 sub _create_failed_obj_instance
 {
     my $self = shift;

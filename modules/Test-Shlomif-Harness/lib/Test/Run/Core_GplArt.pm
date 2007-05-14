@@ -396,18 +396,6 @@ sub _list_tests_as_failures
     }
 }
 
-sub _tot_add_results
-{
-    my $self = shift;
-    my $results = shift;
-
-    foreach my $type (qw(bonus max ok todo))
-    {
-        $self->_tot_add($type => $results->get($type));
-    }
-    $self->_tot_add(sub_skipped => $results->skip());
-}
-
 sub _get_copied_strap_fields
 {
     return [qw(Debug Test_Interpreter Switches Switches_Env)];

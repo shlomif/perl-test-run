@@ -126,6 +126,24 @@ sub fail_test_scripts_string
     )->obj_format($self);
 }
 
+=head2 $self->add_results($results)
+
+Adds the sums from a results object.
+
+=cut
+
+sub add_results
+{
+    my ($self, $results) = @_;
+
+    foreach my $type (qw(bonus max ok todo))
+    {
+        $self->add($type, $results->$type());
+    }
+
+    $self->add("sub_skipped", $results->skip())
+}
+
 1;
 
 __END__
