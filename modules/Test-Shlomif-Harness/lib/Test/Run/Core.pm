@@ -71,6 +71,7 @@ __PACKAGE__->mk_accessors(qw(
     width
     ));
 
+
 sub _init_simple_params
 {
     my ($self, $args) = @_;
@@ -88,6 +89,21 @@ sub _get_new_strap
     my $self = shift;
 
     return Test::Run::Straps->new({});
+}
+
+sub _initialize
+{
+    my ($self, $args) = @_;
+
+    $self->Columns(80);
+    $self->Switches("-w");
+    $self->_init_simple_params($args);
+    $self->dir_files([]);
+    $self->Strap(
+        $self->_get_new_strap($args),
+    );
+
+    return 0;
 }
 
 =head2 Object Parameters
@@ -287,6 +303,53 @@ sub _is_failed_and_max
     my $self = shift;
 
     return $self->last_test_obj->is_failed_and_max();
+}
+
+sub _tap_event__calc_conds_raw
+{
+    my $self = shift;
+
+    return
+    [
+        [ plan => "header" ],
+        [ bailout => "bailout" ],
+        [ test => "test" ],
+    ];
+}
+
+sub _tap_event__calc_conds
+{
+    my $self = shift;
+
+    return
+    [
+        map
+        {
+            my $c = $_;
+            my $cond = "is_$c->[0]";
+            my $handler = "_strap_$c->[1]_handler";
+            +{ cond => $cond, handler => $handler, };
+        }
+        @{$self->_tap_event__calc_conds_raw()}
+    ];
+}
+
+sub _tap_event_handle_strap
+{
+    my ($self, $args) = @_;
+    my $event = $args->{event};
+
+    foreach my $c (@{$self->_tap_event__calc_conds()})
+    {
+        my $cond = $c->{cond};
+        my $handler = $c->{handler};
+
+        if ($event->$cond())
+        {
+            return $self->$handler($args);
+        }
+    }
+    return;
 }
 
 =begin _private

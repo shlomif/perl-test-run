@@ -35,21 +35,6 @@ Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
 
 @ISA = ('Test::Run::Base');
 
-sub _initialize
-{
-    my ($self, $args) = @_;
-
-    $self->Columns(80);
-    $self->Switches("-w");
-    $self->_init_simple_params($args);
-    $self->dir_files([]);
-    $self->Strap(
-        $self->_get_new_strap($args),
-    );
-
-    return 0;
-}
-
 =head1 SYNOPSIS
 
   use Test::Run::Obj;
@@ -926,24 +911,8 @@ sub _tap_event_strap_callback
 
     $self->_report_tap_event({ 'raw_event' => $event->raw()});
 
-    if ($event->is_plan())
-    {
-        return $self->_strap_header_handler(@_);
-    }
-    elsif ($event->is_bailout())
-    {
-        return $self->_strap_bailout_handler(@_);
-    }
-    elsif ($event->is_test())
-    {
-        return $self->_strap_test_handler(@_);
-    }
-    else
-    {
-        return;
-    }
-};
-
+    return $self->_tap_event_handle_strap($args);
+}
 
 sub _strap_header_handler {
     my($self, $args) = @_;
