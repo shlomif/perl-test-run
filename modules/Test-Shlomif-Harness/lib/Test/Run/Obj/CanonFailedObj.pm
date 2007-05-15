@@ -8,9 +8,8 @@ use base 'Test::Run::Base::Struct';
 use vars qw(@fields);
 
 @fields = (qw(
-    canon
-    failed_num
-    result
+    failed
+    _more_results
 ));
 
 sub _get_fields
@@ -20,16 +19,34 @@ sub _get_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
+sub _initialize
+{
+    my $self = shift;
+
+    $self->SUPER::_initialize(@_);
+
+    $self->_more_results([]);
+
+    return 0;
+}
+
 =head2 $self->add_result($result)
 
 Pushes $result to the result() slot.
 
 =cut
 
+sub _get_more_results
+{
+    my $self = shift;
+
+    return $self->_more_results();
+}
+
 sub add_result
 {
     my $self = shift;
-    push @{$self->result()}, @_;
+    push @{$self->_more_results()}, @_;
 }
 
 =head2 $self->get_ser_results()
@@ -145,6 +162,89 @@ sub add_Failed_and_skipped
     $self->add_skipped($t);
 
     return;
+}
+
+sub canon_list
+{
+    my $self = shift;
+
+    return (@{$self->failed()} == 1) 
+        ? [ @{$self->failed()} ]
+        : $self->_get_canon_ranges()
+        ;
+}
+
+sub _get_canon_ranges
+{
+    my $self = shift;
+
+    my @failed = @{$self->failed()};
+
+    # Assign the first number in the range.
+    my $min = shift(@failed);
+
+    my $last = $min;
+
+    my @ranges;
+
+    foreach my $number (@failed, $failed[-1]) # Don't forget the last one
+    {
+        if (($number > $last+1) || ($number == $last))
+        {
+            push @ranges, +($min == $last) ? $min : "$min-$last";
+            $min = $last = $number;
+        }
+        else
+        {
+            $last = $number;
+        }
+    }
+
+    return \@ranges;
+}
+
+sub canon
+{
+    my $self = shift;
+
+    return join(' ', @{$self->canon_list()});
+}
+
+sub _pluralize
+{
+    my ($self, $noun, $list) = @_;
+
+    return sprintf("%s%s",
+        $noun,
+        ((@$list > 1) ? "s" : "")
+    );
+}
+
+sub _get_failed_string
+{
+    my $self = shift;
+
+    my $canon = $self->canon_list;
+
+    return 
+        sprintf("FAILED %s %s\n",
+            $self->_pluralize("test", $canon),
+            join(", ", @$canon)
+        );
+}
+
+sub result
+{
+    my $self = shift;
+
+    return [ $self->_get_failed_string(), @{$self->_get_more_results()} ];
+}
+
+sub failed_num
+{
+    my $self = shift;
+
+    return scalar(@{$self->failed()});
 }
 
 =head2 $self->add_skipped($test)

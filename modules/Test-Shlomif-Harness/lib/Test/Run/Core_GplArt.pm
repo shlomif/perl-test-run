@@ -1068,61 +1068,14 @@ sub _calc_dubious_return_ret_value
         );
 }
 
-sub _get_failed_string
-{
-    my ($self, $canon) = @_;
-    return
-        ("FAILED test" . ((@$canon > 1) ? "s" : "") .
-         " " . join(", ", @$canon) . "\n"
-        );
-}
-
-sub _canonfailed_get_canon_ranges
-{
-    my ($self, $failed) = @_;
-
-    my @failed_copy = @$failed;
-    my $min = shift @failed_copy;
-    my $last = $min;
-    my @canon;
-    for my $test (@failed_copy, $failed_copy[-1]) # don't forget the last one
-    {
-        if ($test > $last+1 || $test == $last) {
-            push @canon, ($min == $last) ? $last : "$min-$last";
-            $min = $test;
-        }
-        $last = $test;
-    }
-    return \@canon;
-}
-
-sub _canonfailed_get_canon_helper
-{
-    my ($self, $failed) = @_;
-    if (@$failed == 1)
-    {
-        return [ @$failed ];
-    }
-    else
-    {
-        return $self->_canonfailed_get_canon_ranges($failed);
-    }
-}
-
 sub _canonfailed_get_canon
 {
     my ($self) = @_;
 
-    my $failed = $self->_canonfailed_get_failed();
-
-    my $canon = $self->_canonfailed_get_canon_helper($failed);
-
     return Test::Run::Obj::CanonFailedObj->new(
         {
-            canon => join(' ', @$canon),
-            result => [$self->_get_failed_string($canon)],
-            failed_num => scalar(@$failed),
-        },
+            failed => $self->_canonfailed_get_failed(),
+        }
     );
 }
 
