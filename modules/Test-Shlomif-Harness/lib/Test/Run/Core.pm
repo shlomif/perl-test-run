@@ -688,13 +688,20 @@ sub _handle_runtests_error
     );
 }
 
+sub _get_canonfailed_params
+{
+    my $self = shift;
+
+    return [failed => $self->_canonfailed_get_failed(),];
+}
+
 sub _canonfailed_get_canon
 {
     my ($self) = @_;
 
     return Test::Run::Obj::CanonFailedObj->new(
         {
-            failed => $self->_canonfailed_get_failed(),
+            @{$self->_get_canonfailed_params()},
         }
     );
 }
