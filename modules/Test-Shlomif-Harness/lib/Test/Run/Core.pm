@@ -13,6 +13,8 @@ use Fatal qw(opendir);
 
 use Time::HiRes ();
 
+use Test::Run::Obj::CanonFailedObj;
+
 =head1 NAME
 
 Test::Run::Core - Base class to run standard TAP scripts.
@@ -683,6 +685,17 @@ sub _handle_runtests_error
         {
             'text' => $self->_get_runtests_error_text($error),
         },
+    );
+}
+
+sub _canonfailed_get_canon
+{
+    my ($self) = @_;
+
+    return Test::Run::Obj::CanonFailedObj->new(
+        {
+            failed => $self->_canonfailed_get_failed(),
+        }
     );
 }
 

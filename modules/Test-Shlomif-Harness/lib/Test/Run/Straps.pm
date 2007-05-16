@@ -117,6 +117,8 @@ sub _initialize {
 
     $self->totals(+{});
     $self->todo(+{});
+
+    return 0;
 }
 
 =head1 ANALYSIS

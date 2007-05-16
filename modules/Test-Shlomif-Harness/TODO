@@ -5,5 +5,34 @@ Test::Harness.
 
 * Add an arbitrary number of leaked directories.
 
+* Add a way to accumulate a list from all classes without SUPER:: and
+NEXT:: games:
+
+    package Foo;
+
+    sub _my_params
+    {
+        return ["FooA", "FooB"];
+    }
+
+    package Bar;
+
+    sub _my_params
+    {
+        return ["BarC", "BarD"];
+    }
+
+    package Total;
+
+    use base 'Foo';
+    use base 'Bar';
+
+    # The paramaters are now FooA, FooB, BarC, and BarD.
+
+* Implement a plugin system for the helper objects.
+
 Bugs:
 -----
+
+* Deal with the bug as encountered in Parrot.
+

@@ -20,6 +20,8 @@ use Test::Run::Base::Struct;
 
 use vars qw(@ISA @fields);
 
+use NEXT;
+
 sub _polymorphic_stringify
 {
     my $self = shift;
@@ -54,7 +56,7 @@ sub initialize
     $self->package($pkg);
     $self->file($file);
     $self->line($line);
-    return $self->SUPER::initialize(@_);
+    return $self->NEXT::initialize(@_);
 }
 
 =head2 $self->stringify()
@@ -103,7 +105,7 @@ sub _get_fields
 {
     my $self = shift;
 
-    return [@{$self->SUPER::_get_fields()}, @fields];
+    return [@{$self->NEXT::_get_fields()}, @fields];
 }
 
 @ISA = (qw(Test::Run::Obj::Error::TestsFail));

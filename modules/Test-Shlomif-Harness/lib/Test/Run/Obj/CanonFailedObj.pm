@@ -23,7 +23,7 @@ sub _initialize
 {
     my $self = shift;
 
-    $self->SUPER::_initialize(@_);
+    $self->NEXT::_initialize(@_);
 
     $self->_more_results([]);
 
@@ -227,17 +227,24 @@ sub _get_failed_string
     my $canon = $self->canon_list;
 
     return 
-        sprintf("FAILED %s %s\n",
+        sprintf("FAILED %s %s",
             $self->_pluralize("test", $canon),
             join(", ", @$canon)
         );
+}
+
+sub _get_failed_string_line
+{
+    my $self = shift;
+
+    return $self->_get_failed_string() . "\n";
 }
 
 sub result
 {
     my $self = shift;
 
-    return [ $self->_get_failed_string(), @{$self->_get_more_results()} ];
+    return [ $self->_get_failed_string_line(), @{$self->_get_more_results()} ];
 }
 
 sub failed_num

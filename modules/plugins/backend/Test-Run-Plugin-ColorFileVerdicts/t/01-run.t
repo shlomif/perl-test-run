@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More tests => 4;
 
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+use Test::Run::Trap::Obj;
 
 package MyTestRun;
 
@@ -17,31 +17,34 @@ package main;
 use Term::ANSIColor;
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
+            class => "MyTestRun",
+            args =>
+            [
             test_files => 
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/several-oks.t"
             ],
+            ]
         }
         );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $color = color("green");
     my $reset = color("reset");
 
     # TEST
-    ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/),
+    $got->field_like("stdout", qr/\Q${color}\Eok\Q${reset}\E/,
         "ok is colored green");
 }
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
+            class => "MyTestRun",
+            args =>
+            [
             test_files => 
             [
                 "t/sample-tests/one-ok.t",
@@ -52,24 +55,25 @@ use Term::ANSIColor;
                 success => "yellow",
                 failure => "blue",
             },
+            ],
         }
         );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $color = color("yellow");
     my $reset = color("reset");
 
     # TEST
-    ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/),
-        "ok is colored yellow per the explicit setup");
+    $got->field_like("stdout", qr/\Q${color}\Eok\Q${reset}\E/,
+        "ok is colored yellow per the explicit setup"
+    );
 }
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
+            class => "MyTestRun",
+            args =>
+            [
             test_files => 
             [
                 "t/sample-tests/one-ok.t",
@@ -80,24 +84,24 @@ use Term::ANSIColor;
                 success => "yellow",
                 failure => "blue",
             },
+            ],
         }
         );
 
-    trap {
-    $tester->runtests();
-    };
-    
     my $color = color("blue");
     my $reset = color("reset");
 
     # TEST
-    ok (($trap->stdout() =~ m/\Q${color}\EFAILED test 1\Q${reset}\E/),
+    $got->field_like ("stdout", qr/\Q${color}\EFAILED test 1\Q${reset}\E/,
         "FAILED test 1 colored.");
 }
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
+            class => "MyTestRun",
+            args =>
+            [
             test_files => 
             [
                 "t/sample-tests/one-ok.t",
@@ -109,17 +113,15 @@ use Term::ANSIColor;
                 failure => "blue",
                 dubious => "magenta",
             },
+            ],
         }
         );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $color = color("magenta");
     my $reset = color("reset");
 
     # TEST
-    ok (($trap->stdout() =~ m/\Q${color}\Edubious\Q${reset}\E/),
-        "dubious colored.");
+    $got->field_like ("stdout", qr/\Q${color}\Edubious\Q${reset}\E/,
+        "dubious colored."
+    );
 }

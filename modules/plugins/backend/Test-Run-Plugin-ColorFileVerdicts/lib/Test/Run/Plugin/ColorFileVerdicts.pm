@@ -6,8 +6,11 @@ use strict;
 use NEXT;
 use Term::ANSIColor;
 
+use base 'Test::Run::Plugin::ColorFileVerdicts::ColorBase';
 use base 'Test::Run::Plugin::CmdLine::Output';
 use base 'Class::Accessor';
+
+use Test::Run::Plugin::ColorFileVerdicts::CanonFailedObj;
 
 =head1 NAME
 
@@ -23,9 +26,6 @@ Version 0.01
 our $VERSION = '0.01';
 
 =head1 SYNOPSIS
-
-Perhaps a little code snippet.
-
 
     package MyTestRun;
     
@@ -55,47 +55,6 @@ __PACKAGE__->mk_accessors(qw(
     individual_test_file_verdict_colors
 ));
 
-sub _get_simple_params
-{
-    my $self = shift;
-    return 
-    [
-        qw(individual_test_file_verdict_colors),
-        @{$self->NEXT::_get_simple_params()}
-    ];
-}
-
-sub _get_individual_test_file_verdict_user_set_color
-{
-    my ($self, $event) = @_;
-
-    return $self->individual_test_file_verdict_colors() ?
-        $self->individual_test_file_verdict_colors()->{$event} :
-        undef;
-}
-
-sub _get_individual_test_file_color
-{
-    my ($self, $event) = @_;
-
-    return $self->_get_individual_test_file_verdict_user_set_color($event)
-        || $self->_get_default_individual_test_file_verdict_color($event);
-            
-}
-
-sub _get_default_individual_test_file_verdict_color
-{
-    my ($self, $event) = @_;
-
-    my %mapping =
-    (
-        "success" => "green",
-        "failure" => "red",
-        "dubious" => "red",
-    );
-    return $mapping{$event};
-}
-
 sub _report_all_ok_test
 {
     my ($self, $args) = @_;
@@ -108,17 +67,6 @@ sub _report_all_ok_test
     $self->output()->print_message($test->ml().color($color)."ok$elapsed".color("reset"));
 }
 
-sub _get_failed_string
-{
-    my ($self, $canon) = @_;
-
-    my $color = $self->_get_individual_test_file_color("failure");
-
-    return
-        (color($color)."FAILED test" . ((@$canon > 1) ? "s" : "") .
-         " " . join(", ", @$canon) . color("reset"). "\n"
-        );
-}
 
 sub _get_dubious_verdict_message
 {
@@ -127,6 +75,19 @@ sub _get_dubious_verdict_message
     return color($self->_get_individual_test_file_color("dubious"))
         . $self->NEXT::_get_dubious_verdict_message() .
         color("reset");
+}
+
+sub _canonfailed_get_canon
+{
+    my $self = shift;
+
+    return Test::Run::Plugin::ColorFileVerdicts::CanonFailedObj->new(
+        {
+            failed => $self->_canonfailed_get_failed(),
+            individual_test_file_verdict_colors => 
+                $self->individual_test_file_verdict_colors(),               
+        }
+    );
 }
 
 =head1 AUTHOR

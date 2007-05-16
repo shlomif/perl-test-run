@@ -11,7 +11,6 @@ use Test::Run::Assert;
 use Test::Run::Obj::FailedObj;
 use Test::Run::Obj::TestObj;
 use Test::Run::Obj::TotObj;
-use Test::Run::Obj::CanonFailedObj;
 
 use Test::Run::Obj::Error;
 
@@ -1068,16 +1067,6 @@ sub _calc_dubious_return_ret_value
         );
 }
 
-sub _canonfailed_get_canon
-{
-    my ($self) = @_;
-
-    return Test::Run::Obj::CanonFailedObj->new(
-        {
-            failed => $self->_canonfailed_get_failed(),
-        }
-    );
-}
 
 =end _private
 
