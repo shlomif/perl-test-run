@@ -5,6 +5,8 @@ Test::Harness.
 
 * Add an arbitrary number of leaked directories.
 
+* Add a registry for the classes of the helper objects.
+
 * Add a way to accumulate a list from all classes without SUPER:: and
 NEXT:: games:
 

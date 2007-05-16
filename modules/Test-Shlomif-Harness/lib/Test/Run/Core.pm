@@ -695,11 +695,18 @@ sub _get_canonfailed_params
     return [failed => $self->_canonfailed_get_failed(),];
 }
 
+sub _create_canonfailed_obj_instance
+{
+    my ($self, $args) = @_;
+
+    return Test::Run::Obj::CanonFailedObj->new($args);
+}
+
 sub _canonfailed_get_canon
 {
     my ($self) = @_;
 
-    return Test::Run::Obj::CanonFailedObj->new(
+    return $self->_create_canonfailed_obj_instance(
         {
             @{$self->_get_canonfailed_params()},
         }
