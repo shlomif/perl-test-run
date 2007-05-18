@@ -25,7 +25,7 @@ my @fields =
 
 __PACKAGE__->mk_accessors(@fields);
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

@@ -26,7 +26,7 @@ my @fields = qw(
     run_func
 );
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

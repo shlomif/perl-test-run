@@ -36,7 +36,7 @@ use vars qw(@fields);
     wait
 ));
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

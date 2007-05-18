@@ -42,7 +42,7 @@ use overload
     text
 ));
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }
@@ -101,11 +101,11 @@ package Test::Run::Obj::Error::TestsFail::Bailout;
 
 use vars qw(@ISA @fields);
 
-sub _get_fields
+sub _get_private_fields
 {
     my $self = shift;
 
-    return [@{$self->NEXT::_get_fields()}, @fields];
+    return [@fields];
 }
 
 @ISA = (qw(Test::Run::Obj::Error::TestsFail));

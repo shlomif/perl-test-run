@@ -46,7 +46,7 @@ my @fields= (qw(
     totals
 ));
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

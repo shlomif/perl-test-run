@@ -12,7 +12,7 @@ use vars qw(@fields);
     _more_results
 ));
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

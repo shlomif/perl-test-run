@@ -15,14 +15,13 @@ For internal use.
 
 =cut
 
-sub _get_fields
+sub _get_private_fields
 {
     my $self = shift;
 
     return 
     [
         qw(individual_test_file_verdict_colors),
-        @{$self->NEXT::_get_fields()}
     ];
 }
 

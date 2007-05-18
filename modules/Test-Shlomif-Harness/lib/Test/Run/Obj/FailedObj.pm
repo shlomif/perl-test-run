@@ -31,7 +31,7 @@ use base 'Test::Run::Base::Struct';
     wstat
 ));
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

@@ -33,7 +33,7 @@ use base qw(Test::Run::Base::Struct);
 
 @fields = (@counter_fields, 'tests');
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

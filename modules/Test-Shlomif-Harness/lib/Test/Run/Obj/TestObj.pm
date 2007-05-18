@@ -59,7 +59,7 @@ The skip reason for the last skipped test that specified such a reason.
 
 =cut
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }

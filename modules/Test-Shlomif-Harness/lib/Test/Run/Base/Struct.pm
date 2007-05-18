@@ -23,7 +23,13 @@ sub _pre_init
 
 sub _get_fields
 {
-    return [];
+    my $self = shift;
+
+    return $self->accum_array(
+        {
+            method => "_get_private_fields",
+        }
+    );
 }
 
 sub _get_fields_map

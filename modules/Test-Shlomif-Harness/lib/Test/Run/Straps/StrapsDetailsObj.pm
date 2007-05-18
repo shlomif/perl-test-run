@@ -26,7 +26,7 @@ use base 'Test::Run::Base::Struct';
     type
 ));
 
-sub _get_fields
+sub _get_private_fields
 {
     return [@fields];
 }
