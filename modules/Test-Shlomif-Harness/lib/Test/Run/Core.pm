@@ -713,6 +713,31 @@ sub _canonfailed_get_canon
     );
 }
 
+sub _calc__run_single_test__callbacks
+{
+    my $self = shift;
+
+    return [qw(
+        _prepare_for_single_test_run
+        _time_single_test
+        _calc_test_struct
+        _process_test_file_results
+        _recheck_dir_files    
+    )];
+}
+
+sub _run_single_test
+{
+    my ($self, $args) = @_;
+
+    foreach my $cb (@{$self->_calc__run_single_test__callbacks()})
+    {
+        $self->$cb($args);
+    }
+
+    return;
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

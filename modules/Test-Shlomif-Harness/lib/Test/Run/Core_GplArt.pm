@@ -548,21 +548,6 @@ sub _process_test_file_results
     return;
 }
 
-sub _run_single_test
-{
-    my ($self, $args) = @_;
-
-    $self->_prepare_for_single_test_run($args);
-
-    $self->_time_single_test($args);
-
-    $self->_calc_test_struct();
-
-    $self->_process_test_file_results();
-
-    $self->_recheck_dir_files();
-}
-
 sub _get_tot_counter_tests
 {
     my $self = shift;
