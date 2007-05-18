@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 package Base1;
 
@@ -52,6 +52,18 @@ package main;
     # TEST
     is_deeply(
         $grandson->accum_array(
+            {
+                method => "people",
+            },
+        ),
+        [qw(David Becky Lisa Gabor Offer Shlomo Sophie Jack)],
+    );
+}
+
+{
+    # TEST
+    is_deeply(
+        "Grandson1"->accum_array(
             {
                 method => "people",
             },

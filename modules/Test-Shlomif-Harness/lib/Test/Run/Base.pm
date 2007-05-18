@@ -100,7 +100,7 @@ sub accum_array
 
     my $method_name = $args->{method};
 
-    my $class = ref($self);
+    my $class = ((ref($self) eq "") ? $self : ref($self));
 
     my $hierarchy = hierarchy_of($class);
 
