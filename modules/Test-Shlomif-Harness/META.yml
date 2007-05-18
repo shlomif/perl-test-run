@@ -27,6 +27,8 @@ provides:
     file: lib/Test/Run/Base.pm
   Test::Run::Base::Struct:
     file: lib/Test/Run/Base/Struct.pm
+  Test::Run::Class::Hierarchy:
+    file: lib/Test/Run/Class/Hierarchy.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
     version: 0.0110

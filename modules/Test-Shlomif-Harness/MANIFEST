@@ -6,8 +6,9 @@ inc/Test/Run/Builder.pm
 lib/Test/Run/Assert.pm
 lib/Test/Run/Base.pm
 lib/Test/Run/Base/Struct.pm
-lib/Test/Run/Core.pm
+lib/Test/Run/Class/Hierarchy.pm
 lib/Test/Run/Core_GplArt.pm
+lib/Test/Run/Core.pm
 lib/Test/Run/Iface.pm
 lib/Test/Run/Obj/CanonFailedObj.pm
 lib/Test/Run/Obj/Error.pm
@@ -30,6 +31,7 @@ t/00compile.t
 t/base.t
 t/data/interpreters/wrong-mini-ok.pl
 t/harness.t
+t/hierarchy.t
 t/inc_taint.t
 t/lib/Dev/Null.pm
 t/lib/if.pm
