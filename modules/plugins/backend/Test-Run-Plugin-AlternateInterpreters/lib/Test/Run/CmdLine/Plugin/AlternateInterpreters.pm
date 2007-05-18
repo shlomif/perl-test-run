@@ -40,7 +40,14 @@ sub _initialize
     $self->add_to_backend_plugins("AlternateInterpreters");
 }
 
-sub _get_non_direct_backend_env_mapping
+=head2 $self->private_non_direct_backend_env_mapping()
+
+Returns the non-direct Backend Environment Mappings, that will specify
+the YAML information. See L<Test::Run::CmdLine> for more information.
+
+=cut
+
+sub private_non_direct_backend_env_mapping
 {
     my $self = shift;
 
@@ -51,7 +58,6 @@ sub _get_non_direct_backend_env_mapping
             env => "HARNESS_ALT_INTRP_FILE",
             arg => "alternate_interpreters",
         },
-        @{$self->NEXT::_get_non_direct_backend_env_mapping()},
     ];
 }
 

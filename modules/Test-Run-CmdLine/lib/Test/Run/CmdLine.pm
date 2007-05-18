@@ -264,7 +264,11 @@ sub _get_non_direct_backend_env_mapping
 {
     my $self = shift;
 
-    return [];
+    return $self->accum_array(
+        {
+            method => "private_non_direct_backend_env_mapping",
+        }
+    );
 }
 
 sub _get_backend_env_mapping

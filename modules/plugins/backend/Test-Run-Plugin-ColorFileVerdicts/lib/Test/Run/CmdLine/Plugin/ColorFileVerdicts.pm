@@ -27,7 +27,14 @@ sub _initialize
     $self->add_to_backend_plugins("ColorFileVerdicts");
 }
 
-sub _get_non_direct_backend_env_mapping
+=head2 $self->private_non_direct_backend_env_mapping()
+
+Returns the non-direct Backend Environment Mappings, that will specify
+the YAML information. See L<Test::Run::CmdLine> for more information.
+
+=cut
+
+sub private_non_direct_backend_env_mapping
 {
     my $self = shift;
 
@@ -38,7 +45,6 @@ sub _get_non_direct_backend_env_mapping
             env => "PERL_HARNESS_VERDICT_COLORS",
             arg => "individual_test_file_verdict_colors",
         },
-        @{$self->NEXT::_get_non_direct_backend_env_mapping()},
     ];
 }
 
