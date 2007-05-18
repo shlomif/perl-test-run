@@ -24,14 +24,10 @@ __PACKAGE__->mk_accessors(qw(
     alternate_interpreters
 ));
 
-sub _get_simple_params
+sub _get_private_simple_params
 {
     my $self = shift;
-    return 
-    [
-        qw(alternate_interpreters), 
-        @{$self->NEXT::_get_simple_params()}
-    ];
+    return [qw(alternate_interpreters)];
 }
 
 =head1 SYNOPSIS

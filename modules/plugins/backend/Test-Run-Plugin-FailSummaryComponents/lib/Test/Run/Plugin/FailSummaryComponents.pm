@@ -28,14 +28,10 @@ __PACKAGE__->mk_accessors(
     @params
 );
 
-sub _get_simple_params
+sub _get_private_simple_params
 {
     my $self = shift;
-    return 
-    [
-        @params,
-        @{$self->NEXT::_get_simple_params()}
-    ];
+    return [@params];
 }
 
 

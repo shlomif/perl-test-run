@@ -26,14 +26,10 @@ sub _get_fields
     ];
 }
 
-sub _get_simple_params
+sub _get_private_simple_params
 {
     my $self = shift;
-    return 
-    [
-        qw(individual_test_file_verdict_colors),
-        @{$self->NEXT::_get_simple_params()}
-    ];
+    return [qw(individual_test_file_verdict_colors)];
 }
 
 sub _get_individual_test_file_verdict_user_set_color

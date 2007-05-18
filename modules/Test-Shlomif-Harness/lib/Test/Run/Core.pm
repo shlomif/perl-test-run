@@ -41,6 +41,17 @@ __PACKAGE__->mk_accessors(@{__PACKAGE__->_get_simple_params()});
 
 sub _get_simple_params
 {
+    my $self = shift;
+
+    return $self->accum_array(
+        {
+            method => "_get_private_simple_params",
+        }
+    );
+}
+
+sub _get_private_simple_params
+{
     return
         [qw(
             Columns
