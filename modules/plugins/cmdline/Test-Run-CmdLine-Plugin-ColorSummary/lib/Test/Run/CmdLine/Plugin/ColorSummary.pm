@@ -20,11 +20,18 @@ sub _initialize
     $self->add_to_backend_plugins("ColorSummary");
 }
 
-sub _get_direct_backend_env_mapping
+=head2 $self->private_direct_backend_env_mapping()
+
+Returns the HARNESS_SUMMARY_COL_FAIL and HARNESS_SUMMARY_COL_SUC
+environment variables.
+
+=cut
+
+sub private_direct_backend_env_mapping
 {
     my $self = shift;
     return
-        [
+    [
         {
             'env' => "HARNESS_SUMMARY_COL_SUC",
             'arg' => "summary_color_success",
@@ -33,8 +40,7 @@ sub _get_direct_backend_env_mapping
             'env' => "HARNESS_SUMMARY_COL_FAIL",
             'arg' => "summary_color_failure",
         },
-        @{$self->NEXT::_get_direct_backend_env_mapping()}
-        ];
+    ];
 }
 
 =head1 SYNOPSIS

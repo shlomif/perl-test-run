@@ -247,6 +247,24 @@ from the environment (%ENV), and puts them in C<$tester->backend_env_args()>
 sub _get_direct_backend_env_mapping
 {
     my $self = shift;
+
+    return $self->accum_array(
+        {
+            method => "private_direct_backend_env_mapping",
+        }
+    );
+}
+
+=head2 $self->private_direct_backend_env_mapping()
+
+The return value of this method is collected from every class, and adapted
+to the direct backend environment mapping.
+
+=cut
+
+sub private_direct_backend_env_mapping
+{
+    my $self = shift;
     return [
         { 'env' => "HARNESS_FILELEAK_IN_DIR", 'arg' => "Leaked_Dir", },
         { 'env' => "HARNESS_VERBOSE", 'arg' => "Verbose", },
