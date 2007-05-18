@@ -67,4 +67,12 @@ This file is licensed under the MIT X11 License:
 
 http://www.opensource.org/licenses/mit-license.php
 
+=head1 CREDITS
+
+The code was inspired by the code from Damian Conway's L<Class::Std>, but
+is not inclusive of it.
+
+Writen by Shlomi Fish: L<http://www.shlomifish.org/>.
+
 =cut
+

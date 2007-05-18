@@ -94,6 +94,11 @@ sub _format
     }
 }
 
+# This is a more simplistic version of the :CUMULATIVE functionality
+# in Class::Std. It was done to make sure that one can collect all the
+# members of array refs out of methods defined in each class into one big 
+# array ref, that can later be used.
+
 sub accum_array
 {
     my ($self, $args) = @_;
