@@ -50,7 +50,8 @@ sub process_eumm_dir
             "make", 
             "make test", 
             "make install",
-        ]
+        ],
+        "make clean",
     );
 }
 
@@ -63,7 +64,8 @@ sub process_mb_dir
             "./Build", 
             "./Build test", 
             "./Build install prefix=\"$prefix\"",
-        ]
+        ],
+        "./Build clean",
     );
 }
 
@@ -71,7 +73,7 @@ my $id_num = 1;
 
 sub handle_deps
 {
-    my ($dir, $deps_ref) = @_;
+    my ($dir, $deps_ref, $clean_dep) = @_;
     my @deps = reverse(@$deps_ref);
     my $id = "target" . ($id_num++);
     $text .= "${dir}: $id-step0\n\n";
@@ -83,6 +85,9 @@ sub handle_deps
         $text .= "\t(cd $dir && " . $deps[$i] . ")\n";
         $text .= "\n";
     }
+    $text .= "CLEAN--${dir}:\n";
+    $text .= "\t(cd $dir && $clean_dep)\n";
+    $text .= "\n";
 }
 
 foreach my $d (@dirs)
@@ -98,7 +103,12 @@ else
 {
     open O, ">", $o_fn;
 }
+
 print O "all: ", join(" ", @dirs) . "\n\n";
+
+print O "cleanall: ", join(" ", map {"CLEAN--$_"} @dirs). "\n\n";
+
 print O $text;
+
 close(O);
 
