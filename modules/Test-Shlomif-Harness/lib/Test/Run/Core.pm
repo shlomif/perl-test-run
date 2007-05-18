@@ -559,6 +559,42 @@ sub _canonfailed_get_failed
     return $self->filter_failed($self->_get_failed_list());
 }
 
+sub _calc_last_test_obj_params
+{
+    my $self = shift;
+
+    my $results = $self->last_test_results;
+    
+    return 
+    [
+        (
+            map { $_ => $results->$_(), } 
+            (qw(bonus max ok skip_reason skip_all))
+        ),
+        skipped => $results->skip(),
+        'next' => $self->Strap->next(),
+        failed => $results->_get_failed_details(),
+        ml => $self->_calc_test_struct_ml($results),
+    ];
+}
+
+sub _calc_test_struct
+{
+    my $self = shift;
+
+    my $results = $self->last_test_results;
+
+    $self->_tot_add_results($results);
+    
+    return $self->last_test_obj(
+        $self->_create_test_obj_instance(
+            {
+                @{$self->_calc_last_test_obj_params()},
+            }
+        )
+    );
+}
+
 sub _get_failed_list
 {
     my $self = shift;

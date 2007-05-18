@@ -465,36 +465,6 @@ sub _calc_test_struct_ml
     return "";
 }
 
-sub _calc_test_struct
-{
-    my $self = shift;
-    my $results = $self->last_test_results;
-
-    $self->_tot_add_results($results);
-
-    return $self->last_test_obj(
-        $self->_create_test_obj_instance(
-            {
-                ok          => $results->ok(),
-                'next'      => $self->Strap()->next(),
-                max         => $results->max(),
-                # state of the current test.
-                failed      => [
-                    grep { !$results->details()->[$_-1]{ok} }
-                     (1 .. @{$results->details()})
-                               ],
-                bonus       => $results->bonus(),
-                skipped     => $results->skip(),
-                skip_reason => $results->skip_reason(),
-                skip_all    => $results->skip_all(),
-                ml          => $self->_calc_test_struct_ml($results),
-            }
-        )
-    );
-}
-
-
-
 sub _prepare_for_single_test_run
 {
     my ($self, $args) = @_;

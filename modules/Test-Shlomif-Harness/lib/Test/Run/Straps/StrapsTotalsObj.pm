@@ -381,6 +381,14 @@ sub update_skip_reason
     }
 }
 
+sub _get_failed_details
+{
+    my $self = shift;
+
+    my $details = $self->details;
+
+    return [ grep {! $details->[$_-1]->{ok} } (1 .. @$details) ];
+}
 
 =head2 $self->bonus()
 
