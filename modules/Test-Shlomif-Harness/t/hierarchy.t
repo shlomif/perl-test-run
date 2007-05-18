@@ -51,3 +51,11 @@ is_deeply (rev_hierarchy_of("C"), [qw(A B C )],
 is_deeply (rev_hierarchy_of("E"), [qw(A B C D E)],
     "Checking a multi-inheritance hierarchy"
 );
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+
+=cut

@@ -8,6 +8,8 @@ use base 'Class::Accessor';
 use Text::Sprintf::Named;
 use Test::Run::Sprintf::Named::FromAccessors;
 
+use Test::Run::Class::Hierarchy (qw(hierarchy_of rev_hierarchy_of));
+
 __PACKAGE__->mk_accessors(qw(
     _formatters
 ));
@@ -92,6 +94,28 @@ sub _format
     }
 }
 
+sub accum_array
+{
+    my ($self, $args) = @_;
+
+    my $method_name = $args->{method};
+
+    my $class = ref($self);
+
+    my $hierarchy = hierarchy_of($class);
+
+    my @results;
+    foreach my $isa_class (@$hierarchy)
+    {
+        no strict 'refs';
+        my $method = ${$isa_class . "::"}{$method_name};
+        if (defined($method))
+        {
+            push @results, @{$method->($self)};
+        }
+    }
+    return \@results;
+}
 1;
 
 __END__
