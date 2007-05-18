@@ -42,20 +42,18 @@ sub _get_non_direct_backend_env_mapping
     ];
 }
 
-=head2 $self->get_backend_args()
+=head2 $self->private_backend_args()
 
-Over-rides the L<Test::Run::CmdLine> method to process the 
-C<PERL_HARNESS_VERDICT_COLORS> environment variable.
+Makes L<Test::Run::CmdLine> process the C<PERL_HARNESS_VERDICT_COLORS> 
+environment variable.
 
 =cut
 
-sub get_backend_args
+sub private_backend_args
 {
     my $self = shift;
 
-    return [ @{$self->NEXT::get_backend_args()},
-             @{$self->_get_file_verdicts_color_mappings()},
-           ];
+    return $self->_get_file_verdicts_color_mappings();
 }
 
 =head1 ENVIRONMENT VARIABLES

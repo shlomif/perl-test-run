@@ -213,11 +213,28 @@ sub get_backend_args
 {
     my $self = shift;
 
-    $self->get_backend_env_args();
+    return $self->accum_array(
+        {
+            method => "private_backend_args",
+        }
+    );
+}
 
+=head2 $self->private_backend_args()
+
+Calculates the get_backend_args()-specific arguments for this class.
+
+=cut
+
+sub private_backend_args
+{
+    my $self = shift;
+
+    $self->get_backend_env_args();
+   
     my $init_args = $self->get_backend_init_args();
 
-    return [@{$self->backend_env_args()}, @$init_args,];
+    return [@{$self->backend_env_args()}, @$init_args];
 }
 
 =head2 $tester->get_backend_env_args()
