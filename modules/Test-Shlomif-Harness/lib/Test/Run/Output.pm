@@ -22,6 +22,8 @@ sub _initialize
 {
     my ($self, $args) = @_;
 
+    $self->NEXT::_initialize($args);
+
     $self->Verbose($args->{Verbose});
     $self->NoTty($args->{NoTty});
 

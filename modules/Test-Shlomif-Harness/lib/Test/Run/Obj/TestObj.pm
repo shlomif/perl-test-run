@@ -10,6 +10,8 @@ use vars qw(@fields);
 
 use base 'Test::Run::Base::Struct';
 
+use NEXT;
+
 @fields = (qw(
     ok
     next
@@ -65,6 +67,22 @@ sub _get_private_fields
 }
 
 __PACKAGE__->mk_accessors(@fields);
+
+sub _initialize
+{
+    my ($self, $args) = @_;
+
+    $self->NEXT::_initialize($args);
+
+    $self->_formatters($self->_formatters() || {});
+
+    $self->_register_obj_formatter(
+        "dont_know_which_tests_failed",
+        "Don't know which tests failed: got %(ok)s ok, expected %(max)s",
+    );
+
+    return 0;
+}
 
 =head1 $self->add_to_failed(@failures)
 
@@ -126,6 +144,13 @@ sub is_failed_and_max
     my $self = shift;
 
     return scalar(@{$self->failed()}) && $self->max();
+}
+
+sub _get_dont_know_which_tests_failed_msg
+{
+    my $self = shift;
+
+    return $self->_format("dont_know_which_tests_failed", { obj => $self });
 }
 
 1;

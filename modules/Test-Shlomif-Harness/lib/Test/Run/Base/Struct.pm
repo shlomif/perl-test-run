@@ -43,6 +43,8 @@ use Carp;
 sub _initialize
 {
     my ($self, $args) = @_;
+
+    $self->NEXT::_initialize($args);
     
     Carp::confess '$args not a hash' if (ref($args) ne "HASH");
     $self->_pre_init();

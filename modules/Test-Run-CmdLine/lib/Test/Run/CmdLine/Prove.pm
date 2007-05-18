@@ -45,6 +45,8 @@ sub _initialize
 {
     my ($self, $args) = @_;
 
+    $self->NEXT::_initialize($args);
+
     my $arguments = $args->{'args'};
     my $env_switches = $args->{'env_switches'};
 

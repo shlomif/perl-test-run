@@ -6,7 +6,7 @@ use warnings;
 sub _initialize
 {
     my $self = shift;
-    $self->SUPER::_initialize(@_);
+    $self->NEXT::_initialize(@_);
     $self->backend_class("Test::Run::Drivers::CmdLineTest");
 }
 

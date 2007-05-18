@@ -108,6 +108,8 @@ sub _initialize
 {
     my ($self, $args) = @_;
 
+    $self->NEXT::_initialize($args);
+
     $self->Columns(80);
     $self->Switches("-w");
     $self->_init_simple_params($args);
@@ -454,6 +456,13 @@ sub _set_start_time
     {
         $self->_start_time($self->_get_current_time());
     }
+}
+
+sub _get_dont_know_which_tests_failed_msg
+{
+    my $self = shift;
+
+    return $self->last_test_obj->_get_dont_know_which_tests_failed_msg();
 }
 
 sub _get_elapsed

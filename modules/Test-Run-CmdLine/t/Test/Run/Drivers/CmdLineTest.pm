@@ -3,10 +3,12 @@ package Test::Run::Drivers::CmdLineTest;
 use strict;
 use warnings;
 
+use NEXT;
+
 sub _initialize
 {
     my $self = shift;
-    $self->SUPER::_initialize(@_);
+    $self->NEXT::_initialize(@_);
 }
 
 sub runtests

@@ -277,17 +277,6 @@ sub _recheck_dir_files
     }
 }
 
-sub _get_dont_know_which_tests_failed_msg
-{
-    my ($self, $args) = @_;
-    my $test = $self->last_test_obj;
-    
-    return
-        ("Don't know which tests failed: got " . $test->ok() . " ok, ".
-              "expected " . $test->max()
-        );
-}
-
 sub _get_failed_with_results_seen_msg
 {
     my ($self) = @_;
