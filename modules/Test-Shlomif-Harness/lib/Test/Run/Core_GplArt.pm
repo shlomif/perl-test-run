@@ -383,18 +383,6 @@ sub _list_tests_as_failures
     }
 }
 
-sub _get_copied_strap_fields
-{
-    return [qw(Debug Test_Interpreter Switches Switches_Env)];
-}
-
-sub _init_strap
-{
-    my ($self, $args) = @_;
-
-    $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
-}
-
 sub _process_skipped_test
 {
     my ($self) = @_;

@@ -497,6 +497,18 @@ sub _set_last_test_elapsed
     $self->last_test_elapsed($self->_get_elapsed());
 }
 
+sub _get_copied_strap_fields
+{
+    return [qw(Debug Test_Interpreter Switches Switches_Env)];
+}
+
+sub _init_strap
+{
+    my ($self, $args) = @_;
+
+    $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
+}
+
 sub _time_single_test
 {
     my ($self, $args) = @_;
