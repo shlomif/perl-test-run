@@ -832,42 +832,11 @@ sub _strap_test_handler
     return;
 }
 
-sub _get_s
-{
-    my ($self, $n) = @_;
-    return ($n != 1 ? 's' : '')
-}
-
 sub _get_skipped_bonusmsg
 {
     my $self = shift;
-    my $tot = $self->tot();
-    my $sub_skipped = $tot->sub_skipped();
-    my $skipped = $tot->skipped();
 
-    # TODO: Refactor it.
-    my $sub_skipped_msg =
-        "$sub_skipped subtest" . $self->_get_s($sub_skipped);
-
-    my $comma = ", ";
-    if ($skipped)
-    {
-        return 
-            $comma . "$skipped test" .
-            $self->_get_s($skipped) .
-            ($sub_skipped ? (" and " . $sub_skipped_msg) : "") .
-            ' skipped'
-            ;
-    }
-    elsif ($sub_skipped)
-    {
-        # Should be a comma here too.
-        return $comma . "$sub_skipped_msg skipped";
-    }
-    else
-    {
-        return "";
-    }
+    return $self->tot->_get_skipped_bonusmsg();
 }
 
 sub _get_bonusmsg {

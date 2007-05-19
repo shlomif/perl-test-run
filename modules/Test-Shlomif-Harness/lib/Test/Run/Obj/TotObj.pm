@@ -65,6 +65,21 @@ sub _initialize
         "FAILED--%(tests)d test %(_num_scripts)s could be run, alas--no output ever seen\n"
     );
 
+    $self->_register_obj_formatter(
+        "sub_skipped_msg",
+        "%(sub_skipped)d %(_skipped_subtests)s",
+    );
+
+    $self->_register_obj_formatter(
+        "skipped_bonusmsg_on_skipped",
+        ", %(skipped)d %(_skipped_tests_str)s%(_and_skipped_msg)s skipped",
+    );
+
+    $self->_register_obj_formatter(
+        "skipped_bonusmsg_on_sub_skipped",
+        ", %(_sub_skipped_msg)s skipped",
+    );
+
     return $self;
 }
 
@@ -175,6 +190,84 @@ sub _get_fail_no_tests_output_text
         "fail_no_tests_output",
         { obj => $self }
     );
+}
+
+sub _skipped_subtests
+{
+    my $self = shift;
+
+    return $self->_pluralize("subtest", $self->sub_skipped());
+}
+
+=head2 $self->get_sub_skipped_msg()
+
+Calculates the sub-skipped message ("X subtest/s")
+
+=cut
+
+sub _sub_skipped_msg
+{
+    my $self = shift;
+
+    return $self->_format(
+        "sub_skipped_msg",
+        { obj => $self }
+    );
+}
+
+sub _skipped_tests_str
+{
+    my $self = shift;
+
+    return $self->_pluralize("test", $self->skipped());
+}
+
+sub _and_skipped_msg
+{
+    my $self = shift;
+
+    return $self->sub_skipped()
+        ? ( " and " . $self->_sub_skipped_msg() )
+        :   ""
+        ;
+}
+
+sub _get_skipped_bonusmsg_on_skipped
+{
+    my $self = shift;
+
+    return $self->_format(
+        "skipped_bonusmsg_on_skipped",
+        { obj => $self }
+    );
+}
+
+sub _get_skipped_bonusmsg_on_sub_skipped
+{
+    my $self = shift;
+
+    return $self->_format(
+        "skipped_bonusmsg_on_sub_skipped",
+        { obj => $self }
+    );
+}
+
+sub _get_skipped_bonusmsg
+{
+    my $self = shift;
+
+    if ($self->skipped())
+    {
+        return $self->_get_skipped_bonusmsg_on_skipped();
+    }
+    elsif ($self->sub_skipped())
+    {
+        return $self->_get_skipped_bonusmsg_on_sub_skipped();
+    }
+    else
+    {
+        return "";
+    }
 }
 
 1;
