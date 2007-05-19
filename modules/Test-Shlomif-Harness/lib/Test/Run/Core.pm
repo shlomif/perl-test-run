@@ -596,6 +596,25 @@ sub _calc_last_test_obj_params
     ];
 }
 
+sub _get_fail_no_tests_run_text
+{
+    return "FAILED--no tests were run for some reason.\n"
+}
+
+sub _get_success_msg
+{
+    my $self = shift;
+    return "All tests successful" . $self->_get_bonusmsg() . ".";
+}
+
+sub _fail_no_tests_run
+{
+    my $self = shift;
+    die Test::Run::Obj::Error::TestsFail::NoTestsRun->new(
+        {text => $self->_get_fail_no_tests_run_text(),},
+    );
+}
+
 sub _calc_test_struct
 {
     my $self = shift;

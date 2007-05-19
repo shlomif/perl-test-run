@@ -566,13 +566,6 @@ sub _leader_width
     return $maxlen + 3 - $maxsuflen;
 }
 
-
-sub _get_success_msg
-{
-    my $self = shift;
-    return "All tests successful" . $self->_get_bonusmsg() . ".";
-}
-
 sub _report_success
 {
     my $self = shift;
@@ -581,19 +574,6 @@ sub _report_success
             'channel' => "success",
             'event' => { 'type' => "success", },
         }
-    );
-}
-
-sub _get_fail_no_tests_run_text
-{
-    return "FAILED--no tests were run for some reason.\n"
-}
-
-sub _fail_no_tests_run
-{
-    my $self = shift;
-    die Test::Run::Obj::Error::TestsFail::NoTestsRun->new(
-        {text => $self->_get_fail_no_tests_run_text(),},
     );
 }
 
