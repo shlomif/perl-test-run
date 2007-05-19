@@ -661,6 +661,18 @@ sub _failed_before_any_test_output
     return $self->_calc_failed_before_any_test_obj();
 }
 
+sub _strap_bailout_handler
+{
+    my ($self, $args) = @_;
+
+    die Test::Run::Obj::Error::TestsFail::Bailout->new(
+        {
+            bailout_reason => $self->Strap->bailout_reason(),
+            text => "FOOBAR",
+        }
+    );
+}
+
 sub _calc_failed_before_any_test_obj
 {
     my $self = shift;

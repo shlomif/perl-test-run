@@ -842,18 +842,6 @@ sub _strap_test_handler
     return;
 }
 
-sub _strap_bailout_handler
-{
-    my ($self, $args) = @_;
-
-    die Test::Run::Obj::Error::TestsFail::Bailout->new(
-        {
-            bailout_reason => $self->Strap->bailout_reason(),
-            text => "FOOBAR",
-        }
-    );
-};
-
 sub _get_s
 {
     my ($self, $n) = @_;
