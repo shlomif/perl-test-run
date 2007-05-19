@@ -398,15 +398,6 @@ sub _process_all_ok_test
     return $self->_report_all_ok_test();
 }
 
-
-sub _process_all_skipped_test
-{
-    my ($self) = @_;
-
-    $self->_report_all_skipped_test();
-    $self->_tot_inc('skipped');
-}
-
 sub _process_passing_test
 {
     my ($self) = @_;

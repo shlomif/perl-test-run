@@ -516,6 +516,16 @@ sub _get_sub_percent_msg
     return $self->tot->get_sub_percent_msg();
 }
 
+sub _process_all_skipped_test
+{
+    my $self = shift;
+
+    $self->_report_all_skipped_test();
+    $self->_tot_inc('skipped');
+
+    return;
+}
+
 sub _time_single_test
 {
     my ($self, $args) = @_;
