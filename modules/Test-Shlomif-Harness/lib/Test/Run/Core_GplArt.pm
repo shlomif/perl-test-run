@@ -801,14 +801,6 @@ sub _show_success_or_failure
     }    
 }
 
-sub _show_results
-{
-    my($self) = @_;
-
-    $self->_show_success_or_failure();
-
-    $self->_report_final_stats();
-}
 
 sub _strap_header_handler {
     my($self, $args) = @_;

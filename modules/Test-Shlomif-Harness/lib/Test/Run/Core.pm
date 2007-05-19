@@ -675,6 +675,15 @@ sub _calc_failed_before_any_test_obj
     );
 }
 
+sub _show_results
+{
+    my($self) = @_;
+
+    $self->_show_success_or_failure();
+
+    $self->_report_final_stats();
+}
+
 sub _is_last_test_seen
 {
     return shift->last_test_results->seen;
