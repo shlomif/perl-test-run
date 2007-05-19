@@ -280,7 +280,6 @@ sub _recheck_dir_files
 sub _get_failed_with_results_seen_msg
 {
     my ($self) = @_;
-    my $test = $self->last_test_obj;
     
     return 
         $self->_is_failed_and_max()
@@ -424,7 +423,6 @@ sub _process_passing_test
     my ($self) = @_;
 
     my $test = $self->last_test_obj;
-    my $elapsed = $self->last_test_elapsed;
 
     # XXX Combine these first two
     if ($test->max() and $test->skipped() + $test->bonus())
