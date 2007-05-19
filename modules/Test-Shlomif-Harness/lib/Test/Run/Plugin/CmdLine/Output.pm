@@ -548,7 +548,7 @@ sub _report_tap_event
 {
     my ($self, $args) = @_;
 
-    my $raw_event = $args->{raw_event};
+    my $raw_event = $args->{event}->raw();
     if ($self->Verbose())
     {
         chomp($raw_event);

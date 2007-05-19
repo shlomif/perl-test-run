@@ -830,19 +830,6 @@ sub _show_results
     $self->_report_final_stats();
 }
 
-sub _tap_event_strap_callback
-{
-    my $self = shift;
-    my ($args) = @_;
-
-    my $event = $args->{event};
-    my $totals = $args->{totals};
-
-    $self->_report_tap_event({ 'raw_event' => $event->raw()});
-
-    return $self->_tap_event_handle_strap($args);
-}
-
 sub _strap_header_handler {
     my($self, $args) = @_;
 

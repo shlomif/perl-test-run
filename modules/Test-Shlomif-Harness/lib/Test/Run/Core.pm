@@ -327,6 +327,15 @@ sub _is_failed_and_max
     return $self->last_test_obj->is_failed_and_max();
 }
 
+sub _tap_event_strap_callback
+{
+    my ($self, $args) = @_;
+
+    $self->_report_tap_event($args);
+
+    return $self->_tap_event_handle_strap($args);
+}
+
 sub _tap_event__calc_conds_raw
 {
     my $self = shift;
@@ -898,7 +907,7 @@ reason.
 
 =cut
 
-=head2 $self->_report_tap_event({ 'raw_event' => $event->raw() })
+=head2 $self->_report_tap_event($args)
 
 [This is a method that needs to be over-rided.]
 
