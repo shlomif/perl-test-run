@@ -548,6 +548,14 @@ sub _time_single_test
     return;
 }
 
+sub _fail_no_tests_output
+{
+    my $self = shift;
+    die Test::Run::Obj::Error::TestsFail::NoOutput->new(
+        {text => $self->_get_fail_no_tests_output_text(),},
+    );
+}
+
 sub _failed_canon
 {
     my $self = shift;

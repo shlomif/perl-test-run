@@ -565,13 +565,6 @@ sub _report_success
     );
 }
 
-sub _fail_no_tests_output
-{
-    my $self = shift;
-    die Test::Run::Obj::Error::TestsFail::NoOutput->new(
-        {text => $self->_get_fail_no_tests_output_text(),},
-    );
-}
 
 sub _get_tests_good_percent
 {
