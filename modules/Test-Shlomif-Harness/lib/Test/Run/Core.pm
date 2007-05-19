@@ -509,6 +509,13 @@ sub _init_strap
     $self->Strap()->copy_from($self, $self->_get_copied_strap_fields());
 }
 
+sub _get_sub_percent_msg
+{
+    my $self = shift;
+
+    return $self->tot->get_sub_percent_msg();
+}
+
 sub _time_single_test
 {
     my ($self, $args) = @_;

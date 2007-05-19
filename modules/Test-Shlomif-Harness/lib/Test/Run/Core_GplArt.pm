@@ -383,6 +383,7 @@ sub _list_tests_as_failures
     }
 }
 
+
 sub _process_skipped_test
 {
     my ($self) = @_;
@@ -570,17 +571,6 @@ sub _get_tests_good_percent
 {
     my ($self) = @_;
     return sprintf("%.2f", $self->tot()->good() / $self->tot()->tests() * 100);
-}
-
-sub _get_sub_percent_msg
-{
-    my $self = shift;
-    my $tot = $self->tot();
-    my $percent_ok = 100*$tot->ok()/$tot->max();
-    return sprintf(" %d/%d subtests failed, %.2f%% okay.",
-        $tot->max() - $tot->ok(), $tot->max(), 
-        $percent_ok
-        );
 }
 
 sub _get_format_failed_str

@@ -80,6 +80,11 @@ sub _initialize
         ", %(_sub_skipped_msg)s skipped",
     );
 
+    $self->_register_obj_formatter(
+        "sub_percent_msg",
+        " %(_not_ok)s/%(max)s subtests failed, %(_percent_ok).2f%% okay.",
+    );
+
     return $self;
 }
 
@@ -268,6 +273,30 @@ sub _get_skipped_bonusmsg
     {
         return "";
     }
+}
+
+sub _percent_ok
+{
+    my $self = shift;
+
+    return 100*$self->ok()/$self->max();
+}
+
+sub _not_ok
+{
+    my $self = shift;
+
+    return $self->max() - $self->ok();
+}
+
+sub get_sub_percent_msg
+{
+    my $self = shift;
+
+    return $self->_format(
+        "sub_percent_msg",
+        { obj => $self},
+    );
 }
 
 1;
