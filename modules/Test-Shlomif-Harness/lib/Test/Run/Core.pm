@@ -526,6 +526,32 @@ sub _process_all_skipped_test
     return;
 }
 
+sub _fail_other_get_script_names
+{
+    my $self = shift;
+
+    return [ sort { $a cmp $b } (keys(%{$self->failed_tests()})) ];
+}
+
+sub _fail_other_print_all_tests
+{
+    my $self = shift;
+
+    for my $script (@{$self->_fail_other_get_script_names()})
+    {
+        $self->_fail_other_report_test($script);
+    }
+}
+
+sub _fail_other_throw_exception
+{
+    my $self = shift;
+
+    die Test::Run::Obj::Error::TestsFail::Other->new(
+        {text => $self->_get_fail_other_exception_text(),},
+    );
+}
+
 sub _time_single_test
 {
     my ($self, $args) = @_;

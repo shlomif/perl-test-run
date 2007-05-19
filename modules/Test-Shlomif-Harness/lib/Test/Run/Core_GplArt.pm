@@ -686,32 +686,6 @@ sub _get_fail_other_exception_text
         "\n";
 }
 
-sub _fail_other_throw_exception
-{
-    my $self = shift;
-
-    die Test::Run::Obj::Error::TestsFail::Other->new(
-        {text => $self->_get_fail_other_exception_text(),},
-    );
-}
-
-sub _fail_other_get_script_names
-{
-    my $self = shift;
-    return [ sort keys %{$self->failed_tests()} ]
-}
-
-sub _fail_other_print_all_tests
-{
-    my $self = shift;
-    # Now write to formats
-    for my $script (@{$self->_fail_other_get_script_names()})
-    {
-         $self->_fail_other_report_test($script);
-    }
-}
-
-
 sub _fail_other
 {
     my $self = shift;
