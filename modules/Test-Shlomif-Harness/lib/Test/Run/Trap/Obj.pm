@@ -108,6 +108,20 @@ sub field_is
     }
 }
 
+sub field_is_deeply
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $self = shift;
+    my ($what, $expected, $name) = @_;
+
+    if (! Test::More::is_deeply($self->$what(), $expected, $name))
+    {
+        $self->diag_all();
+    }
+}
+
+
 sub trap_run
 {
     my ($class, $args) = @_;

@@ -149,9 +149,16 @@ sub _calc_skipped_percent
 
     return 
         $test->max() 
-            ? sprintf("%.2f", 100*($test->good()/$test->max()))
+            ? sprintf("%.2f", 100*($self->good($test)/$test->max()))
             : "?"
         ;
+}
+
+sub good
+{
+    my ($self, $test) = @_;
+
+    return $test->max() - $self->failed_num() - $test->skipped();
 }
 
 sub add_Failed_and_skipped

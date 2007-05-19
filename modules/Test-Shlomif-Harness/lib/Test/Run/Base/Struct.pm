@@ -11,11 +11,9 @@ Inherits from L<Test::Run::Base>.
 
 =cut
 
-use Test::Run::Base;
+use NEXT;
 
-use vars (qw(@ISA));
-
-@ISA = (qw(Test::Run::Base));
+use base 'Test::Run::Base';
 
 sub _pre_init
 {
@@ -42,9 +40,11 @@ use Carp;
 
 sub _initialize
 {
-    my ($self, $args) = @_;
+    my $self = shift;
 
-    $self->NEXT::_initialize($args);
+    $self->NEXT::_initialize(@_);
+
+    my ($args) = @_;
     
     Carp::confess '$args not a hash' if (ref($args) ne "HASH");
     $self->_pre_init();

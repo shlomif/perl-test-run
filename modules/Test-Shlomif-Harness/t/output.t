@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 17;
+use Test::More tests => 18;
 
 use Test::Run::Obj;
 use Test::Run::Trap::Obj;
@@ -228,6 +228,22 @@ use Test::Run::Trap::Obj;
     $got->field_like("die",
         qr{FAILED--1 test script could be run, alas--no output ever seen},
         "Checking for the string in \"no output ever seen\""
+        );
+}
+
+{
+    my $got = Test::Run::Trap::Obj->trap_run({args =>
+        [
+            test_files => 
+            [
+                "t/sample-tests/head_fail", 
+            ],
+        ]
+    });
+    
+    # TEST
+    $got->field_is_deeply("warn", [],
+        "Checking for no warnings on failure"
         );
 }
 

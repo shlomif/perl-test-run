@@ -18,6 +18,8 @@ use warnings;
 
 use Test::Run::Base::Struct;
 
+use Scalar::Util ();
+
 use vars qw(@ISA @fields);
 
 use NEXT;
@@ -49,14 +51,20 @@ sub _get_private_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
-sub initialize
+sub _initialize
 {
     my $self = shift;
+
+    # Workaround to make NEXT:: behave.
+    # It misbehaves upon a stringification operation.
+    $self->text(Scalar::Util::refaddr($self));
+
+    $self->NEXT::_initialize(@_);
+
     my ($pkg,$file,$line) = caller(1);
     $self->package($pkg);
     $self->file($file);
     $self->line($line);
-    return $self->NEXT::initialize(@_);
 }
 
 =head2 $self->stringify()
