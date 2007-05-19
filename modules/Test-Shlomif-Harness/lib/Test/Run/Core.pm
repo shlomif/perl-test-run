@@ -601,6 +601,13 @@ sub _get_fail_no_tests_run_text
     return "FAILED--no tests were run for some reason.\n"
 }
 
+sub _get_fail_no_tests_output_text
+{
+    my $self = shift;
+
+    return $self->tot->_get_fail_no_tests_output_text();
+}
+
 sub _get_success_msg
 {
     my $self = shift;

@@ -577,16 +577,6 @@ sub _report_success
     );
 }
 
-sub _get_fail_no_tests_output_text
-{
-    my $self = shift;
-    my $num_tests = $self->tot()->tests();
-    my $blurb = "script" . $self->_get_s($num_tests);
-    
-    return "FAILED--$num_tests test $blurb could be run, ".
-        "alas--no output ever seen\n";
-}
-
 sub _fail_no_tests_output
 {
     my $self = shift;

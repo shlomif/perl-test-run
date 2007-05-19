@@ -210,15 +210,6 @@ sub canon
     return join(' ', @{$self->canon_list()});
 }
 
-sub _pluralize
-{
-    my ($self, $noun, $list) = @_;
-
-    return sprintf("%s%s",
-        $noun,
-        ((@$list > 1) ? "s" : "")
-    );
-}
 
 sub _get_failed_string
 {
@@ -228,7 +219,7 @@ sub _get_failed_string
 
     return 
         sprintf("FAILED %s %s",
-            $self->_pluralize("test", $canon),
+            $self->_list_pluralize("test", $canon),
             join(", ", @$canon)
         );
 }

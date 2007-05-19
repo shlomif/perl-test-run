@@ -121,6 +121,25 @@ sub accum_array
     }
     return \@results;
 }
+
+sub _list_pluralize
+{
+    my ($self, $noun, $list) = @_;
+
+    return $self->_pluralize($noun, scalar(@$list));
+}
+
+sub _pluralize
+{
+    my ($self, $noun, $count) = @_;
+
+    return sprintf("%s%s",
+        $noun,
+        (($count > 1) ? "s" : "")
+    );
+}
+
+
 1;
 
 __END__

@@ -52,6 +52,22 @@ sub _pre_init
     return 0;
 }
 
+sub _initialize
+{
+    my $self = shift;
+
+    $self->NEXT::_initialize(@_);
+
+    $self->_formatters($self->_formatters() || {});
+
+    $self->_register_obj_formatter(
+        "fail_no_tests_output",
+        "FAILED--%(tests)d test %(_num_scripts)s could be run, alas--no output ever seen\n"
+    );
+
+    return $self;
+}
+
 =head2 $self->add($field, $diff)
 
 Adds the difference $diff to the slot $field, assuming it is a counter field.
@@ -142,6 +158,23 @@ sub add_results
     }
 
     $self->add("sub_skipped", $results->skip())
+}
+
+sub _num_scripts
+{
+    my $self = shift;
+
+    return $self->_pluralize("script", $self->tests());
+}
+
+sub _get_fail_no_tests_output_text
+{
+    my $self = shift;
+
+    return $self->_format(
+        "fail_no_tests_output",
+        { obj => $self }
+    );
 }
 
 1;

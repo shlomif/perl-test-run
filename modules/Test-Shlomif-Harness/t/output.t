@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 16;
+use Test::More tests => 17;
 
 use Test::Run::Obj;
 use Test::Run::Trap::Obj;
@@ -212,6 +212,23 @@ use Test::Run::Trap::Obj;
         qr{^Failed 1/1 test scripts, 0.00% okay\. 2/5 subtests failed, 60\.00% okay\.$}m,
         "simple_fail - Matching the Failed summary line."
     );
+}
+
+{
+    my $got = Test::Run::Trap::Obj->trap_run({args =>
+        [
+            test_files => 
+            [
+                "t/sample-tests/invalid-perl", 
+            ],
+        ]
+    });
+    
+    # TEST
+    $got->field_like("die",
+        qr{FAILED--1 test script could be run, alas--no output ever seen},
+        "Checking for the string in \"no output ever seen\""
+        );
 }
 
 __END__
