@@ -384,20 +384,6 @@ sub _list_tests_as_failures
 }
 
 
-sub _process_skipped_test
-{
-    my ($self) = @_;
-
-    return $self->_report_skipped_test();
-}
-
-
-sub _process_all_ok_test
-{
-    my ($self) = @_;
-    return $self->_report_all_ok_test();
-}
-
 sub _process_passing_test
 {
     my ($self) = @_;

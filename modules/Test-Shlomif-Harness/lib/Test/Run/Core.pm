@@ -552,6 +552,21 @@ sub _fail_other_throw_exception
     );
 }
 
+
+sub _process_skipped_test
+{
+    my ($self) = @_;
+
+    return $self->_report_skipped_test();
+}
+
+
+sub _process_all_ok_test
+{
+    my ($self) = @_;
+    return $self->_report_all_ok_test();
+}
+
 sub _time_single_test
 {
     my ($self, $args) = @_;
