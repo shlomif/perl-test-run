@@ -830,11 +830,11 @@ sub _get_undef_tests_params
     ];
 }
 
-sub _get_tests_good_percent
+sub _get_fail_tests_good_percent_string
 {
     my $self = shift;
 
-    return $self->tot()->good_percent_msg();
+    return $self->tot->fail_tests_good_percent_string();
 }
 
 sub _get_FWRS_tests_existence_params

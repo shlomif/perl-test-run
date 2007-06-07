@@ -647,13 +647,6 @@ sub _create_fmts
     return 0;
 }
 
-sub _get_fail_tests_good_percent_string
-{
-    my $self = shift;
-    return ", " .
-        $self->_get_tests_good_percent() . "% okay";
-}
-
 sub _get_fail_other_exception_text
 {
     my $self = shift;

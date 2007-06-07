@@ -90,6 +90,11 @@ sub _initialize
         "%(_good_percent).2f",
     );
 
+    $self->_register_obj_formatter(
+        "fail_tests_good_percent_string",
+        ", %(good_percent_msg)s%% okay",
+    );
+
     return $self;
 }
 
@@ -324,6 +329,16 @@ sub good_percent_msg
 
     return $self->_format(
         "good_percent_msg",
+        { obj => $self},
+    );
+}
+
+sub fail_tests_good_percent_string
+{
+    my $self = shift;
+
+    return $self->_format(
+        "fail_tests_good_percent_string",
         { obj => $self},
     );
 }
