@@ -85,7 +85,26 @@ sub _initialize
         " %(_not_ok)s/%(max)s subtests failed, %(_percent_ok).2f%% okay.",
     );
 
+    $self->_register_obj_formatter(
+        "good_percent_msg",
+        "%(_good_percent).2f",
+    );
+
     return $self;
+}
+
+sub _good_percent
+{
+    my $self = shift;
+    
+    return $self->_percent("good", "tests");
+}
+
+sub _percent
+{
+    my ($self, $num, $denom) = @_;
+
+    return ($self->$num() * 100 / $self->$denom());
 }
 
 =head2 $self->add($field, $diff)
@@ -295,6 +314,16 @@ sub get_sub_percent_msg
 
     return $self->_format(
         "sub_percent_msg",
+        { obj => $self},
+    );
+}
+
+sub good_percent_msg
+{
+    my $self = shift;
+
+    return $self->_format(
+        "good_percent_msg",
         { obj => $self},
     );
 }

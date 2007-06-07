@@ -552,7 +552,6 @@ sub _fail_other_throw_exception
     );
 }
 
-
 sub _process_skipped_test
 {
     my ($self) = @_;
@@ -829,6 +828,13 @@ sub _get_undef_tests_params
         failed => "??",
         percent => undef,
     ];
+}
+
+sub _get_tests_good_percent
+{
+    my $self = shift;
+
+    return $self->tot()->good_percent_msg();
 }
 
 sub _get_FWRS_tests_existence_params

@@ -543,13 +543,6 @@ sub _report_success
     );
 }
 
-
-sub _get_tests_good_percent
-{
-    my ($self) = @_;
-    return sprintf("%.2f", $self->tot()->good() / $self->tot()->tests() * 100);
-}
-
 sub _get_format_failed_str
 {
     return "Failed Test";
