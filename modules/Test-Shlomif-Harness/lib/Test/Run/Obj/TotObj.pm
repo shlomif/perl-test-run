@@ -215,9 +215,8 @@ sub _get_fail_no_tests_output_text
 {
     my $self = shift;
 
-    return $self->_format(
+    return $self->_format_self(
         "fail_no_tests_output",
-        { obj => $self }
     );
 }
 
@@ -238,9 +237,8 @@ sub _sub_skipped_msg
 {
     my $self = shift;
 
-    return $self->_format(
+    return $self->_format_self(
         "sub_skipped_msg",
-        { obj => $self }
     );
 }
 
@@ -265,9 +263,8 @@ sub _get_skipped_bonusmsg_on_skipped
 {
     my $self = shift;
 
-    return $self->_format(
-        "skipped_bonusmsg_on_skipped",
-        { obj => $self }
+    return $self->_format_self(
+        "skipped_bonusmsg_on_skipped"
     );
 }
 
@@ -275,9 +272,8 @@ sub _get_skipped_bonusmsg_on_sub_skipped
 {
     my $self = shift;
 
-    return $self->_format(
+    return $self->_format_self(
         "skipped_bonusmsg_on_sub_skipped",
-        { obj => $self }
     );
 }
 
@@ -317,9 +313,8 @@ sub get_sub_percent_msg
 {
     my $self = shift;
 
-    return $self->_format(
+    return $self->_format_self(
         "sub_percent_msg",
-        { obj => $self},
     );
 }
 
@@ -327,9 +322,8 @@ sub good_percent_msg
 {
     my $self = shift;
 
-    return $self->_format(
+    return $self->_format_self(
         "good_percent_msg",
-        { obj => $self},
     );
 }
 
@@ -337,9 +331,8 @@ sub fail_tests_good_percent_string
 {
     my $self = shift;
 
-    return $self->_format(
+    return $self->_format_self(
         "fail_tests_good_percent_string",
-        { obj => $self},
     );
 }
 

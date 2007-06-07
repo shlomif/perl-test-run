@@ -94,6 +94,15 @@ sub _format
     }
 }
 
+sub _format_self
+{
+    my ($self, $format, $args) = @_;
+
+    $args ||= {};
+
+    return $self->_format($format, { obj => $self, %{$args}});
+}
+
 # This is a more simplistic version of the :CUMULATIVE functionality
 # in Class::Std. It was done to make sure that one can collect all the
 # members of array refs out of methods defined in each class into one big 

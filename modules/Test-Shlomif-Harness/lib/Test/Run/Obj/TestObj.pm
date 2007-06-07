@@ -150,7 +150,7 @@ sub _get_dont_know_which_tests_failed_msg
 {
     my $self = shift;
 
-    return $self->_format("dont_know_which_tests_failed", { obj => $self });
+    return $self->_format_self("dont_know_which_tests_failed");
 }
 
 1;
