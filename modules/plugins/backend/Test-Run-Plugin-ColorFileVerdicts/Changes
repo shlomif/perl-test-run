@@ -1,4 +1,11 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+0.0101  Mon Jun 11 15:19:38 IDT 2007
+        * Converted from Test::Trap to Test::Run::Trap::Obj.
+        * Extracted the Test::Run::Plugin::ColorFileVerdicts::ColorBase class.
+        * Converted to private_non_direct_backend_env_mapping
+        * Adapted to the new Test::Run semantics by creating:
+            Test::Run::Plugin::ColorFileVerdicts::CanonFailedObj
+
 0.01    Mon Mar 19 16:23:12 IST 2007
         First version, released on an unsuspecting world.
