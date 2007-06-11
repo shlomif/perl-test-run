@@ -12,6 +12,7 @@ use List::MoreUtils ();
 use Fatal qw(opendir);
 
 use Time::HiRes ();
+use List::Util ();
 
 use Test::Run::Obj::CanonFailedObj;
 
@@ -743,6 +744,67 @@ sub _failed_before_any_test_output
     $self->_inc_bad();
 
     return $self->_calc_failed_before_any_test_obj();
+}
+
+sub _max_len
+{
+    my ($self, $array_ref) = @_;
+
+    return List::Util::max(map { length($_) } @$array_ref);
+}
+
+# TODO : Add _leader_width here.
+
+
+sub _get_fn_fn
+{
+    my ($self, $fn) = @_;
+
+    return $fn;
+}
+
+sub _get_fn_ext
+{
+    my ($self, $fn) = @_;
+
+    return (($fn =~ /\.(\w+)\z/) ? $1 : "");
+}
+
+sub _get_filename_map_max_len
+{
+    my ($self, $cb) = @_;
+
+    return $self->_max_len(
+        [ map { $self->$cb($_) } @{$self->test_files()} ]
+    );
+}
+
+sub _get_max_ext_len
+{
+    my $self = shift;
+
+    return $self->_get_filename_map_max_len("_get_fn_ext");
+}
+
+sub _get_max_filename_len
+{
+    my $self = shift;
+
+    return $self->_get_filename_map_max_len("_get_fn_fn");
+}
+
+=head2 $self->_leader_width()
+
+Calculates how long the leader should be based on the length of the
+maximal test filename.
+
+=cut
+
+sub _leader_width
+{
+    my $self = shift;
+
+    return $self->_get_max_filename_len() + 3 - $self->_get_max_ext_len();
 }
 
 sub _strap_bailout_handler

@@ -481,35 +481,6 @@ sub _run_all_tests {
     return $self->failed_tests();
 }
 
-
-=item B<_leader_width>
-
-  my($width) = $self->_leader_width();
-
-Calculates how wide the leader should be based on the length of the
-longest test name.
-
-=cut
-
-sub _max_len
-{
-    my ($self, $array_ref) = @_;
-
-    return max(map { length($_) } @$array_ref);
-}
-
-sub _leader_width
-{
-    my ($self) = @_;
-    my $tests = $self->test_files();
-
-    my $maxlen =    $self->_max_len($tests);
-    my $maxsuflen = $self->_max_len([map { /\.(\w+)\z/ ? $1 : '' } @$tests]);
-
-    # + 3 : we want three dots between the test name and the "ok"
-    return $maxlen + 3 - $maxsuflen;
-}
-
 sub _report_success
 {
     my $self = shift;
