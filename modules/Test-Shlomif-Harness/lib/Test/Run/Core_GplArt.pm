@@ -653,31 +653,6 @@ sub _fail_other
     }
 }
 
-sub _show_success_or_failure
-{
-    my $self = shift;
-
-    my $tot = $self->tot();
-
-    if ($self->_all_ok())
-    {
-        $self->_report_success();
-    }
-    elsif (!$tot->tests())
-    {
-        $self->_fail_no_tests_run();
-    }
-    elsif (!$tot->max())
-    {
-        $self->_fail_no_tests_output();
-    }
-    else
-    {
-        $self->_fail_other();
-    }    
-}
-
-
 sub _strap_header_handler {
     my($self, $args) = @_;
 

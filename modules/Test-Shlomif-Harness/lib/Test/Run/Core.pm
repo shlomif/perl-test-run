@@ -871,6 +871,42 @@ sub _get_runtests_error_text
         );
 }
 
+sub _is_no_tests_run
+{
+    my $self = shift;
+
+    return (! $self->tot->tests());
+}
+
+sub _is_no_tests_output
+{
+    my $self = shift;
+
+    return (! $self->tot->max());
+}
+
+sub _show_success_or_failure
+{
+    my $self = shift;
+
+    if ($self->_all_ok())
+    {
+        return $self->_report_success();
+    }
+    elsif ($self->_is_no_tests_run())
+    {
+        return $self->_fail_no_tests_run();
+    }
+    elsif ($self->_is_no_tests_output())
+    {
+        return $self->_fail_no_tests_output();
+    }
+    else
+    {
+        return $self->_fail_other();
+    }
+}
+
 sub _handle_runtests_error
 {
     my $self = shift;
