@@ -1,6 +1,6 @@
 Revision history for Test-Run-CmdLine
 
-0.0104      Mon Jun 11 14:35:19 IDT 2007
+0.0105      Mon Jun 11 14:52:44 IDT 2007
     * Now prove does not barf with weird errors when ran with no arguments.
     * Converted t/04-t-r-cl-iface.t to Test::Trap.
     * Refactored the get_backend_env_args() method of Test::Run::CmdLine.
@@ -18,6 +18,10 @@ Revision history for Test-Run-CmdLine
     private_backend_args (using accum_array) instead of NEXT::.
     * Converted the indirect_env_mapping routines to using 
     accum_array instead of NEXT::. 
+
+0.0104      Mon Mar 19 15:40:20 IST 2007
+    * Fixed running runprove with no arguments.
+    * Converted the tests to Test::Trap.
 
 0.0103      Fri Feb 16 23:00:19 IST 2007
 
