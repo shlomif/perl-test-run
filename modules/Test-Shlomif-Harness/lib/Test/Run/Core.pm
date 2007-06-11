@@ -934,6 +934,31 @@ sub _run_single_test
     return;
 }
 
+sub runtests
+{
+    my $self = shift;
+
+    local ($\, $,);
+
+    my $ok = eval { $self->_real_runtests(@_) };
+
+    my $error = $@;
+
+    if ($error)
+    {
+        return $self->_handle_runtests_error(
+            {
+                ok => $ok,
+                error => $error,
+            }
+        );
+    }
+    else
+    {
+        return $ok;
+    }
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

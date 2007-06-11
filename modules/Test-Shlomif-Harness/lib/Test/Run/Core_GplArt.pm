@@ -177,28 +177,6 @@ sub _is_error_object
     );
 }
 
-sub runtests
-{
-    my $self = shift;
-
-    local ($\, $,);
-
-    my $ok = eval { $self->_real_runtests(@_) };
-    if ($@)
-    {
-        return $self->_handle_runtests_error(
-            {
-                'ok' => $ok, 
-                'error' => $@,
-            }
-        );
-    }
-    else
-    {
-        return $ok;
-    }
-}
-
 =begin _private
 
 =item B<_run_all_tests>
