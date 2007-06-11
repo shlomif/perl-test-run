@@ -655,6 +655,19 @@ sub _canonfailed_get_failed
     return $self->filter_failed($self->_get_failed_list());
 }
 
+=head2 $self->_calc_test_struct_ml($results)
+
+Calculates the ml(). (See L<Test::Run::Output>) for the test. 
+
+=cut
+
+sub _calc_test_struct_ml
+{
+    my $self = shift;
+
+    return "";
+}
+
 sub _calc_last_test_obj_params
 {
     my $self = shift;

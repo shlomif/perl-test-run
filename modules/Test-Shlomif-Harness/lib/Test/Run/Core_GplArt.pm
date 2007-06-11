@@ -384,18 +384,6 @@ sub _process_passing_test
     $self->_tot_inc('good');
 }
 
-
-=head2 $self->_calc_test_struct_ml($results)
-
-Calculates the ml(). (See L<Test::Run::Output>) for the test. 
-
-=cut
-
-sub _calc_test_struct_ml
-{
-    return "";
-}
-
 sub _prepare_for_single_test_run
 {
     my ($self, $args) = @_;
