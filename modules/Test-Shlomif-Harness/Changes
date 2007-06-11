@@ -1,3 +1,22 @@
+0.0110     Mon Jun 11 14:13:58 IDT 2007
+    * Converted several helper modules to the MIT X11 licence, while 
+    refactoring them in the process.
+        - every module specifically mentions its licence.
+    * Converted several functions to use Text::Sprintf::Named.
+    * Added dependence on Text::Sprintf::Named 0.02, in order to better 
+    refactor the code. Added the T::R::Sprintf::Named::FromAccessors module 
+    to retrieve values from the accessors. Started refactoring some of the 
+    code to use it.
+    * Added the Test::Run::Trap::Obj class for managing trapping with 
+    verbose debug information.
+        - base on Test::Trap
+        - Converted most of the tests to use it.
+    * Fixed the Test-Run-Plugin-ColorFileVerdicts module, as it was 
+    broken due to the refactorings and moving of methods to ::CanonFailedObj.
+    * Added the class hierarchy calculation routines.
+        - Added the feature to accumulate directly on the class.
+        - concept borrowed from (but does not share code with) Class::Std.
+
 0.0109    Mon Mar 19 15:22:35 IST 2007
     * Refactored some code to make it more easily extensible and 
     over-ridable. Used in some plugins.
