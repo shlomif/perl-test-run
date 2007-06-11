@@ -24,6 +24,7 @@ my $build = Test::Run::Builder->new(
     dist_version_from => 'lib/Test/Run/CmdLine.pm',
     license => "mit",
     script_files => [ "bin/runprove", ],
+    create_makefile_pl => "traditional",
 );
 
 $build->create_build_script;

@@ -19,7 +19,7 @@ Test::Run::CmdLine - Analyze tests from the command line using Test::Run
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0103';
+$VERSION = '0.0104';
 
 use vars (qw(@ISA));
 

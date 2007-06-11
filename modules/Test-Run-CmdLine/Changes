@@ -1,5 +1,24 @@
 Revision history for Test-Run-CmdLine
 
+0.0104      Mon Jun 11 14:35:19 IDT 2007
+    * Now prove does not barf with weird errors when ran with no arguments.
+    * Converted t/04-t-r-cl-iface.t to Test::Trap.
+    * Refactored the get_backend_env_args() method of Test::Run::CmdLine.
+    * Extracted a method.
+    * Extended the environment variables handling in 
+    Test::Run::CmdLine with types. 
+    * Replaced "back_end" with "backend" in an identifier for better 
+    consistency. 
+    * Added the yamldata backend environment variable type, and 
+    converted the "alternate interpreters" plugin to use it. 
+    * Added the "varmap" type to Test::Run::CmdLine.
+    * Converted to use Build.PL and Test::Run::Builder. 
+    * Refactored the tests of t/03-prove.t into Test::Run::Trap::Obj. 
+    * Converted the Test::Run::CmdLine get_backend_env_args to 
+    private_backend_args (using accum_array) instead of NEXT::.
+    * Converted the indirect_env_mapping routines to using 
+    accum_array instead of NEXT::. 
+
 0.0103      Fri Feb 16 23:00:19 IST 2007
 
     * Fixed a bug in Test::Run::CmdLine::Prove where the Switches parameter
