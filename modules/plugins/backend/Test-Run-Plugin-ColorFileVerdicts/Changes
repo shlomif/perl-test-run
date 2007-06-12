@@ -1,5 +1,12 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+0.0102    Tue Jun 12 19:29:22 IDT 2007
+        * Fixed a class-inheritance-graph problem in which the plugin
+        inherited from Test::Run::Core and caused the functions of the
+        plugins following it to be referenced directly from Test::Run::Core.
+        * Note: instead of inheriting from Class::Accessor inherit from
+        Test::Run::Base which defines ->new properly.
+
 0.0101  Mon Jun 11 15:19:38 IDT 2007
         * Converted from Test::Trap to Test::Run::Trap::Obj.
         * Extracted the Test::Run::Plugin::ColorFileVerdicts::ColorBase class.
