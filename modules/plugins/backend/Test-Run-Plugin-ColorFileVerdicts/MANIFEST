@@ -12,6 +12,7 @@ README
 t/00-load.t
 t/01-run.t
 t/02-cmdline-run.t
+t/03-inheritance-problems.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t

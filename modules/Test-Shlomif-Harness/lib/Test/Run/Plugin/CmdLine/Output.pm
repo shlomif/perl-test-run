@@ -7,7 +7,7 @@ use Carp;
 use Benchmark qw(timestr);
 use NEXT;
 
-use base 'Test::Run::Core';
+use base 'Test::Run::Base';
 
 =head1 NAME
 

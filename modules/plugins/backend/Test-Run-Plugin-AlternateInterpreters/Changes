@@ -1,5 +1,11 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+
+0.0103  Mon Jun 11 15:08:25 IDT 2007
+        * Converted to the "yamldata" environment variable type 
+        of Test-Run-CmdLine-0.0105
+        * Converted the tests to Test::Trap.
+
 0.0102  Sat Mar 17 18:14:14 IST 2007
         Fixed the code to build against the latest Test::Run, while fixing
         Test::Run::Core in the process.
