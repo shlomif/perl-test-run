@@ -5,8 +5,7 @@ use warnings;
 
 use Test::Run::Obj;
 use Test::Run::Plugin::ColorSummary;
-
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
+use Test::Run::Trap::Obj;
 
 package MyTestRun;
 
@@ -21,90 +20,95 @@ use Test::More tests => 4;
 use Term::ANSIColor;
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
+            class => "MyTestRun",
+            args =>
+            [
             test_files => 
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/several-oks.t"
             ],
+            ],
         }
         );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $color = color("bold blue");
 
     # TEST
-    ok (($trap->stdout() =~ m/\Q${color}\EAll tests successful\./), "'All tests successful.' string as is");
+    $got->field_like("stdout", qr/\Q${color}\EAll tests successful\./, 
+        "'All tests successful.' string as is"
+    );
 }
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
+            class => "MyTestRun",
+            args =>
+            [
             test_files => 
             [
                 "t/sample-tests/one-fail.t",
             ],
+            ]
         }
         );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $color = color("bold red");
 
     # TEST
-    ok (($trap->die() =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
-        qq{Found colored "Failed 1/1" string});
+    $got->field_like("die", qr/\Q${color}\EFailed 1\/1 test scripts/, 
+        qq{Found colored "Failed 1/1" string}
+    );
 }
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
-            test_files => 
+            class => "MyTestRun",
+            args =>
             [
-                "t/sample-tests/one-ok.t",
-                "t/sample-tests/several-oks.t"
+                test_files => 
+                [
+                    "t/sample-tests/one-ok.t",
+                    "t/sample-tests/several-oks.t"
+                ],
+                summary_color_success => "green",
+                summary_color_failure => "yellow",
             ],
-            summary_color_success => "green",
-            summary_color_failure => "yellow",
         }
         );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $color = color("green");
 
     # TEST
-    ok (($trap->stdout() =~ m/\Q${color}\EAll tests successful\./), 
-        "Text is colored green on explicity SummaryColor_success");
+    $got->field_like("stdout", qr/\Q${color}\EAll tests successful\./, 
+        "Text is colored green on explicity SummaryColor_success"
+    );
 }
 
 {
-    my $tester = MyTestRun->new(
+    my $got = Test::Run::Trap::Obj->trap_run(
         {
-            test_files => 
+            class => "MyTestRun",
+            args =>
             [
-                "t/sample-tests/one-fail.t",
+                test_files => 
+                [
+                    "t/sample-tests/one-fail.t",
+                ],
+                summary_color_success => "green",
+                summary_color_failure => "yellow",
             ],
-            summary_color_success => "green",
-            summary_color_failure => "yellow",
         }
         );
-
-    trap {
-    $tester->runtests();
-    };
 
     my $color = color("yellow");
 
     # TEST
-    ok (($trap->die() =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
-        qq{Found colored "Failed 1/1" string with user-specified color});
+    $got->field_like("die", qr/\Q${color}\EFailed 1\/1 test scripts/, 
+        qq{Found colored "Failed 1/1" string with user-specified color}
+    );
 }

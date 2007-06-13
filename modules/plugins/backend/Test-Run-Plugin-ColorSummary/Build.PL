@@ -13,7 +13,7 @@ my $builder = Test::Run::Builder->new(
     dist_version_from   => 'lib/Test/Run/Plugin/ColorSummary.pm',
     build_requires =>
     {
-        'Test::Trap' => 0,
+        'Test::Run::Trap::Obj' => 0,
     },
     requires => {
         'Test::More' => 0,
