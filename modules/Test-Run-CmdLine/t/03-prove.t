@@ -8,28 +8,7 @@ use File::Path;
 use Config;
 use Cwd;
 
-package TestRunCmdLineTrapper;
-
-use base 'Test::Run::Trap::Obj';
-
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
-
-sub trap_run
-{
-    my ($class, $args) = @_;
-
-    my $cmdline = $args->{cmdline};
-    my $runprove = $args->{runprove};
-
-    trap { system("$runprove $cmdline"); };
-
-    return $class->new({ 
-        ( map { $_ => $trap->$_() } 
-        (qw(stdout stderr die leaveby exit return warn wantarray)))
-    });
-}
-
-package main;
+use Test::Run::CmdLine::Trap::Prove;
 
 my $abs_cur = getcwd();
 my $alterr_filename = File::Spec->catfile($abs_cur, "alterr.txt");
@@ -72,7 +51,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     delete($ENV{'PROVE_SWITCHES'});
     $ENV{'COLUMNS'} = 80;
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => qq{$test_file},
@@ -92,7 +71,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
 
         local $ENV{'HARNESS_FILELEAK_IN_DIR'} = $leaked_files_dir;
 
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$leak_test_file $test_file",
@@ -108,7 +87,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     {
         local $ENV{'HARNESS_VERBOSE'} = 1;
 
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => $test_file,
@@ -122,7 +101,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     {
         # This is a control experiment.
         local $ENV{'HARNESS_VERBOSE'} = 0;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => $test_file,
@@ -135,7 +114,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => qq{-v $test_file},
@@ -149,7 +128,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'HARNESS_DEBUG'} = 1;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => $test_file,
@@ -161,7 +140,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Testing is 'Debug' if HARNESS_DEBUG is 1.");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => qq{-d $test_file},
@@ -174,7 +153,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$simple_fail_file",
@@ -187,7 +166,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'COLUMNS'} = 100;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$simple_fail_file",
@@ -200,7 +179,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'HARNESS_COLUMNS'} = 100;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$simple_fail_file",
@@ -214,7 +193,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     {
         local %ENV = %ENV;
         # delete ($ENV{'COLUMNS'});
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$simple_fail_file",
@@ -227,7 +206,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'HARNESS_TIMER'} = 1;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$test_file $several_oks_file",
@@ -239,7 +218,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Displays the time if HARNESS_TIMER is 1.");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "--timer $test_file $several_oks_file",
@@ -251,7 +230,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Displays the time if --timer was set.");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$test_file $several_oks_file",
@@ -264,7 +243,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'HARNESS_NOTTY'} = 1;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$test_file $several_oks_file",
@@ -277,7 +256,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'HARNESS_PERL'} = $^X;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$test_file $several_oks_file",
@@ -289,7 +268,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Good results from HARNESS_PERL");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "--perl $^X $test_file $several_oks_file",
@@ -302,7 +281,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'HARNESS_PERL_SWITCHES'} = $switches_lib1;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$with_myhello_file",
@@ -314,7 +293,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Good results with the '--perl' flag");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$switches_lib1 $with_myhello_file",
@@ -327,7 +306,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     }
     {
         local $ENV{'HARNESS_PERL_SWITCHES'} = $switches_lib2;
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$switches_lib1 $with_myhello_and_myfoo_file",
@@ -343,7 +322,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     {
         local $ENV{'HARNESS_PLUGINS'} = "Super";
         local $ENV{'PERL5LIB'} = $t_dir.$Config{'path_sep'}.$ENV{'PERL5LIB'};
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$test_file $several_oks_file",
@@ -355,7 +334,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Good results with the HARNESS_PLUGINS env var alone.");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "--version",
@@ -367,7 +346,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Good results for the version string");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$no_t_flags_file",
@@ -379,7 +358,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Good results for the absence of the -t flag");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "-t $lowercase_t_flag_file",
@@ -391,7 +370,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Good results for the presence of the -t flag");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "-T $uppercase_t_flag_file",
@@ -403,7 +382,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Good results for the presence of the -T flag");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "-T $no_t_flags_file",
@@ -415,7 +394,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             "Test that requires no taint fails if -T is specified");
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => "$uppercase_t_flag_file",
@@ -430,7 +409,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         my $cwd = Cwd::getcwd();
         chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-blib"));
 
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $abs_runprove,
                 cmdline => "--blib " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
@@ -446,7 +425,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         my $cwd = Cwd::getcwd();
         chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-blib"));
 
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $abs_runprove,
                 cmdline => "" . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
@@ -462,7 +441,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         my $cwd = Cwd::getcwd();
         chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-lib"));
 
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $abs_runprove,
                 cmdline => "--lib " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
@@ -478,7 +457,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         my $cwd = Cwd::getcwd();
         chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-lib"));
 
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $abs_runprove,
                 cmdline => "" . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
@@ -491,7 +470,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         chdir($cwd);
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => qq{--dry $test_file $with_myhello_file},
@@ -504,7 +483,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,
                 cmdline => $simple_fail_file,
@@ -521,7 +500,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         my $cwd = Cwd::getcwd();
         chdir(File::Spec->catdir(File::Spec->curdir(), "t", "sample-tests", "with-lib"));
 
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $abs_runprove,
                 cmdline => "" . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
@@ -534,7 +513,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         chdir($cwd);
     }
     {
-        my $got = TestRunCmdLineTrapper->trap_run(
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $abs_runprove,
                 cmdline => "",
