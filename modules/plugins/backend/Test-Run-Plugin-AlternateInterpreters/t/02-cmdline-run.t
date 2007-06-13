@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-package main;
-
 use Test::More tests => 1;
 
 use Config;
@@ -13,21 +11,9 @@ use Cwd;
 
 use YAML ();
 
+use Test::Run::CmdLine::Trap::Prove;
+
 my $alterr_filename = "alterr.txt";
-sub trap
-{
-    my $cmd = shift;
-    local (*SAVEERR, *ALTERR);
-    open ALTERR, ">", $alterr_filename;
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-    my $output = qx/$cmd/;
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
-    my $error = do { local $/; local *I; open I, "<", $alterr_filename; <I>};
-    return wantarray() ? ($output, $error) : $output;
-}
 
 my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
 my $t_dir = File::Spec->catfile( File::Spec->curdir, "t" );
@@ -93,11 +79,18 @@ my $config_file = Cwd::abs_path(
 
         YAML::DumpFile($config_file, $yaml_data);
 
-        my $results = trap("runprove $suc2_mok_file $suc1_cat_file" . 
-            " $one_ok_file $suc1_mok_file");
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
+            {
+                runprove => "runprove",
+                cmdline => ("$suc2_mok_file $suc1_cat_file" 
+                    . " $one_ok_file $suc1_mok_file"),
+            }
+        );
 
         # TEST
-        ok (($results =~ m/All tests successful\./), "All tests were successful with the new interpreters");
+        $got->field_like("stdout", qr/All tests successful\./, 
+            "All tests were successful with the new interpreters"
+        );
     }
 }
 

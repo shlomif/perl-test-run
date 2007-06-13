@@ -10,6 +10,7 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
         'Test::Trap' => 0,
+        'Test::Run::CmdLine::Trap::Prove' => 0,
     },
     requires => {
         'Test::Run::CmdLine' => "0.0105",
