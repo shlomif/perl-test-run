@@ -148,7 +148,6 @@ sub _pluralize
     );
 }
 
-
 1;
 
 __END__

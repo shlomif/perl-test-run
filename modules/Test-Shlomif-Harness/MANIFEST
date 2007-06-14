@@ -5,6 +5,7 @@ examples/mini_harness.plx
 inc/Test/Run/Builder.pm
 lib/Test/Run/Assert.pm
 lib/Test/Run/Base/Plugger.pm
+lib/Test/Run/Base/PlugHelpers.pm
 lib/Test/Run/Base.pm
 lib/Test/Run/Base/Struct.pm
 lib/Test/Run/Class/Hierarchy.pm
@@ -47,6 +48,7 @@ t/nonumbers.t
 TODO
 t/ok.t
 t/output.t
+t/pluggable-helpers.t
 t/pod.t
 t/sample-tests/bailout
 t/sample-tests/bignum
