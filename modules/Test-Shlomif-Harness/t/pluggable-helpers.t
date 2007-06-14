@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 use Test::Run::Base;
 
@@ -37,6 +37,13 @@ sub _my_plugin_collector
     ];
 }
 
+sub helpers_base_namespace
+{
+    my $self = shift;
+
+    return "MyTestRun::Pluggable::Helpers";
+}
+
 package main;
 
 use lib "./t/lib";
@@ -47,7 +54,6 @@ use lib "./t/lib";
     my $obj = $main_obj->create_pluggable_helper_obj(
         {
             id => "myplug",
-            into => "MyTestRun::Plug::Iface",
             args => 
             {
                 first => "Aharon",
@@ -57,17 +63,7 @@ use lib "./t/lib";
     );
 
     # TEST
-    is_deeply(\@MyTestRun::Plug::Iface::ISA,
-        [qw(
-            MyTestRun::Plug::P::One
-            MyTestRun::Plug::P::Two
-            MyTestRun::Plug::Base
-        )],
-        "Good \@ISA for the iface class."
-    );
-
-    # TEST
-    isa_ok ($obj, "MyTestRun::Plug::Iface");
+    isa_ok ($obj, $main_obj->calc_helpers_namespace("myplug"));
 
     # TEST
     is ($obj->my_calc_first(),

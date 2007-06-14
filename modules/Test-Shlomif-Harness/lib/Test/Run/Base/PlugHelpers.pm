@@ -82,6 +82,22 @@ sub register_pluggable_helper
     return;
 }
 
+sub calc_helpers_namespace
+{
+    my ($self, $id) = @_;
+
+    return
+        $self->helpers_base_namespace() . "::Helpers::" . ucfirst($id)
+        ;
+}
+
+=head2 $self->create_pluggable_helper_obj({ id => $id, args => $args })
+
+Instantiates a new pluggable helper object of the ID $id and with $args
+passed to the constructor.
+
+=cut
+
 sub create_pluggable_helper_obj
 {
     my ($self, $args) = @_;
@@ -97,7 +113,7 @@ sub create_pluggable_helper_obj
     my $plugger = Test::Run::Base::Plugger->new(
         {
             base => $plug_struct->{base},
-            into => $args->{into},
+            into => $self->calc_helpers_namespace($id),
         }
     );
 
@@ -114,6 +130,14 @@ sub create_pluggable_helper_obj
             $args->{args},
         );
 }
+
+=head2 $self->helpers_base_namespace()
+
+B<TO OVERRIDE>: this method determines the base namespace used as the
+base for the pluggable helpers classes.
+
+=cut
+
 
 1;
 
