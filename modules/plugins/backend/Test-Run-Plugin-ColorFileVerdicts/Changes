@@ -1,5 +1,9 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+0.0103    [TO BE RELEASED]
+        * Simplified the CanonFailedObj plugin-specifying code based on the
+        new development of Test::Run::Base.
+
 0.0102    Tue Jun 12 19:29:22 IDT 2007
         * Fixed a class-inheritance-graph problem in which the plugin
         inherited from Test::Run::Core and caused the functions of the

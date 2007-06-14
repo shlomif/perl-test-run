@@ -77,17 +77,30 @@ sub _get_dubious_verdict_message
         color("reset");
 }
 
-sub _canonfailed_get_canon
+sub _get_canonfailed_params
 {
     my $self = shift;
 
-    return Test::Run::Plugin::ColorFileVerdicts::CanonFailedObj->new(
-        {
-            failed => $self->_canonfailed_get_failed(),
-            individual_test_file_verdict_colors => 
-                $self->individual_test_file_verdict_colors(),               
-        }
-    );
+    return 
+    [
+        @{$self->NEXT::_get_canonfailed_params()},
+        individual_test_file_verdict_colors =>
+            $self->individual_test_file_verdict_colors(),
+    ];
+}
+
+=head2 $self->private_canon_failed_obj_plugins()
+
+A method that specifies the extra plugins for the CanonFailedObj helper
+object. Required by the pluggable helper semantics.
+
+=cut
+
+sub private_canon_failed_obj_plugins
+{
+    my $self = shift;
+
+    return [qw(Test::Run::Plugin::ColorFileVerdicts::CanonFailedObj)];
 }
 
 =head1 AUTHOR

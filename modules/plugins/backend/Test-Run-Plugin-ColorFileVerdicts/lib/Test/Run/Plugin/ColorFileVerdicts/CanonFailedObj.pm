@@ -16,7 +16,7 @@ with colors.
 =cut
 
 use base 'Test::Run::Plugin::ColorFileVerdicts::ColorBase';
-use base 'Test::Run::Obj::CanonFailedObj';
+use base 'Test::Run::Base';
 
 __PACKAGE__->mk_accessors(qw(
     individual_test_file_verdict_colors
