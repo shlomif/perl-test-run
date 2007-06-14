@@ -5,12 +5,7 @@ package Test::Run::Core_GplArt;
 require 5.00405;
 use Test::Run::Straps;
 use Test::Run::Output;
-use Test::Run::Base;
 use Test::Run::Assert;
-
-use Test::Run::Obj::FailedObj;
-use Test::Run::Obj::TestObj;
-use Test::Run::Obj::TotObj;
 
 use Test::Run::Obj::Error;
 
@@ -22,17 +17,12 @@ use Class::Accessor;
 
 use Scalar::Util ();
 use List::Util qw(max);
-use vars qw(
-    @ISA
-);
+
+use base 'Test::Run::Base::PlugHelpers';
 
 =head1 NAME
 
 Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
-
-=cut
-
-@ISA = ('Test::Run::Base');
 
 =head1 SYNOPSIS
 

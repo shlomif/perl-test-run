@@ -5,16 +5,12 @@ package Test::Run::Base::PlugHelpers;
 Test::Run::Base::PlugHelpers - base class for Test::Run's classes with
 pluggable helpers.
 
-=head1 DESCRIPTION
-
-Inherits from L<Test::Run::Base::Struct>.
-
 =cut
 
 use NEXT;
 use Carp;
 
-use base 'Test::Run::Base::Struct';
+use base 'Test::Run::Base';
 
 use Test::Run::Base::Plugger;
 

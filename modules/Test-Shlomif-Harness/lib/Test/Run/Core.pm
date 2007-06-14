@@ -14,8 +14,6 @@ use Fatal qw(opendir);
 use Time::HiRes ();
 use List::Util ();
 
-use Test::Run::Obj::CanonFailedObj;
-
 =head1 NAME
 
 Test::Run::Core - Base class to run standard TAP scripts.
@@ -119,7 +117,47 @@ sub _initialize
         $self->_get_new_strap($args),
     );
 
+    $self->register_pluggable_helper(
+        {
+            id => "failed",
+            base => "Test::Run::Obj::FailedObj",
+            collect_plugins_method => "private_failed_obj_plugins",
+        },
+    );
+
+    $self->register_pluggable_helper(
+        {
+            id => "test",
+            base => "Test::Run::Obj::TestObj",
+            collect_plugins_method => "private_test_obj_plugins",
+        },
+    );
+
+    $self->register_pluggable_helper(
+        {
+            id => "tot",
+            base => "Test::Run::Obj::TotObj",
+            collect_plugins_method => "private_tot_obj_plugins",
+        },
+    );
+
+    $self->register_pluggable_helper(
+        {
+            id => "canon_failed",
+            base => "Test::Run::Obj::CanonFailedObj",
+            collect_plugins_method => "private_canon_failed_obj_plugins",
+        },
+    );
+
+
     return 0;
+}
+
+sub helpers_base_namespace
+{
+    my $self = shift;
+
+    return "Test::Run::Core::__HelperObjects";
 }
 
 =head2 Object Parameters
@@ -272,8 +310,11 @@ sub _glob_dir
 sub _init_tot_obj_instance
 {
     my $self = shift;
-    return Test::Run::Obj::TotObj->new(
-        { @{$self->_get_tot_counter_tests()} },
+    return $self->create_pluggable_helper_obj(
+        {
+            id => "tot",
+            args => { @{$self->_get_tot_counter_tests()} },
+        }
     );
 }
 
@@ -310,15 +351,23 @@ sub _create_failed_obj_instance
 {
     my $self = shift;
     my $args = shift;
-    return Test::Run::Obj::FailedObj->new(
-        $args
+    return $self->create_pluggable_helper_obj(
+        {
+            id => "failed",
+            args => $args,
+        }
     );
 }
 
 sub _create_test_obj_instance
 {
     my ($self, $args) = @_;
-    return Test::Run::Obj::TestObj->new($args);
+    return $self->create_pluggable_helper_obj(
+        {
+            id => "test",
+            args => $args,
+        }
+    );
 }
 
 sub _is_failed_and_max
@@ -1006,7 +1055,12 @@ sub _create_canonfailed_obj_instance
 {
     my ($self, $args) = @_;
 
-    return Test::Run::Obj::CanonFailedObj->new($args);
+    return $self->create_pluggable_helper_obj(
+        {
+            id => "canon_failed",
+            args => $args,
+        }
+    );
 }
 
 sub _canonfailed_get_canon
