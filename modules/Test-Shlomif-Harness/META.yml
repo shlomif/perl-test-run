@@ -25,6 +25,8 @@ provides:
     version: 0.03
   Test::Run::Base:
     file: lib/Test/Run/Base.pm
+  Test::Run::Base::Plugger:
+    file: lib/Test/Run/Base/Plugger.pm
   Test::Run::Base::Struct:
     file: lib/Test/Run/Base/Struct.pm
   Test::Run::Class::Hierarchy:
