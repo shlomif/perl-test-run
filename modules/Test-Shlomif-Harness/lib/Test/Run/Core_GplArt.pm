@@ -228,23 +228,6 @@ sub _init_dir_files
     }  
 }
 
-
-sub _recheck_dir_files
-{
-    my $self = shift;
-    
-    if (defined $self->Leaked_Dir()) {
-        my $new_dir_files = $self->_get_dir_files();
-        if (@$new_dir_files != @{$self->dir_files()}) {
-            my %f;
-            @f{@$new_dir_files} = (1) x @$new_dir_files;
-            delete @f{@{$self->dir_files()}};
-            $self->_report_leaked_files({'leaked_files' => [sort keys %f]});
-            $self->dir_files($new_dir_files);
-        }
-    }
-}
-
 # FWRS == failed_with_results_seen
 
 sub get_common_FWRS_params

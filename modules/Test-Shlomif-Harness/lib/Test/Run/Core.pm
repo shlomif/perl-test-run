@@ -14,6 +14,8 @@ use Fatal qw(opendir);
 use Time::HiRes ();
 use List::Util ();
 
+use File::Spec;
+
 =head1 NAME
 
 Test::Run::Core - Base class to run standard TAP scripts.
@@ -69,6 +71,7 @@ sub _get_private_simple_params
 __PACKAGE__->mk_accessors(qw(
     _bonusmsg
     dir_files
+    _new_dir_files
     failed_tests
     format_columns
     last_test_elapsed
@@ -295,6 +298,56 @@ The results of the test.
 
 =cut
 
+=head2 $self->_recheck_dir_files()
+
+Called to recheck that the dir files is OK.
+
+=cut
+
+sub _recheck_dir_files
+{
+    my $self = shift;
+
+    if (defined($self->Leaked_Dir()))
+    {
+        return $self->_real_recheck_dir_files();
+    }
+}
+
+sub _calc_leaked_files_since_last_update
+{
+    my $self = shift;
+   
+    my %found;
+
+    @found{@{$self->_dir_files()}} = (1) x @{$self->_dir_files()};
+    
+    delete(@found{@{$self->_new_dir_files()}});
+
+    return [sort keys(%found)];
+}
+
+sub _real_recheck_dir_files
+{
+    my $self = shift;
+
+    $self->_new_dir_files($self->_get_dir_files());
+    
+    $self->_report_leaked_files(
+        { 
+            leaked => $self->_calc_leaked_files_since_last_update()
+        }
+    );
+    $self->_update_dir_files();
+}
+
+sub _update_dir_files
+{
+    my $self = shift;
+
+    $self->dir_files($self->_new_dir_files());
+}
+
 sub _glob_dir
 {
     my ($self, $dirname) = @_;
@@ -304,7 +357,7 @@ sub _glob_dir
     my @contents = readdir($dir);
     closedir($dir);
 
-    return \@contents;
+    return [File::Spec->no_upwards(@contents)];
 }
 
 sub _init_tot_obj_instance
