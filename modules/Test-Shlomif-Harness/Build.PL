@@ -27,6 +27,7 @@ my $build = Test::Run::Builder->new(
         'Test::Harness' => "2.53",
         'Test::Trap' => 0,
         'Text::Sprintf::Named' => '0.02',
+        'UNIVERSAL::require' => 0,
     },
     dist_version_from => "lib/Test/Run/Core.pm",
     license => "perl",
