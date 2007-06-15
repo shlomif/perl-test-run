@@ -517,6 +517,17 @@ sub _set_start_time
     }
 }
 
+sub _get_failed_with_results_seen_msg
+{
+    my $self = shift;
+
+    return
+        $self->_is_failed_and_max()
+            ? $self->_get_failed_and_max_msg()
+            : $self->_get_dont_know_which_tests_failed_msg()
+            ;
+}
+
 sub _get_dont_know_which_tests_failed_msg
 {
     my $self = shift;
@@ -674,8 +685,8 @@ sub _get_failed_and_max_msg
 {
     my $self = shift;
 
-    return $self->last_test_obj->ml()
-        .  $self->_ser_failed_results();
+    return   $self->last_test_obj->ml()
+           . $self->_ser_failed_results();
 }
 
 sub _canonfailed

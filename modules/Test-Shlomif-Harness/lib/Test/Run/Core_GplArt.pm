@@ -245,17 +245,6 @@ sub _recheck_dir_files
     }
 }
 
-sub _get_failed_with_results_seen_msg
-{
-    my ($self) = @_;
-    
-    return 
-        $self->_is_failed_and_max()
-            ? $self->_get_failed_and_max_msg()
-            : $self->_get_dont_know_which_tests_failed_msg()
-            ;
-}
-
 # FWRS == failed_with_results_seen
 
 sub get_common_FWRS_params
