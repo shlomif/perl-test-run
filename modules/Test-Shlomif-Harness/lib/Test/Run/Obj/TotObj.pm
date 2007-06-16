@@ -95,6 +95,11 @@ sub _initialize
         ", %(good_percent_msg)s%% okay",
     );
 
+    $self->_register_obj_formatter(
+        "positive_bonusmsg",
+        " (%(bonus)s %(_bonus_subtests_str)s UNEXPECTEDLY SUCCEEDED)",
+    );
+
     return $self;
 }
 
@@ -293,6 +298,35 @@ sub _get_skipped_bonusmsg
     {
         return "";
     }
+}
+
+sub _bonus_subtests_str
+{
+    my $self = shift;
+
+    return $self->_pluralize("subtest", $self->bonus());
+}
+
+sub _get_positive_bonusmsg
+{
+    my $self = shift;
+
+    return $self->_format_self(
+        "positive_bonusmsg"
+    );
+}
+
+sub _get_subtests_bonusmsg
+{
+    my $self = shift;
+    return ($self->bonus() ? $self->_get_positive_bonusmsg() : "");
+}
+
+sub get_bonusmsg
+{
+    my $self = shift;
+
+    return $self->_get_subtests_bonusmsg() . $self->_get_skipped_bonusmsg();
 }
 
 sub _percent_ok

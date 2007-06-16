@@ -346,6 +346,11 @@ sub _update_dir_files
     my $self = shift;
 
     $self->dir_files($self->_new_dir_files());
+
+    # Reset it to prevent dangerous behaviour.
+    $self->_new_dir_files(undef);
+
+    return;
 }
 
 sub _glob_dir
@@ -1186,6 +1191,18 @@ sub runtests
     {
         return $ok;
     }
+}
+
+sub _get_bonusmsg
+{
+    my $self = shift;
+
+    if (! defined($self->_bonusmsg()))
+    {
+        $self->_bonusmsg($self->tot()->get_bonusmsg());
+    }
+
+    return $self->_bonusmsg();
 }
 
 =head2 $self->_report_failed_before_any_test_output();

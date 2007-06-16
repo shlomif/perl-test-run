@@ -621,27 +621,6 @@ sub _get_skipped_bonusmsg
     return $self->tot->_get_skipped_bonusmsg();
 }
 
-sub _get_bonusmsg {
-    my($self) = @_;
-    my $bonus = $self->tot()->bonus();
-
-    if (defined($self->_bonusmsg()))
-    {
-        return $self->_bonusmsg();
-    }
-
-    my $bonusmsg = '';
-    $bonusmsg = (" ($bonus subtest".($bonus > 1 ? 's' : '').
-               " UNEXPECTEDLY SUCCEEDED)")
-        if $bonus;
-
-    $bonusmsg .= $self->_get_skipped_bonusmsg();
-
-    $self->_bonusmsg($bonusmsg);
-
-    return $bonusmsg;
-}
-
 sub _get_dubious_summary
 {
     my ($self, $args) = @_;
