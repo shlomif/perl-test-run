@@ -393,28 +393,6 @@ sub _process_test_file_results
     return;
 }
 
-sub _run_all_tests {
-    my $self = shift;
-
-    _autoflush(\*STDOUT);
-    _autoflush(\*STDERR);
-
-    $self->failed_tests({});
-
-    $self->_init_tot();
-
-    $self->_init_dir_files();
-
-    $self->tot()->benchmark_callback(sub {
-        $self->width($self->_leader_width());
-        $self->_run_all_tests_loop();
-    });
-
-    $self->Strap()->_restore_PERL5LIB;
-
-    # TODO: Eliminate this? -- Shlomi Fish
-    return $self->failed_tests();
-}
 
 sub _report_success
 {

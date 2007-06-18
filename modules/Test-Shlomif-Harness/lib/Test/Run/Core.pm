@@ -1226,6 +1226,34 @@ sub _get_bonusmsg
     return $self->_bonusmsg();
 }
 
+sub _autoflush_file_handles
+{
+    my $self = shift;
+
+    STDOUT->autoflush(1);
+    STDERR->autoflush(1);
+}
+
+sub _init_failed_tests
+{
+    my $self = shift;
+
+    $self->failed_tests({});
+}
+
+sub _prepare_run_all_tests
+{
+    my $self = shift;
+
+    $self->_autoflush_file_handles();
+
+    $self->_init_failed_tests();
+
+    $self->_init_tot();
+
+    $self->_init_dir_files();
+}
+
 sub _run_all_tests_loop
 {
     my $self = shift;
@@ -1234,6 +1262,38 @@ sub _run_all_tests_loop
     {
         $self->_run_single_test({ test_file => $test_file_path});
     }
+}
+
+sub _run_all_tests__run_loop
+{
+    my $self = shift;
+
+    $self->tot->benchmark_callback(
+        sub {
+            $self->width($self->_leader_width());
+            $self->_run_all_tests_loop();
+        }
+    );
+}
+
+sub _finalize_run_all_tests
+{
+    my $self = shift;
+
+    $self->Strap()->_restore_PERL5LIB();
+}
+
+sub _run_all_tests {
+    my $self = shift;
+
+    $self->_prepare_run_all_tests();
+
+    $self->_run_all_tests__run_loop();
+
+    $self->_finalize_run_all_tests();
+
+    # TODO: Eliminate this? -- Shlomi Fish
+    return $self->failed_tests();
 }
 
 =head2 $self->_report_failed_before_any_test_output();
