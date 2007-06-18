@@ -404,11 +404,11 @@ sub _run_all_tests {
     $self->_init_tot();
 
     $self->_init_dir_files();
-    my $run_start_time = new Benchmark;
 
-    $self->width($self->_leader_width());
-    $self->_run_all_tests_loop();
-    $self->tot()->bench(timediff(new Benchmark, $run_start_time));
+    $self->tot()->benchmark_callback(sub {
+        $self->width($self->_leader_width());
+        $self->_run_all_tests_loop();
+    });
 
     $self->Strap()->_restore_PERL5LIB;
 

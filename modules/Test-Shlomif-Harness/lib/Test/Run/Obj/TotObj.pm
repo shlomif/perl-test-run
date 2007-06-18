@@ -370,6 +370,26 @@ sub fail_tests_good_percent_string
     );
 }
 
+=head2 $self->benchmark_callback(\&callback)
+
+Benchmarks the callback C<&callback> using the Benchmark module and puts the
+result in the C<bench()> slot.
+
+=cut
+
+sub benchmark_callback
+{
+    my ($self, $cb) = @_;
+
+    my $start_time = new Benchmark;
+    $cb->();
+    my $end_time = new Benchmark;
+
+    $self->bench(Benchmark::timediff($end_time, $start_time));
+
+    return;
+}
+
 1;
 
 __END__
