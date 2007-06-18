@@ -375,12 +375,6 @@ sub _add_to_failed_tests
     return;
 }
 
-sub _is_test_passing
-{
-    my $self = shift;
-
-    return $self->last_test_results->passing;
-}
 
 sub _process_test_file_results
 {
@@ -397,12 +391,6 @@ sub _process_test_file_results
     }
 
     return;
-}
-
-sub _get_tot_counter_tests
-{
-    my $self = shift;
-    return [tests => (scalar @{$self->test_files()})];
 }
 
 sub _run_all_tests {

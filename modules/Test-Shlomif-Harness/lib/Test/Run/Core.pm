@@ -365,6 +365,20 @@ sub _glob_dir
     return [File::Spec->no_upwards(@contents)];
 }
 
+sub _get_num_tests_files
+{
+    my $self = shift;
+
+    return scalar(@{$self->test_files()});
+}
+
+sub _get_tot_counter_tests
+{
+    my $self = shift;
+
+    return [ tests => $self->_get_num_tests_files() ];
+}
+
 sub _init_tot_obj_instance
 {
     my $self = shift;
@@ -976,6 +990,13 @@ sub _show_results
 sub _is_last_test_seen
 {
     return shift->last_test_results->seen;
+}
+
+sub _is_test_passing
+{
+    my $self = shift;
+
+    return $self->last_test_results->passing;
 }
 
 sub _get_failed_and_max_params
