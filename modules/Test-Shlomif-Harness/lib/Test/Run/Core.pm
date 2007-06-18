@@ -1226,6 +1226,16 @@ sub _get_bonusmsg
     return $self->_bonusmsg();
 }
 
+sub _run_all_tests_loop
+{
+    my $self = shift;
+
+    foreach my $test_file_path (@{$self->test_files()})
+    {
+        $self->_run_single_test({ test_file => $test_file_path});
+    }
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

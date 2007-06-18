@@ -407,10 +407,7 @@ sub _run_all_tests {
     my $run_start_time = new Benchmark;
 
     $self->width($self->_leader_width());
-    foreach my $tfile (@{$self->test_files()}) 
-    {
-        $self->_run_single_test({'test_file' => $tfile});
-    } # foreach test
+    $self->_run_all_tests_loop();
     $self->tot()->bench(timediff(new Benchmark, $run_start_time));
 
     $self->Strap()->_restore_PERL5LIB;
