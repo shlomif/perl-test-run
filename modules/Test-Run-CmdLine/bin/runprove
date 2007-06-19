@@ -2,18 +2,9 @@
 
 use strict;
 
-use Test::Run::CmdLine::Prove;
+use Test::Run::CmdLine::Prove::App;
 
-my $p =
-    Test::Run::CmdLine::Prove->new(
-        {
-            'args' => [@ARGV],
-            'env_switches' => $ENV{'PROVE_SWITCHES'},
-        }
-    );
-exit($p->run());
-
-1;
+run();
 
 # The POD was taken from the prove of Test::Harness.
 # TODO : Adapt it to runprove.
