@@ -1,6 +1,7 @@
 Build.PL
 Changes
 inc/Test/Run/Builder.pm
+lib/Test/Run/CmdLine/Plugin/ColorSummary.pm
 lib/Test/Run/Plugin/ColorSummary.pm
 Makefile.PL
 MANIFEST
@@ -8,6 +9,7 @@ META.yml # Will be created by "make dist"
 README
 t/00-load.t
 t/01-run.t
+t/02-cmdline-run.t
 t/pod-coverage.t
 t/pod.t
 t/sample-tests/one-fail.t

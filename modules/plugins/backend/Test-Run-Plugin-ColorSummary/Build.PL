@@ -20,6 +20,7 @@ my $builder = Test::Run::Builder->new(
         'Term::ANSIColor' => 0,
         'Scalar::Util' => 0,
         'Test::Run::Obj' => 0,
+        'Test::Run::CmdLine' => 0,
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorSummary-*' ],
     create_makefile_pl => 'traditional',
