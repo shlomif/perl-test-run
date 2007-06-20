@@ -8,6 +8,7 @@ lib/Test/Run/CmdLine/Iface.pm
 lib/Test/Run/CmdLine.pm
 lib/Test/Run/CmdLine/Prove/App.pm
 lib/Test/Run/CmdLine/Prove.pm
+lib/Test/Run/CmdLine/Trap/ProveApp.pm
 lib/Test/Run/CmdLine/Trap/Prove.pm
 Makefile.PL
 MANIFEST
@@ -19,6 +20,7 @@ t/02-run.t
 t/03-prove.t
 t/04-t-r-cl-iface.t
 t/05-prove-cl-process.t
+t/07-trap-prove-app.t
 t/pod-coverage.t
 t/pod.t
 t/sample-tests/bad.t
