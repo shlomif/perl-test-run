@@ -13,7 +13,8 @@ my $builder = Test::Run::Builder->new(
     dist_version_from   => 'lib/Test/Run/Plugin/ColorFileVerdicts.pm',
     build_requires => {
         'Test::More' => 0,
-        'Test::Trap' => 0,
+        'Test::Run::Trap::Obj' => 0,
+        'Test::Run::CmdLine::Trap::ProveApp' => 0,
     },
     requires => {
         "Term::ANSIColor" => 0,

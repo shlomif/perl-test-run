@@ -5,22 +5,16 @@ use warnings;
 
 use Test::More tests => 3;
 
-use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
-
 use Term::ANSIColor;
 use Config;
 use File::Spec;
 use Cwd;
 
+use Test::Run::CmdLine::Trap::ProveApp;
+
 my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
 my $lib = File::Spec->catfile( $blib, "lib" );
 my $abs_lib = Cwd::abs_path($lib);
-
-sub mydiag
-{
-    diag( "\$trap->stdout() is\n". $trap->stdout() 
-        . "\$trap->stderr() is\n". $trap->stderr());
-}
 
 {
     local %ENV = %ENV;
@@ -42,55 +36,69 @@ sub mydiag
     $ENV{'HARNESS_PLUGINS'} = "ColorFileVerdicts";
     
     {
-        trap {
-            system("runprove", 
-                "t/sample-tests/one-ok.t",
-                "t/sample-tests/several-oks.t"
-            );
-        };
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
+            {
+                cmdline =>
+                [
+                    "t/sample-tests/one-ok.t",
+                    "t/sample-tests/several-oks.t",
+                ],
+            }
+        );
 
         my $color = color("green");
         my $reset = color("reset");
 
         # TEST
-        ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/), 
-            "ok is colored") or mydiag();
-            
+        $got->field_like(
+            "stdout", qr/\Q${color}\Eok\Q${reset}\E/, 
+            "ok is colored"
+        );
     }
 
     {
         local $ENV{'PERL_HARNESS_VERDICT_COLORS'} = "success=magenta;failure=green";
-        trap {
-            system("runprove", 
-                "t/sample-tests/one-ok.t",
-                "t/sample-tests/several-oks.t"
-            );
-        };
+
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
+            {
+                cmdline =>
+                [
+                    "t/sample-tests/one-ok.t",
+                    "t/sample-tests/several-oks.t",
+                ],
+            }
+        );
 
         my $color = color("magenta");
         my $reset = color("reset");
 
         # TEST
-        ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/), 
-            "ok is colored in a different color") or mydiag();
-            
+        $got->field_like(
+            "stdout", qr/\Q${color}\Eok\Q${reset}\E/, 
+            "ok is colored"
+        );
     }
 
     {
         local $ENV{'PERL_HARNESS_VERDICT_COLORS'} = "failure=green;success=magenta";
-        trap {
-            system("runprove", 
-                "t/sample-tests/one-ok.t",
-                "t/sample-tests/several-oks.t"
-            );
-        };
+
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
+            {
+                cmdline =>
+                [
+                    "t/sample-tests/one-ok.t",
+                    "t/sample-tests/several-oks.t",
+                ],
+            }
+        );
 
         my $color = color("magenta");
         my $reset = color("reset");
 
         # TEST
-        ok (($trap->stdout() =~ m/\Q${color}\Eok\Q${reset}\E/), 
-            "ok is colored in a different color") or mydiag();
-            
+        $got->field_like(
+            "stdout", qr/\Q${color}\Eok\Q${reset}\E/, 
+            "ok is colored"
+        );        
     }
 }
