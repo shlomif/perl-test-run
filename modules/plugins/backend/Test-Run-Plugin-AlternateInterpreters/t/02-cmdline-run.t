@@ -11,7 +11,7 @@ use Cwd;
 
 use YAML ();
 
-use Test::Run::CmdLine::Trap::Prove;
+use Test::Run::CmdLine::Trap::ProveApp;
 
 my $alterr_filename = "alterr.txt";
 
@@ -79,11 +79,13 @@ my $config_file = Cwd::abs_path(
 
         YAML::DumpFile($config_file, $yaml_data);
 
-        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
-                runprove => "runprove",
-                cmdline => ("$suc2_mok_file $suc1_cat_file" 
-                    . " $one_ok_file $suc1_mok_file"),
+                cmdline => 
+                [
+                    $suc2_mok_file,$suc1_cat_file, $one_ok_file,
+                    $suc1_mok_file
+                ],
             }
         );
 
