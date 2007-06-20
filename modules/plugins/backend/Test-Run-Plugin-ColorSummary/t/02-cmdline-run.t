@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-package main;
-
 use Test::More tests => 4;
 
 use Term::ANSIColor;
@@ -12,21 +10,7 @@ use Config;
 use File::Spec;
 use Cwd;
 
-my $alterr_filename = "alterr.txt";
-sub trap
-{
-    my $cmd = shift;
-    local (*SAVEERR, *ALTERR);
-    open ALTERR, ">", $alterr_filename;
-    open SAVEERR, ">&STDERR";
-    open STDERR, ">&ALTERR";
-    my $output = qx/$cmd/;
-    open STDERR, ">&SAVEERR";
-    close(SAVEERR);
-    close(ALTERR);
-    my $error = do { local $/; local *I; open I, "<", $alterr_filename; <I>};
-    return wantarray() ? ($output, $error) : $output;
-}
+use Test::Run::CmdLine::Trap::ProveApp;
 
 my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
 my $t_dir = File::Spec->catfile( File::Spec->curdir, "t" );
@@ -58,44 +42,67 @@ my $one_fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
     $ENV{'HARNESS_PLUGINS'} = "ColorSummary";
     
     {
-        my $results = trap("runprove $test_file $several_oks_file");
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
+            {
+                cmdline => [$test_file, $several_oks_file],
+            }
+        );
         
         my $color = color("bold blue");
 
         # TEST
-        ok (($results =~ m/\Q${color}\EAll tests successful\./), "'All tests successful.' string as is");
+        $got->field_like("stdout",
+            qr/\Q${color}\EAll tests successful\./,
+            "'All tests successful.' string as is"
+        );
     }
 
     {
-        my ($results, $err_text) = trap("runprove $one_fail_file");
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
+            {
+                cmdline => [$one_fail_file],
+            }
+        );
         my $color = color("bold red");
 
         # TEST
-        ok (($err_text =~ m/\Q${color}\EFailed 1\/1 test scripts/), 
-            qq{Found colored "Failed 1/1" string});
-
+        $got->field_like("stderr", qr/\Q${color}\EFailed 1\/1 test scripts/, 
+            qq{Found colored "Failed 1/1" string}
+        );
     }
     {
         local $ENV{'HARNESS_SUMMARY_COL_SUC'} = "green";
         local $ENV{'HARNESS_SUMMARY_COL_FAIL'} = "yellow";
-        my $results = trap("runprove $test_file $several_oks_file");
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
+            {
+                cmdline => [$test_file, $several_oks_file],
+            }
+        );
 
         my $color = color("green");
 
         # TEST
-        ok (($results =~ m/\Q${color}\EAll tests successful\./), 
-            "'All tests successful.' string in user-speced color");
+        $got->field_like("stdout",
+            qr/\Q${color}\EAll tests successful\./, 
+            "'All tests successful.' string in user-speced color"
+        );
     }
     {
         local $ENV{'HARNESS_SUMMARY_COL_SUC'} = "green";
         local $ENV{'HARNESS_SUMMARY_COL_FAIL'} = "yellow";
-        my ($results, $err_text) = trap("runprove $one_fail_file");
+        my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
+            {
+                cmdline => [$one_fail_file],
+            }
+        );
 
         my $color = color("yellow");
 
         # TEST
-        ok (($err_text =~ m/\Q${color}\EFailed 1\/1 test scripts/),
-            qq{Found colored "Failed 1/1" string with user-specified color});
+        $got->field_like("stderr",
+            qr/\Q${color}\EFailed 1\/1 test scripts/,
+            qq{Found colored "Failed 1/1" string with user-specified color}
+        );
     }
 }
 
