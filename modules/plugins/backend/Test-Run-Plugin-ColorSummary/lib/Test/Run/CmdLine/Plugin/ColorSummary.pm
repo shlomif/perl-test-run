@@ -11,7 +11,7 @@ Test::Run::CmdLine::Plugin::ColorSummary - Color the summary in Test::Run::CmdLi
 
 =cut
 
-our $VERSION = '0.0101';
+our $VERSION = '0.0102';
 
 sub _initialize
 {

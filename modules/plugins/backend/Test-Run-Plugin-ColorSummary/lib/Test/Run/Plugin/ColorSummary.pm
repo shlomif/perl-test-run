@@ -16,9 +16,13 @@ use base 'Class::Accessor';
 Test::Run::Plugin::ColorSummary - A Test::Run plugin that
 colors the summary.
 
+=head1 VERSION
+
+0.0102
+
 =cut
 
-our $VERSION = '0.0101';
+our $VERSION = '0.0102';
 
 __PACKAGE__->mk_accessors(qw(
     summary_color_failure

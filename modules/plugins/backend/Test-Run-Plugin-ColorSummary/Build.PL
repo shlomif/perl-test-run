@@ -14,6 +14,7 @@ my $builder = Test::Run::Builder->new(
     build_requires =>
     {
         'Test::Run::Trap::Obj' => 0,
+        'Test::Run::CmdLine::Trap::ProveApp' => 0,
     },
     requires => {
         'Test::More' => 0,
