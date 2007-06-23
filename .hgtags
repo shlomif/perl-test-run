@@ -40,3 +40,4 @@ a4599efd951fa93a0f83bf463698a32f1a44f65b releases/modules/plugins/backend/Test-R
 5ef2d9d1e9d94da2e2cf54392955f2e0591956a4 releases/modules/plugins/backend/Test-Run-Plugin-ColorFileVerdicts/0.0102
 03a20e20e7fbdd958dcddcbb1d635a2cdc00936a releases/0.01/0.0111
 68f9ce72f6b228fdeafe498eb7bb2fd6eb787203 releases/modules/Test-Run-CmdLine/0.01/0.0106
+3ab0ba3b172cbb70a4044271cea4f9a2e13dbbe7 releases/modules/plugins/backend/Test-Run-Plugin-AlternateInterpreters/0.0104
