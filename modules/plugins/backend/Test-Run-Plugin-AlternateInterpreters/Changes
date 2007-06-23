@@ -1,5 +1,9 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+0.0104  Sat Jun 23 13:49:58 IDT 2007
+        * Converted the distribution to Test-Run-Builder.
+        * Now using Test::Run::CmdLine::Trap::ProveApp for the tests (to
+        prevent the "runprove" cannot be found false failures.)
 
 0.0103  Mon Jun 11 15:08:25 IDT 2007
         * Converted to the "yamldata" environment variable type 
