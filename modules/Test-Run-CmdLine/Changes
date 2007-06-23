@@ -1,9 +1,16 @@
 Revision history for Test-Run-CmdLine
 
-0.0106      [NOT RELEASED YET!!!]
+0.0106      Sat Jun 23 13:22:16 IDT 2007
     * Placed the runprove trapping functionality in 
     lib/Test/Run/CmdLine/Trap/Prove.pm for easy re-use by the
     plugins.
+    * Added lib/Test/Run/CmdLine/Prove/App.pm as a standalone -M command
+    line module implementing the "runprove" functionality. 
+        - Also useful for testing - see below.
+        - converted runprove to use it.
+    * Added lib/Test/Run/CmdLine/Trap/ProveApp.pm for testing
+    the ::Prove::App Module-App, so we won't rely on "runprove"
+    being in the path.
 
 0.0105      Mon Jun 11 14:52:44 IDT 2007
     * Now prove does not barf with weird errors when ran with no arguments.
