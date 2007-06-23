@@ -33,6 +33,12 @@ NEXT:: games:
 
 * Implement a plugin system for the helper objects.
 
+* Add the Test::Run module with some information on how to get started
+with Test::Run.
+
+* Add examples for Test::Run (not T::R::CL) under examples/ in the T::R (core)
+distribution.
+
 Bugs:
 -----
 

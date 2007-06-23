@@ -22,7 +22,7 @@ Test::Run::Core - Base class to run standard TAP scripts.
 
 =head1 VERSION
 
-Version 0.0110
+Version 0.0111
 
 =cut
 
