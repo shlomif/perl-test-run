@@ -1,3 +1,8 @@
+0.0112    Sun Jun 24 19:23:42 IDT 2007
+    * Fixed the regression bugs with handling the directory with the
+    leaked files, that broke Test::Run::CmdLine, while adding a regression
+    test file.
+
 0.0111    Sat Jun 23 11:56:31 IDT 2007
     * Added Test::Run::Base::Plugger for managing classes with plug-ins and 
     made the helper classes into pluggable classes.
