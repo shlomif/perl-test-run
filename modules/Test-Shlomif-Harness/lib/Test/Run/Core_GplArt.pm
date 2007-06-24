@@ -218,16 +218,6 @@ sub _autoflush {
     select $old_fh;
 }
 
-sub _init_dir_files
-{
-    my $self = shift;
-    my @dir_files;
-    if (defined($self->Leaked_Dir()))
-    {
-        $self->dir_files($self->_get_dir_files());    
-    }  
-}
-
 # FWRS == failed_with_results_seen
 
 sub get_common_FWRS_params

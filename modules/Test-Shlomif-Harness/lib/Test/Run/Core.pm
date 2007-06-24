@@ -320,9 +320,9 @@ sub _calc_leaked_files_since_last_update
    
     my %found;
 
-    @found{@{$self->_dir_files()}} = (1) x @{$self->_dir_files()};
+    @found{@{$self->_new_dir_files()}} = (1) x @{$self->_new_dir_files()};
     
-    delete(@found{@{$self->_new_dir_files()}});
+    delete(@found{@{$self->dir_files()}});
 
     return [sort keys(%found)];
 }
@@ -335,7 +335,7 @@ sub _real_recheck_dir_files
     
     $self->_report_leaked_files(
         { 
-            leaked => $self->_calc_leaked_files_since_last_update()
+            leaked_files => $self->_calc_leaked_files_since_last_update()
         }
     );
     $self->_update_dir_files();
@@ -1254,6 +1254,15 @@ sub _prepare_run_all_tests
     $self->_init_dir_files();
 }
 
+sub _init_dir_files
+{
+    my $self = shift;
+
+    if (defined($self->Leaked_Dir()))
+    {
+        $self->dir_files($self->_get_dir_files());
+    }   
+}
 sub _run_all_tests_loop
 {
     my $self = shift;

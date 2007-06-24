@@ -36,6 +36,7 @@ t/data/interpreters/wrong-mini-ok.pl
 t/harness.t
 t/hierarchy.t
 t/inc_taint.t
+t/leaked-dir.t
 t/lib/Dev/Null.pm
 t/lib/if.pm
 t/lib/MyTestRun/Plug/Base.pm
@@ -62,6 +63,7 @@ t/sample-tests/head_end
 t/sample-tests/head_fail
 t/sample-tests/inc_taint
 t/sample-tests/invalid-perl
+t/sample-tests/leak-file.t
 t/sample-tests/lone_not_bug
 t/sample-tests/no_nums
 t/sample-tests/no_output
