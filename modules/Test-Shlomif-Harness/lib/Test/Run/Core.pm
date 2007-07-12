@@ -1233,6 +1233,23 @@ sub _run_single_test
     return;
 }
 
+sub _process_test_file_results
+{
+    my ($self) = @_;
+
+    if ($self->_is_test_passing()) 
+    {
+        $self->_handle_passing_test();
+    }
+    else
+    {
+        $self->_list_tests_as_failures();
+        $self->_add_to_failed_tests();
+    }
+
+    return;
+}
+
 sub runtests
 {
     my $self = shift;
