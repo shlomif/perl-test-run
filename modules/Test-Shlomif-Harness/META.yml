@@ -1,6 +1,6 @@
 ---
 name: Test-Run
-version: 0.0111
+version: 0.0112
 author: []
 abstract: Base class to run standard TAP scripts.
 license: perl
@@ -36,7 +36,7 @@ provides:
     file: lib/Test/Run/Class/Hierarchy.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0111
+    version: 0.0112
   Test::Run::Core_GplArt:
     file: lib/Test/Run/Core_GplArt.pm
   Test::Run::Iface:

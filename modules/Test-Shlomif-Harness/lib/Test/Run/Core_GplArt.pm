@@ -313,29 +313,6 @@ sub _list_tests_as_failures
     }
 }
 
-
-sub _process_passing_test
-{
-    my ($self) = @_;
-
-    my $test = $self->last_test_obj;
-
-    # XXX Combine these first two
-    if ($test->max() and $test->skipped() + $test->bonus())
-    {
-        $self->_process_skipped_test();
-    }
-    elsif ( $test->max() )
-    {
-        $self->_process_all_ok_test();
-    }
-    else
-    {
-        $self->_process_all_skipped_test();
-    }
-    $self->_tot_inc('good');
-}
-
 sub _prepare_for_single_test_run
 {
     my ($self, $args) = @_;
@@ -372,7 +349,7 @@ sub _process_test_file_results
 
     if ($self->_is_test_passing()) 
     {
-        $self->_process_passing_test();
+        $self->_handle_passing_test();
     }
     else
     {

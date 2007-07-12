@@ -649,6 +649,55 @@ sub _get_sub_percent_msg
     return $self->tot->get_sub_percent_msg();
 }
 
+sub _handle_passing_test
+{
+    my $self = shift;
+
+    $self->_process_passing_test();
+    $self->_tot_inc('good');
+}
+
+sub _does_test_have_some_oks
+{
+    my $self = shift;
+
+    return $self->last_test_obj->max();
+}
+
+sub _process_passing_test
+{
+    my $self = shift;
+
+    if ($self->_does_test_have_some_oks())
+    {
+        $self->_process_test_with_some_oks();
+    }
+    else
+    {
+        $self->_process_all_skipped_test();
+    }
+}
+
+sub _process_test_with_some_oks
+{
+    my $self = shift;
+
+    if ($self->last_test_obj->skipped_or_bonus())
+    {
+        return $self->_process_skipped_test();
+    }
+    else
+    {
+        return $self->_process_all_ok_test();
+    }
+}
+
+sub _process_all_ok_test
+{
+    my ($self) = @_;
+    return $self->_report_all_ok_test();
+}
+
 sub _process_all_skipped_test
 {
     my $self = shift;
@@ -693,11 +742,6 @@ sub _process_skipped_test
 }
 
 
-sub _process_all_ok_test
-{
-    my ($self) = @_;
-    return $self->_report_all_ok_test();
-}
 
 sub _time_single_test
 {

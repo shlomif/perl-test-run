@@ -153,6 +153,13 @@ sub _get_dont_know_which_tests_failed_msg
     return $self->_format_self("dont_know_which_tests_failed");
 }
 
+sub skipped_or_bonus
+{
+    my $self = shift;
+
+    return $self->skipped() || $self->bonus();
+}
+
 1;
 
 __END__
