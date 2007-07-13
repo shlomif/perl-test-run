@@ -325,23 +325,6 @@ sub _prepare_for_single_test_run
     return;
 }
 
-sub _get_last_test_filename
-{
-    my $self = shift;
-
-    return $self->last_test_results->filename;
-}
-
-sub _add_to_failed_tests
-{
-    my $self = shift;
-
-    $self->failed_tests()->{$self->_get_last_test_filename()} = 
-        $self->_get_failed_struct();
-
-    return;
-}
-
 sub _report_success
 {
     my $self = shift;

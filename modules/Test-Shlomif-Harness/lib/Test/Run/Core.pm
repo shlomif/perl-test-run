@@ -1315,6 +1315,23 @@ sub _prepare_run_all_tests
     $self->_init_dir_files();
 }
 
+sub _add_to_failed_tests
+{
+    my $self = shift;
+
+    $self->failed_tests()->{$self->_get_last_test_filename()} = 
+        $self->_get_failed_struct();
+
+    return;
+}
+
+sub _get_last_test_filename
+{
+    my $self = shift;
+
+    return $self->last_test_results->filename();
+}
+
 sub _init_dir_files
 {
     my $self = shift;
