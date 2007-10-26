@@ -7,18 +7,28 @@ use base 'Test::Run::Trap::Obj';
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
+my @fields = (qw(system_ret));
+sub _get_private_fields
+{
+    return [@fields];
+}
+
+__PACKAGE__->mk_accessors(@fields);
+
 sub trap_run
 {
     my ($class, $args) = @_;
 
     my $cmdline = $args->{cmdline};
     my $runprove = $args->{runprove};
+    my $system_ret;
 
-    trap { system("$runprove $cmdline"); };
+    trap { $system_ret = system("$runprove $cmdline"); };
 
     return $class->new({ 
         ( map { $_ => $trap->$_() } 
-        (qw(stdout stderr die leaveby exit return warn wantarray)))
+        (qw(stdout stderr die leaveby exit return warn wantarray))),
+        system_ret => $system_ret,
     });
 }
 

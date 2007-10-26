@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 36;
+use Test::More tests => 37;
 use File::Spec;
 use File::Path;
 use Config;
@@ -61,6 +61,11 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         # TEST
         $got->field_like("stdout", qr/All tests successful\./, 
             "Good results from runprove");
+
+        # TEST
+        $got->field_is("system_ret", 0, 
+            "runprove returns a zero exit code upon success."
+        );
     }
 
     {

@@ -20,7 +20,7 @@ sub run
                 'env_switches' => $ENV{'PROVE_SWITCHES'},
             }
         );
-    exit($p->run());
+    exit(! $p->run());
 }
 
 1;
