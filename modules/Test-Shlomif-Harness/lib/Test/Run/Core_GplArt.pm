@@ -262,17 +262,6 @@ sub _list_tests_as_failures
     }
 }
 
-sub _report_success
-{
-    my $self = shift;
-    $self->_report(
-        {
-            'channel' => "success",
-            'event' => { 'type' => "success", },
-        }
-    );
-}
-
 sub _get_fmt_list_len
 {
     my ($self, $args) = (@_);

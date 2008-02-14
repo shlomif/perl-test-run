@@ -1162,6 +1162,19 @@ sub _is_no_tests_output
     return (! $self->tot->max());
 }
 
+sub _report_success
+{
+    my $self = shift;
+    $self->_report(
+        {
+            'channel' => "success",
+            'event' => { 'type' => "success", },
+        }
+    );
+
+    return;
+}
+
 sub _show_success_or_failure
 {
     my $self = shift;
