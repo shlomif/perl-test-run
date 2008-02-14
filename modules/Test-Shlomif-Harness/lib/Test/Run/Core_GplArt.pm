@@ -169,40 +169,35 @@ B<NOTE> Currently this function is still noisy.  I'm working on it.
 
 =cut
 
-sub _get_fmt_list_len
-{
-    my ($self, $args) = (@_);
-
-    my $max_nl_ref = $args->{max_namelen};
-
-    $self->format_columns($self->_get_num_columns());
-
-    my $list_len = $self->format_columns() - $self->_get_fmt_mid_str_len() - $$max_nl_ref;
-    if ($list_len < $self->_get_fmt_list_str_len()) {
-        $list_len = $self->_get_fmt_list_str_len();
-        $$max_nl_ref = $self->format_columns() - $self->_get_fmt_mid_str_len() - $list_len;
-        if ($$max_nl_ref < $self->_get_format_failed_str_len()) {
-            $$max_nl_ref = $self->_get_format_failed_str_len();
-            $self->format_columns(
-                $$max_nl_ref + $self->_get_fmt_mid_str_len() + $list_len
-            );
-        }
-    }
-    return $list_len;
-}
-
-sub _calc_format_widths
+sub _calc_fmt_list_len
 {
     my $self = shift;
 
-    my $max_namelen = $self->_get_initial_max_namelen();
+    $self->format_columns($self->_get_num_columns());
 
-    my $list_len = $self->_get_fmt_list_len({'max_namelen' => \$max_namelen});
+    my $list_len =
+        $self->format_columns()
+        - $self->_get_fmt_mid_str_len()
+        - $self->max_namelen()
+        ;
 
-    $self->max_namelen($max_namelen);
+    if ($list_len < $self->_get_fmt_list_str_len()) {
+        $list_len = $self->_get_fmt_list_str_len();
+        $self->max_namelen($self->format_columns() - $self->_get_fmt_mid_str_len() - $list_len);
+        if ($self->max_namelen() < $self->_get_format_failed_str_len()) 
+        {
+            $self->max_namelen($self->_get_format_failed_str_len());
+            $self->format_columns(
+                $self->max_namelen()
+                + $self->_get_fmt_mid_str_len()
+                + $list_len
+            );
+        }
+    }
+
     $self->list_len($list_len);
 
-    return 0;
+    return;
 }
 
 =end _private

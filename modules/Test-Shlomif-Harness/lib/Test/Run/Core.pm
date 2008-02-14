@@ -1667,7 +1667,7 @@ sub _get_num_columns
 }
 
 # Find the maximal name length among the failed_tests().
-sub _get_initial_max_namelen
+sub _calc_initial_max_namelen
 {
     my $self = shift;
 
@@ -1683,7 +1683,20 @@ sub _get_initial_max_namelen
         }
     }
 
-    return $max;
+    $self->max_namelen($max);
+
+    return;
+}
+
+sub _calc_format_widths
+{
+    my $self = shift;
+
+    $self->_calc_initial_max_namelen();
+    
+    $self->_calc_fmt_list_len();
+
+    return;
 }
 
 sub _get_format_middle_str
