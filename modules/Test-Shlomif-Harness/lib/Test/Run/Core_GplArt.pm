@@ -5,7 +5,6 @@ package Test::Run::Core_GplArt;
 require 5.00405;
 use Test::Run::Straps;
 use Test::Run::Output;
-use Test::Run::Assert;
 
 use Test::Run::Obj::Error;
 
@@ -138,23 +137,6 @@ It returns true if everything was ok.  Otherwise it will C<die()> with
 one of the messages in the DIAGNOSTICS section.
 
 =cut
-
-sub _real_runtests
-{
-    my $self = shift;
-    my($failedtests) =
-        $self->_run_all_tests();
-
-    $self->_show_results();
-
-    my $ok = $self->_all_ok();
-
-    assert(($ok xor keys %$failedtests), 
-           q{ok status jives with $failedtests});
-
-    return $ok;
-}
-
 
 =begin _private
 

@@ -16,6 +16,8 @@ use List::Util ();
 
 use File::Spec;
 
+use Test::Run::Assert;
+
 =head1 NAME
 
 Test::Run::Core - Base class to run standard TAP scripts.
@@ -1265,6 +1267,23 @@ sub _process_test_file_results
     }
 
     return;
+}
+
+sub _real_runtests
+{
+    my $self = shift;
+
+    my ($failed_tests) = $self->_run_all_tests();
+
+    $self->_show_results();
+
+    my $ok = $self->_all_ok();
+
+    assert( ($ok xor keys(%$failed_tests)),
+            q{$ok is mutually exclusive with %$failed_tests}
+        );
+
+    return $ok;
 }
 
 sub runtests
