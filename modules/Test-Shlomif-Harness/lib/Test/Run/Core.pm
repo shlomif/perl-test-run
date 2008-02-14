@@ -1383,6 +1383,13 @@ sub _run_all_tests {
     return $self->failed_tests();
 }
 
+sub _get_skipped_bonusmsg
+{
+    my $self = shift;
+
+    return $self->tot->_get_skipped_bonusmsg();
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

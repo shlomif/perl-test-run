@@ -500,13 +500,6 @@ sub _strap_test_handler
     return;
 }
 
-sub _get_skipped_bonusmsg
-{
-    my $self = shift;
-
-    return $self->tot->_get_skipped_bonusmsg();
-}
-
 sub _get_dubious_summary
 {
     my ($self, $args) = @_;
