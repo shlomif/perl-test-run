@@ -1390,6 +1390,13 @@ sub _get_skipped_bonusmsg
     return $self->tot->_get_skipped_bonusmsg();
 }
 
+sub _get_wstatus
+{
+    my $self = shift;
+
+    return $self->last_test_results->wait;
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]
