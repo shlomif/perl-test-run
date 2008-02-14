@@ -169,28 +169,6 @@ B<NOTE> Currently this function is still noisy.  I'm working on it.
 
 =cut
 
-sub _calc_fmt_list_len
-{
-    my $self = shift;
-
-    $self->_calc_initial_list_len();
-
-    if ($self->list_len() < $self->_get_fmt_list_str_len()) {
-        $self->_calc_updated_lens();
-        if ($self->max_namelen() < $self->_get_format_failed_str_len()) 
-        {
-            $self->max_namelen($self->_get_format_failed_str_len());
-            $self->format_columns(
-                $self->max_namelen()
-                + $self->_get_fmt_mid_str_len()
-                + $self->list_len()
-            );
-        }
-    }
-
-    return;
-}
-
 =end _private
 
 =back
