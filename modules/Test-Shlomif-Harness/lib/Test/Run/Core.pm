@@ -1404,6 +1404,27 @@ sub _get_estatus
     return $self->last_test_results->exit;
 }
 
+sub _get_format_failed_str
+{
+    my $self = shift;
+
+    return "Failed Test";
+}
+
+sub _get_format_middle_str
+{
+    my $self = shift;
+
+    return " Stat Wstat Total Fail  Failed  ";
+}
+
+sub _get_format_list_str
+{
+    my $self = shift;
+
+    return "List of Failed";
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

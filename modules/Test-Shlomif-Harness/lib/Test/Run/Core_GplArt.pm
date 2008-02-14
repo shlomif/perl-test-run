@@ -314,21 +314,6 @@ sub _report_success
     );
 }
 
-sub _get_format_failed_str
-{
-    return "Failed Test";
-}
-
-sub _get_format_middle_str
-{
-    return " Stat Wstat Total Fail  Failed  ";
-}
-
-sub _get_format_list_str
-{
-    return "List of Failed";
-}
-
 sub _get_format_failed_str_len
 {
     my $self = shift;
