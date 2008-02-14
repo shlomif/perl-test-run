@@ -256,24 +256,6 @@ sub _strap_header_handler {
     return;
 };
 
-
-sub _strap_test_handler
-{
-    my ($self, $args) = @_;
-
-    my $totals = $args->{totals};
-
-    my $detail = $totals->last_detail;
-
-    if ( $detail->ok() )
-    {
-        $totals->update_skip_reason($detail);
-    }
-
-    $self->_report_test_progress($args);
-    return;
-}
-
 =end _private
 
 =back

@@ -408,6 +408,27 @@ sub get_failed_obj_params
         ];
 }
 
+=head2 $self->update_based_on_last_detail()
+
+Check if the last_detail is OK, and if so update the skip_reason
+based on it.
+
+=cut
+
+sub update_based_on_last_detail
+{
+    my $self = shift;
+
+    my $detail = $self->last_detail();
+
+    if ( $detail->ok() )
+    {
+        $self->update_skip_reason($detail);
+    }
+
+    return;
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

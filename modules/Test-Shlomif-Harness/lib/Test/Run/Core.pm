@@ -456,6 +456,17 @@ sub _is_failed_and_max
     return $self->last_test_obj->is_failed_and_max();
 }
 
+sub _strap_test_handler
+{
+    my ($self, $args) = @_;
+
+    $args->{totals}->update_based_on_last_detail();
+
+    $self->_report_test_progress($args);
+
+    return;
+}
+
 sub _tap_event_strap_callback
 {
     my ($self, $args) = @_;
