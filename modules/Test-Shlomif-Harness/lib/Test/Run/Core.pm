@@ -1117,6 +1117,18 @@ sub _handle_runtests_error_text
     die $text;
 }
 
+sub _is_error_object
+{
+    my $self = shift;
+    my $error = shift;
+
+    return
+    (
+        Scalar::Util::blessed($error) &&
+        $error->isa("Test::Run::Obj::Error::TestsFail")
+    );
+}
+
 sub _get_runtests_error_text
 {
     my $self = shift;

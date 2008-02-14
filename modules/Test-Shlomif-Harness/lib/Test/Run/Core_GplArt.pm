@@ -155,17 +155,6 @@ sub _real_runtests
     return $ok;
 }
 
-sub _is_error_object
-{
-    my $self = shift;
-    my $error = shift;
-
-    return
-    (
-        Scalar::Util::blessed($error) &&
-        $error->isa("Test::Run::Obj::Error::TestsFail")
-    );
-}
 
 =begin _private
 
