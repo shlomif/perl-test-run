@@ -1,5 +1,8 @@
 package Test::Run::Obj::TotObj;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Test::Run::Obj::TotObj - totals encountered for the entire Test::Run session

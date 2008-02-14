@@ -1,5 +1,8 @@
 package Test::Run::Straps::StrapsDetailsObj;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Test::Run::Straps::StrapsDetailsObj - a struct representing the details of

@@ -1,5 +1,8 @@
 package Test::Run::Base::Struct;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Test::Run::Base::Struct - base class for Test::Run's "structs", that are

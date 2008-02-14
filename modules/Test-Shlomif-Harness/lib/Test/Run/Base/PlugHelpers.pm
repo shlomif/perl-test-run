@@ -1,5 +1,8 @@
 package Test::Run::Base::PlugHelpers;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Test::Run::Base::PlugHelpers - base class for Test::Run's classes with

@@ -2,6 +2,9 @@
 
 package Test::Run::Core_GplArt;
 
+use strict;
+use warnings;
+
 require 5.00405;
 use Test::Run::Straps;
 use Test::Run::Output;
@@ -10,7 +13,6 @@ use Test::Run::Obj::Error;
 
 use Benchmark;
 use Config;
-use strict;
 
 use Class::Accessor;
 
