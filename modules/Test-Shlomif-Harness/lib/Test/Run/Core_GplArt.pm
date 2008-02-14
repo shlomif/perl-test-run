@@ -393,16 +393,6 @@ sub _calc_format_widths
     return 0;
 }
 
-
-sub _create_fmts 
-{
-    my $self = shift;
-
-    $self->_calc_format_widths();
-
-    return 0;
-}
-
 sub _get_fail_other_exception_text
 {
     my $self = shift;

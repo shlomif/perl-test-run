@@ -1425,6 +1425,16 @@ sub _get_format_list_str
     return "List of Failed";
 }
 
+sub _create_fmts
+{
+    my $self = shift;
+
+    $self->_calc_format_widths();
+
+    return;
+}
+
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]
