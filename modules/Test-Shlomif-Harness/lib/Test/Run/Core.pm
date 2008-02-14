@@ -1208,6 +1208,19 @@ sub _report_success
     return;
 }
 
+sub _fail_other_if_bad
+{
+    my $self = shift;
+
+    if ($self->tot->bad)
+    {
+        $self->_fail_other_print_bonus_message();
+        $self->_fail_other_throw_exception();
+    }
+
+    return;
+}
+
 sub _show_success_or_failure
 {
     my $self = shift;

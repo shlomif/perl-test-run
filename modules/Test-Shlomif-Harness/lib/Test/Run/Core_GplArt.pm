@@ -229,11 +229,7 @@ sub _fail_other
 
     $self->_fail_other_print_all_tests();
 
-    if ($self->tot()->bad())
-    {
-        $self->_fail_other_print_bonus_message();
-        $self->_fail_other_throw_exception();
-    }
+    $self->_fail_other_if_bad();
 }
 
 =end _private
