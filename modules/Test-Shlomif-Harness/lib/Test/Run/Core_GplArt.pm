@@ -181,22 +181,6 @@ B<NOTE> Currently this function is still noisy.  I'm working on it.
 
 =cut
 
-# FWRS == failed_with_results_seen
-
-sub get_common_FWRS_params
-{
-    my ($self) = @_;
-
-    return
-        [
-            max     => $self->last_test_obj->max(),
-            name    => $self->_get_last_test_filename(),
-            estat   => '',
-            wstat   => '',
-            list_len => $self->list_len(),
-        ];
-}
-
 sub _list_tests_as_failures
 {
     my $self = shift;

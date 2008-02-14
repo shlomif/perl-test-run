@@ -1378,6 +1378,21 @@ sub _prepare_run_all_tests
     $self->_init_dir_files();
 }
 
+# FWRS == failed_with_results_seen
+sub get_common_FWRS_params
+{
+    my $self = shift;
+
+    return
+    [
+        max => $self->last_test_obj->max(),
+        name => $self->_get_last_test_filename(),
+        estat => "",
+        wstat => "",
+        list_len => $self->list_len(),
+    ];
+}
+
 sub _get_failed_with_results_seen_params
 {
     my ($self) = @_;
