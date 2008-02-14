@@ -928,7 +928,7 @@ sub _get_premature_test_dubious_summary
 
     $self->_report_premature_test_dubious_summary();
 
-    return +{ @{$self->_get_failed_and_max_params()} };
+    return $self->_get_failed_and_max_params();
 }
 
 sub _failed_before_any_test_output
@@ -1453,11 +1453,11 @@ sub _get_dubious_summary_all_subtests_successful
     $self->_report_dubious_summary_all_subtests_successful();
 
     return
-    {
+    [
         failed => 0,
         percent => 0,
         canon => "??",
-    };
+    ];
 }
 
 sub _get_no_tests_summary
@@ -1465,11 +1465,11 @@ sub _get_no_tests_summary
     my ($self, $args) = @_;
 
     return
-    {
+    [
         failed => "??",
         canon => "??",
         percent => undef(),
-    };
+    ];
 }
 
 sub _get_dubious_summary
@@ -1604,7 +1604,7 @@ sub _calc_dubious_return_failed_obj_params
 
     return
     {
-        %{$self->_get_dubious_summary()},
+        @{$self->_get_dubious_summary()},
         @{$self->last_test_obj->get_failed_obj_params()},
         @{$self->last_test_results->get_failed_obj_params()},
     };
