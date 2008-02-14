@@ -209,38 +209,6 @@ sub _get_failed_with_results_seen_params
         }
 }
 
-sub _failed_with_results_seen
-{
-    my ($self) = @_;
-
-    $self->_inc_bad();
-
-    $self->_report_failed_with_results_seen();
-
-    return
-        $self->_create_failed_obj_instance(
-            $self->_get_failed_with_results_seen_params()
-        );
-}
-
-sub _get_failed_struct
-{
-    my ($self) = @_;
-
-    if ($self->_get_wstatus())
-    {
-         return $self->_dubious_return();
-    }
-    elsif($self->_is_last_test_seen())
-    {
-        return $self->_failed_with_results_seen();
-    }
-    else
-    {
-        return $self->_failed_before_any_test_output();
-    }
-}
-
 sub _list_tests_as_failures
 {
     my $self = shift;
