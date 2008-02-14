@@ -303,12 +303,6 @@ sub _report_success
     );
 }
 
-sub _get_format_failed_str_len
-{
-    my $self = shift;
-    return length($self->_get_format_failed_str());
-}
-
 sub _get_format_tests_namelens
 {
     my $self = shift;
