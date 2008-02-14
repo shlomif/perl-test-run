@@ -48,7 +48,7 @@ sub process_eumm_dir
         [
             "perl Makefile.PL PREFIX=\"$prefix\" INSTALLSITEBIN=\"$bin_prefix\" INSTALLSITESCRIPT=\"$bin_prefix\"", 
             "make", 
-            "make test", 
+            "make \$(TEST_TARGET)", 
             "make install",
         ],
         "make clean",
@@ -62,7 +62,7 @@ sub process_mb_dir
         [
             "perl Build.PL", 
             "./Build", 
-            "./Build test", 
+            "./Build \$(TEST_TARGET)", 
             "./Build install prefix=\"$prefix\"",
         ],
         "./Build clean",
@@ -105,6 +105,8 @@ else
 }
 
 print O "all: ", join(" ", @dirs) . "\n\n";
+
+print O "TEST_TARGET = test\n\n";
 
 print O "cleanall: ", join(" ", map {"CLEAN--$_"} @dirs). "\n\n";
 
