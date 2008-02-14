@@ -390,6 +390,24 @@ sub _get_failed_details
     return [ grep {! $details->[$_-1]->{ok} } (1 .. @$details) ];
 }
 
+=head2 $self->get_failed_obj_params
+
+Returns a key value array ref of params for initializing the failed-object.
+
+=cut
+
+sub get_failed_obj_params
+{
+    my $self = shift;
+
+    return
+        [
+            estat => $self->exit(),
+            wstat => $self->wait(),
+            name  => $self->filename(),
+        ];
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

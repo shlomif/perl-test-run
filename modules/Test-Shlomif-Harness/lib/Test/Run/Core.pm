@@ -1589,6 +1589,27 @@ sub _get_fail_other_exception_text
     return $self->_format_self("fail_other_except");
 }
 
+sub _calc_dubious_return_ret_value
+{
+    my $self = shift;
+
+    return $self->_create_failed_obj_instance(
+        $self->_calc_dubious_return_failed_obj_params(),
+    );
+}
+
+sub _calc_dubious_return_failed_obj_params
+{
+    my $self = shift;
+
+    return
+    {
+        %{$self->_get_dubious_summary()},
+        @{$self->last_test_obj->get_failed_obj_params()},
+        @{$self->last_test_results->get_failed_obj_params()},
+    };
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

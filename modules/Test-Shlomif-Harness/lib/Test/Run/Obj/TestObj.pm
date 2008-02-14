@@ -197,6 +197,22 @@ sub get_dubious_summary_main_obj_method
         ;
 }
 
+=head2 $self->get_failed_obj_params
+
+Returns a key value array ref of params for initializing the failed-object.
+
+=cut
+
+sub get_failed_obj_params
+{
+    my $self = shift;
+
+    return
+        [
+            max => ($self->max() || "??"),
+        ];
+}
+
 1;
 
 __END__

@@ -355,25 +355,6 @@ sub _strap_test_handler
     return;
 }
 
-sub _calc_dubious_return_ret_value
-{
-    my $self = shift;
-
-    my $dubious_summary = $self->_get_dubious_summary();
-
-    return 
-        $self->_create_failed_obj_instance(
-            {
-                %{$dubious_summary},
-                max => $self->last_test_obj->max() || '??',
-                estat => $self->_get_estatus(),
-                wstat => $self->_get_wstatus(),
-                name => $self->_get_last_test_filename(),
-            }
-        );
-}
-
-
 =end _private
 
 =back
