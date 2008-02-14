@@ -262,18 +262,6 @@ sub _list_tests_as_failures
     }
 }
 
-sub _prepare_for_single_test_run
-{
-    my ($self, $args) = @_;
-
-    $self->_tot_inc('files');
-    $self->Strap()->_seen_header(0);
-
-    $self->_report_single_test_file_start($args);
-
-    return;
-}
-
 sub _report_success
 {
     my $self = shift;

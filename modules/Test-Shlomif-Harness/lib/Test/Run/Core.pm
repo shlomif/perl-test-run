@@ -1227,6 +1227,20 @@ sub _canonfailed_get_canon
     );
 }
 
+sub _prepare_for_single_test_run
+{
+    my ($self, $args) = @_;
+
+    $self->_tot_inc('files');
+
+    $self->Strap()->_seen_header(0);
+
+    $self->_report_single_test_file_start($args);
+
+    return;
+}
+
+
 sub _calc__run_single_test__callbacks
 {
     my $self = shift;
