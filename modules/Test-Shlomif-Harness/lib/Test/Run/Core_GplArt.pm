@@ -488,14 +488,8 @@ sub _get_dubious_summary
     }
     else
     {
-        return
-        {
-            failed => "??",
-            canon => "??",
-            percent => undef,
-        };
+        return $self->_get_no_tests_summary($args);
     }
-
 }
 
 sub _calc_dubious_return_ret_value
@@ -661,67 +655,7 @@ Please use the CPAN bug ticketing system at L<http://rt.cpan.org/>.
 You can also mail bugs, fixes and enhancements to 
 C<< <bug-test-harness >> at C<< rt.cpan.org> >>.
 
-=head1 AUTHORS
 
-Test::Run::Obj is based on L<Test::Harness>, and has later been spinned off
-as a separate module.
-
-=head2 Test:Harness Authors
-
-Either Tim Bunce or Andreas Koenig, we don't know. What we know for
-sure is, that it was inspired by Larry Wall's TEST script that came
-with perl distributions for ages. Numerous anonymous contributors
-exist.  Andreas Koenig held the torch for many years, and then
-Michael G Schwern.
-
-Test::Harness was then maintained by Andy Lester C<< <andy at petdance.com> >>.
-
-=head2 Test::Run::Obj Authors
-
-Shlomi Fish C<< <shlomif@iglu.org.il> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to
-C<bug-test-run at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test::Run>.
-I will be notified, and then you'll automatically be notified of progress on
-your bug as I make changes.
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Test::Run::Core
-
-You can also look for information at:
-
-=over 4
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Test::Run::Core>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Test::Run::Core>
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Test::Run>
-
-=back
-
-=head1 SOURCE AVAILABILITY
-
-The latest source of Test::Run is available from its BerliOS Subversion
-repository:
-
-L<https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/>
 
 =head1 COPYRIGHT
 
