@@ -1465,6 +1465,26 @@ sub _get_format_failed_str_len
     return length($self->_get_format_failed_str());
 }
 
+# Find the maximal name length among the failed_tests().
+sub _get_initial_max_namelen
+{
+    my $self = shift;
+
+    my $max = $self->_get_format_failed_str_len();
+
+    while (my ($k, $v) = each(%{$self->failed_tests()}))
+    {
+        my $l = length($v->{name});
+
+        if ($l > $max)
+        {
+            $max = $l;
+        }
+    }
+
+    return $max;
+}
+
 sub _get_format_middle_str
 {
     my $self = shift;

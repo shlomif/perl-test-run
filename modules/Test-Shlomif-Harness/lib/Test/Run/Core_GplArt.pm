@@ -303,24 +303,6 @@ sub _report_success
     );
 }
 
-sub _get_format_tests_namelens
-{
-    my $self = shift;
-    
-    return [map { length($_->{name}) } values(%{$self->failed_tests()})];
-}
-
-sub _get_initial_max_namelen
-{
-    my $self = shift;
-    # Figure out our longest name string for formatting purposes.
-    return
-        max(
-            $self->_get_format_failed_str_len(),
-            @{$self->_get_format_tests_namelens()},
-        );
-}
-
 sub _get_fmt_mid_str_len
 {
     my $self = shift;
