@@ -219,19 +219,6 @@ sub _calc_format_widths
     return 0;
 }
 
-sub _fail_other
-{
-    my $self = shift;
-
-    $self->_create_fmts();
-
-    $self->_fail_other_print_top();
-
-    $self->_fail_other_print_all_tests();
-
-    $self->_fail_other_if_bad();
-}
-
 =end _private
 
 =back

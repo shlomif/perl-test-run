@@ -1221,6 +1221,30 @@ sub _fail_other_if_bad
     return;
 }
 
+sub _calc__fail_other__callbacks
+{
+    my $self = shift;
+
+    return [qw(
+        _create_fmts
+        _fail_other_print_top
+        _fail_other_print_all_tests
+        _fail_other_if_bad
+    )];
+}
+
+sub _fail_other
+{
+    my $self = shift;
+
+    foreach my $cb (@{$self->_calc__fail_other__callbacks()})
+    {
+        $self->$cb();
+    }
+
+    return;
+}
+
 sub _show_success_or_failure
 {
     my $self = shift;
