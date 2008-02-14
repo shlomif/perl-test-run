@@ -5,20 +5,6 @@ package Test::Run::Core_GplArt;
 use strict;
 use warnings;
 
-require 5.00405;
-use Test::Run::Straps;
-use Test::Run::Output;
-
-use Test::Run::Obj::Error;
-
-use Benchmark;
-use Config;
-
-use Class::Accessor;
-
-use Scalar::Util ();
-use List::Util qw(max);
-
 use base 'Test::Run::Base::PlugHelpers';
 
 =head1 NAME
