@@ -1397,6 +1397,13 @@ sub _get_wstatus
     return $self->last_test_results->wait;
 }
 
+sub _get_estatus
+{
+    my $self = shift;
+
+    return $self->last_test_results->exit;
+}
+
 =head2 $self->_report_failed_before_any_test_output();
 
 [This is a method that needs to be over-rided.]

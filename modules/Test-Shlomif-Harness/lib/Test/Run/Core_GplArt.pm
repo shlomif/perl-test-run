@@ -252,13 +252,6 @@ sub _failed_with_results_seen
         );
 }
 
-sub _get_estatus
-{
-    my $self = shift;
-
-    return $self->last_test_results->exit;
-}
-
 sub _get_failed_struct
 {
     my ($self) = @_;
