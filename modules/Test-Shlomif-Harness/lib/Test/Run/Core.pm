@@ -1688,6 +1688,21 @@ sub _calc_initial_max_namelen
     return;
 }
 
+sub _calc_initial_list_len
+{
+    my $self = shift;
+
+    $self->format_columns($self->_get_num_columns());
+
+    $self->list_len(
+          $self->format_columns() 
+        - $self->_get_fmt_mid_str_len()
+        - $self->max_namelen()
+    );
+
+    return;
+}
+
 sub _calc_format_widths
 {
     my $self = shift;

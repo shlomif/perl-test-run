@@ -173,29 +173,21 @@ sub _calc_fmt_list_len
 {
     my $self = shift;
 
-    $self->format_columns($self->_get_num_columns());
+    $self->_calc_initial_list_len();
 
-    my $list_len =
-        $self->format_columns()
-        - $self->_get_fmt_mid_str_len()
-        - $self->max_namelen()
-        ;
-
-    if ($list_len < $self->_get_fmt_list_str_len()) {
-        $list_len = $self->_get_fmt_list_str_len();
-        $self->max_namelen($self->format_columns() - $self->_get_fmt_mid_str_len() - $list_len);
+    if ($self->list_len() < $self->_get_fmt_list_str_len()) {
+        $self->list_len($self->_get_fmt_list_str_len());
+        $self->max_namelen($self->format_columns() - $self->_get_fmt_mid_str_len() - $self->list_len());
         if ($self->max_namelen() < $self->_get_format_failed_str_len()) 
         {
             $self->max_namelen($self->_get_format_failed_str_len());
             $self->format_columns(
                 $self->max_namelen()
                 + $self->_get_fmt_mid_str_len()
-                + $list_len
+                + $self->list_len()
             );
         }
     }
-
-    $self->list_len($list_len);
 
     return;
 }
