@@ -176,8 +176,7 @@ sub _calc_fmt_list_len
     $self->_calc_initial_list_len();
 
     if ($self->list_len() < $self->_get_fmt_list_str_len()) {
-        $self->list_len($self->_get_fmt_list_str_len());
-        $self->max_namelen($self->format_columns() - $self->_get_fmt_mid_str_len() - $self->list_len());
+        $self->_calc_updated_lens();
         if ($self->max_namelen() < $self->_get_format_failed_str_len()) 
         {
             $self->max_namelen($self->_get_format_failed_str_len());

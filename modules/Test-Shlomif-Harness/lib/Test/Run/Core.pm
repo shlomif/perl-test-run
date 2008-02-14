@@ -1688,6 +1688,16 @@ sub _calc_initial_max_namelen
     return;
 }
 
+sub _calc_len_subtraction
+{
+    my ($self, $field) = @_;
+
+    return $self->format_columns() 
+         - $self->_get_fmt_mid_str_len()
+         - $self->$field()
+         ;
+}
+
 sub _calc_initial_list_len
 {
     my $self = shift;
@@ -1695,12 +1705,18 @@ sub _calc_initial_list_len
     $self->format_columns($self->_get_num_columns());
 
     $self->list_len(
-          $self->format_columns() 
-        - $self->_get_fmt_mid_str_len()
-        - $self->max_namelen()
+        $self->_calc_len_subtraction("max_namelen")
     );
 
     return;
+}
+
+sub _calc_updated_lens
+{
+    my $self = shift;
+
+    $self->list_len($self->_get_fmt_list_str_len);
+    $self->max_namelen($self->_calc_len_substraction("list_len"));
 }
 
 sub _calc_format_widths
