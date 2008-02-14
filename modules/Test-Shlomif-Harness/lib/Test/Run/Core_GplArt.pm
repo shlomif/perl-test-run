@@ -181,27 +181,6 @@ B<NOTE> Currently this function is still noisy.  I'm working on it.
 
 =cut
 
-sub _list_tests_as_failures
-{
-    my $self = shift;
-
-    my $test = $self->last_test_obj;
-    my $results = $self->last_test_results;
-
-    # List unrun tests as failures.
-    if ($test->next() <= $test->max()) {
-        $test->add_to_failed($test->next()..$test->max());
-    }
-    # List overruns as failures.
-    else {
-        my $details = $results->details();
-        foreach my $overrun ($test->max()+1..@$details) {
-            next unless ref $details->[$overrun-1];
-            $test->add_to_failed($overrun);
-        }
-    }
-}
-
 sub _get_fmt_list_len
 {
     my ($self, $args) = (@_);

@@ -1279,6 +1279,16 @@ sub _run_single_test
     return;
 }
 
+sub _list_tests_as_failures
+{
+    my $self = shift;
+
+    return 
+        $self->last_test_obj->list_tests_as_failures(
+            $self->last_test_results->details()
+        );
+}
+
 sub _process_test_file_results
 {
     my ($self) = @_;

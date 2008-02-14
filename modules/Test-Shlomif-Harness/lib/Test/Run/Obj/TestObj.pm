@@ -1,5 +1,8 @@
 package Test::Run::Obj::TestObj;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Test::Run::Obj::TestObj - results of a single test script.
@@ -211,6 +214,45 @@ sub get_failed_obj_params
         [
             max => ($self->max() || "??"),
         ];
+}
+
+sub _still_running
+{
+    my $self = shift;
+
+    return ($self->next() <= $self->max());
+}
+
+
+sub _calc_tests_as_failures
+{
+    my ($self, $details) = @_;
+
+    if ($self->_still_running())
+    {
+        return [$self->next() .. $self->max()];
+    }
+    else
+    {
+        return
+        [
+            grep { ref($details->[$_-1]) }
+            (($self->max()+1) .. @$details)
+        ];
+    }
+}
+
+=head2 $self->list_tests_as_failures($last_test_results->details())
+
+Lists the tests as failures where appropriate.
+
+=cut
+
+sub list_tests_as_failures
+{
+    my ($self, $details) = @_;
+
+    $self->add_to_failed(@{$self->_calc_tests_as_failures($details)});
 }
 
 1;
