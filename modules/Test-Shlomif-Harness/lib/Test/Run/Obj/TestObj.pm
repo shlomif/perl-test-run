@@ -178,6 +178,27 @@ sub all_succesful
     );
 }
 
+=head2 $self->get_dubious_summary_main_obj_method()
+
+Returns the method name of the main object that should be propagated
+based on the success/failure status of this test object.
+
+=cut
+
+sub get_dubious_summary_main_obj_method
+{
+    my $self = shift;
+
+    return 
+        $self->max()
+            ? ($self->all_succesful()
+                ? "_get_dubious_summary_all_subtests_successful"
+                : "_get_premature_test_dubious_summary"
+              )
+            : "_get_no_tests_summary"
+        ;
+}
+
 1;
 
 __END__

@@ -461,37 +461,6 @@ sub _strap_test_handler
     return;
 }
 
-sub _get_dubious_summary
-{
-    my ($self, $args) = @_;
-
-    my $test = $self->last_test_obj;
-
-    if ($test->max())
-    {
-        if ($test->all_succesful())
-        {
-            $self->_report_dubious_summary_all_subtests_successful();
-            
-            return
-            {
-                failed => 0,
-                percent => 0,
-                canon => "??",
-            };
-        }
-        else
-        {
-            return
-                $self->_get_premature_test_dubious_summary();
-        }
-    }
-    else
-    {
-        return $self->_get_no_tests_summary($args);
-    }
-}
-
 sub _calc_dubious_return_ret_value
 {
     my $self = shift;

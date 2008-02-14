@@ -1383,6 +1383,20 @@ sub _run_all_tests {
     return $self->failed_tests();
 }
 
+sub _get_dubious_summary_all_subtests_successful
+{
+    my ($self, $args) = @_;
+
+    $self->_report_dubious_summary_all_subtests_successful();
+
+    return
+    {
+        failed => 0,
+        percent => 0,
+        canon => "??",
+    };
+}
+
 sub _get_no_tests_summary
 {
     my ($self, $args) = @_;
@@ -1393,6 +1407,15 @@ sub _get_no_tests_summary
         canon => "??",
         percent => undef(),
     };
+}
+
+sub _get_dubious_summary
+{
+    my ($self, $args) = @_;
+
+    my $method = $self->last_test_obj->get_dubious_summary_main_obj_method();
+
+    return $self->$method($args);
 }
 
 sub _get_skipped_bonusmsg
