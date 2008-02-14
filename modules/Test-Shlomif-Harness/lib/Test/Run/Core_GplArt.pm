@@ -210,14 +210,6 @@ B<NOTE> Currently this function is still noisy.  I'm working on it.
 
 =cut
 
-# Turns on autoflush for the handle passed
-sub _autoflush {
-    my $flushy_fh = shift;
-    my $old_fh = select $flushy_fh;
-    $| = 1;
-    select $old_fh;
-}
-
 # FWRS == failed_with_results_seen
 
 sub get_common_FWRS_params
