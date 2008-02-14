@@ -1,8 +1,11 @@
 use strict;
 use warnings;
-use Module::Build;
+use File::Spec;
+use lib File::Spec->catdir(File::Spec->curdir(), "inc");
 
-my $builder = Module::Build->new(
+use Test::Run::Builder;
+
+my $builder = Test::Run::Builder->new(
     module_name         => 'Test::Run::Plugin::FailSummaryComponents',
     license             => 'bsd',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
