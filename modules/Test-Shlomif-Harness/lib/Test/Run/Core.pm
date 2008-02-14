@@ -1378,6 +1378,17 @@ sub _prepare_run_all_tests
     $self->_init_dir_files();
 }
 
+sub _get_failed_with_results_seen_params
+{
+    my ($self) = @_;
+
+    return 
+        {
+            @{$self->get_common_FWRS_params()},
+            @{$self->_get_FWRS_tests_existence_params()},
+        }
+}
+
 sub _failed_with_results_seen
 {
     my $self = shift;

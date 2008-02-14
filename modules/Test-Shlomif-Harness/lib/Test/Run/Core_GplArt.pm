@@ -197,18 +197,6 @@ sub get_common_FWRS_params
         ];
 }
 
-
-sub _get_failed_with_results_seen_params
-{
-    my ($self) = @_;
-
-    return 
-        {
-            @{$self->get_common_FWRS_params()},
-            @{$self->_get_FWRS_tests_existence_params()},
-        }
-}
-
 sub _list_tests_as_failures
 {
     my $self = shift;
