@@ -3,7 +3,7 @@ package Test::Run::Core;
 use strict;
 use warnings;
 
-use base 'Test::Run::Core_GplArt';
+use base 'Test::Run::Base::PlugHelpers';
 
 use vars qw($VERSION);
 

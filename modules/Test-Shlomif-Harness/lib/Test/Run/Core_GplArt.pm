@@ -5,8 +5,6 @@ package Test::Run::Core_GplArt;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base::PlugHelpers';
-
 =head1 NAME
 
 Test::Run::Core_GplArt - GPL/Artistic-licensed code of Test::Run::Core.
