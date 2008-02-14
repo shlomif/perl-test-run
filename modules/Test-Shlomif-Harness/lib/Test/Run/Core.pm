@@ -1492,6 +1492,20 @@ sub _get_format_middle_str
     return " Stat Wstat Total Fail  Failed  ";
 }
 
+sub _get_fmt_mid_str_len
+{
+    my $self = shift;
+
+    return length($self->_get_format_middle_str());
+}
+
+sub _get_fmt_list_str_len
+{
+    my $self = shift;
+
+    return length($self->_get_format_list_str());
+}
+
 sub _get_format_list_str
 {
     my $self = shift;
