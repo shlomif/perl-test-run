@@ -429,6 +429,20 @@ sub update_based_on_last_detail
     return;
 }
 
+=head2 $self->in_the_middle()
+
+Checks if the tests are in the middle - already some were seen but the
+end was not reached.
+
+=cut
+
+sub in_the_middle
+{
+    my $self = shift;
+
+    return ($self->seen() && ($self->seen() > $self->max()));
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

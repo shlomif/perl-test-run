@@ -236,28 +236,6 @@ sub _fail_other
     }
 }
 
-sub _strap_header_handler {
-    my($self, $args) = @_;
-
-    my $totals = $args->{totals};
-
-    if ($self->Strap->_seen_header())
-    {
-        warn "Test header seen more than once!\n";
-    }
-
-    $self->Strap->_inc_seen_header();
-
-    if ($totals->seen() && 
-        ($totals->max()  < $totals->seen())
-       )
-    {
-        warn "1..M can only appear at the beginning or end of tests\n";
-    }
-
-    return;
-};
-
 =end _private
 
 =back

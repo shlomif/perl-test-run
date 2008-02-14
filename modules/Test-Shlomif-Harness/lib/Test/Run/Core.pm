@@ -467,6 +467,28 @@ sub _strap_test_handler
     return;
 }
 
+sub _strap_header_handler
+{
+    my ($self, $args) = @_;
+
+    my $totals = $args->{totals};
+
+    if ($self->Strap()->_seen_header())
+    {
+        warn "Test header seen more than once!\n";
+    }
+
+    $self->Strap()->_inc_seen_header();
+
+    if ($totals->in_the_middle())
+    {
+        warn "1..M can only appear at the beginning or end of tests\n";
+    }
+
+    return;
+}
+
+
 sub _tap_event_strap_callback
 {
     my ($self, $args) = @_;
