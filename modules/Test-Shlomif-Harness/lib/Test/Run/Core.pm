@@ -1465,6 +1465,15 @@ sub _get_format_failed_str_len
     return length($self->_get_format_failed_str());
 }
 
+sub _get_num_columns
+{
+    my $self = shift;
+
+    # Some shells don't handle a full line of text well so we increment
+    # 1.
+    return ($self->Columns() - 1);
+}
+
 # Find the maximal name length among the failed_tests().
 sub _get_initial_max_namelen
 {

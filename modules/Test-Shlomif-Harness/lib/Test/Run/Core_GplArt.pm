@@ -303,13 +303,6 @@ sub _report_success
     );
 }
 
-sub _get_num_columns
-{
-    my $self = shift;
-    # Some shells have trouble with a full line of text.
-    return ($self->Columns()-1);
-}
-
 sub _get_fmt_list_len
 {
     my ($self, $args) = (@_);
