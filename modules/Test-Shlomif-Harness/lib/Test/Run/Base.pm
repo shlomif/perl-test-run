@@ -19,9 +19,11 @@ sub new
     my $class = shift;
     my $self = {};
     bless $self, $class;
+    $self->_formatters({});
     $self->_initialize(@_);
     return $self;
 }
+
 
 =head2 $dest->copy_from($source, [@fields])
 

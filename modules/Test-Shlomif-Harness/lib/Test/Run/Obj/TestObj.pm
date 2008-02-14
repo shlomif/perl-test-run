@@ -74,8 +74,6 @@ sub _initialize
 
     $self->NEXT::_initialize($args);
 
-    $self->_formatters($self->_formatters() || {});
-
     $self->_register_obj_formatter(
         "dont_know_which_tests_failed",
         "Don't know which tests failed: got %(ok)s ok, expected %(max)s",

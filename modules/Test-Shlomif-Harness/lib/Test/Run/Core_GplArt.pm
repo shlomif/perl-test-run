@@ -339,17 +339,6 @@ sub _calc_format_widths
     return 0;
 }
 
-sub _get_fail_other_exception_text
-{
-    my $self = shift;
-    return "Failed " . 
-        $self->_get_fail_test_scripts_string() . 
-        $self->_get_fail_tests_good_percent_string() .
-        "." .
-        $self->_get_sub_percent_msg() . 
-        "\n";
-}
-
 sub _fail_other
 {
     my $self = shift;

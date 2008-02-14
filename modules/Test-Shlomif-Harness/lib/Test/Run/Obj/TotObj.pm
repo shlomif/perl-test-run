@@ -58,8 +58,6 @@ sub _initialize
 
     $self->NEXT::_initialize(@_);
 
-    $self->_formatters($self->_formatters() || {});
-
     $self->_register_obj_formatter(
         "fail_no_tests_output",
         "FAILED--%(tests)d test %(_num_scripts)s could be run, alas--no output ever seen\n"

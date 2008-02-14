@@ -152,6 +152,11 @@ sub _initialize
         },
     );
 
+    $self->_register_obj_formatter(
+        "fail_other_except",
+        "Failed %(_get_fail_test_scripts_string)s%(_get_fail_tests_good_percent_string)s.%(_get_sub_percent_msg)s\n"
+    );
+
 
     return 0;
 }
@@ -1531,6 +1536,12 @@ sub _create_fmts
     return;
 }
 
+sub _get_fail_other_exception_text
+{
+    my $self = shift;
+
+    return $self->_format_self("fail_other_except");
+}
 
 =head2 $self->_report_failed_before_any_test_output();
 

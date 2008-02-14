@@ -60,7 +60,6 @@ sub _initialize
     my ($args) = @_;
 
     $self->output($self->_get_new_output($args));
-    $self->_formatters({});
     {
         my %formatters =
         (
