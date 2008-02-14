@@ -160,6 +160,24 @@ sub skipped_or_bonus
     return $self->skipped() || $self->bonus();
 }
 
+=head2 $self->all_succesful()
+
+A predicate that calculates if all the tests in the TestObj were successful.
+
+=cut 
+
+sub all_succesful
+{
+    my $self = shift;
+
+    return
+    (
+        ($self->next() == $self->max() + 1)
+            &&
+        (! @{$self->failed()})
+    );
+}
+
 1;
 
 __END__

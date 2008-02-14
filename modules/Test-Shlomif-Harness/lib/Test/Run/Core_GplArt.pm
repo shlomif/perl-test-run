@@ -469,7 +469,7 @@ sub _get_dubious_summary
 
     if ($test->max())
     {
-        if ($test->next() == $test->max() + 1 and not @{$test->failed()})
+        if ($test->all_succesful())
         {
             $self->_report_dubious_summary_all_subtests_successful();
             
