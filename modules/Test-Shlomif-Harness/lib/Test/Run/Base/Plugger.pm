@@ -11,6 +11,18 @@ use Carp;
 
 require UNIVERSAL::require;
 
+=head1 NAME
+
+Test::Run::Base::Plugger - an object class with plug-ins.
+
+=head1 DESCRIPTION
+
+This is a class that abstracts an object class with plugins.
+
+=head1 METHODS
+
+=cut
+
 __PACKAGE__->mk_accessors(
     qw(
         _base
@@ -18,6 +30,12 @@ __PACKAGE__->mk_accessors(
         _plugins
     )
 );
+
+=head2 $plugger = Test::Run::Base::Plugger->new({base => $base, into => $into})
+
+$base is the base class and $into is the namespace to put everything into.
+
+=cut
 
 sub _initialize
 {
@@ -69,6 +87,12 @@ sub _update_ISA
     return;
 }
 
+=head2 $plugger->add_plugins(\@plugins)
+
+Adds @plugins to the list of plugins used by the $into module.
+
+=cut
+
 sub add_plugins
 {
     my $self = shift;
@@ -79,12 +103,30 @@ sub add_plugins
     $self->_update_ISA();
 }
 
+=head2 $pluggin->create_new(@args)
+
+Constructs a new instance of $into.
+
+=cut
+
 sub create_new
 {
     my $self = shift;
 
     return $self->_into()->new(@_);
 }
+
+=head1 LICENSE
+
+This file is freely distributable under the MIT X11 license.
+
+L<http://www.opensource.org/licenses/mit-license.php>
+
+=head1 AUTHOR
+
+Shlomi Fish, L<http://www.shlomifish.org/>.
+
+=cut
 
 1;
 

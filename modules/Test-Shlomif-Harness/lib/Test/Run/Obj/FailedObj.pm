@@ -127,6 +127,8 @@ L<Test::Run::Base::Struct>, L<Test::Run::Obj>, L<Test::Run::Core>
 
 This file is freely distributable under the MIT X11 license.
 
+L<http://www.opensource.org/licenses/mit-license.php>
+
 =head1 AUTHOR
 
 Shlomi Fish, L<http://www.shlomifish.org/>.

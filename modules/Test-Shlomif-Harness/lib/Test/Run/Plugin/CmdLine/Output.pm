@@ -637,7 +637,9 @@ sub _fail_other_print_top
 
 =head1 LICENSE
 
-This code is licensed under the MIT X11 License.
+This file is licensed under the MIT X11 License.
+
+L<http://www.opensource.org/licenses/mit-license.php>
 
 =cut
 

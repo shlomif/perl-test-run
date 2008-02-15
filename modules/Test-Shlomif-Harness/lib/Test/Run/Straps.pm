@@ -868,6 +868,11 @@ Andy Lester C<< <andy@petdance.com> >>.
 Converted to Test::Run::Straps by Shlomi Fish 
 C<< <shlomif@iglu.org.il> >>.
 
+=head1 LICENSE
+
+This file is distributed under the same terms as perl. (GPL2 or Later +
+Artistic 1).
+
 =head1 SEE ALSO
 
 L<Test::Run>
