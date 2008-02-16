@@ -56,24 +56,6 @@ comments.
 
 =cut
 
-sub _start_new_file
-{
-    my $self = shift;
-
-    $self->_reset_file_state;
-    my $totals =
-        $self->_init_totals_obj_instance(
-            $self->_get_initial_totals_obj_params(),
-        );
-
-    $self->_file_totals($totals);
-
-    # Set them up here so callbacks can have them.
-    $self->totals()->{$self->file()}         = $totals;
-
-    return;
-}
-
 sub _get_next_event
 {
     my ($self) = @_;
