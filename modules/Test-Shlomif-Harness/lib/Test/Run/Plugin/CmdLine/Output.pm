@@ -120,7 +120,7 @@ sub _get_dubious_verdict_message
     return "dubious";
 }
 
-sub _get_callbacks_list_for_dubious_message
+sub _calc__get_dubious_message_components__callbacks
 {
     my $self = shift;
 
@@ -140,7 +140,7 @@ sub _get_dubious_message_components
     return 
     [ 
         map { my $cb = $_; $self->$cb() } 
-        @{$self->_get_callbacks_list_for_dubious_message()}
+        @{$self->_calc__get_dubious_message_components__callbacks()}
     ];
 }
 
