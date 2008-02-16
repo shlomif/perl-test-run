@@ -80,46 +80,8 @@ sub _initialize {
 
 =head1 ANALYSIS
 
-=head2 $strap->analyze( $name, \@output_lines )
-
-    my $results = $strap->analyze($name, \@test_output);
-
-Analyzes the output of a single test, assigning it the given C<$name>
-for use in the total report.  Returns the C<$results> of the test (an object).
-See L<Results>.
-
-C<@test_output> should be the raw output from the test, including
-newlines.
-
 =cut
 
-sub _create_parser
-{
-    my ($self, $source) = @_;
-    return TAP::Parser->new(
-            {
-                source => $source,
-            }
-        );
-}
-
-sub analyze
-{
-    my($self, $name, $test_output_orig) = @_;
-
-    # Assign it here so it won't be passed around.
-    $self->file($name);
-
-    $self->_parser($self->_create_parser($test_output_orig));
-
-    return $self->_analyze_with_parser();
-}
-
-sub _init_totals_obj_instance
-{
-    my ($self, $args) = @_;
-    return Test::Run::Straps::StrapsTotalsObj->new($args);
-}
 
 sub _get_initial_totals_obj_params
 {
@@ -198,19 +160,6 @@ sub _events_loop
     }
 
     return;
-}
-
-sub _analyze_with_parser
-{
-    my($self) = @_;
-
-    $self->_start_new_file();
-
-    $self->_events_loop();
-
-    $self->_end_file();
-
-    return $self->_file_totals;
 }
 
 sub _call_callback

@@ -6,6 +6,14 @@ use warnings;
 use vars qw($VERSION);
 $VERSION = '0.26';
 
+=head1 NAME
+
+Test::Run::Straps - analyse the test results by using TAP::Parser.
+
+=head1 METHODS
+
+=cut
+
 use base 'Test::Run::Straps_GplArt';
 
 my @fields= (qw(
@@ -77,11 +85,65 @@ sub _analyze_event
     return;
 }
 
+sub _calc__analyze_with_parser__callbacks
+{
+    my $self = shift;
+
+    return [qw(
+        _start_new_file
+        _events_loop
+        _end_file
+    )];
+}
+
+sub _analyze_with_parser
+{
+    my $self = shift;
+
+    $self->_run_sequence();
+
+    return $self->_file_totals();
+}
+
+sub _create_parser
+{
+    my ($self, $source) = @_;
+    return TAP::Parser->new(
+            {
+                source => $source,
+            }
+        );
+}
+
+=head2 my $results = $self->analyze( $name, \@output_lines)
+
+Analyzes the output @output_lines of a given test, to which the name
+$name is assigned. Returns the results $results of the test - an object.
+
+@output_lines should be the output of the test including newlines.
+
+=cut
+
+sub analyze
+{
+    my($self, $name, $test_output_orig) = @_;
+
+    # Assign it here so it won't be passed around.
+    $self->file($name);
+
+    $self->_parser($self->_create_parser($test_output_orig));
+
+    return $self->_analyze_with_parser();
+}
+
+sub _init_totals_obj_instance
+{
+    my ($self, $args) = @_;
+    return Test::Run::Straps::StrapsTotalsObj->new($args);
+}
+
 1;
 
-=head1 NAME
-
-Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 =head1 LICENSE
 
