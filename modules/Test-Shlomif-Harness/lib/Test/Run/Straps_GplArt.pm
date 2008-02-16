@@ -16,11 +16,6 @@ use base 'Test::Run::Base::Struct';
 
 use Test::Run::Straps::StrapsTotalsObj;
 
-# Flags used as return values from our methods.  Just for internal 
-# clarification.
-my $YES   = (1==1);
-my $NO    = !$YES;
-
 =head1 NAME
 
 Test::Run::Straps - detailed analysis of test results
