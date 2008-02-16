@@ -46,6 +46,19 @@ sub _get_private_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
+sub _invoke_cb
+{
+    my $self = shift;
+    my $args = shift;
+
+    if ($self->callback())
+    {
+        $self->callback()->(
+            $args
+        );
+    }
+}
+
 1;
 
 =head1 NAME

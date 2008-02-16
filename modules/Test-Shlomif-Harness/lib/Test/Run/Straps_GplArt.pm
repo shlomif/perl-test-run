@@ -213,19 +213,6 @@ sub _analyze_with_parser
     return $self->_file_totals;
 }
 
-sub _invoke_cb
-{
-    my $self = shift;
-    my $args = shift;
-
-    if ($self->callback())
-    {
-        $self->callback()->(
-            $args
-        );
-    }
-}
-
 sub _call_callback
 {
     my $self = shift;
