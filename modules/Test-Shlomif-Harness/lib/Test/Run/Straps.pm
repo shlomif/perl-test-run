@@ -54,6 +54,29 @@ sub _get_private_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
+
+=head2 my $strap = Test::Run::Straps->new();
+
+Initialize a new strap.
+
+=cut
+
+sub _initialize
+{
+    my $self = shift;
+
+    $self->NEXT::_initialize(@_);
+
+    $self->_is_vms($^O eq "VMS");
+    $self->_is_win32($^O =~ m{\A(?:MS)?Win32\z});
+    $self->_is_macos($^O eq "MacOS");
+
+    $self->totals(+{});
+    $self->todo(+{});
+
+    return 0;
+}
+
 sub _invoke_cb
 {
     my $self = shift;

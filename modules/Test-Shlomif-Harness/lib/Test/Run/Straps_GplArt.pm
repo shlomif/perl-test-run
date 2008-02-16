@@ -52,32 +52,6 @@ The interface is currently incomplete.  I<Please> contact the author
 if you'd like a feature added or something change or just have
 comments.
 
-=head1 CONSTRUCTION
-
-=head2 new()
-
-  my $strap = Test::Run::Straps->new;
-
-Initialize a new strap.
-
-=cut
-
-sub _initialize {
-    my $self = shift;
-    my $args = shift;
-
-    $self->NEXT::_initialize($args);
-
-    $self->_is_vms( $^O eq 'VMS' );
-    $self->_is_win32( $^O =~ /^(MS)?Win32$/ );
-    $self->_is_macos( $^O eq 'MacOS' );
-
-    $self->totals(+{});
-    $self->todo(+{});
-
-    return 0;
-}
-
 =head1 ANALYSIS
 
 =cut
