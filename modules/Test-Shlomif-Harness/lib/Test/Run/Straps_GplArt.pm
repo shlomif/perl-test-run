@@ -9,7 +9,6 @@ $VERSION = '0.25';
 
 use Config;
 use TAP::Parser;
-use List::Util qw(first);
 
 use Test::Run::Base;
 
