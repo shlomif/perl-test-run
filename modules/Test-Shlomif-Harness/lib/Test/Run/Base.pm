@@ -150,6 +150,33 @@ sub _pluralize
     );
 }
 
+=head2 $self->_run_sequence(\@params)
+
+Runs the sequence of commands specified using 
+C<_calc__${calling_sub}__callbacks> while passing @params to 
+each one. Generates a list of all the callbacks return values.
+
+=cut
+
+sub _run_sequence
+{
+    my $self = shift;
+    my $params = shift || [];
+
+    my $sub = (caller(1))[3];
+
+    $sub =~ s{::_?([^:]+)$}{};
+
+    my $calc_cbs_sub = "_calc__${1}__callbacks";
+
+    return 
+    [ 
+        map { my $cb = $_; $self->$cb(@$params); }
+        @{$self->$calc_cbs_sub(@$params)}
+    ];
+}
+
+
 1;
 
 __END__

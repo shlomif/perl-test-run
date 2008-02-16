@@ -72,12 +72,7 @@ sub _calc__analyze_event__callbacks
 
 sub _analyze_event
 {
-    my $self = shift;
-
-    foreach my $cb (@{$self->_calc__analyze_event__callbacks()})
-    {
-        $self->$cb();
-    }
+    shift->_run_sequence();
 
     return;
 }

@@ -1238,12 +1238,7 @@ sub _calc__fail_other__callbacks
 
 sub _fail_other
 {
-    my $self = shift;
-
-    foreach my $cb (@{$self->_calc__fail_other__callbacks()})
-    {
-        $self->$cb();
-    }
+    shift->_run_sequence();
 
     return;
 }
@@ -1344,10 +1339,7 @@ sub _run_single_test
 {
     my ($self, $args) = @_;
 
-    foreach my $cb (@{$self->_calc__run_single_test__callbacks()})
-    {
-        $self->$cb($args);
-    }
+    $self->_run_sequence([$args]);
 
     return;
 }

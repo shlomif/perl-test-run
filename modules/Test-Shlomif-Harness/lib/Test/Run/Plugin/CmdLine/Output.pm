@@ -137,11 +137,7 @@ sub _get_dubious_message_components
 {
     my $self = shift;
 
-    return 
-    [ 
-        map { my $cb = $_; $self->$cb() } 
-        @{$self->_calc__get_dubious_message_components__callbacks()}
-    ];
+    return $self->_run_sequence([@_]);
 }
 
 sub _get_dubious_message_line_end
