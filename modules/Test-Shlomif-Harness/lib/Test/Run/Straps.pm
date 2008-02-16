@@ -142,6 +142,18 @@ sub _init_totals_obj_instance
     return Test::Run::Straps::StrapsTotalsObj->new($args);
 }
 
+sub _get_initial_totals_obj_params
+{
+    my $self = shift;
+
+    return
+    {
+        (map { $_ => 0 } qw(max seen ok todo skip bonus)),
+        filename => $self->file(),
+        details => [],
+    };
+}
+
 1;
 
 

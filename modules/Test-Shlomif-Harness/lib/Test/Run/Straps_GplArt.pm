@@ -82,26 +82,6 @@ sub _initialize {
 
 =cut
 
-
-sub _get_initial_totals_obj_params
-{
-    my $self = shift;
-
-    return
-    {
-        filename => $self->file(),
-        max      => 0,
-        seen     => 0,
-
-        ok       => 0,
-        todo     => 0,
-        skip     => 0,
-        bonus    => 0,
-
-        details  => [],
-    };
-}
-
 sub _start_new_file
 {
     my $self = shift;
