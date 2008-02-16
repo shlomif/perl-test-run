@@ -356,16 +356,6 @@ sub _handle_event
     return;
 }
 
-sub _analyze_event
-{
-    my $self = shift;
-
-    $self->_handle_event();
-
-    $self->_call_callback();
-    $self->_bump_next();
-}
-
 =head2 $strap->analyze_fh( $name, $test_filehandle )
 
     my $results = $strap->analyze_fh($name, $test_filehandle);

@@ -59,6 +59,29 @@ sub _invoke_cb
     }
 }
 
+sub _calc__analyze_event__callbacks
+{
+    my $self = shift;
+
+    return [qw(
+        _handle_event
+        _call_callback
+        _bump_next
+    )];
+}
+
+sub _analyze_event
+{
+    my $self = shift;
+
+    foreach my $cb (@{$self->_calc__analyze_event__callbacks()})
+    {
+        $self->$cb();
+    }
+
+    return;
+}
+
 1;
 
 =head1 NAME
