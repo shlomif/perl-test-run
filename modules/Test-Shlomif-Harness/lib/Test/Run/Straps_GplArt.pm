@@ -56,12 +56,6 @@ comments.
 
 =cut
 
-sub _get_next_event
-{
-    my ($self) = @_;
-
-    return $self->_event(scalar($self->_parser->next()));
-}
 
 sub _end_file
 {

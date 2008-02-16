@@ -95,6 +95,13 @@ sub _start_new_file
     return;
 }
 
+sub _get_next_event
+{
+    my ($self) = @_;
+
+    return $self->_event(scalar($self->_parser->next()));
+}
+
 sub _invoke_cb
 {
     my $self = shift;
