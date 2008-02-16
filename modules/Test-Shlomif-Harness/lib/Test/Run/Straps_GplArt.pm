@@ -4,9 +4,6 @@ package Test::Run::Straps_GplArt;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = '0.25';
-
 use Config;
 use TAP::Parser;
 

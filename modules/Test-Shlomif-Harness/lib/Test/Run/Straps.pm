@@ -3,6 +3,9 @@ package Test::Run::Straps;
 use strict;
 use warnings;
 
+use vars qw($VERSION);
+$VERSION = '0.26';
+
 use base 'Test::Run::Straps_GplArt';
 
 my @fields= (qw(
