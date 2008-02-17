@@ -176,6 +176,12 @@ sub _run_sequence
     ];
 }
 
+sub delegate_methods
+{
+    my ($pkg, $field, $methods) = @_;
+
+    die "Not implemented!";    
+}
 
 1;
 
