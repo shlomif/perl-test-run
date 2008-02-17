@@ -202,6 +202,13 @@ sub _get_initial_totals_obj_params
     };
 }
 
+sub _is_event_todo
+{
+    my $self = shift;
+    
+    return $self->_event->has_todo();
+}
+
 1;
 
 

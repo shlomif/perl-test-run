@@ -114,13 +114,6 @@ sub _bump_next
     }
 }
 
-sub _is_event_todo
-{
-    my $self = shift;
-    
-    return $self->_event->has_todo();
-}
-
 sub _is_event_pass
 {
     my $self = shift;
