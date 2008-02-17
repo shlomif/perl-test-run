@@ -176,11 +176,28 @@ sub _run_sequence
     ];
 }
 
+=head2 $package->delegate_methods($field, \@methods)
+
+Delegates the methods listed in @methods (as strings) to the accessor
+specified by $field.
+
+=cut
+
 sub delegate_methods
 {
     my ($pkg, $field, $methods) = @_;
 
-    die "Not implemented!";    
+    no strict 'refs';
+    foreach my $method (@$methods)
+    {
+        *{$pkg."::".$method} =
+            do {
+                my $m = $method;
+                sub { my $self = shift; return $self->$field->$m(@_); };
+            };
+    }
+
+    return;
 }
 
 1;
