@@ -186,8 +186,6 @@ sub _calc_details
 {
     my $self = shift;
 
-    my $event = $self->_event;
-
     return
         $self->_init_details_obj_instance(
             {
