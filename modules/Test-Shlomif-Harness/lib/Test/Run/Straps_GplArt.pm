@@ -196,10 +196,6 @@ sub _handle_plan_event
     return;
 }
 
-sub _get_event_types_cascade
-{
-    return [qw(test plan bailout comment)];
-}
 
 =head2 $self->_handle_event()
 

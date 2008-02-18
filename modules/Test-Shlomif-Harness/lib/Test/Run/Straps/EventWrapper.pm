@@ -33,13 +33,51 @@ __PACKAGE__->delegate_methods("_tp_result",
         has_skip
         has_todo
         is_actual_ok
+        is_bailout
+        is_comment
         is_ok
+        is_plan
         is_test
         number
+        raw
         tests_planned
     )]
 );
 
+sub _initialize
+{
+    my $self = shift;
+    my $args = shift;
+
+    $self->_tp_result($args->{event});
+
+    return 0;
+}
+
+=head1 $event->is_pass()
+
+Returns whether the event can be considered a passed event. Always returns a
+scalar boolean.
+
+=cut
+
+# TODO:
+# Unit test this function to make sure it returns a scalar even in
+# list context, in a similar fashion to the || thing.
+
+sub is_pass
+{
+    my $self = shift;
+
+    foreach my $predicate (qw(is_ok has_todo has_skip))
+    {
+        if ($self->$predicate())
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 1;
-
-

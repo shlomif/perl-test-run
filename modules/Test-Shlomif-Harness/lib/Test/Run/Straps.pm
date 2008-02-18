@@ -16,6 +16,8 @@ Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 use base 'Test::Run::Straps_GplArt';
 
+use Test::Run::Straps::EventWrapper;
+
 my @fields= (qw(
     bailout_reason
     callback
@@ -95,11 +97,32 @@ sub _start_new_file
     return;
 }
 
+sub _calc_next_event
+{
+    my $self = shift;
+
+    my $event = scalar($self->_parser->next());
+
+    if (defined($event))
+    {
+        return 
+            Test::Run::Straps::EventWrapper->new(
+                {
+                    event => $event,
+                },
+            );
+    }
+    else
+    {
+        return undef;
+    }
+}
+
 sub _get_next_event
 {
     my ($self) = @_;
 
-    return $self->_event(scalar($self->_parser->next()));
+    return $self->_event($self->_calc_next_event());
 }
 
 sub _invoke_cb
@@ -205,8 +228,13 @@ sub _get_initial_totals_obj_params
 sub _is_event_todo
 {
     my $self = shift;
-    
+
     return $self->_event->has_todo();
+}
+
+sub _get_event_types_cascade
+{
+    return [qw(test plan bailout comment)];
 }
 
 1;
