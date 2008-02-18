@@ -21,6 +21,8 @@ requires:
 build_requires:
   Test::Trap: 0
 provides:
+  Test::Run:
+    file: lib/Test/Run.pm
   Test::Run::Assert:
     file: lib/Test/Run/Assert.pm
     version: 0.03
@@ -72,13 +74,15 @@ provides:
     file: lib/Test/Run/Sprintf/Named/FromAccessors.pm
   Test::Run::Straps:
     file: lib/Test/Run/Straps.pm
+    version: 0.26
+  Test::Run::Straps::EventWrapper:
+    file: lib/Test/Run/Straps/EventWrapper.pm
   Test::Run::Straps::StrapsDetailsObj:
     file: lib/Test/Run/Straps/StrapsDetailsObj.pm
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Straps/StrapsTotalsObj.pm
   Test::Run::Straps_GplArt:
     file: lib/Test/Run/Straps_GplArt.pm
-    version: 0.25
   Test::Run::Trap::Obj:
     file: lib/Test/Run/Trap/Obj.pm
 generated_by: Module::Build version 0.2808
