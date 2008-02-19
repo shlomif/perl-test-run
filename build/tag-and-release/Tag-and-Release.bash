@@ -52,5 +52,5 @@ tag_and_release()
     cpan-upload-http "$arc"
 }
 
-tag_and_release "Test-Run" "Test-Shlomif-Harness" "" true
-
+# tag_and_release "Test-Run" "Test-Shlomif-Harness" "" true
+tag_and_release "Test-Run-CmdLine" "Test-Run-CmdLine" "modules/Test-Run-CmdLine" true
