@@ -1,5 +1,11 @@
 Revision history for Test-Run-CmdLine
 
+0.0107     Tue Feb 19 21:18:15 IST 2008
+    * Now testing the system return code of runprove in t/03-prove.t.
+        - Fixed it in the module.
+    * Added some examples for integrating Test::Run::CmdLine into Perl-based
+    build-systems under examples/.
+
 0.0106      Sat Jun 23 13:22:16 IDT 2007
     * Placed the runprove trapping functionality in 
     lib/Test/Run/CmdLine/Trap/Prove.pm for easy re-use by the
