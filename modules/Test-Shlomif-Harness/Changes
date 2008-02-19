@@ -1,3 +1,26 @@
+0.0113    Tue Feb 19 20:05:29 IST 2008
+    * Converted more functionality from Test::Run::Core_GplArt into
+    a BSD-licensed code. Now there's nothing in Core_GplArt except 
+    (out-of-date) documentation.
+    * Moved Test::Run::Straps Test::Run::Straps_GplArt and made 
+    Test::Run::Straps a BSD-licensed class that inherits from it. Started
+    moving functionality and documentation there.
+    * Moved Test::Trap from the requires to the build_requires.
+    * More refactoring - methods extractions, etc.
+    * Added "use strict" and "use warnings" to all the .pm files.
+    * Added a link to the MIT X11 license to many modules and some POD to one 
+    of the modules. This way finding which modules are MIT X11 will be easier 
+    using grep -rL or grep -rl.
+    * Added the _run_sequence method to Test::Run::Base to run a sequence
+    of methods one after the other.
+    * Added the Test::Run::Straps::EventWrapper class to wrap a 
+    TAP::Parser::Result and derived objects, and to delegate methods to it.
+    * Implemented the delegate_methods() method in Test::Run::Base to
+    delegate methods to an accessor.
+        - Added the t-r-base-delegate.t test file.
+    * Added the Test::Run module which will serve as the front-page for 
+    the Test::Run suite on search.cpan.org and other resources.
+
 0.0112    Sun Jun 24 19:23:42 IDT 2007
     * Fixed the regression bugs with handling the directory with the
     leaked files, that broke Test::Run::CmdLine, while adding a regression
@@ -7,7 +30,7 @@
     * Added Test::Run::Base::Plugger for managing classes with plug-ins and 
     made the helper classes into pluggable classes.
     * Converted more functionality from Test::Run::Core_GplArt into
-    a BSD-licenced code.
+    a BSD-licensed code.
 
 0.0110     Mon Jun 11 14:13:58 IDT 2007
     * Converted several helper modules to the MIT X11 licence, while 
