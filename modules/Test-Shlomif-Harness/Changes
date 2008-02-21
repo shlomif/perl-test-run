@@ -1,3 +1,9 @@
+0.0114    Thu Feb 21 07:10:01 IST 2008
+    * Now requiring TAP::Parser-3.09, which broke some compatibility with
+    earlier versions.
+        - fixed the tests to pass with it:
+            - http://cpantesters.perl.org/show/Test-Run.html#Test-Run-0.0113
+
 0.0113    Tue Feb 19 20:05:29 IST 2008
     * Converted more functionality from Test::Run::Core_GplArt into
     a BSD-licensed code. Now there's nothing in Core_GplArt except 
