@@ -189,7 +189,6 @@ sub _handle_plan_event
     if ($self->_event->tests_planned() == 0)
     {
         my $reason = $self->_event->explanation();
-        $reason =~ s{^[\w:]+\s?}{};
         $self->_file_totals->skip_all($reason);
     }
 
