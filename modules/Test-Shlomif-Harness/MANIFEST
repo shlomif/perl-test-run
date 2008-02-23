@@ -33,6 +33,7 @@ MANIFEST
 META.yml                                 Module meta-data (added by MakeMaker)
 NOTES
 t/00compile.t
+t/01unit-event-wrapper.t
 t/accumulate.t
 t/base.t
 t/data/interpreters/wrong-mini-ok.pl

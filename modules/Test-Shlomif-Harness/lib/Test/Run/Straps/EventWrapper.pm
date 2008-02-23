@@ -61,10 +61,6 @@ scalar boolean.
 
 =cut
 
-# TODO:
-# Unit test this function to make sure it returns a scalar even in
-# list context, in a similar fashion to the || thing.
-
 sub is_pass
 {
     my $self = shift;
