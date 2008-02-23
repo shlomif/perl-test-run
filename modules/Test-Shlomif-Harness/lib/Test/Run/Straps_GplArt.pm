@@ -9,7 +9,7 @@ use TAP::Parser;
 
 use Test::Run::Base;
 
-use base 'Test::Run::Base::Struct';
+use base 'Test::Run::Straps::Base';
 
 use Test::Run::Straps::StrapsTotalsObj;
 
@@ -112,18 +112,6 @@ sub _bump_next
     {
         $self->next($self->_event->number + 1) 
     }
-}
-
-sub _is_event_pass
-{
-    my $self = shift;
-
-    return 
-    (
-        $self->_event->is_ok() ||
-        $self->_is_event_todo() ||
-        $self->_event->has_skip()
-    );
 }
 
 sub _handle_comment_event

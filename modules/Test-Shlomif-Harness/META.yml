@@ -75,6 +75,8 @@ provides:
   Test::Run::Straps:
     file: lib/Test/Run/Straps.pm
     version: 0.26
+  Test::Run::Straps::Base:
+    file: lib/Test/Run/Straps/Base.pm
   Test::Run::Straps::EventWrapper:
     file: lib/Test/Run/Straps/EventWrapper.pm
   Test::Run::Straps::StrapsDetailsObj:

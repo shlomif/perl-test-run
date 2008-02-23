@@ -23,7 +23,6 @@ my @fields= (qw(
     callback
     Debug
     error
-    _event
     exception
     file
     _file_handle

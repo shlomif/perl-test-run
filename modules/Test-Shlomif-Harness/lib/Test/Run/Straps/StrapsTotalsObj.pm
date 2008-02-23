@@ -14,7 +14,7 @@ straps class.
 
 use Test::Run::Straps::StrapsDetailsObj;
 
-use base 'Test::Run::Base::Struct';
+use base 'Test::Run::Straps::Base';
 
 use vars qw(@fields);
 
@@ -22,7 +22,6 @@ use vars qw(@fields);
     bonus
     details
     _enormous_num_cb
-    _event
     exit
     filename
     max
@@ -221,13 +220,6 @@ sub _update_if_pass
     {
         $self->inc_field('ok');
     }
-}
-
-sub _is_event_pass
-{
-    my $self = shift;
-
-    return $self->_event->is_pass();
 }
 
 sub _handle_enormous_event_num
