@@ -174,32 +174,7 @@ sub _handle_plan_event
 }
 
 
-=head2 $self->_handle_event()
 
-Handles the current event according to the list of types in the cascade. It
-checks each type and if matches calls the appropriate 
-C<_handle_${type}_event> callback. Returns the type of the event that matched.
-
-=cut
-
-sub _handle_event
-{
-    my $self = shift;
-
-    my $event = $self->_event;
-
-    EVENT_TYPES:
-    foreach my $type (@{$self->_get_event_types_cascade()})
-    {
-        if ($event->can("is_$type")->($event))
-        {
-            $self->can("_handle_${type}_event")->($self);
-            return $type;
-        }
-    }
-
-    return;
-}
 
 =head2 $strap->analyze_fh( $name, $test_filehandle )
 
