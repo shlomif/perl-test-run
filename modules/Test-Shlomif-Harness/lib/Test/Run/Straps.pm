@@ -137,6 +137,18 @@ sub _invoke_cb
     }
 }
 
+sub _bump_next
+{
+    my $self = shift;
+
+    if (defined(my $n = $self->_event->get_next_test_number()))
+    {
+        $self->next($n);
+    }
+
+    return;
+}
+
 sub _calc__analyze_event__callbacks
 {
     my $self = shift;
@@ -235,6 +247,7 @@ sub _get_event_types_cascade
 {
     return [qw(test plan bailout comment)];
 }
+
 
 1;
 

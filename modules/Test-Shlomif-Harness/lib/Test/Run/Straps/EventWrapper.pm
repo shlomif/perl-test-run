@@ -76,4 +76,34 @@ sub is_pass
     return 0;
 }
 
+=head2 $self->get_next_test_number()
+
+If this event is a test, then return the next expected test number. Else
+return undef.
+
+=cut
+
+sub get_next_test_number
+{
+    my $self = shift;
+
+    return ($self->is_test() ? ($self->number() +1 ) : undef);
+}
+
+=head1 SEE ALSO
+
+L<Test::Run::Straps>, L<Test::Run::Obj>, L<Test::Run::Core>
+
+=head1 LICENSE
+
+This file is licensed under the MIT X11 License:
+
+http://www.opensource.org/licenses/mit-license.php
+
+=head1 AUTHOR
+
+Shlomi Fish, L<http://www.shlomifish.org/>.
+
+=cut
+
 1;

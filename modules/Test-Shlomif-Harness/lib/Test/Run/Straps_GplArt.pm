@@ -104,16 +104,6 @@ sub _call_callback
     );
 }
 
-sub _bump_next
-{
-    my $self = shift;
-
-    if ($self->_event->is_test())
-    {
-        $self->next($self->_event->number + 1) 
-    }
-}
-
 sub _handle_comment_event
 {
     my $self = shift;
