@@ -278,7 +278,18 @@ sub _is_event_todo
     return $self->_event->has_todo();
 }
 
+sub _analyze_fh_wrapper
+{
+    my $self = shift;
 
+    eval
+    {
+        $self->results($self->analyze_fh());
+    };
+    $self->exception($@);
+
+    return;
+}
 
 1;
 

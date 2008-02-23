@@ -268,18 +268,6 @@ sub _cleanup_analysis
     return;
 }
 
-sub _analyze_fh_wrapper
-{
-    my ($self, $file) = @_;
-
-    eval {
-    $self->results($self->analyze_fh());
-    };
-    $self->exception($@);
-
-    return;
-}
-
 sub analyze_file
 {
     my ($self, $file) = @_;
