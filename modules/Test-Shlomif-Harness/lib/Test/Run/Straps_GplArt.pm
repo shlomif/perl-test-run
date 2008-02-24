@@ -56,19 +56,6 @@ comments.
 
 =cut
 
-
-sub _end_file
-{
-    my $self = shift;
-
-    $self->_file_totals->determine_passing();
-
-    $self->_parser(undef);
-    $self->_event(undef);
-
-    return;
-}
-
 sub _handle_bailout_event
 {
     my $self = shift;

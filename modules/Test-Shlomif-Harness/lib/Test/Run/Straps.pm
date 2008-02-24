@@ -202,6 +202,18 @@ sub _analyze_event
     return;
 }
 
+sub _end_file
+{
+    my $self = shift;
+
+    $self->_file_totals->determine_passing();
+
+    $self->_parser(undef);
+    $self->_event(undef);
+
+    return;
+}
+
 sub _calc__analyze_with_parser__callbacks
 {
     my $self = shift;
