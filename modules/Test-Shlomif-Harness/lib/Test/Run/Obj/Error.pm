@@ -132,6 +132,18 @@ sub stringify
         );
 }
 
+package Test::Run::Obj::Error::Straps;
+
+use vars qw(@ISA);
+
+@ISA = (qw(Test::Run::Obj::Error));
+
+package Test::Run::Obj::Error::Straps::CannotRunPerl;
+
+use vars qw(@ISA);
+
+@ISA = (qw(Test::Run::Obj::Error::Straps));
+
 1;
 
 =head1 LICENSE

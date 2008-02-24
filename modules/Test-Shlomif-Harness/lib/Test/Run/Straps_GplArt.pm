@@ -473,22 +473,11 @@ sub _filtered_INC {
     }
 
     my %seen;
-    $seen{$_}++ foreach $self->_default_inc();
+    $seen{$_}++ foreach @{$self->_default_inc()};
     @inc = grep !$seen{$_}++, @inc;
 
     return @inc;
 }
-
-
-sub _default_inc {
-    my $self = shift;
-
-    local $ENV{PERL5LIB};
-    my @inc = `$^X -le "print join qq[\\n], \@INC"`;
-    chomp @inc;
-    return @inc;
-}
-
 
 =head2 $strap->_restore_PERL5LIB()
 

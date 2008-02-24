@@ -18,6 +18,8 @@ use base 'Test::Run::Straps_GplArt';
 
 use Test::Run::Straps::EventWrapper;
 
+use Test::Run::Obj::Error;
+
 my @fields= (qw(
     bailout_reason
     callback
@@ -301,6 +303,34 @@ sub _analyze_fh_wrapper
     $self->exception($@);
 
     return;
+}
+
+sub _default_inc
+{
+    my $self = shift;
+
+    # Temporarily nullify PERL5LIB so Perl will not report the paths
+    # that it contains.
+    local $ENV{PERL5LIB};
+
+    my $perl_includes;
+
+    if (!open ($perl_includes, "-|", $^X, "-e", qq{print join("\\n", \@INC);}))
+    {
+        die Test::Run::Obj::Error::Straps::CannotRunPerl->new(
+            {text => "Cannot invoke \"$^X\" for determining includes"}
+        );
+    }
+    
+    my @includes;
+    while (my $inc = <$perl_includes>)
+    {
+        chomp($inc);
+        push @includes, $inc;
+    }
+    close($perl_includes);
+
+    return \@includes;
 }
 
 1;
