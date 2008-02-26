@@ -33,7 +33,6 @@ my @fields= (qw(
     _is_vms
     _is_win32
     last_test_print
-    lone_not_line
     next
     _old5lib
     _parser
@@ -332,8 +331,42 @@ sub _default_inc
     return \@includes;
 }
 
-1;
+=head2 $self->_reset_file_state()
 
+Reset some fields so it will be ready to process the next file.
+
+=cut
+
+sub _calc_reset_file_state
+{
+    my $self = shift;
+
+    return
+    {
+        too_many_tests => undef(),
+        todo => +{},
+        saw_header => 0,
+        saw_bailout => 0,
+        bailout_reason => "",
+        'next' => 1,
+    };
+}
+
+sub _reset_file_state
+{
+    my $self = shift;
+
+    my $to = $self->_calc_reset_file_state();
+
+    while (my ($field, $value) = each(%$to))
+    {
+        $self->set($field, $value);
+    }
+
+    return;
+}
+
+1;
 
 =head1 LICENSE
 

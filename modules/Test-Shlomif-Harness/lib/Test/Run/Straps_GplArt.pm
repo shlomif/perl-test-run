@@ -502,28 +502,7 @@ sub _restore_PERL5LIB {
 
 Methods for identifying what sort of line you're looking at.
 
-=head2 C<_reset_file_state>
-
-  $strap->_reset_file_state;
-
-Resets things like C<< $strap->{max} >>,
-etc. so it's ready to parse the next file.
-
 =cut
-
-sub _reset_file_state {
-    my($self) = shift;
-
-    delete @{$self}{qw(too_many_tests)};
-    $self->todo(+{});
-    
-    foreach my $field (qw(saw_header saw_bailout))
-    {
-        $self->set($field, 0);
-    }
-    $self->bailout_reason('');
-    $self->next(1);
-}
 
 =head1 Results
 
