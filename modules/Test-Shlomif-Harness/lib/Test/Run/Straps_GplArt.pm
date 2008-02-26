@@ -514,10 +514,10 @@ etc. so it's ready to parse the next file.
 sub _reset_file_state {
     my($self) = shift;
 
-    delete @{$self}{qw(max too_many_tests)};
+    delete @{$self}{qw(too_many_tests)};
     $self->todo(+{});
     
-    foreach my $field (qw(saw_header saw_bailout lone_not_line))
+    foreach my $field (qw(saw_header saw_bailout))
     {
         $self->set($field, 0);
     }

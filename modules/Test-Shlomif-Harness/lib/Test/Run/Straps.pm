@@ -34,7 +34,6 @@ my @fields= (qw(
     _is_win32
     last_test_print
     lone_not_line
-    max
     next
     _old5lib
     _parser
