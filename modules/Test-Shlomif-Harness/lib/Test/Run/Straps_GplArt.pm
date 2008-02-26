@@ -406,25 +406,6 @@ sub _INC2PERL5LIB {
     return join $Config{path_sep}, @{$self->_filtered_INC()};
 }
 
-=head2 $strap->_restore_PERL5LIB()
-
-  $self->_restore_PERL5LIB;
-
-This restores the original value of the C<PERL5LIB> environment variable.
-Necessary on VMS, otherwise a no-op.
-
-=cut
-
-sub _restore_PERL5LIB {
-    my($self) = shift;
-
-    return unless $self->_is_vms();
-
-    if (defined $self->_old5lib()) {
-        $ENV{PERL5LIB} = $self->_old5lib();
-    }
-}
-
 =head1 Parsing
 
 Methods for identifying what sort of line you're looking at.

@@ -406,6 +406,24 @@ sub _cleaned_switches
     return [grep { length($_) } map { _trim($_) } @$switches];
 }
 
+=head2 $strap->_restore_PERL5LIB()
+
+Restores the old value of PERL5LIB. This is necessary on VMS. Does not 
+do anything on other platforms.
+
+=cut
+
+sub _restore_PERL5LIB
+{
+    my $self = shift;
+
+    if ($self->_is_vms())
+    {
+        $ENV{PERL5LIB} = $self->_old5lib();
+    }
+
+    return;
+}
 
 =head2 $self->_reset_file_state()
 
