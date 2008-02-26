@@ -290,6 +290,21 @@ sub _is_event_todo
     return $self->_event->has_todo();
 }
 
+=head2 $strap->analyze_fh()
+
+Analyzes a TAP stream based on the already opened $self->_file_handle().
+
+=cut
+
+sub analyze_fh
+{
+    my $self = shift;
+
+    $self->_parser($self->_create_parser($self->_file_handle()));
+
+    return $self->_analyze_with_parser();
+}
+
 sub _analyze_fh_wrapper
 {
     my $self = shift;

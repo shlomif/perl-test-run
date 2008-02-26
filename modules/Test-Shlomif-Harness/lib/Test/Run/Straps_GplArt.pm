@@ -160,26 +160,6 @@ sub _handle_plan_event
     return;
 }
 
-
-
-
-=head2 $strap->analyze_fh( $name, $test_filehandle )
-
-    my $results = $strap->analyze_fh($name, $test_filehandle);
-
-Like C<analyze>, but it reads from the given filehandle.
-
-=cut
-
-sub analyze_fh
-{
-    my $self = shift;
-
-    $self->_parser($self->_create_parser($self->_file_handle()));
-
-    return $self->_analyze_with_parser();
-}
-
 =head2 $strap->analyze_file( $test_file )
 
     my %results = $strap->analyze_file($test_file);
