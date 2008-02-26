@@ -364,6 +364,34 @@ sub _filtered_INC
     return \@inc;
 }
 
+=head2 [@filtered] = $strap->_cleaned_switches(\@switches)
+
+Returns trimmed and blank-filtered switches from the user.
+
+=cut
+
+sub _trim
+{
+    my $s = shift;
+
+    if (!defined($s))
+    {
+        return ();
+    }
+    $s =~ s{\A\s+}{}ms;
+    $s =~ s{\s+\z}{}ms;
+
+    return ($s);
+}
+
+sub _cleaned_switches
+{
+    my ($self, $switches) = @_;
+
+    return [grep { length($_) } map { _trim($_) } @$switches];
+}
+
+
 =head2 $self->_reset_file_state()
 
 Reset some fields so it will be ready to process the next file.

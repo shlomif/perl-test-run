@@ -384,7 +384,7 @@ sub _switches {
     my($self, $file) = @_;
 
     # my @existing_switches = $self->_cleaned_switches( $Test::Run::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
-    my @existing_switches = $self->_cleaned_switches( $self->Switches(), $self->Switches_Env());
+    my @existing_switches = @{$self->_cleaned_switches( [$self->Switches(), $self->Switches_Env()] )};
     my @derived_switches;
 
     my $shebang = $self->_get_shebang($file);
@@ -407,29 +407,6 @@ sub _switches {
         $_ = qq["$_"] if ((/\s/ || $self->_is_vms()) && !/^".*"$/ );
     }
     return join( " ", @existing_switches, @derived_switches );
-}
-
-=head2 $strap->_cleaned_switches( @switches_from_user )
-
-Returns only defined, non-blank, trimmed switches from the parms passed.
-
-=cut
-
-sub _cleaned_switches {
-    my $self = shift;
-
-    my @input = @_;
-
-    my @switches;
-    for my $switch ( @input )
-    {
-        next unless defined $switch;
-        $switch =~ s/^\s+//;
-        $switch =~ s/\s+$//;
-        push( @switches, $switch ) if $switch ne "";
-    }
-
-    return @switches;
 }
 
 =head2 $strap->_INC2PERL5LIB
