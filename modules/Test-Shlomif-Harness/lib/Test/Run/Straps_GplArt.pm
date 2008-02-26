@@ -396,7 +396,7 @@ sub _switches {
     # all that on the command line as -Is.
     # MacPerl's putenv is broken, so it will not see PERL5LIB, tainted or not.
     if ( $taint || $self->_is_macos() ) {
-        my @inc = $self->_filtered_INC;
+        my @inc = @{$self->_filtered_INC};
         push @derived_switches, map { "-I$_" } @inc;
     }
 
@@ -446,37 +446,7 @@ sub _INC2PERL5LIB {
 
     $self->_old5lib($ENV{PERL5LIB});
 
-    return join $Config{path_sep}, $self->_filtered_INC;
-}
-
-=head2 $strap->_filtered_INC()
-
-  my @filtered_inc = $self->_filtered_INC;
-
-Shortens C<@INC> by removing redundant and unnecessary entries.
-Necessary for OSes with limited command line lengths, like VMS.
-
-=cut
-
-sub _filtered_INC {
-    my($self, @inc) = @_;
-    @inc = @INC unless @inc;
-
-    if( $self->_is_vms() ) {
-        # VMS has a 255-byte limit on the length of %ENV entries, so
-        # toss the ones that involve perl_root, the install location
-        @inc = grep !/perl_root/i, @inc;
-    }
-    elsif ( $self->_is_win32() ) {
-        # Lose any trailing backslashes in the Win32 paths
-        s/[\\\/+]$// foreach @inc;
-    }
-
-    my %seen;
-    $seen{$_}++ foreach @{$self->_default_inc()};
-    @inc = grep !$seen{$_}++, @inc;
-
-    return @inc;
+    return join $Config{path_sep}, @{$self->_filtered_INC()};
 }
 
 =head2 $strap->_restore_PERL5LIB()

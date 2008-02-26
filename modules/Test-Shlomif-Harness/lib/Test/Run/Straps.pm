@@ -331,6 +331,39 @@ sub _default_inc
     return \@includes;
 }
 
+=head2 $strap->_filtered_INC(\@inc)
+
+Filters @inc so it will fit into the environment of some operating systems
+which limit it (such as VMS).
+
+=cut
+
+sub _filtered_INC
+{
+    my ($self, $inc_param) = @_;
+
+    my @inc = $inc_param ? @$inc_param : @INC;
+
+    if ($self->_is_vms())
+    {
+        @inc = grep { !m{perl_root}i } @inc;
+    }
+    elsif ($self->_is_win32())
+    {
+        foreach my $path (@inc)
+        {
+            $path =~ s{[\\/]+\z}{}ms;
+        }
+    }
+
+    my %seen;
+
+    %seen = (map { $_ => 1} @{$self->_default_inc()});
+    @inc = (grep { ! $seen{$_}++ } @inc);
+
+    return \@inc;
+}
+
 =head2 $self->_reset_file_state()
 
 Reset some fields so it will be ready to process the next file.
