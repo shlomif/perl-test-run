@@ -5,13 +5,10 @@ use strict;
 use warnings;
 
 use Config;
-use TAP::Parser;
 
 use Test::Run::Base;
 
 use base 'Test::Run::Straps::Base';
-
-use Test::Run::Straps::StrapsTotalsObj;
 
 =head1 NAME
 
@@ -66,18 +63,6 @@ sub _handle_bailout_event
     return;
 }
 
-sub _events_loop
-{
-    my $self = shift;
-
-    while ($self->_get_next_event())
-    {
-        $self->_analyze_event();
-        last if $self->saw_bailout();
-    }
-
-    return;
-}
 
 sub _call_callback
 {

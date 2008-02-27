@@ -16,7 +16,10 @@ Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 use base 'Test::Run::Straps_GplArt';
 
+use TAP::Parser;
+
 use Test::Run::Straps::EventWrapper;
+use Test::Run::Straps::StrapsTotalsObj;
 
 use Test::Run::Obj::Error;
 
@@ -198,6 +201,19 @@ sub _calc__analyze_event__callbacks
 sub _analyze_event
 {
     shift->_run_sequence();
+
+    return;
+}
+
+sub _events_loop
+{
+    my $self = shift;
+
+    while ($self->_get_next_event())
+    {
+        $self->_analyze_event();
+        last if $self->saw_bailout();
+    }
 
     return;
 }
