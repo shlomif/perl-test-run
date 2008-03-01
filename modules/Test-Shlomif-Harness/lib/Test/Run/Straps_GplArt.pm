@@ -129,22 +129,6 @@ sub _handle_test_event
     return;
 }
 
-sub _handle_plan_event
-{
-    my $self = shift;
-
-    $self->inc_field('saw_header');
-    $self->_file_totals->max($self->_event->tests_planned());
-    # If it's a skip line.
-    if ($self->_event->tests_planned() == 0)
-    {
-        my $reason = $self->_event->explanation();
-        $self->_file_totals->skip_all($reason);
-    }
-
-    return;
-}
-
 =head2 $strap->analyze_file( $test_file )
 
     my %results = $strap->analyze_file($test_file);

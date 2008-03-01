@@ -133,6 +133,55 @@ sub _get_event_types_cascade
     return [qw(test plan bailout comment)];
 }
 
+sub _inc_saw_header
+{
+    my $self = shift;
+
+    $self->inc_field('saw_header');
+
+    return;
+}
+
+sub _plan_set_max
+{
+    my $self = shift;
+
+    $self->_file_totals->max($self->_event->tests_planned());
+
+    return;
+}
+
+sub _handle_plan_skip_all
+{
+    my $self = shift;
+
+    # If it's a skip-all line.
+    if ($self->_event->tests_planned() == 0)
+    {
+        $self->_file_totals->skip_all($self->_event->explanation());
+    }
+
+    return;
+}
+
+sub _calc__handle_plan_event__callbacks
+{
+    my $self = shift;
+
+    return [qw(
+        _inc_saw_header
+        _plan_set_max
+        _handle_plan_skip_all
+        )];
+}
+
+sub _handle_plan_event
+{
+    shift->_run_sequence();
+
+    return;
+}
+
 =head2 $self->_handle_event()
 
 Handles the current event according to the list of types in the cascade. It
