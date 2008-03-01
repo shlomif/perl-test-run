@@ -182,6 +182,16 @@ sub _handle_plan_event
     return;
 }
 
+sub _handle_bailout_event
+{
+    my $self = shift;
+
+    $self->bailout_reason($self->_event->explanation());
+    $self->saw_bailout(1);
+
+    return;
+}
+
 =head2 $self->_handle_event()
 
 Handles the current event according to the list of types in the cascade. It

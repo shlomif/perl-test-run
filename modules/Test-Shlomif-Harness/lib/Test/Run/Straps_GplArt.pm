@@ -51,17 +51,6 @@ comments.
 
 =cut
 
-sub _handle_bailout_event
-{
-    my $self = shift;
-
-    $self->bailout_reason($self->_event->explanation());
-    $self->saw_bailout(1);
-
-    return;
-}
-
-
 sub _call_callback
 {
     my $self = shift;
