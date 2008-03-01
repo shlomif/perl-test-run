@@ -374,23 +374,6 @@ sub _switches {
     return join( " ", @existing_switches, @derived_switches );
 }
 
-=head2 $strap->_INC2PERL5LIB
-
-  local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
-
-Takes the current value of C<@INC> and turns it into something suitable
-for putting onto C<PERL5LIB>.
-
-=cut
-
-sub _INC2PERL5LIB {
-    my($self) = shift;
-
-    $self->_old5lib($ENV{PERL5LIB});
-
-    return join $Config{path_sep}, @{$self->_filtered_INC()};
-}
-
 =head1 Parsing
 
 Methods for identifying what sort of line you're looking at.

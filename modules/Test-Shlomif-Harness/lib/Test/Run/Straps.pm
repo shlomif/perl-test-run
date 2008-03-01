@@ -16,6 +16,7 @@ Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 use base 'Test::Run::Straps_GplArt';
 
+use Config;
 use TAP::Parser;
 
 use Test::Run::Straps::EventWrapper;
@@ -474,6 +475,22 @@ sub _reset_file_state
     }
 
     return;
+}
+
+=head2 local $ENV{PERL5LIB} = $self->_INC2PERL5LIB()
+
+Takes the calculated library paths for running the test scripts and returns
+it as something that one can assign to the PERL5LIB environment variable.
+
+=cut
+
+sub _INC2PERL5LIB
+{
+    my $self = shift;
+
+    $self->_old5lib($ENV{PERL5LIB});
+
+    return join($Config{path_sep}, @{$self->_filtered_INC()});
 }
 
 1;
