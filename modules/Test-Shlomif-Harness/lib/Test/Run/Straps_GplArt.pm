@@ -4,8 +4,6 @@ package Test::Run::Straps_GplArt;
 use strict;
 use warnings;
 
-use Config;
-
 use Test::Run::Base;
 
 use base 'Test::Run::Straps::Base';
