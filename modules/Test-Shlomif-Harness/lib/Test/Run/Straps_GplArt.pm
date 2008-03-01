@@ -51,17 +51,6 @@ comments.
 
 =cut
 
-sub _call_callback
-{
-    my $self = shift;
-    return $self->_invoke_cb(
-        {
-            type => "tap_event",
-            event => $self->_event(),
-            totals => $self->_file_totals(),
-        }
-    );
-}
 
 sub _handle_comment_event
 {
