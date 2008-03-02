@@ -133,6 +133,21 @@ sub _get_event_types_cascade
     return [qw(test plan bailout comment)];
 }
 
+=head2 $strap->_inc_seen_header()
+
+Increment the _seen_header field. Used by L<Test::Run::Core>.
+
+=cut
+
+sub _inc_seen_header
+{
+    my $self = shift;
+
+    $self->inc_field('_seen_header');
+
+    return;
+}
+
 sub _inc_saw_header
 {
     my $self = shift;
@@ -583,6 +598,7 @@ sub _INC2PERL5LIB
 
     return join($Config{path_sep}, @{$self->_filtered_INC()});
 }
+
 
 1;
 

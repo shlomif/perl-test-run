@@ -65,13 +65,6 @@ sub _handle_enormous_event_num
     }
 }
 
-sub _inc_seen_header
-{
-    my $self = shift;
-
-    $self->inc_field('_seen_header');
-}
-
 sub _handle_test_event
 {
     my $self = shift;
