@@ -192,6 +192,26 @@ sub _handle_bailout_event
     return;
 }
 
+sub _handle_comment_event
+{
+    my $self = shift;
+
+    my $test = $self->_file_totals->last_detail();
+    if (defined($test))
+    {
+        $test->append_to_diag($self->_event->comment());
+    }
+
+    return;
+}
+
+sub _handle_labeled_test_event
+{
+    my $self = shift;
+
+    return;
+}
+
 =head2 $self->_handle_event()
 
 Handles the current event according to the list of types in the cascade. It

@@ -52,18 +52,6 @@ comments.
 =cut
 
 
-sub _handle_comment_event
-{
-    my $self = shift;
-
-    my $test = $self->_file_totals->last_detail();
-    if (defined($test))
-    {
-        $test->append_to_diag($self->_event->comment());
-    }
-
-    return;
-}
 
 sub _handle_enormous_event_num
 {
@@ -75,13 +63,6 @@ sub _handle_enormous_event_num
         warn "Can't detailize, too big.\n";
         $self->too_many_tests(1);
     }
-}
-
-
-sub _handle_labeled_test_event
-{
-    my $self = shift;
-
 }
 
 sub _inc_seen_header
