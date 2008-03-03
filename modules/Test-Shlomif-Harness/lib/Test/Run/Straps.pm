@@ -543,6 +543,48 @@ sub _cleaned_switches
     return [grep { length($_) } map { _trim($_) } @$switches];
 }
 
+=head2 $self->_command()
+
+Returns the command (the command-line executable) that will run the test
+along with L<_switches()>.
+
+Normally returns $^X, but can be over-rided using the C<Test_Interpreter>
+accessor.
+
+This method can be over-rided in custom test harnesses in order to run
+using different TAP producers than Perl.
+
+=cut
+
+sub _command
+{
+    my $self = shift;
+
+    if (defined(my $interp = $self->Test_Interpreter()))
+    {
+        return $interp;
+    }
+    else
+    {
+        return $self->_default_command($^X);
+    }
+}
+
+sub _default_command
+{
+    my $self = shift;
+    my $path = shift;
+
+    if ($self->_is_win32())
+    {
+        return Win32::GetShortPathName($path);
+    }
+    else
+    {
+        return $path;
+    }
+}
+
 sub _handle_test_file_opening_error
 {
     my ($self, $args) = @_;
