@@ -134,7 +134,7 @@ sub _cleanup_analysis
         eval q{use vmsish "status"; $results->exit($?)};
     }
     else {
-        $results->exit(_wait2exit($?));
+        $results->exit($self->_wait2exit($?));
     }
     $results->passing(0) unless $? == 0;
 
@@ -156,15 +156,6 @@ sub analyze_file
     $self->_cleanup_analysis();
 
     return $self->results();
-}
-
-
-eval { require POSIX; &POSIX::WEXITSTATUS(0) };
-if( $@ ) {
-    *_wait2exit = sub { $_[0] >> 8 };
-}
-else {
-    *_wait2exit = sub { POSIX::WEXITSTATUS($_[0]) }
 }
 
 =head2 $strap->_command_line( $file )
