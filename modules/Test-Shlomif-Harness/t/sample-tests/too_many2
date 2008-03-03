@@ -1,0 +1,8 @@
+print <<DUMMY;
+1..4
+ok 1 - 1 is a true value
+ok 2 - 3 is equal to 3
+ok 3 - 20+4 is equal to 24
+ok 4 - Adding 4 to x == 20 yields x == 24
+ok 5 - Subtracting 15 to get 9
+DUMMY

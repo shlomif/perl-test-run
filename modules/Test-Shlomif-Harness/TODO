@@ -1,3 +1,6 @@
+* Fix the confusing output of t/sample-tests/too_many2.
+    - see prove vs. runprove.
+
 * Test the plug-in system in T::R::CL.
 
 * Update the documentation - currently it's mostly updated only to 
