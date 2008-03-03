@@ -543,6 +543,20 @@ sub _cleaned_switches
     return [grep { length($_) } map { _trim($_) } @$switches];
 }
 
+sub _handle_test_file_opening_error
+{
+    my ($self, $args) = @_;
+
+    $self->_invoke_cb({type => "test_file_opening_error", %$args});
+}
+
+sub _handle_test_file_closing_error
+{
+    my ($self, $args) = @_;
+
+    $self->_invoke_cb({type => "test_file_closing_error", %$args});
+}
+
 =head2 $strap->_restore_PERL5LIB()
 
 Restores the old value of PERL5LIB. This is necessary on VMS. Does not 

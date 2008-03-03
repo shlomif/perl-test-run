@@ -218,19 +218,6 @@ sub _command {
     }
 }
 
-sub _handle_test_file_opening_error
-{
-    my ($self, $args) = @_;
-
-    $self->_invoke_cb({type => "test_file_opening_error", %$args});
-}
-
-sub _handle_test_file_closing_error
-{
-    my ($self, $args) = @_;
-
-    $self->_invoke_cb({type => "test_file_closing_error", %$args});
-}
 
 sub _get_shebang
 {
