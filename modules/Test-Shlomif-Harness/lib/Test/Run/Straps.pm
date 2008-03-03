@@ -227,6 +227,20 @@ sub _handle_labeled_test_event
     return;
 }
 
+sub _handle_test_event
+{
+    my $self = shift;
+    return $self->_file_totals->handle_event(
+        {
+            event => $self->_event,
+            enormous_num_cb =>
+                sub { return $self->_handle_enormous_event_num(); },
+        }
+    );
+
+    return;
+}
+
 =head2 $self->_handle_event()
 
 Handles the current event according to the list of types in the cascade. It

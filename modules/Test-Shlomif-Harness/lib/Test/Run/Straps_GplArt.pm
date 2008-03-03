@@ -65,19 +65,6 @@ sub _handle_enormous_event_num
     }
 }
 
-sub _handle_test_event
-{
-    my $self = shift;
-    return $self->_file_totals->handle_event(
-        {
-            event => $self->_event,
-            enormous_num_cb =>
-                sub { return $self->_handle_enormous_event_num(); },
-        }
-    );
-
-    return;
-}
 
 =head2 $strap->analyze_file( $test_file )
 
