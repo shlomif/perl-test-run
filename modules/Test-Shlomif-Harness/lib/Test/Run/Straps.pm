@@ -683,7 +683,7 @@ sub _wait2exit_no_POSIX
     return ($wait >> 8);
 }
 
-eval { require POSIX; POSIX::WEXITSTATUS(); };
+eval { require POSIX; POSIX::WEXITSTATUS($?); };
 
 *_wait2exit = ($@ ? \&_wait2exit_no_POSIX : \&_wait2exit_POSIX);
 
