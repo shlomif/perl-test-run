@@ -5,7 +5,7 @@ use warnings;
 
 =head1 NAME
 
-Test::Run::Straps::Base - base class from some Straps-related classes.
+Test::Run::Straps::Base - base class for some Straps-related classes.
 
 =head1 DESCRIPTION
 
