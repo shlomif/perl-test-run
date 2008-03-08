@@ -177,33 +177,6 @@ sub _command_line {
     return $line;
 }
 
-sub _get_shebang
-{
-    my($self, $file) = @_;
-
-    my $test_fh;
-    if (!open($test_fh, $file))
-    {
-        $self->_handle_test_file_opening_error(
-            {
-                file => $file,
-                error => $!,
-            }
-        );
-        return "";
-    }
-    my $shebang = <$test_fh>;
-    if (!close($test_fh))
-    {
-        $self->_handle_test_file_closing_error(
-            {
-                file => $file,
-                error => $!,
-            }
-        );
-    }
-    return $shebang;
-}
 
 =head2 $strap->_switches( $file )
 

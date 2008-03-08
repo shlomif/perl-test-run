@@ -543,6 +543,34 @@ sub _cleaned_switches
     return [grep { length($_) } map { _trim($_) } @$switches];
 }
 
+sub _get_shebang
+{
+    my($self, $file) = @_;
+
+    my $test_fh;
+    if (!open($test_fh, $file))
+    {
+        $self->_handle_test_file_opening_error(
+            {
+                file => $file,
+                error => $!,
+            }
+        );
+        return "";
+    }
+    my $shebang = <$test_fh>;
+    if (!close($test_fh))
+    {
+        $self->_handle_test_file_closing_error(
+            {
+                file => $file,
+                error => $!,
+            }
+        );
+    }
+    return $shebang;
+}
+
 =head2 $self->_command()
 
 Returns the command (the command-line executable) that will run the test
