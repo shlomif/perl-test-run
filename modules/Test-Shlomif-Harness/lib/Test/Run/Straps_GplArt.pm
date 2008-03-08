@@ -75,63 +75,11 @@ results.  It will also use that name for the total report.
 
 =cut
 
-=begin Nothing
-
-sub _get_analysis_file_handle
-{
-    my($self) = @_;
-
-    my $file = $self->file();
-
-    unless( -e $file ) {
-        $self->error("$file does not exist");
-        return;
-    }
-
-    unless( -r $file ) {
-        $self->error("$file is not readable");
-        return;
-    }
-
-    local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
-    $self->_invoke_cb({'type' => "report_start_env"});
-
-    # *sigh* this breaks under taint, but open -| is unportable.
-    my $line = $self->_command_line($file);
-
-    my $file_handle;
-    unless ( open($file_handle, "$line|" )) {
-        $self->_invoke_cb(
-            {
-                type => "could_not_run_script",
-                cmd_line => $line,
-                file => $file,
-                error => $!,
-            }
-        );
-        return;
-    }
-
-    $self->_restore_PERL5LIB();
-
-    return $self->_file_handle($file_handle);
-}
-
-=end Nothing
-
-=cut
-
 sub _cleanup_analysis
 {
     my ($self) = @_;
 
     my $results = $self->results();
-
-=for Nothing
-    close ($self->_file_handle());
-    $self->_file_handle(undef);
-
-=cut
 
     if ($self->exception() ne "")
     {
@@ -163,31 +111,6 @@ sub analyze_file
 
     return $self->results();
 }
-
-=begin Nothing
-
-=head2 $strap->_command_line( $file )
-
-Returns the full command line that will be run to test I<$file>.
-
-
-
-sub _command_line {
-    my $self = shift;
-    my $file = shift;
-
-    my $command =  $self->_command();
-    my $switches = $self->_switches($file);
-
-    $file = qq["$file"] if ($file =~ /\s/) && ($file !~ /^".*"$/);
-    my $line = "$command $switches $file";
-
-    return $line;
-}
-
-=end Nothing
-
-=cut
 
 =head2 $strap->_switches( $file )
 

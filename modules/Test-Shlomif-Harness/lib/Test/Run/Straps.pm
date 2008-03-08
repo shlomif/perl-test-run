@@ -457,7 +457,7 @@ sub _is_event_todo
 
 =head2 $strap->analyze_fh()
 
-Analyzes a TAP stream based on the already opened $self->_file_handle().
+Analyzes a TAP stream based on the TAP::Parser from $self->_create_parser().
 
 =cut
 
