@@ -31,7 +31,6 @@ my @fields= (qw(
     error
     exception
     file
-    _file_handle
     _file_totals
     _is_macos
     _is_vms
@@ -371,14 +370,43 @@ sub _analyze_with_parser
     return $self->_file_totals();
 }
 
+sub _get_command_and_switches
+{
+    my $self = shift;
+
+    return [$self->_command(), @{$self->_switches()}];
+}
+
+sub _get_full_exec_command
+{
+    my $self = shift;
+
+    return [ @{$self->_get_command_and_switches()}, $self->file()];
+}
+
+sub _command_line
+{
+    my $self = shift;
+
+    return join(" ", @{$self->_get_full_exec_command()});
+}
+
 sub _create_parser
 {
-    my ($self, $source) = @_;
-    return TAP::Parser->new(
+    my $self = shift;
+
+    local $ENV{PERL5LIB} = $self->_INC2PERL5LIB;
+    $self->_invoke_cb({type => "report_start_env"});
+
+    my $ret = TAP::Parser->new(
             {
-                source => $source,
+                exec => $self->_get_full_exec_command(),
             }
         );
+
+     $self->_restore_PERL5LIB();
+
+     return $ret;
 }
 
 =head2 my $results = $self->analyze( $name, \@output_lines)
@@ -437,7 +465,7 @@ sub analyze_fh
 {
     my $self = shift;
 
-    $self->_parser($self->_create_parser($self->_file_handle()));
+    $self->_parser($self->_create_parser());
 
     return $self->_analyze_with_parser();
 }
@@ -536,6 +564,23 @@ sub _trim
     return ($s);
 }
 
+sub _split_switches
+{
+    my $self = shift;
+    my $switches = shift;
+
+    return 
+    [ 
+        map
+        { my $s = $_; $s =~ s{\A"(.*)"\z}{$1}; $s } 
+        map
+        { split(/\s+/, $_) }
+        grep
+        { defined($_) }
+        @$switches
+    ];
+}
+
 sub _cleaned_switches
 {
     my ($self, $switches) = @_;
@@ -545,7 +590,9 @@ sub _cleaned_switches
 
 sub _get_shebang
 {
-    my($self, $file) = @_;
+    my($self) = @_;
+
+    my $file = $self->file();
 
     my $test_fh;
     if (!open($test_fh, $file))

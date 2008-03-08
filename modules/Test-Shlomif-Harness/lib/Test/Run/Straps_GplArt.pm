@@ -75,6 +75,8 @@ results.  It will also use that name for the total report.
 
 =cut
 
+=begin Nothing
+
 sub _get_analysis_file_handle
 {
     my($self) = @_;
@@ -115,14 +117,21 @@ sub _get_analysis_file_handle
     return $self->_file_handle($file_handle);
 }
 
+=end Nothing
+
+=cut
+
 sub _cleanup_analysis
 {
     my ($self) = @_;
 
     my $results = $self->results();
 
+=for Nothing
     close ($self->_file_handle());
     $self->_file_handle(undef);
+
+=cut
 
     if ($self->exception() ne "")
     {
@@ -148,9 +157,6 @@ sub analyze_file
     # Assign it here so it won't be passed around.
     $self->file($file);
 
-    $self->_get_analysis_file_handle()
-        or return;
-
     $self->_analyze_fh_wrapper();
 
     $self->_cleanup_analysis();
@@ -158,11 +164,13 @@ sub analyze_file
     return $self->results();
 }
 
+=begin Nothing
+
 =head2 $strap->_command_line( $file )
 
 Returns the full command line that will be run to test I<$file>.
 
-=cut
+
 
 sub _command_line {
     my $self = shift;
@@ -177,6 +185,9 @@ sub _command_line {
     return $line;
 }
 
+=end Nothing
+
+=cut
 
 =head2 $strap->_switches( $file )
 
@@ -185,13 +196,13 @@ Formats and returns the switches necessary to run the test.
 =cut
 
 sub _switches {
-    my($self, $file) = @_;
+    my($self) = @_;
 
     # my @existing_switches = $self->_cleaned_switches( $Test::Run::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
-    my @existing_switches = @{$self->_cleaned_switches( [$self->Switches(), $self->Switches_Env()] )};
+    my @existing_switches = @{$self->_cleaned_switches( $self->_split_switches([$self->Switches(), $self->Switches_Env()] ))};
     my @derived_switches;
 
-    my $shebang = $self->_get_shebang($file);
+    my $shebang = $self->_get_shebang();
 
     my $taint = ( $shebang =~ /^#!.*\bperl.*\s-\w*([Tt]+)/ );
     push( @derived_switches, "-$1" ) if $taint;
@@ -204,13 +215,7 @@ sub _switches {
         push @derived_switches, map { "-I$_" } @inc;
     }
 
-    # Quote the argument if there's any whitespace in it, or if
-    # we're VMS, since VMS requires all parms quoted.  Also, don't quote
-    # it if it's already quoted.
-    for ( @derived_switches ) {
-        $_ = qq["$_"] if ((/\s/ || $self->_is_vms()) && !/^".*"$/ );
-    }
-    return join( " ", @existing_switches, @derived_switches );
+    return [@existing_switches, @derived_switches];
 }
 
 =head1 Parsing

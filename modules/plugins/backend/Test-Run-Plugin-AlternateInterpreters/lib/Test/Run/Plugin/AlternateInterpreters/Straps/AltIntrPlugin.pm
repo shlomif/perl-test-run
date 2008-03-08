@@ -1,28 +1,27 @@
-package Test::Run::Plugin::AlternateInterpreters;
+package Test::Run::Plugin::AlternateInterpreters::Straps::AltIntrPlugin;
 
-use warnings;
 use strict;
-
-use NEXT;
-
-use base 'Test::Run::Base';
-use base 'Class::Accessor';
+use warnings;
 
 =head1 NAME
 
-Test::Run::Plugin::AlternateInterpreters - Define different interpreters for different test scripts with Test::Run.
+Test::Run::Plugin::AlternateInterpreters::Straps::AltIntrPlugin - a plugin
+for Test::Run::Straps to handle the alternative interpreters.
 
-=head1 VERSION
+=head1 DESCRIPTION
 
-Version 0.0104
+This is a plugin for Test::Run::Straps to handle the alternative 
+interpreters.
 
 =cut
 
-our $VERSION = '0.0104';
+use base 'Test::Run::Base';
+
+use NEXT;
 
 __PACKAGE__->mk_accessors(qw(
     alternate_interpreters
-));
+    ));
 
 sub _get_private_simple_params
 {
@@ -30,40 +29,31 @@ sub _get_private_simple_params
     return [qw(alternate_interpreters)];
 }
 
-=head1 SYNOPSIS
-
-    package MyTestRun;
-
-    use base 'Test::Run::Plugin::AlternateInterpreters';
-    use base 'Test::Run::Obj';
-
-=head1 FUNCTIONS
-
-=cut
-
-
-sub _init_strap
-{
-    my ($self, $args) = @_;
-    $self->NEXT::_init_strap($args);
-
-    $self->Strap()->alternate_interpreters($self->alternate_interpreters());
-
-    return;
-}
-
-=head2 $self->private_straps_plugins()
-
-Returns the L<Test::Run::Straps> plugins required by this (L<Test::Run::Obj>)
-plugin to be loaded along with it.
-
-=cut
-
-sub private_straps_plugins
+sub _get_command_and_switches
 {
     my $self = shift;
 
-    return [ "Test::Run::Plugin::AlternateInterpreters::Straps::AltIntrPlugin" ];
+    my $test_file = $self->file();
+    
+    if (defined(my $interpreters_ref = $self->alternate_interpreters()))
+    {
+        foreach my $i_ref (@$interpreters_ref)
+        {
+            if ($self->_does_interpreter_match($i_ref, $test_file))
+            {
+                return [split(/\s+/, $i_ref->{'cmd'})];
+            }
+        }
+    }
+    return $self->NEXT::_get_command_and_switches();
+}
+
+sub _does_interpreter_match
+{
+    my ($self, $i_ref, $test_file) = @_;
+
+    my $pattern = $i_ref->{pattern};
+    return ($test_file =~ m{$pattern});
 }
 
 =head1 AUTHOR
@@ -125,4 +115,5 @@ This program is released under the following license: MIT X11.
 
 =cut
 
-1; # End of Test::Run::Plugin::AlternateInterpreters
+1;
+

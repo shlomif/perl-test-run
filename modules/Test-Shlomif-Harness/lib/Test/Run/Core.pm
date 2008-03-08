@@ -108,7 +108,12 @@ sub _get_new_strap
 {
     my $self = shift;
 
-    return Test::Run::Straps->new({});
+    return $self->create_pluggable_helper_obj(
+        {
+            id => "straps",
+            args => {},
+        }
+    );
 }
 
 sub _initialize
@@ -121,8 +126,13 @@ sub _initialize
     $self->Switches("-w");
     $self->_init_simple_params($args);
     $self->dir_files([]);
-    $self->Strap(
-        $self->_get_new_strap($args),
+
+    $self->register_pluggable_helper(
+        {
+            id => "straps",
+            base => "Test::Run::Straps",
+            collect_plugins_method => "private_straps_plugins",
+        },
     );
 
     $self->register_pluggable_helper(
@@ -162,6 +172,9 @@ sub _initialize
         "Failed %(_get_fail_test_scripts_string)s%(_get_fail_tests_good_percent_string)s.%(_get_sub_percent_msg)s\n"
     );
 
+    $self->Strap(
+        $self->_get_new_strap($args),
+    );
 
     return 0;
 }
