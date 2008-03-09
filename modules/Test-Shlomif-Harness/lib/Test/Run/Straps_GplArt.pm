@@ -65,16 +65,6 @@ sub _handle_enormous_event_num
     }
 }
 
-
-=head2 $strap->analyze_file( $test_file )
-
-    my %results = $strap->analyze_file($test_file);
-
-Like C<analyze>, but it runs the given C<$test_file> and parses its
-results.  It will also use that name for the total report.
-
-=cut
-
 sub _cleanup_analysis
 {
     my ($self) = @_;
@@ -98,19 +88,6 @@ sub _cleanup_analysis
     return;
 }
 
-sub analyze_file
-{
-    my ($self, $file) = @_;
-
-    # Assign it here so it won't be passed around.
-    $self->file($file);
-
-    $self->_analyze_fh_wrapper();
-
-    $self->_cleanup_analysis();
-
-    return $self->results();
-}
 
 =head1 Parsing
 

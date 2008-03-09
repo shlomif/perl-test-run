@@ -483,6 +483,27 @@ sub _analyze_fh_wrapper
     return;
 }
 
+=head2 $strap->analyze_file($filename)
+
+Runs and analyzes the program file C<$filename>. It will also use it
+as the name in the final report.
+
+=cut
+
+sub analyze_file
+{
+    my ($self, $file) = @_;
+
+    # Assign it here so it won't be passed around.
+    $self->file($file);
+
+    $self->_analyze_fh_wrapper();
+
+    $self->_cleanup_analysis();
+
+    return $self->results();
+}
+
 sub _default_inc
 {
     my $self = shift;
