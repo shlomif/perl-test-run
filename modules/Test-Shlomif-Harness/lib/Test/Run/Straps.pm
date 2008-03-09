@@ -544,7 +544,7 @@ sub _filtered_INC
     return \@inc;
 }
 
-=head2 [@filtered] = $strap->_cleaned_switches(\@switches)
+=head2 [@filtered] = $strap->_clean_switches(\@switches)
 
 Returns trimmed and blank-filtered switches from the user.
 
@@ -581,7 +581,7 @@ sub _split_switches
     ];
 }
 
-sub _cleaned_switches
+sub _clean_switches
 {
     my ($self, $switches) = @_;
 
@@ -726,6 +726,64 @@ sub _reset_file_state
     }
 
     return;
+}
+
+sub _calc_existing_switches
+{
+    my $self = shift;
+
+    return $self->_clean_switches( 
+        $self->_split_switches(
+            [$self->Switches(), $self->Switches_Env()] 
+        )
+    );
+}
+
+sub _calc_taint_flag
+{
+    my $self = shift;
+
+    my $shebang = $self->_get_shebang();
+
+    if ($shebang =~ m{^#!.*\bperl.*\s-\w*([Tt]+)})
+    {
+        return ($1);
+    }
+    else
+    {
+        return;
+    }
+}
+
+sub _calc_derived_switches
+{
+    my $self = shift;
+
+    if (my ($t) = $self->_calc_taint_flag())
+    {
+        return ["-$t", map { "-I$_" } @{$self->_filtered_INC()}];
+    }
+    else
+    {
+        return [];
+    }
+}
+
+=head2 $self->_switches()
+
+Calculates and returns the switches necessary to run the test.
+
+=cut
+
+sub _switches
+{
+    my $self = shift;
+
+    return
+    [
+        @{$self->_calc_existing_switches()},
+        @{$self->_calc_derived_switches()},
+    ];
 }
 
 =head2 local $ENV{PERL5LIB} = $self->_INC2PERL5LIB()

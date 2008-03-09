@@ -112,35 +112,6 @@ sub analyze_file
     return $self->results();
 }
 
-=head2 $strap->_switches( $file )
-
-Formats and returns the switches necessary to run the test.
-
-=cut
-
-sub _switches {
-    my($self) = @_;
-
-    # my @existing_switches = $self->_cleaned_switches( $Test::Run::Obj::Switches, $ENV{HARNESS_PERL_SWITCHES} );
-    my @existing_switches = @{$self->_cleaned_switches( $self->_split_switches([$self->Switches(), $self->Switches_Env()] ))};
-    my @derived_switches;
-
-    my $shebang = $self->_get_shebang();
-
-    my $taint = ( $shebang =~ /^#!.*\bperl.*\s-\w*([Tt]+)/ );
-    push( @derived_switches, "-$1" ) if $taint;
-
-    # When taint mode is on, PERL5LIB is ignored.  So we need to put
-    # all that on the command line as -Is.
-    # MacPerl's putenv is broken, so it will not see PERL5LIB, tainted or not.
-    if ( $taint || $self->_is_macos() ) {
-        my @inc = @{$self->_filtered_INC};
-        push @derived_switches, map { "-I$_" } @inc;
-    }
-
-    return [@existing_switches, @derived_switches];
-}
-
 =head1 Parsing
 
 Methods for identifying what sort of line you're looking at.
