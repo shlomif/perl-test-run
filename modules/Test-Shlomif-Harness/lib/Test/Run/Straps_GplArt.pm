@@ -51,20 +51,6 @@ comments.
 
 =cut
 
-
-
-sub _handle_enormous_event_num
-{
-    my $self = shift;
-
-    if ( !$self->too_many_tests() )
-    {
-        warn "Enormous test number seen [test ", $self->_event->number, "]\n";
-        warn "Can't detailize, too big.\n";
-        $self->too_many_tests(1);
-    }
-}
-
 sub _cleanup_analysis
 {
     my ($self) = @_;

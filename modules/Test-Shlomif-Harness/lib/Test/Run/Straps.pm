@@ -226,6 +226,29 @@ sub _handle_labeled_test_event
     return;
 }
 
+sub _on_first_too_many_tests
+{
+    my $self = shift;
+
+    warn "Enormous test number seen [test ", $self->_event->number(), "]\n";
+    warn "Can't detailize, too big.\n"; 
+
+    return;
+}
+
+sub _handle_enormous_event_num
+{
+    my $self = shift;
+
+    if (! $self->too_many_tests())
+    {
+        $self->_on_first_too_many_tests();
+        $self->too_many_tests(1);
+    }
+
+    return;
+}
+
 sub _handle_test_event
 {
     my $self = shift;
