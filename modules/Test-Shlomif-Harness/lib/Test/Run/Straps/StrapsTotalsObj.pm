@@ -421,6 +421,24 @@ sub in_the_middle
     return ($self->seen() && ($self->seen() > $self->max()));
 }
 
+sub _wait2exit_POSIX
+{
+    my ($self, $wait) = @_;
+
+    return POSIX::WEXITSTATUS($wait);
+}
+
+sub _wait2exit_no_POSIX
+{
+    my ($self, $wait) = @_;
+
+    return ($wait >> 8);
+}
+
+eval { require POSIX; POSIX::WEXITSTATUS($?); };
+
+*_wait2exit = ($@ ? \&_wait2exit_no_POSIX : \&_wait2exit_POSIX);
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.

@@ -64,7 +64,7 @@ sub _cleanup_analysis
         eval q{use vmsish "status"; $results->exit($?)};
     }
     else {
-        $results->exit($self->_wait2exit($?));
+        $results->exit($results->_wait2exit($?));
     }
     $results->passing(0) unless $? == 0;
 

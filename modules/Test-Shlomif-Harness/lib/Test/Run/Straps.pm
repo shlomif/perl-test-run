@@ -858,23 +858,6 @@ sub _INC2PERL5LIB
     return join($Config{path_sep}, @{$self->_filtered_INC()});
 }
 
-sub _wait2exit_POSIX
-{
-    my ($self, $wait) = @_;
-
-    return POSIX::WEXITSTATUS($wait);
-}
-
-sub _wait2exit_no_POSIX
-{
-    my ($self, $wait) = @_;
-
-    return ($wait >> 8);
-}
-
-eval { require POSIX; POSIX::WEXITSTATUS($?); };
-
-*_wait2exit = ($@ ? \&_wait2exit_no_POSIX : \&_wait2exit_POSIX);
 
 1;
 
