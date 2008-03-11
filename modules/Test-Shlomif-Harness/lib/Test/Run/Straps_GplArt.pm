@@ -55,12 +55,9 @@ sub _cleanup_analysis
 {
     my ($self) = @_;
 
-    my $results = $self->results();
+    $self->_throw_trapped_exception();
 
-    if ($self->exception() ne "")
-    {
-        die $self->exception();
-    }
+    my $results = $self->results();
 
     $results->wait($?);
     if( $? && $self->_is_vms() ) {

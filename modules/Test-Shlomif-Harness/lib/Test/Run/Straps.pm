@@ -506,6 +506,18 @@ sub _analyze_fh_wrapper
     return;
 }
 
+sub _throw_trapped_exception
+{
+    my $self = shift;
+
+    if ($self->exception() ne "")
+    {
+        die $self->exception();
+    }
+
+    return;
+}
+
 =head2 $strap->analyze_file($filename)
 
 Runs and analyzes the program file C<$filename>. It will also use it
