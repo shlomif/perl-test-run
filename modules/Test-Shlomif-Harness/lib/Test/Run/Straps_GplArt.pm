@@ -51,25 +51,6 @@ comments.
 
 =cut
 
-sub _cleanup_analysis
-{
-    my ($self) = @_;
-
-    $self->_throw_trapped_exception();
-
-    my $results = $self->results();
-
-    $results->wait($?);
-    if( $? && $self->_is_vms() ) {
-        eval q{use vmsish "status"; $results->exit($?)};
-    }
-    else {
-        $results->exit($results->_wait2exit($?));
-    }
-    $results->passing(0) unless $? == 0;
-
-    return;
-}
 
 
 =head1 Parsing

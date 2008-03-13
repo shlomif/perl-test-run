@@ -22,6 +22,7 @@ use vars qw(@fields);
 
 @fields = (qw(
     _event
+    _is_vms
 ));
 
 sub _get_private_fields

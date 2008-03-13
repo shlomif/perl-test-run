@@ -33,7 +33,6 @@ my @fields= (qw(
     file
     _file_totals
     _is_macos
-    _is_vms
     _is_win32
     last_test_print
     next
@@ -468,6 +467,7 @@ sub _get_initial_totals_obj_params
         (map { $_ => 0 } qw(max seen ok todo skip bonus)),
         filename => $self->file(),
         details => [],
+        _is_vms => $self->_is_vms(),
     };
 }
 
@@ -514,6 +514,17 @@ sub _throw_trapped_exception
     {
         die $self->exception();
     }
+
+    return;
+}
+
+sub _cleanup_analysis
+{
+    my ($self) = @_;
+
+    $self->_throw_trapped_exception();
+
+    $self->results()->_calc_all_process_status();
 
     return;
 }

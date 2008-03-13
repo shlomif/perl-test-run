@@ -439,6 +439,31 @@ eval { require POSIX; POSIX::WEXITSTATUS($?); };
 
 *_wait2exit = ($@ ? \&_wait2exit_no_POSIX : \&_wait2exit_POSIX);
 
+sub _calc_all_process_status
+{
+    my $self = shift;
+
+    # TODO - factor out the code.
+    $self->wait($?);
+
+    if ($self->wait() && $self->_is_vms())
+    {
+        eval q{use vmsish "status"; $self->exit($?);};
+    }
+    else
+    {
+        $self->exit($self->_wait2exit($self->wait()));
+    }
+    # It is possible $? is set agains because of the use vmsish
+    # call.
+    if ($? != 0)
+    {
+        $self->passing(0);
+    }
+
+    return;
+}
+
 =head2 $self->bonus()
 
 Number of TODO tests that unexpectedly passed.
