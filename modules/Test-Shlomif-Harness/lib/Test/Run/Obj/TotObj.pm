@@ -183,6 +183,12 @@ sub _normalize_cond
     return ($cond ? 1 : 0);
 }
 
+=head2 $self->fail_test_scripts_string()
+
+Internal use.
+
+=cut
+
 sub fail_test_scripts_string
 {
     my $self = shift;
@@ -323,6 +329,12 @@ sub _get_subtests_bonusmsg
     return ($self->bonus() ? $self->_get_positive_bonusmsg() : "");
 }
 
+=head2 $self->get_bonusmsg()
+
+Internal use.
+
+=cut
+
 sub get_bonusmsg
 {
     my $self = shift;
@@ -344,6 +356,12 @@ sub _not_ok
     return $self->max() - $self->ok();
 }
 
+=head2 $self->get_sub_percent_msg()
+
+Internal use.
+
+=cut
+
 sub get_sub_percent_msg
 {
     my $self = shift;
@@ -353,6 +371,12 @@ sub get_sub_percent_msg
     );
 }
 
+=head2 $self->good_percent_msg()
+
+Internal use.
+
+=cut
+
 sub good_percent_msg
 {
     my $self = shift;
@@ -361,6 +385,12 @@ sub good_percent_msg
         "good_percent_msg",
     );
 }
+
+=head2 $self->fail_tests_good_percent_string()
+
+Internal use.
+
+=cut
 
 sub fail_tests_good_percent_string
 {
