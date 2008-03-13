@@ -19,7 +19,6 @@ use File::Spec;
 use Test::Run::Assert;
 use Test::Run::Obj::Error;
 use Test::Run::Straps;
-use Test::Run::Output;
 
 =head1 NAME
 
