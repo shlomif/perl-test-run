@@ -1,8 +1,3 @@
-* Fix the confusing output of t/sample-tests/too_many2.
-    - see prove vs. runprove.
-
-* Test the plug-in system in T::R::CL.
-
 * Update the documentation - currently it's mostly updated only to 
 Test::Harness.
 
@@ -10,40 +5,16 @@ Test::Harness.
 
 * Add a registry for the classes of the helper objects.
 
-* Add a way to accumulate a list from all classes without SUPER:: and
-NEXT:: games:
-
-    package Foo;
-
-    sub _my_params
-    {
-        return ["FooA", "FooB"];
-    }
-
-    package Bar;
-
-    sub _my_params
-    {
-        return ["BarC", "BarD"];
-    }
-
-    package Total;
-
-    use base 'Foo';
-    use base 'Bar';
-
-    # The paramaters are now FooA, FooB, BarC, and BarD.
-
 * Implement a plugin system for the helper objects.
-
-* Add the Test::Run module with some information on how to get started
-with Test::Run.
 
 * Add examples for Test::Run (not T::R::CL) under examples/ in the T::R (core)
 distribution.
 
 Bugs:
 -----
+
+* Fix the confusing output of t/sample-tests/too_many2.
+    - see prove vs. runprove.
 
 * Deal with the bug as encountered in Parrot.
 
