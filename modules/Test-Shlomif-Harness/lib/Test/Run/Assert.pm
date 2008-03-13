@@ -23,6 +23,12 @@ B<This module is only for internal use>.
 
     assert ( EXPR , $name );
 
+=head1 EXPORTS
+
+=head2 assert($condition, $name)
+
+If condition is false - croak with the description $name.
+
 =cut
 
 sub assert($;$)

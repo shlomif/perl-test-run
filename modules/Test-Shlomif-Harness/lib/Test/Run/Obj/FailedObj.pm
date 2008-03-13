@@ -99,12 +99,24 @@ sub _assign_canon_strings
     );
 }
 
+=head2 $self->first_canon_string()
+
+The first of the canon_strings(). (With index 0).
+
+=cut
+
 sub first_canon_string
 {
     my $self = shift;
 
     return $self->canon_strings()->[0];
 }
+
+=head2 $self->rest_of_canons()
+
+An array reference containing all the canons except the 0th.
+
+=cut
 
 sub rest_of_canons
 {

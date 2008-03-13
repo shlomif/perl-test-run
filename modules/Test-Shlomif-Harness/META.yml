@@ -50,6 +50,10 @@ provides:
     file: lib/Test/Run/Obj/CanonFailedObj.pm
   Test::Run::Obj::Error:
     file: lib/Test/Run/Obj/Error.pm
+  Test::Run::Obj::Error::Straps:
+    file: lib/Test/Run/Obj/Error.pm
+  Test::Run::Obj::Error::Straps::CannotRunPerl:
+    file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::Error::TestsFail:
     file: lib/Test/Run/Obj/Error.pm
   Test::Run::Obj::Error::TestsFail::Bailout:

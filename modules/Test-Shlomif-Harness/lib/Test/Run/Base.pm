@@ -3,6 +3,19 @@ package Test::Run::Base;
 use strict;
 use warnings;
 
+=head1 NAME
+
+Test::Run::Base - base class for all of Test::Run.
+
+=head1 DESCRIPTION
+
+This is the base class for all Test::Run classes. It inherits from
+L<Class::Accessor> and provides some goodies of its own.
+
+=head1 METHODS
+
+=cut
+
 use base 'Class::Accessor';
 
 use Text::Sprintf::Named;
@@ -13,6 +26,15 @@ use Test::Run::Class::Hierarchy (qw(hierarchy_of rev_hierarchy_of));
 __PACKAGE__->mk_accessors(qw(
     _formatters
 ));
+
+=head2 $package->new({%args})
+
+The default constructor. Do not over-ride it. Instead over-ride
+L<_initialize()>, which accepts the same arguments on an already constructed
+and blessed object reference. It would probably be re-named to _init()
+soon.
+
+=cut
 
 sub new
 {
@@ -105,10 +127,14 @@ sub _format_self
     return $self->_format($format, { obj => $self, %{$args}});
 }
 
-# This is a more simplistic version of the :CUMULATIVE functionality
-# in Class::Std. It was done to make sure that one can collect all the
-# members of array refs out of methods defined in each class into one big 
-# array ref, that can later be used.
+=head2 $self->accum_array({ method => $method_name })
+
+This is a more simplistic version of the :CUMULATIVE functionality
+in Class::Std. It was done to make sure that one can collect all the
+members of array refs out of methods defined in each class into one big 
+array ref, that can later be used.
+
+=cut
 
 sub accum_array
 {

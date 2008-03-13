@@ -14,8 +14,6 @@ harmess.
 
 =head1 METHODS
 
-=over 4
-
 =cut
 
 sub _initialize
@@ -36,6 +34,13 @@ sub _print_message_raw
     print $msg;
 }
 
+
+=head2 $self->print_message($msg)
+
+Emits $msg followed by a newline.
+
+=cut
+
 sub print_message
 {
     my ($self, $msg) = @_;
@@ -52,6 +57,12 @@ sub _newline
     $self->_print_message_raw("\n");
 }
 
+=head2 $self->print_ml($msg)
+
+If ml() is defined, print it and $msg. If not - do nothing.
+
+=cut
+
 sub print_ml
 {
     my ($self, $msg) = @_;
@@ -60,7 +71,15 @@ sub print_ml
     {
         $self->_print_message_raw($self->ml . $msg);
     }
+
+    return;
 }
+
+=head2 $self->print_leader({filename => $filename, width => $width})
+
+Prints the file leader for $filename and $width.
+
+=cut
 
 sub print_leader
 {
@@ -73,6 +92,12 @@ sub print_leader
         )
     );
 }
+
+=head2 $self->print_ml_less($msg)
+
+Calls print_ml() with $msg every second or less.
+
+=cut
 
 # Print updates only once per second.
 sub print_ml_less
@@ -134,7 +159,7 @@ sub _mk_leader__calc_ml
     }
 }
 
-=item B<_mk_leader>
+=head2 B<_mk_leader>
 
   my($leader, $ml) = $self->_mk_leader($test_file, $width);
 
@@ -164,13 +189,19 @@ sub _mk_leader
     return $leader;
 }
 
-=back
+=head1 AUTHOR
+
+Shlomi Fish, L<http://www.shlomifish.org/>
 
 =head1 LICENSE
 
 This file is licensed under the MIT X11 License:
 
 http://www.opensource.org/licenses/mit-license.php
+
+=head1 SEE ALSO
+
+L<Test::Run::Obj>, L<Test::Run::Core>, L<Test::Run::Plugin::CmdLine::Output>.
 
 =cut
 

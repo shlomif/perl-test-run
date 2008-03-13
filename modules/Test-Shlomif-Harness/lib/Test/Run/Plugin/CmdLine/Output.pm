@@ -9,6 +9,8 @@ use NEXT;
 
 use base 'Test::Run::Base';
 
+use Test::Run::Output;
+
 =head1 NAME
 
 Test::Run::Plugin::CmdLine::Output - the default output plugin for

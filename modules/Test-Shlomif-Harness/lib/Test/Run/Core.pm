@@ -19,7 +19,6 @@ use File::Spec;
 use Test::Run::Assert;
 use Test::Run::Obj::Error;
 use Test::Run::Straps;
-use Test::Run::Output;
 
 =head1 NAME
 
@@ -178,6 +177,12 @@ sub _initialize
 
     return 0;
 }
+
+=head2 $self->helpers_base_namespace()
+
+See L<Test::Run::Base::PlugHelpers>.
+
+=cut
 
 sub helpers_base_namespace
 {
@@ -874,7 +879,7 @@ sub _canonfailed
 }
 
 
-sub filter_failed
+sub _filter_failed
 {
     my ($self, $failed_ref) = @_;
     return [ List::MoreUtils::uniq(sort { $a <=> $b } @$failed_ref) ];
@@ -884,7 +889,7 @@ sub _canonfailed_get_failed
 {
     my $self = shift;
 
-    return $self->filter_failed($self->_get_failed_list());
+    return $self->_filter_failed($self->_get_failed_list());
 }
 
 =head2 $self->_calc_test_struct_ml($results)
@@ -1467,7 +1472,7 @@ sub _prepare_run_all_tests
 }
 
 # FWRS == failed_with_results_seen
-sub get_common_FWRS_params
+sub _get_common_FWRS_params
 {
     my $self = shift;
 
@@ -1487,7 +1492,7 @@ sub _get_failed_with_results_seen_params
 
     return 
         {
-            @{$self->get_common_FWRS_params()},
+            @{$self->_get_common_FWRS_params()},
             @{$self->_get_FWRS_tests_existence_params()},
         }
 }

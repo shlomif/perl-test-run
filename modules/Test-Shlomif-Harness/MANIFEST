@@ -55,6 +55,7 @@ TODO
 t/ok.t
 t/output.t
 t/pluggable-helpers.t
+t/pod-coverage.t
 t/pod.t
 t/sample-tests/bailout
 t/sample-tests/bignum

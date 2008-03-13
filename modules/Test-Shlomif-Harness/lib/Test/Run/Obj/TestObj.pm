@@ -85,7 +85,7 @@ sub _initialize
     return 0;
 }
 
-=head1 $self->add_to_failed(@failures)
+=head2 $self->add_to_failed(@failures)
 
 Add failures to the failed() slot.
 
@@ -119,12 +119,24 @@ sub get_reason
         ;
 }
 
+=head2 $self->num_failed()
+
+Returns the number of failed tests.
+
+=cut
+
 sub num_failed
 {
     my $self = shift;
 
     return scalar(@{$self->failed()});
 }
+
+=head2 $self->calc_percent()
+
+Calculates the percent of failed tests.
+
+=cut
 
 sub calc_percent
 {
@@ -133,12 +145,24 @@ sub calc_percent
     return ( (100*$self->num_failed()) / $self->max() );
 }
 
+=head2 $self->add_next_to_failed()
+
+Adds the tests from ->next() to ->max() to the list of failed tests.
+
+=cut
+
 sub add_next_to_failed
 {
     my $self = shift;
 
     return $self->add_to_failed($self->next() .. $self->max());
 }
+
+=head2 $self->is_failed_and_max()
+
+Returns if there are failed tests B<and> the maximal test number was set.
+
+=cut
 
 sub is_failed_and_max
 {
@@ -153,6 +177,12 @@ sub _get_dont_know_which_tests_failed_msg
 
     return $self->_format_self("dont_know_which_tests_failed");
 }
+
+=head2 $self->skipped_or_bonus()
+
+Returns whether the test file is either skipped() or bonus().
+
+=cut
 
 sub skipped_or_bonus
 {
