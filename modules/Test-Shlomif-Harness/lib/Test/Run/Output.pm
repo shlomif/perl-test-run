@@ -159,7 +159,7 @@ sub _mk_leader__calc_ml
     }
 }
 
-=item B<_mk_leader>
+=head2 B<_mk_leader>
 
   my($leader, $ml) = $self->_mk_leader($test_file, $width);
 
@@ -188,8 +188,6 @@ sub _mk_leader
 
     return $leader;
 }
-
-=back
 
 =head1 AUTHOR
 
