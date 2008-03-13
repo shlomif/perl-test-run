@@ -81,6 +81,12 @@ sub register_pluggable_helper
     return;
 }
 
+=head2 $self->calc_helpers_namespace($id)
+
+Calc the namespace to put the helper with the ID C<$id> in.
+
+=cut
+
 sub calc_helpers_namespace
 {
     my ($self, $id) = @_;

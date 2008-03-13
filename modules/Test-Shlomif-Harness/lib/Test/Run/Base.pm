@@ -105,10 +105,14 @@ sub _format_self
     return $self->_format($format, { obj => $self, %{$args}});
 }
 
-# This is a more simplistic version of the :CUMULATIVE functionality
-# in Class::Std. It was done to make sure that one can collect all the
-# members of array refs out of methods defined in each class into one big 
-# array ref, that can later be used.
+=head2 $self->accum_array({ method => $method_name })
+
+This is a more simplistic version of the :CUMULATIVE functionality
+in Class::Std. It was done to make sure that one can collect all the
+members of array refs out of methods defined in each class into one big 
+array ref, that can later be used.
+
+=cut
 
 sub accum_array
 {
