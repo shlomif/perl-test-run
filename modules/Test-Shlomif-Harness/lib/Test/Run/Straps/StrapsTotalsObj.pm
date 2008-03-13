@@ -251,7 +251,7 @@ sub _inc_seen
     $self->inc_field('seen');
 }
 
-=head2 $self->_handle_event({event => $event, enormous_num_cb => sub {...}});
+=head2 $self->handle_event({event => $event, enormous_num_cb => sub {...}});
 
 Updates the state of the details using a new TAP::Parser event - $event .
 C<enormous_num_cb> points to a subroutine reference that is the callback for
