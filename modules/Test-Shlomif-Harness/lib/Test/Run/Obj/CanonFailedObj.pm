@@ -3,6 +3,17 @@ package Test::Run::Obj::CanonFailedObj;
 use strict;
 use warnings;
 
+# TODO
+# Refactor the hell out of this module.
+
+=head1 NAME
+
+Test::Run::Obj::CanonFailedObj - the failed tests canon object.
+
+=head1 METHODS
+
+=cut
+
 use base 'Test::Run::Base::Struct';
 
 use vars qw(@fields);
@@ -30,18 +41,18 @@ sub _initialize
     return 0;
 }
 
-=head2 $self->add_result($result)
-
-Pushes $result to the result() slot.
-
-=cut
-
 sub _get_more_results
 {
     my $self = shift;
 
     return $self->_more_results();
 }
+
+=head2 $self->add_result($result)
+
+Pushes $result to the result() slot.
+
+=cut
 
 sub add_result
 {
@@ -154,12 +165,24 @@ sub _calc_skipped_percent
         ;
 }
 
+=head2 $self->good()
+
+Returns the number of good (non failing or skipped) tests.
+
+=cut
+
 sub good
 {
     my ($self, $test) = @_;
 
     return $test->max() - $self->failed_num() - $test->skipped();
 }
+
+=head2 $self->add_Failed_and_skipped($test)
+
+Adds a test as both failed and skipped.
+
+=cut
 
 sub add_Failed_and_skipped
 {
@@ -171,6 +194,12 @@ sub add_Failed_and_skipped
     return;
 }
 
+=head2 $self->canon_list()
+
+Returns the the failed tests as a list of ranges.
+
+=cut
+
 sub canon_list
 {
     my $self = shift;
@@ -178,7 +207,7 @@ sub canon_list
     return (@{$self->failed()} == 1) 
         ? [ @{$self->failed()} ]
         : $self->_get_canon_ranges()
-        ;
+       ;
 }
 
 sub _get_canon_ranges
@@ -210,6 +239,12 @@ sub _get_canon_ranges
     return \@ranges;
 }
 
+=head2 my $string = $self->canon()
+
+Returns the canon as a space-delimited string.
+
+=cut
+
 sub canon
 {
     my $self = shift;
@@ -238,12 +273,24 @@ sub _get_failed_string_line
     return $self->_get_failed_string() . "\n";
 }
 
+=head2 $self->result()
+
+The non-serialized result of the test.
+
+=cut
+
 sub result
 {
     my $self = shift;
 
     return [ $self->_get_failed_string_line(), @{$self->_get_more_results()} ];
 }
+
+=head2 $self->failed_num()
+
+Returns the number of failed tests.
+
+=cut
 
 sub failed_num
 {
@@ -264,6 +311,14 @@ Add a skipped test.
 This file is licensed under the MIT X11 License:
 
 http://www.opensource.org/licenses/mit-license.php
+
+=head1 AUTHOR
+
+Shlomi Fish, L<http://www.shlomifish.org/>
+
+=head1 SEE ALSO
+
+L<Test::Run::Obj>, L<Test::Run::Core>.
 
 =cut
 
