@@ -693,7 +693,11 @@ sub _command
 
     if (defined(my $interp = $self->Test_Interpreter()))
     {
-        return $interp;
+        return
+            +(ref($interp) eq "ARRAY")
+                ? (@$interp)
+                : (split(/\s+/, $interp))
+                ;
     }
     else
     {
