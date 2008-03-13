@@ -54,7 +54,7 @@ sub _initialize
     return 0;
 }
 
-=head1 $event->is_pass()
+=head2 $event->is_pass()
 
 Returns whether the event can be considered a passed event. Always returns a
 scalar boolean.
