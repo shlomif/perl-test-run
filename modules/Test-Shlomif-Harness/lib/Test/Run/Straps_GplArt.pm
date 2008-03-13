@@ -4,13 +4,18 @@ package Test::Run::Straps_GplArt;
 use strict;
 use warnings;
 
-use Test::Run::Base;
-
-use base 'Test::Run::Straps::Base';
-
 =head1 NAME
 
 Test::Run::Straps - detailed analysis of test results
+
+=head1 WARNING
+
+This module contains nothing but old (and possibly out of date) documentation. 
+All the code-wise functionality was moved to the MIT X11-licensed 
+L<Test::Run::Straps> and other modules.
+
+Don't use this module, but you may wish to consult its documentation for
+reference.
 
 =head1 SYNOPSIS
 
@@ -123,9 +128,8 @@ Artistic 1).
 
 =head1 SEE ALSO
 
-L<Test::Run>
+L<Test::Run> ,  L<Test::Run::Straps>
 
 =cut
-
 
 1;
