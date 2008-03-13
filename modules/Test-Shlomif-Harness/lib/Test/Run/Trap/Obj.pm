@@ -3,6 +3,30 @@ package Test::Run::Trap::Obj;
 use strict;
 use warnings;
 
+=head1 NAME
+
+Test::Run::Trap::Obj - wrapper around Test::Trap for trapping errors.
+
+=head1 SYNPOSIS
+
+    my $got = Test::Run::Trap::Obj->trap_run({
+        args => [test_files => ["t/sample-tests/simple"]]
+    });
+
+    $got->field_like("stdout", qr/All tests successful/,
+        "Everything is OK."
+    );
+    
+=head1 DESCRIPTION
+
+This class implements a wrapper around L<Test::Trap>. When an
+assertion files, the diagnostics prints all the relevant and trapped
+fields for easy debugging.
+
+=head1 METHODS
+
+=cut
+
 use base 'Test::Run::Base::Struct';
 
 use Test::More;
@@ -49,6 +73,13 @@ sub _stringify_value
     }
 }
 
+=head2 $trapper->diag_all()
+
+Calls L<Test::More>'s diag() with alll the trapped fields, like stdout,
+stderr, etc.
+
+=cut
+
 sub diag_all
 {
     my $self = shift;
@@ -68,6 +99,13 @@ sub diag_all
     );
 }
 
+=head2 $trapper->field_like($what, $regex, $message)
+
+A wrapper for L<Test::More>'s like(), that also emits more diagnostics
+on failure.
+
+=cut
+
 sub field_like
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -80,6 +118,12 @@ sub field_like
         $self->diag_all();
     }
 }
+
+=head2 $trapper->field_unlike($what, $regex, $msg)
+
+A wrapper for unlike().
+
+=cut
 
 sub field_unlike
 {
@@ -94,6 +138,11 @@ sub field_unlike
     }
 }
 
+=head2 $trapper->field_is($what, $expected, $msg)
+
+A wrapper for is().
+
+=cut
 
 sub field_is
 {
@@ -108,6 +157,12 @@ sub field_is
     }
 }
 
+=head2 $trapper->field_is_deeply($what, $expected, $msg)
+
+A wrapper for is_deeply().
+
+=cut
+
 sub field_is_deeply
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -121,6 +176,13 @@ sub field_is_deeply
     }
 }
 
+
+=head2 my $got = Test::Run::Trap::Obj->trap_run({class => $class, args => \@args, run_func => $func})
+
+Runs C<$class->$func()> with the arguments @args placed into a hash-ref,
+traps the results and returns a results object.
+
+=cut
 
 sub trap_run
 {
@@ -146,14 +208,18 @@ sub trap_run
 
 1;
 
-=head1 NAME
+=head1 AUTHOR
 
-Test::Run::Trap::Obj - Utility class for trapping output in testing.
+Shlomi Fish, L<http://www.shlomifish.org/>.
 
 =head1 LICENSE
 
 This file is licensed under the MIT X11 License:
 
 http://www.opensource.org/licenses/mit-license.php
+
+=head1 SEE ALSO
+
+L<Test::Trap> , L<Test::More> .
 
 =cut
