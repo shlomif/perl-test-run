@@ -1401,15 +1401,23 @@ sub _check_for_ok
 
 }
 
-sub _real_runtests
+sub _calc__real_runtests__callbacks
 {
     my $self = shift;
 
-    $self->_run_all_tests();
+    return
+    [qw(
+        _run_all_tests
+        _show_results
+        _check_for_ok
+    )];
+}
 
-    $self->_show_results();
+sub _real_runtests
+{
+    shift->_run_sequence();
 
-    $self->_check_for_ok();
+    return;
 }
 
 sub runtests
