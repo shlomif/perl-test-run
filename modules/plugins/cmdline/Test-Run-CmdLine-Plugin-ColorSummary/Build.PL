@@ -8,7 +8,7 @@ use Test::Run::Builder;
 
 my $builder = Test::Run::Builder->new(
     module_name         => 'Test::Run::CmdLine::Plugin::ColorSummary',
-    license             => 'bsd',
+    license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/Test/Run/CmdLine/Plugin/ColorSummary.pm',
     requires => {

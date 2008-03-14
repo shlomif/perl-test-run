@@ -29,7 +29,7 @@ my $build = Test::Run::Builder->new(
         'UNIVERSAL::require' => 0,
     },
     dist_version_from => "lib/Test/Run/Core.pm",
-    license => "perl",
+    license => "mit",
     create_makefile_pl => 'traditional',
 );
 

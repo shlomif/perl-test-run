@@ -7,7 +7,7 @@ use Test::Run::Builder;
 
 my $builder = Test::Run::Builder->new(
     module_name         => 'Test::Run::Plugin::FailSummaryComponents',
-    license             => 'bsd',
+    license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/Test/Run/Plugin/FailSummaryComponents.pm',
     build_requires =>
