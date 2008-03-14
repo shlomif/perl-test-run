@@ -159,7 +159,7 @@ sub _calc_skipped_percent
     my ($self, $test) = @_;
 
     return 
-        $test->max() 
+        $test->max()
             ? sprintf("%.2f", 100*($self->good($test)/$test->max()))
             : "?"
         ;

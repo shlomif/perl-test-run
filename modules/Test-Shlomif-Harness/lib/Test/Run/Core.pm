@@ -1389,21 +1389,27 @@ sub _process_test_file_results
     return;
 }
 
+sub _check_for_ok
+{
+    my $self = shift;
+
+    assert( ($self->_all_ok() xor keys(%{$self->failed_tests()})),
+            q{$ok is mutually exclusive with %$failed_tests}
+        );
+
+    return;
+
+}
+
 sub _real_runtests
 {
     my $self = shift;
 
-    my ($failed_tests) = $self->_run_all_tests();
+    $self->_run_all_tests();
 
     $self->_show_results();
 
-    my $ok = $self->_all_ok();
-
-    assert( ($ok xor keys(%$failed_tests)),
-            q{$ok is mutually exclusive with %$failed_tests}
-        );
-
-    return $ok;
+    $self->_check_for_ok();
 }
 
 sub runtests
@@ -1412,9 +1418,11 @@ sub runtests
 
     local ($\, $,);
 
-    my $ok = eval { $self->_real_runtests(@_) };
+    eval { $self->_real_runtests(@_) };
 
     my $error = $@;
+
+    my $ok = $self->_all_ok();
 
     if ($error)
     {
@@ -1584,18 +1592,24 @@ sub _finalize_run_all_tests
     $self->Strap()->_restore_PERL5LIB();
 }
 
-sub _run_all_tests {
+sub _calc__run_all_tests__callbacks
+{
     my $self = shift;
 
-    $self->_prepare_run_all_tests();
-
-    $self->_run_all_tests__run_loop();
-
-    $self->_finalize_run_all_tests();
-
-    # TODO: Eliminate this? -- Shlomi Fish
-    return $self->failed_tests();
+    return
+    [qw(
+        _prepare_run_all_tests
+        _run_all_tests__run_loop
+        _finalize_run_all_tests
+    )];
 }
+
+sub _run_all_tests {
+    shift->_run_sequence();
+
+    return;
+}
+
 
 sub _get_dubious_summary_all_subtests_successful
 {

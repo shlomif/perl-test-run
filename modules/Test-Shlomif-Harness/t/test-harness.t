@@ -499,8 +499,8 @@ SKIP: {
                 Switches => "@_INC -Mstrict",
             }
         );
-        ($failed) = 
-          $obj->_run_all_tests();
+        $obj->_run_all_tests();
+        $failed = $obj->failed_tests();
         $totals = $obj->tot();
     };
     select STDOUT;
