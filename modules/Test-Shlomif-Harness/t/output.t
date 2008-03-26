@@ -3,10 +3,11 @@
 use strict;
 use warnings;
 
-use Test::More tests => 18;
+use Test::More tests => 19;
 
 use Test::Run::Obj;
 use Test::Run::Trap::Obj;
+use Cwd;
 
 {
     my $got = Test::Run::Trap::Obj->trap_run({
@@ -244,6 +245,24 @@ use Test::Run::Trap::Obj;
     # TEST
     $got->field_is_deeply("warn", [],
         "Checking for no warnings on failure"
+        );
+}
+
+# Test with an exceptionally long path.
+{
+    my $got = Test::Run::Trap::Obj->trap_run({args =>
+        [
+            test_files => 
+            [
+                Cwd::getcwd() . "/t/" . ("../t/" x 200) . "sample-tests/simple_fail", 
+            ],
+        ]
+    });
+    
+    # TEST
+    $got->field_like("die",
+        qr{^Failed 1/1 test scripts, 0.00% okay\. 2/5 subtests failed, 60\.00% okay\.$}m,
+        "Checking for no errors on excpetionally long test file path"
         );
 }
 

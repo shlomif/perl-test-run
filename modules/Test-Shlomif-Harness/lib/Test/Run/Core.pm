@@ -1748,7 +1748,7 @@ sub _calc_updated_lens
     my $self = shift;
 
     $self->list_len($self->_get_fmt_list_str_len);
-    $self->max_namelen($self->_calc_len_substraction("list_len"));
+    $self->max_namelen($self->_calc_len_subtraction("list_len"));
 }
 
 sub _calc_more_updated_lens
