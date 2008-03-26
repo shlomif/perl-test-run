@@ -2026,6 +2026,11 @@ $args are the test-context - see above.
 
 $args are the test-context - see above.
 
+=head2 opendir
+
+This method is placed in the namespace by Fatal.pm. This entry is here just
+to settle Pod::Coverage.
+
 =cut
 
 1;
