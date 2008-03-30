@@ -295,17 +295,35 @@ sub _get_all_skipped_test_msgs
     ];
 }
 
-sub _report_single_test_file_start_leader
+sub _reset_output_watch
 {
-    my ($self, $args) = @_;
+    my $self = shift;
 
     $self->output()->last_test_print(0);
+
+    return;
+}
+
+sub _output_print_leader
+{
+    my ($self, $args) = @_;
+    
     $self->output()->print_leader(
         {
             filename => $args->{test_file},
             width => $self->width(),
         }
     );
+
+    return;
+}
+
+sub _report_single_test_file_start_leader
+{
+    my ($self, $args) = @_;
+
+    $self->_reset_output_watch($args);
+    $self->_output_print_leader($args);
 }
 
 sub _report_single_test_file_start_debug
