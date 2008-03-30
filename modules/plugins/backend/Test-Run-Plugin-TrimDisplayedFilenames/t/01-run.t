@@ -6,7 +6,7 @@ use warnings;
 use File::Spec;
 
 use Test::Run::Obj;
-use Test::Run::Plugin::AlternateInterpreters;
+use Test::Run::Plugin::TrimDisplayedFilenames;
 
 use Test::Run::Trap::Obj;
 

@@ -1,4 +1,4 @@
-package Test::Run::CmdLine::Plugin::AlternateInterpreters;
+package Test::Run::CmdLine::Plugin::TrimDisplayedFilenames;
 
 use strict;
 use warnings;
@@ -9,23 +9,23 @@ use YAML;
 
 =head1 NAME
 
-Test::Run::CmdLine::Plugin::AlternateInterpreters - Use configurable 
-alternate interpreters to run the tests.
+Test::Run::CmdLine::Plugin::TrimDisplayedFilenames - trim the filenames
+that are displayed by the harness to make them more managable.
 
 =head1 DESCRIPTION
 
-This is a L<Test::Run::CmdLine> plugin that allows enabling alternate
-interpreters. One can specify them by setting the C<'HARNESS_ALT_INTRP_FILE'>
-environment variable to the path to a YAML configuration file which lists the 
-interpreters and their regular expressions. A sample one is:
+This is a L<Test::Run::CmdLine> plugin that allows one to trim the
+filenames that are displayed by the harness. It accepts
+the parameter by using the C<'HARNESS_TRIM_FNS'>
+environment variable. A few sample ones are:
 
-    ---
-    - cmd: '/usr/bin/ruby'
-      pattern: \.rb\z
-      type: regex
-    - cmd: '/usr/bin/python'
-      pattern: \.py\z
-      type: regex
+    fromre:\At\z
+
+(to match everything up to a "t" directory.)
+
+    keep:3
+
+(to keep only 3 components).
 
 =head1 METHODS
 
@@ -37,7 +37,7 @@ sub _initialize
 {
     my $self = shift;
     $self->NEXT::_initialize(@_);
-    $self->add_to_backend_plugins("AlternateInterpreters");
+    $self->add_to_backend_plugins("TrimDisplayedFilenames");
 }
 
 =head2 $self->private_non_direct_backend_env_mapping()
@@ -54,9 +54,9 @@ sub private_non_direct_backend_env_mapping
     return
     [
         {
-            type => "yamldata",
-            env => "HARNESS_ALT_INTRP_FILE",
-            arg => "alternate_interpreters",
+            type => "direct",
+            env => "HARNESS_TRIM_FNS",
+            arg => "trim_displayed_filenames_query",
         },
     ];
 }
