@@ -69,7 +69,7 @@ Shlomi Fish, C<< <shlomif at cpan.org> >>
 
 Please report any bugs or feature requests to
 C<bug-test-run-plugin-alternateinterpreters at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test::Run::Plugin::AlternateInterpreters>.
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test::Run::Plugin::TrimDisplayedFilenames>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -77,7 +77,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Test::Run::CmdLine::Plugin::AlternateInterpreters
+    perldoc Test::Run::CmdLine::Plugin::TrimDisplayedFilenames
 
 You can also look for information at:
 
@@ -85,19 +85,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Test::Run::CmdLine::Plugin::AlternateInterpreters>
+L<http://annocpan.org/dist/Test::Run::CmdLine::Plugin::TrimDisplayedFilenames>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Test::Run::Plugin::AlternateInterpreters>
+L<http://cpanratings.perl.org/d/Test::Run::Plugin::TrimDisplayedFilenames>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::AlternateInterpreters>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::TrimDisplayedFilenames>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-AlternateInterpreters/>
+L<http://search.cpan.org/dist/Test-Run-Plugin-TrimDisplayedFilenames/>
 
 =back
 
@@ -110,7 +110,7 @@ L<http://use.perl.org/~Ovid/journal/32092>
 
 =head1 SEE ALSO
 
-L<Test::Run::Plugin::AlternateInterpreters>, L<Test::Run>,
+L<Test::Run::Plugin::TrimDisplayedFilenames>, L<Test::Run>,
 L<Test::Run::CmdLine>, L<TAP::Parser>
 
 =head1 COPYRIGHT & LICENSE

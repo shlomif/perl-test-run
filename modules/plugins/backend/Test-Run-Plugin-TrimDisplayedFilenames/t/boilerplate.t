@@ -45,4 +45,4 @@ sub module_boilerplate_ok {
     );
 }
 
-module_boilerplate_ok('lib/Test/Run/Plugin/AlternateInterpreters.pm');
+module_boilerplate_ok('lib/Test/Run/Plugin/TrimDisplayedFilenames.pm');

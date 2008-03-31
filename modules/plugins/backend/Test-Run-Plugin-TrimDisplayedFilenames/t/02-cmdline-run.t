@@ -48,7 +48,7 @@ my $config_file = Cwd::abs_path(
     delete($ENV{'PROVE_SWITCHES'});
     delete($ENV{'HARNESS_ALT_INTRP_FILE'});
 
-    $ENV{'HARNESS_PLUGINS'} = "AlternateInterpreters";
+    $ENV{'HARNESS_PLUGINS'} = "TrimDisplayedFilenames";
     
     {
         local $ENV{'HARNESS_ALT_INTRP_FILE'} = $config_file;

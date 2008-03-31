@@ -14,7 +14,7 @@ package MyTestRun;
 
 use vars qw(@ISA);
 
-@ISA = (qw(Test::Run::Plugin::AlternateInterpreters Test::Run::Obj));
+@ISA = (qw(Test::Run::Plugin::TrimDisplayedFilenames Test::Run::Obj));
 
 package main;
 

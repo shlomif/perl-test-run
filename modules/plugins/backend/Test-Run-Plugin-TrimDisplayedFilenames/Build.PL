@@ -7,10 +7,10 @@ use Test::Run::Builder;
 
 
 my $builder = Test::Run::Builder->new(
-    module_name         => 'Test::Run::Plugin::AlternateInterpreters',
+    module_name         => 'Test::Run::Plugin::TrimDisplayedFilenames',
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
-    dist_version_from   => 'lib/Test/Run/Plugin/AlternateInterpreters.pm',
+    dist_version_from   => 'lib/Test/Run/Plugin/TrimDisplayedFilenames.pm',
     build_requires => {
         'Test::More' => 0,
         'Test::Trap' => 0,
@@ -22,7 +22,7 @@ my $builder = Test::Run::Builder->new(
         'YAML' => 0,
         'NEXT' => 0,
     },
-    add_to_cleanup      => [ 'Test-Run-Plugin-AlternateInterpreters-*' ],
+    add_to_cleanup      => [ 'Test-Run-Plugin-TrimDisplayedFilenames-*' ],
     create_makefile_pl => 'traditional',
 );
 
