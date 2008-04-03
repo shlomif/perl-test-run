@@ -34,6 +34,34 @@ sub _get_private_simple_params
     return [qw(trim_displayed_filenames_query)];
 }
 
+sub _process_filename_dirs
+{
+    my ($self, $fn, $callback) = @_;
+
+    my $basename = basename($fn);
+    my $dirpath  = dirname($fn);
+
+    my ($volume, $directories, $filename) = File::Spec->splitpath($dirpath, 1);
+
+    my $dirs = $callback->([File::Spec->splitdir($directories)]);
+
+    my $final_dir =
+        File::Spec->catpath(
+            $volume, File::Spec->catdir(@$dirs), $filename
+        );
+
+    if ($final_dir eq "")
+    {
+        return $basename;
+    }
+    else
+    {
+        return File::Spec->catfile(
+            $final_dir, $basename
+        );
+    }
+}
+
 sub _output_process_leader_fn
 {
     my ($self, $fn) = @_;
@@ -51,35 +79,22 @@ sub _output_process_leader_fn
 
         my $re = qr{$re_text};
 
-        my $basename = basename($fn);
-        my $dirpath  = dirname($fn);
+        return $self->_process_filename_dirs($fn,
+            sub {
+                my $dirs = shift;
 
-        my ($volume, $directories, $filename) = File::Spec->splitpath($dirpath, 1);
+                my $idx = List::MoreUtils::firstidx { $_ =~ m{$re} } @$dirs;
 
-        my @dirs = File::Spec->splitdir($directories);
-
-        my $idx = List::MoreUtils::firstidx { $_ =~ m{$re} } @dirs;
-
-        if (defined($idx))
-        {
-            @dirs = @dirs[$idx+1 .. $#dirs];
-        }
-
-        my $final_dir = 
-            File::Spec->catpath(
-                $volume, File::Spec->catdir(@dirs), $filename
-            );
-
-        if ($final_dir eq "")
-        {
-            return $basename;
-        }
-        else
-        {
-            return File::Spec->catfile(
-                $final_dir, $basename
-            );
-        }
+                if (defined($idx))
+                {
+                    return [@$dirs[$idx+1 .. $#$dirs]];
+                }
+                else
+                {
+                    return $dirs;
+                }
+            }
+        );
     }
     else
     {
