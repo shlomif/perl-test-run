@@ -62,6 +62,38 @@ sub _process_filename_dirs
     }
 }
 
+sub _trim_filename_dir_components
+{
+    my ($self, $filename, $component_callback, $options) = @_;
+
+    $options ||= { 'search_from' => "start", 'keep_from' => "end" };
+
+    return $self->_process_filename_dirs(
+        $filename,
+        sub {
+            my $dirs = shift;
+            my $idx = 
+                (($options->{search_from} eq "start")
+                    ? \&List::MoreUtils::firstidx
+                    : \&List::MoreUtils::lasttidx
+                )->($component_callback, @$dirs);
+            if (!defined($idx))
+            {
+                return $dirs
+            }
+
+            return
+            [
+                @$dirs[
+                $options->{keep_from} eq "start"
+                    ? (0 .. $idx-1)
+                    : ($idx+1 .. $#$dirs)
+                ]
+            ];
+        },
+    );
+}
+
 sub _process_output_leader_fn
 {
     my ($self, $fn) = @_;
@@ -79,22 +111,12 @@ sub _process_output_leader_fn
 
         my $re = qr{$re_text};
 
-        return $self->_process_filename_dirs($fn,
-            sub {
-                my $dirs = shift;
-
-                my $idx = List::MoreUtils::firstidx { $_ =~ m{$re} } @$dirs;
-
-                if (defined($idx))
-                {
-                    return [@$dirs[$idx+1 .. $#$dirs]];
-                }
-                else
-                {
-                    return $dirs;
-                }
-            }
-        );
+        return
+            $self->_trim_filename_dir_components(
+                $fn,
+                sub { $_ =~ m{$re} },
+                +{ search_from => "start", keep_from => "end" }
+            );
     }
     else
     {
