@@ -62,7 +62,7 @@ sub _process_filename_dirs
     }
 }
 
-sub _output_process_leader_fn
+sub _process_output_leader_fn
 {
     my ($self, $fn) = @_;
 
@@ -112,7 +112,7 @@ sub _output_print_leader
     my $new_args = +{ %$args };
 
     $new_args->{test_file} =
-        $self->_output_process_leader_fn($new_args->{test_file})
+        $self->_process_output_leader_fn($new_args->{test_file})
         ;
 
     return $self->NEXT::_output_print_leader($new_args);
