@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 use Config;
 use File::Spec;
@@ -19,17 +19,9 @@ my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
 my $t_dir = File::Spec->catfile( File::Spec->curdir, "t" );
 my $lib = File::Spec->catfile( $blib, "lib" );
 my $abs_lib = Cwd::abs_path($lib);
-my $sample_tests_dir = File::Spec->catfile("t", "sample-tests");
-my $suc2_mok_file = File::Spec->catfile($sample_tests_dir, "success2.mok.cat");
-my $suc1_cat_file = File::Spec->catfile($sample_tests_dir, "success1.cat");
+my $sample_tests_dir = File::Spec->catfile("t", "sample-tests", "really-really-really-long-dir-name");
 my $one_ok_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
-my $suc1_mok_file = File::Spec->catfile($sample_tests_dir, "success1.mok");
-
-my $config_file = Cwd::abs_path(
-    File::Spec->catfile(
-        File::Spec->curdir(), "t", "data", "config-files", "mokcat1.yml",
-    )
-);
+my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
 
 {
     local %ENV = %ENV;
@@ -46,52 +38,31 @@ my $config_file = Cwd::abs_path(
     delete($ENV{'HARNESS_DRIVER'});
     delete($ENV{'HARNESS_PLUGINS'});
     delete($ENV{'PROVE_SWITCHES'});
-    delete($ENV{'HARNESS_ALT_INTRP_FILE'});
+    delete($ENV{'HARNESS_TRIM_FNS'});
 
     $ENV{'HARNESS_PLUGINS'} = "TrimDisplayedFilenames";
     
     {
-        local $ENV{'HARNESS_ALT_INTRP_FILE'} = $config_file;
-
-        my $yaml_data =
-        [
-            {
-                cmd => 
-                ("$^X " . File::Spec->catfile(
-                    File::Spec->curdir(), "t", "data", 
-                    "interpreters", "mini-ok.pl"
-                    ) . " "
-                ),
-                type => "regex",
-                pattern => '\.mok(?:\.cat)?\z',
-            },
-            {
-                cmd => 
-                ("$^X " . File::Spec->catfile(
-                    File::Spec->curdir(), "t", "data", 
-                    "interpreters", "cat.pl"
-                    ) . " "
-                ),
-                type => "regex",
-                pattern => '\.cat\z',
-            },
-        ];
-
-        YAML::DumpFile($config_file, $yaml_data);
+        local $ENV{'HARNESS_TRIM_FNS'} = "fromre:long";
 
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
                 cmdline => 
                 [
-                    $suc2_mok_file,$suc1_cat_file, $one_ok_file,
-                    $suc1_mok_file
+                    $one_ok_file,
+                    $several_oks_file,
                 ],
             }
         );
 
         # TEST
-        $got->field_like("stdout", qr/All tests successful\./, 
-            "All tests were successful with the new interpreters"
+        $got->field_like("stdout", qr/^one-ok\.{4}/ms, 
+            "one-ok.t appears alone without the long path."
+        );
+
+        # TEST
+        $got->field_like("stdout", qr/^several-oks\.{4}/ms, 
+            "several-oks.t appears alone without the long path."
         );
     }
 }

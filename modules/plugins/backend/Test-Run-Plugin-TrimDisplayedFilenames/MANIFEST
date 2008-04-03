@@ -22,3 +22,5 @@ t/sample-tests/several-oks.t
 t/sample-tests/success1.cat
 t/sample-tests/success1.mok
 t/sample-tests/success2.mok.cat
+t/sample-tests/really-really-really-long-dir-name/one-ok.t
+t/sample-tests/really-really-really-long-dir-name/several-oks.t

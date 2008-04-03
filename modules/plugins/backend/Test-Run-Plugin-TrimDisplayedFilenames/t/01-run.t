@@ -28,74 +28,23 @@ use Test::More tests => 2;
             [
                 test_files => 
                 [
-                    "t/sample-tests/success1.cat",
-                    "t/sample-tests/one-ok.t"
+                    "t/sample-tests/really-really-really-long-dir-name/one-ok.t",
+                    "t/sample-tests/really-really-really-long-dir-name/several-oks.t"
                 ],
-                alternate_interpreters =>
-                [
-                    {
-                        cmd => 
-                        ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
-                            "interpreters", "cat.pl"
-                            ) . " "
-                        ),
-                        type => "regex",
-                        pattern => '\.cat$',
-                    },
-                ],
+                trim_displayed_filenames_query => 'fromre:long',
             ]
         }
         );
 
     # TEST
-    $got->field_like("stdout", qr/All tests successful\./, 
-        "All test are successful with multiple interpreters"
-    );
-}
-
-{
-    my $got = Test::Run::Trap::Obj->trap_run(
-        {
-            class => "MyTestRun",
-            args =>
-            [
-                test_files => 
-                [
-                    "t/sample-tests/success2.mok.cat",
-                    "t/sample-tests/success1.cat",
-                    "t/sample-tests/one-ok.t",
-                    "t/sample-tests/success1.mok",
-                ],
-                alternate_interpreters =>
-                [
-                    {
-                        cmd => 
-                        ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
-                            "interpreters", "mini-ok.pl"
-                            ) . " "
-                        ),
-                        type => "regex",
-                        pattern => '\.mok(?:\.cat)?\z',
-                    },
-                    {
-                        cmd => 
-                        ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
-                            "interpreters", "cat.pl"
-                            ) . " "
-                        ),
-                        type => "regex",
-                        pattern => '\.cat\z',
-                    },
-                ],
-            ],
-        }
+    $got->field_like("stdout", qr/^one-ok\.{4}/ms, 
+        "one-ok.t appears alone without the long path."
     );
 
     # TEST
-    $got->field_like("stdout", qr/All tests successful\./, 
-        "Tests over-riding order is applied.");
+    $got->field_like("stdout", qr/^several-oks\.{4}/ms, 
+        "several-oks.t appears alone without the long path."
+    );
+    
 }
 

@@ -4,6 +4,9 @@ use warnings;
 use strict;
 
 use NEXT;
+use File::Spec;
+use File::Basename;
+use List::MoreUtils ();
 
 use base 'Test::Run::Base';
 use base 'Class::Accessor';
@@ -29,6 +32,75 @@ sub _get_private_simple_params
 {
     my $self = shift;
     return [qw(trim_displayed_filenames_query)];
+}
+
+sub _output_process_leader_fn
+{
+    my ($self, $fn) = @_;
+
+    my $query = $self->trim_displayed_filenames_query();
+
+    if (!defined($query))
+    {
+        return $fn;
+    }
+
+    if ($query =~ m{\Afromre:(.*)}ms)
+    {
+        my $re_text = $1;
+
+        my $re = qr{$re_text};
+
+        my $basename = basename($fn);
+        my $dirpath  = dirname($fn);
+
+        my ($volume, $directories, $filename) = File::Spec->splitpath($dirpath, 1);
+
+        my @dirs = File::Spec->splitdir($directories);
+
+        my $idx = List::MoreUtils::firstidx { $_ =~ m{$re} } @dirs;
+
+        if (defined($idx))
+        {
+            @dirs = @dirs[$idx+1 .. $#dirs];
+        }
+
+        my $final_dir = 
+            File::Spec->catpath(
+                $volume, File::Spec->catdir(@dirs), $filename
+            );
+
+        if ($final_dir eq "")
+        {
+            return $basename;
+        }
+        else
+        {
+            return File::Spec->catfile(
+                $final_dir, $basename
+            );
+        }
+    }
+    else
+    {
+        # TODO - Replace with an exception object.
+        die "Unrecognized trim_displayed_filename_query."
+    }
+}
+
+sub _output_print_leader
+{
+    my $self = shift;
+    my $args = shift;
+
+    # Clone the arguments to avoid potential problems after modifying them.
+    my $new_args = +{ %$args };
+
+    $new_args->{test_file} =
+        $self->_output_process_leader_fn($new_args->{test_file})
+        ;
+
+    return $self->NEXT::_output_print_leader($new_args);
 }
 
 =head1 SYNOPSIS
