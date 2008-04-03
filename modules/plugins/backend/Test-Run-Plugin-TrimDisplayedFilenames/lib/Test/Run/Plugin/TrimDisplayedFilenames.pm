@@ -62,6 +62,31 @@ sub _process_filename_dirs
     }
 }
 
+sub _get_search_from_callback
+{
+    my ($self, $options) = @_;
+
+    return 
+        +($options->{search_from} eq "start")
+            ? \&List::MoreUtils::firstidx
+            : \&List::MoreUtils::lasttidx
+            ;
+}
+
+sub _get_array_portion
+{
+    my ($self, $options, $dirs, $idx) = @_;
+
+    my @copy = @$dirs;
+
+    return
+    [
+        +($options->{keep_from} eq "start")
+            ? splice(@copy, 0, $idx)
+            : splice(@copy, $idx+1)
+    ];
+}
+
 sub _trim_filename_dir_components
 {
     my ($self, $filename, $component_callback, $options) = @_;
@@ -72,24 +97,18 @@ sub _trim_filename_dir_components
         $filename,
         sub {
             my $dirs = shift;
-            my $idx = 
-                (($options->{search_from} eq "start")
-                    ? \&List::MoreUtils::firstidx
-                    : \&List::MoreUtils::lasttidx
-                )->($component_callback, @$dirs);
+
+            my $idx =
+                $self->_get_search_from_callback($options)
+                     ->($component_callback, @$dirs)
+                ;
+
             if (!defined($idx))
             {
                 return $dirs
             }
 
-            return
-            [
-                @$dirs[
-                $options->{keep_from} eq "start"
-                    ? (0 .. $idx-1)
-                    : ($idx+1 .. $#$dirs)
-                ]
-            ];
+            return $self->_get_array_portion($options, $dirs, $idx);
         },
     );
 }
