@@ -43,6 +43,7 @@ sub _process_filename_dirs
 
     my ($volume, $directories, $filename) = File::Spec->splitpath($dirpath, 1);
 
+    # The actual manipulation.
     my $dirs = $callback->([File::Spec->splitdir($directories)]);
 
     my $final_dir =
