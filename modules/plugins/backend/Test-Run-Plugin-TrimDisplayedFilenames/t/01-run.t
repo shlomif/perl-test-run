@@ -47,12 +47,12 @@ use Test::More tests => 8;
         );
 
         # TEST*$num_queries
-        $got->field_like("stdout", qr/^one-ok\.{4}/ms, 
+        $got->field_like("stdout", qr/^one-ok\.{4,10}ok/ms, 
             "one-ok.t appears alone without the long path."
         );
 
         # TEST*$num_queries
-        $got->field_like("stdout", qr/^several-oks\.{4}/ms, 
+        $got->field_like("stdout", qr/^several-oks\.{4,10}ok/ms, 
             "several-oks.t appears alone without the long path."
         );
     }

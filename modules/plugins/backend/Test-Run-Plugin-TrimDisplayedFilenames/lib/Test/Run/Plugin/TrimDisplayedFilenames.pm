@@ -165,19 +165,11 @@ sub _process_output_leader_fn
     }
 }
 
-sub _output_print_leader
+sub _calc_test_file_data_display_path
 {
-    my $self = shift;
-    my $args = shift;
+    my ($self, $idx, $test_file) = @_;
 
-    # Clone the arguments to avoid potential problems after modifying them.
-    my $new_args = +{ %$args };
-
-    $new_args->{test_file} =
-        $self->_process_output_leader_fn($new_args->{test_file})
-        ;
-
-    return $self->NEXT::_output_print_leader($new_args);
+    return $self->_process_output_leader_fn($test_file);
 }
 
 =head1 SYNOPSIS
