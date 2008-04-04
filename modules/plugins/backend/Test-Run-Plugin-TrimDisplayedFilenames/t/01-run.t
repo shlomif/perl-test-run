@@ -18,33 +18,37 @@ use vars qw(@ISA);
 
 package main;
 
-use Test::More tests => 2;
+use Test::More tests => 4;
 
 {
-    my $got = Test::Run::Trap::Obj->trap_run(
-        {
-            class => "MyTestRun",
-            args =>
-            [
-                test_files => 
+    # TEST:$num_queries=2
+    
+    foreach my $query ('fromre:long', 'fromre:\Areally-really-really-long-dir-name\z')
+    {
+        my $got = Test::Run::Trap::Obj->trap_run(
+            {
+                class => "MyTestRun",
+                args =>
                 [
-                    "t/sample-tests/really-really-really-long-dir-name/one-ok.t",
-                    "t/sample-tests/really-really-really-long-dir-name/several-oks.t"
-                ],
-                trim_displayed_filenames_query => 'fromre:long',
-            ]
-        }
+                    test_files => 
+                    [
+                        "t/sample-tests/really-really-really-long-dir-name/one-ok.t",
+                        "t/sample-tests/really-really-really-long-dir-name/several-oks.t"
+                    ],
+                    trim_displayed_filenames_query => $query,
+                ]
+            }
         );
 
-    # TEST
-    $got->field_like("stdout", qr/^one-ok\.{4}/ms, 
-        "one-ok.t appears alone without the long path."
-    );
+        # TEST*$num_queries
+        $got->field_like("stdout", qr/^one-ok\.{4}/ms, 
+            "one-ok.t appears alone without the long path."
+        );
 
-    # TEST
-    $got->field_like("stdout", qr/^several-oks\.{4}/ms, 
-        "several-oks.t appears alone without the long path."
-    );
-    
+        # TEST*$num_queries
+        $got->field_like("stdout", qr/^several-oks\.{4}/ms, 
+            "several-oks.t appears alone without the long path."
+        );
+    }
 }
 
