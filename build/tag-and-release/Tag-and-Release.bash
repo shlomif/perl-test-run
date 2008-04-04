@@ -53,4 +53,6 @@ tag_and_release()
 }
 
 # tag_and_release "Test-Run" "Test-Shlomif-Harness" "" true
-tag_and_release "Test-Run-CmdLine" "Test-Run-CmdLine" "modules/Test-Run-CmdLine" true
+# tag_and_release "Test-Run-Plugin-AlternateInterpreters" "plugins/backend/Test-Run-Plugin-AlternateInterpreters" "" false
+tag_and_release "Test-Run-Plugin-TrimDisplayedFilenames" "plugins/backend/Test-Run-Plugin-TrimDisplayedFilenames" "" false
+# tag_and_release "Test-Run-CmdLine" "Test-Run-CmdLine" "modules/Test-Run-CmdLine" true
