@@ -125,18 +125,38 @@ sub _process_output_leader_fn
         return $fn;
     }
 
-    if ($query =~ m{\Afromre:(.*)}ms)
+    if ($query =~ m{\A(fromre|keep):(.*)}ms)
     {
-        my $re_text = $1;
+        my ($cmd, $arg) = ($1, $2);
 
-        my $re = qr{$re_text};
+        if ($cmd eq "fromre")
+        {
+            my $re = qr{$arg};
 
-        return
-            $self->_trim_filename_dir_components(
-                $fn,
-                sub { $_ =~ m{$re} },
-                +{ search_from => "start", keep_from => "end" }
-            );
+            return
+                $self->_trim_filename_dir_components(
+                    $fn,
+                    sub { $_ =~ m{$re} },
+                    +{ search_from => "start", keep_from => "end" }
+                );
+        }
+        else # $cmd eq "keep"
+        {
+            # We need to decrement 1 because there's also the filename.
+            my $num_keep = int($arg);
+            return
+                $self->_process_filename_dirs(
+                    $fn,
+                    sub { 
+                        my @dirs = @{shift()}; 
+                        return 
+                            +($num_keep <= 1)
+                                ? []
+                                : [splice(@dirs, -($num_keep-1))]
+                                ;
+                    },
+                );
+        }
     }
     else
     {

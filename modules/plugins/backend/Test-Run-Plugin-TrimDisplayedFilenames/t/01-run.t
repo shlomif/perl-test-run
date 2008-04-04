@@ -18,16 +18,17 @@ use vars qw(@ISA);
 
 package main;
 
-use Test::More tests => 6;
+use Test::More tests => 8;
 
 {
-    # TEST:$num_queries=3
+    # TEST:$num_queries=4
     
     foreach my $query 
     (
         'fromre:long', 
         'fromre:\Areally-really-really-long-dir-name\z',
         'fromre:re.l+y',
+        'keep:1',
     )
     {
         my $got = Test::Run::Trap::Obj->trap_run(
