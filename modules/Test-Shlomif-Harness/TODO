@@ -10,6 +10,9 @@ Test::Harness.
 * Add examples for Test::Run (not T::R::CL) under examples/ in the T::R (core)
 distribution.
 
+* Add a module-starter adaptation for creating a Test::Run/T::R::CL plugin
+distribution.
+
 Bugs:
 -----
 
