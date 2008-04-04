@@ -304,13 +304,20 @@ sub _reset_output_watch
     return;
 }
 
+sub _output__get_display_filename_param
+{
+    my ($self, $args) = @_;
+
+    return $self->_get_test_file_display_path($args->{test_file});
+}
+
 sub _output_print_leader
 {
     my ($self, $args) = @_;
     
     $self->output()->print_leader(
         {
-            filename => $args->{test_file},
+            filename => $self->_output__get_display_filename_param($args),
             width => $self->width(),
         }
     );
@@ -333,7 +340,7 @@ sub _report_single_test_file_start_debug
     if ($self->Debug())
     {
         $self->_print(
-            "# Running: " . $self->Strap()->_command_line($args->{test_file})
+            "# Running: " . $self->Strap()->_command_line($self->_output_print_leader($args))
         );
     }
 }

@@ -66,6 +66,7 @@ sub _get_private_simple_params
             Switches
             Switches_Env
             test_files
+            test_files_data
             Test_Interpreter
             Timer
             Verbose
@@ -125,6 +126,7 @@ sub _initialize
     $self->Switches("-w");
     $self->_init_simple_params($args);
     $self->dir_files([]);
+    $self->test_files_data({});
 
     $self->register_pluggable_helper(
         {
@@ -1025,7 +1027,9 @@ sub _get_filename_map_max_len
     my ($self, $cb) = @_;
 
     return $self->_max_len(
-        [ map { $self->$cb($_) } @{$self->test_files()} ]
+        [ map { $self->$cb($self->_get_test_file_display_path($_)) }
+          @{$self->test_files()} 
+        ]
     );
 }
 
@@ -1401,6 +1405,45 @@ sub _check_for_ok
 
 }
 
+sub _calc_test_file_data_display_path
+{
+    my ($self, $idx, $test_file) = @_;
+
+    return $test_file;
+}
+
+sub _get_test_file_display_path
+{
+    my ($self, $test_file) = @_;
+
+    return $self->test_files_data()->{$test_file}->{display_path};
+}
+
+sub _calc_test_file_data_struct
+{
+    my ($self, $idx, $test_file) = @_;
+
+    return
+    {
+        idx => $idx,
+        real_path => $test_file,
+        display_path => $self->_calc_test_file_data_display_path($idx, $test_file),
+    };
+}
+
+sub _prepare_test_files_data
+{
+    my $self = shift;
+
+    foreach my $idx (0 .. $#{$self->test_files()})
+    {
+        my $test_file = $self->test_files()->[$idx];
+
+        $self->test_files_data()->{$test_file} =
+            $self->_calc_test_file_data_struct($idx, $test_file);
+    }
+}
+
 sub _calc__real_runtests__callbacks
 {
     my $self = shift;
@@ -1478,6 +1521,8 @@ sub _prepare_run_all_tests
 {
     my $self = shift;
 
+    $self->_prepare_test_files_data();
+
     $self->_autoflush_file_handles();
 
     $self->_init_failed_tests();
@@ -1485,6 +1530,8 @@ sub _prepare_run_all_tests
     $self->_init_tot();
 
     $self->_init_dir_files();
+
+    return;
 }
 
 # FWRS == failed_with_results_seen
@@ -1569,8 +1616,9 @@ sub _init_dir_files
     if (defined($self->Leaked_Dir()))
     {
         $self->dir_files($self->_get_dir_files());
-    }   
+    }
 }
+
 sub _run_all_tests_loop
 {
     my $self = shift;
