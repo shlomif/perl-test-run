@@ -13,6 +13,10 @@ distribution.
 * Add a module-starter adaptation for creating a Test::Run/T::R::CL plugin
 distribution.
 
+* Add a way to specify plugin parameters using the command line.
+
+* Add a way to append/remove plugins using the command line.
+
 Bugs:
 -----
 
