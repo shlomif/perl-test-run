@@ -1,3 +1,20 @@
+0.0115    Fri Apr  4 14:11:27 IDT 2008
+    * Added the test file t/01unit-event-wrapper.t. (Fixed a bug when it
+    was used in list context).
+    * Test::Run::Straps::Base is now the base for Test::Run::Straps
+    and Test::Run::Straps::StrapsTotalsObj
+    * Fully converted Test::Run::Straps into BSDLed code.
+    Test::Run::Straps_GplArt is now just a placeholder for old documentation.
+    * Delegated more functionality into TAP::Parser (in ::Straps) while
+    refactoring the code.
+    * Added the Test.pl example under examples.
+    * Added full POD Coverage.
+    * Changed the license from "perl" to "mit" as all of the core code is
+    now that.
+    * A lot of refactoring.
+    * Made some changes to the internals to give way for the
+    TrimLongFilenames module.
+
 0.0114    Thu Feb 21 07:10:01 IST 2008
     * Now requiring TAP::Parser-3.09, which broke some compatibility with
     earlier versions.
