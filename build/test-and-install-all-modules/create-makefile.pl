@@ -36,6 +36,7 @@ system($^X,"gen-perl-modules-inst-makefile.pl",
          plugins/backend/Test-Run-Plugin-AlternateInterpreters
          plugins/backend/Test-Run-Plugin-CollectStats
          plugins/backend/Test-Run-Plugin-ColorFileVerdicts
+         plugins/backend/Test-Run-Plugin-TrimDisplayedFilenames
     ))
 )
 );
