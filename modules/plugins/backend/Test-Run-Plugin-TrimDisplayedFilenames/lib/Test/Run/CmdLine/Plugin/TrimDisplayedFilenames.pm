@@ -101,13 +101,6 @@ L<http://search.cpan.org/dist/Test-Run-Plugin-TrimDisplayedFilenames/>
 
 =back
 
-=head1 ACKNOWLEDGEMENTS
-
-Curtis "Ovid" Poe ( L<http://search.cpan.org/~ovid/> ) who gave the idea
-of testing several tests from several interpreters in one go here:
-
-L<http://use.perl.org/~Ovid/journal/32092>
-
 =head1 SEE ALSO
 
 L<Test::Run::Plugin::TrimDisplayedFilenames>, L<Test::Run>,
