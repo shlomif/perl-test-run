@@ -1,7 +1,9 @@
+0.0116    Fri Apr 11 20:20:50 IDT 2008
     * Wrote a fix to the test failures that Test-Run-0.0115 experienced on 
     BSD systems due to a test-script path over 256 bytes.
         - bug in the test script, not the code.
         - http://cpantesters.perl.org/show/Test-Run.html#Test-Run-0.0115
+        - thanks to apeiron from Freenode for testing it on Darwin.
 
 0.0115    Fri Apr  4 14:11:27 IDT 2008
     * Added the test file t/01unit-event-wrapper.t. (Fixed a bug when it
