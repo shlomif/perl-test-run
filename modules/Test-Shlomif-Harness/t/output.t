@@ -8,6 +8,8 @@ use Test::More tests => 19;
 use Test::Run::Obj;
 use Test::Run::Trap::Obj;
 use Cwd;
+use POSIX ();
+use List::Util ();
 
 {
     my $got = Test::Run::Trap::Obj->trap_run({
@@ -248,13 +250,39 @@ use Cwd;
         );
 }
 
+sub get_max_system_path_len
+{
+    return List::Util::min(120, POSIX::PATH_MAX());
+}
+
 # Test with an exceptionally long path.
 {
+    my $max_path = get_max_system_path_len();
+
+    # Generate a long enough path so it will overflow the screen.
+    my $test_file_path = "sample-tests/simple_fail";
+    my $path_lengthening_magic = "../t/";
+    my $path_prefix = "t/";
+    my $path = "";
+    
+    # Construct the path itself.
+    {
+        $path .= $path_prefix;
+    
+        $path .= $path_lengthening_magic x
+            (($max_path - length($test_file_path) - length($path_prefix)) 
+                / 
+             length($path_lengthening_magic)
+            );
+
+        $path .= $test_file_path;
+    }
+    
     my $got = Test::Run::Trap::Obj->trap_run({args =>
         [
             test_files => 
             [
-                Cwd::getcwd() . "/t/" . ("../t/" x 200) . "sample-tests/simple_fail", 
+                $path,
             ],
         ]
     });
