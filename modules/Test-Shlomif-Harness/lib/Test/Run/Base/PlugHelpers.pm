@@ -24,11 +24,11 @@ sub _get_private_fields
 
 __PACKAGE__->mk_accessors(@{__PACKAGE__->_get_private_fields()});
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
 
     $self->_plug_helpers({});
 

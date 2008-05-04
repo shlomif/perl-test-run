@@ -37,11 +37,11 @@ $base is the base class and $into is the namespace to put everything into.
 
 =cut
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_initialize($args);
+    $self->NEXT::_init($args);
 
     $self->_base($args->{base})
         or confess "Wrong base $args->{base}";

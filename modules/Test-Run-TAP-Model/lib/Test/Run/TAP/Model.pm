@@ -109,10 +109,10 @@ sub structure {
 }
 
 # just a dispatcher for the above event handlers
-sub _initialize {
+sub _init {
 	my $s = shift;
 
-    $s->SUPER::_initialize(@_);
+    $s->SUPER::_init(@_);
 
 	$s->callback(sub {
 		my($self, $line, $type, $totals) = @_;
@@ -155,7 +155,7 @@ sub get_tests {
 sub run_tests {
 	my $self = shift;
 
-	$self->_initialize();
+	$self->_init();
 
 	$self->{meat}{start_time} = time;
 

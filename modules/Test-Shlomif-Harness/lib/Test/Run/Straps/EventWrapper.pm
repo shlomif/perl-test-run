@@ -44,7 +44,7 @@ __PACKAGE__->delegate_methods("_tp_result",
     )]
 );
 
-sub _initialize
+sub _init
 {
     my $self = shift;
     my $args = shift;

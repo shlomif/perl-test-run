@@ -13,11 +13,11 @@ use base 'Test::Run::Base::PlugHelpers';
 
 use NEXT;
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
 
     $self->register_pluggable_helper(
         {

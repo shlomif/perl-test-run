@@ -7,7 +7,7 @@ package Base1;
 
 use base 'Test::Run::Base';
 
-sub _initialize
+sub _init
 {
     return 0;
 }

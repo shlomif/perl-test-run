@@ -33,10 +33,10 @@ interpreters and their regular expressions. A sample one is:
 
 our $VERSION = '0.0100';
 
-sub _initialize
+sub _init
 {
     my $self = shift;
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
     $self->add_to_backend_plugins("AlternateInterpreters");
 }
 

@@ -64,11 +64,11 @@ Initialize a new strap.
 
 =cut
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
 
     $self->_is_vms($^O eq "VMS");
     $self->_is_win32($^O =~ m{\A(?:MS)?Win32\z});

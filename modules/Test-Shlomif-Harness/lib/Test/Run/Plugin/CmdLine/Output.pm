@@ -53,11 +53,11 @@ sub _named_printf
         );
 }
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
 
     my ($args) = @_;
 

@@ -7,7 +7,7 @@ package MyTestRun::From;
 
 use base 'Test::Run::Base';
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 
@@ -45,7 +45,7 @@ __PACKAGE__->mk_accessors(qw(_from));
 
 __PACKAGE__->delegate_methods("_from", [qw(mysum set_g a100)]);
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 

@@ -55,11 +55,11 @@ sub _pre_init
     return 0;
 }
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
 
     $self->_register_obj_formatter(
         {

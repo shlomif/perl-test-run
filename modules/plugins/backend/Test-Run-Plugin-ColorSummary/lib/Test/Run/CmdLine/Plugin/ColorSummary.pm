@@ -13,10 +13,10 @@ Test::Run::CmdLine::Plugin::ColorSummary - Color the summary in Test::Run::CmdLi
 
 our $VERSION = '0.0102';
 
-sub _initialize
+sub _init
 {
     my $self = shift;
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
     $self->add_to_backend_plugins("ColorSummary");
 }
 

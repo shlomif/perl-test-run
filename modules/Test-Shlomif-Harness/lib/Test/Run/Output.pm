@@ -16,11 +16,11 @@ harmess.
 
 =cut
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_initialize($args);
+    $self->NEXT::_init($args);
 
     $self->Verbose($args->{Verbose});
     $self->NoTty($args->{NoTty});

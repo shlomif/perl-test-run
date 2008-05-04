@@ -39,11 +39,11 @@ our $VERSION = '0.01';
 
 =cut
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
 
-    my $ret = $self->NEXT::_initialize($args);
+    my $ret = $self->NEXT::_init($args);
 
     $self->_recorded_test_files_data([]);
     $self->_test_files_names_map({});

@@ -71,11 +71,11 @@ sub _get_private_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_initialize($args);
+    $self->NEXT::_init($args);
 
     $self->_register_obj_formatter(
         {

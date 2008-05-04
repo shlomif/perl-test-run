@@ -3,10 +3,10 @@ package Test::Run::CmdLine::Drivers::CmdLineTest;
 use strict;
 use warnings;
 
-sub _initialize
+sub _init
 {
     my $self = shift;
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
     $self->backend_class("Test::Run::Drivers::CmdLineTest");
 }
 

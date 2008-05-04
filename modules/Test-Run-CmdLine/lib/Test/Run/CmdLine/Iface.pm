@@ -34,7 +34,7 @@ __PACKAGE__->mk_accessors(qw(
     backend_params
 ));
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
 

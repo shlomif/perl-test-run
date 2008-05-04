@@ -116,11 +116,11 @@ sub _get_new_strap
     );
 }
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_initialize($args);
+    $self->NEXT::_init($args);
 
     $self->Columns(80);
     $self->Switches("-w");

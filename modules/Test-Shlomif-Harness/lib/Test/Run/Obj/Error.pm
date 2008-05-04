@@ -51,7 +51,7 @@ sub _get_private_fields
 
 __PACKAGE__->mk_accessors(@fields);
 
-sub _initialize
+sub _init
 {
     my $self = shift;
 
@@ -59,7 +59,7 @@ sub _initialize
     # It misbehaves upon a stringification operation.
     $self->text(Scalar::Util::refaddr($self));
 
-    $self->NEXT::_initialize(@_);
+    $self->NEXT::_init(@_);
 
     my ($pkg,$file,$line) = caller(1);
     $self->package($pkg);

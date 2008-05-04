@@ -47,7 +47,7 @@ __PACKAGE__->mk_accessors(qw(
     test_files
 ));
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
     

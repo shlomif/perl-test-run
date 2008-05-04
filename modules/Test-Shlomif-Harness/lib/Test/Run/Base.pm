@@ -32,9 +32,8 @@ __PACKAGE__->mk_accessors(qw(
 =head2 $package->new({%args})
 
 The default constructor. Do not over-ride it. Instead over-ride
-L<_initialize()>, which accepts the same arguments on an already constructed
-and blessed object reference. It would probably be re-named to _init()
-soon.
+L<_init()>, which accepts the same arguments on an already constructed
+and blessed object reference.
 
 =cut
 
@@ -44,7 +43,7 @@ sub new
     my $self = {};
     bless $self, $class;
     $self->_formatters({});
-    $self->_initialize(@_);
+    $self->_init(@_);
     return $self;
 }
 

@@ -41,11 +41,11 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 
 =cut
 
-sub _initialize
+sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_initialize($args);
+    $self->NEXT::_init($args);
 
     my $arguments = $args->{'args'};
     my $env_switches = $args->{'env_switches'};
