@@ -169,8 +169,10 @@ sub _initialize
     );
 
     $self->_register_obj_formatter(
-        "fail_other_except",
-        "Failed %(_get_fail_test_scripts_string)s%(_get_fail_tests_good_percent_string)s.%(_get_sub_percent_msg)s\n"
+        {
+            name => "fail_other_except",
+            format => "Failed %(_get_fail_test_scripts_string)s%(_get_fail_tests_good_percent_string)s.%(_get_sub_percent_msg)s\n"
+        },
     );
 
     $self->Strap(

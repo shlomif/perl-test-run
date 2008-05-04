@@ -104,7 +104,9 @@ sub _initialize
 
         while (my ($id, $format) = each(%obj_formatters))
         {
-            $self->_register_obj_formatter($id, $format);
+            $self->_register_obj_formatter(
+                { name => $id, format => $format,},
+            );
         }
     }
 

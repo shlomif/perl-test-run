@@ -23,6 +23,8 @@ use Test::Run::Sprintf::Named::FromAccessors;
 
 use Test::Run::Class::Hierarchy (qw(hierarchy_of rev_hierarchy_of));
 
+use Carp ();
+
 __PACKAGE__->mk_accessors(qw(
     _formatters
 ));
@@ -97,7 +99,15 @@ sub _get_obj_formatter
 
 sub _register_obj_formatter
 {
-    my ($self, $name, $fmt) = @_;
+    my ($self, $args) = @_;
+
+    if (ref($args) ne "HASH")
+    {
+        Carp::confess("The second and only parameter to _register_obj_formatter is not a hashref.");
+    }
+
+    my $name = $args->{name};
+    my $fmt  = $args->{format};
 
     $self->_formatters->{$name} = $self->_get_obj_formatter($fmt);
 

@@ -78,8 +78,10 @@ sub _initialize
     $self->NEXT::_initialize($args);
 
     $self->_register_obj_formatter(
-        "dont_know_which_tests_failed",
-        "Don't know which tests failed: got %(ok)s ok, expected %(max)s",
+        {
+            name => "dont_know_which_tests_failed",
+            format => "Don't know which tests failed: got %(ok)s ok, expected %(max)s",
+        },
     );
 
     return 0;

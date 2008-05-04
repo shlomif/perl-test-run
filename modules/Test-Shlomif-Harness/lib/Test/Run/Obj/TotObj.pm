@@ -62,43 +62,59 @@ sub _initialize
     $self->NEXT::_initialize(@_);
 
     $self->_register_obj_formatter(
-        "fail_no_tests_output",
-        "FAILED--%(tests)d test %(_num_scripts)s could be run, alas--no output ever seen\n"
+        {
+            name => "fail_no_tests_output",
+            format => "FAILED--%(tests)d test %(_num_scripts)s could be run, alas--no output ever seen\n",
+        },
     );
 
     $self->_register_obj_formatter(
-        "sub_skipped_msg",
-        "%(sub_skipped)d %(_skipped_subtests)s",
+        {
+            name => "sub_skipped_msg",
+            format => "%(sub_skipped)d %(_skipped_subtests)s",
+        },
     );
 
     $self->_register_obj_formatter(
-        "skipped_bonusmsg_on_skipped",
-        ", %(skipped)d %(_skipped_tests_str)s%(_and_skipped_msg)s skipped",
+        {
+            name => "skipped_bonusmsg_on_skipped",
+            format => ", %(skipped)d %(_skipped_tests_str)s%(_and_skipped_msg)s skipped",
+        },
     );
 
     $self->_register_obj_formatter(
-        "skipped_bonusmsg_on_sub_skipped",
-        ", %(_sub_skipped_msg)s skipped",
+        {
+            name => "skipped_bonusmsg_on_sub_skipped",
+            format => ", %(_sub_skipped_msg)s skipped",
+        },
     );
 
     $self->_register_obj_formatter(
-        "sub_percent_msg",
-        " %(_not_ok)s/%(max)s subtests failed, %(_percent_ok).2f%% okay.",
+        {
+            name => "sub_percent_msg",
+            format => " %(_not_ok)s/%(max)s subtests failed, %(_percent_ok).2f%% okay.",
+        },
     );
 
     $self->_register_obj_formatter(
-        "good_percent_msg",
-        "%(_good_percent).2f",
+        {
+            name => "good_percent_msg",
+            format => "%(_good_percent).2f",
+        },
     );
 
     $self->_register_obj_formatter(
-        "fail_tests_good_percent_string",
-        ", %(good_percent_msg)s%% okay",
+        {
+            name => "fail_tests_good_percent_string",
+            format => ", %(good_percent_msg)s%% okay",
+        },
     );
 
     $self->_register_obj_formatter(
-        "positive_bonusmsg",
-        " (%(bonus)s %(_bonus_subtests_str)s UNEXPECTEDLY SUCCEEDED)",
+        {
+            name => "positive_bonusmsg",
+            format => " (%(bonus)s %(_bonus_subtests_str)s UNEXPECTEDLY SUCCEEDED)",
+        },
     );
 
     return $self;
