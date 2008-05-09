@@ -16,7 +16,7 @@ L<Class::Accessor> and provides some goodies of its own.
 
 =cut
 
-use base 'Class::Accessor';
+use Moose;
 
 use Text::Sprintf::Named;
 use Test::Run::Sprintf::Named::FromAccessors;
@@ -25,9 +25,7 @@ use Test::Run::Class::Hierarchy (qw(hierarchy_of rev_hierarchy_of));
 
 use Carp ();
 
-__PACKAGE__->mk_accessors(qw(
-    _formatters
-));
+has '_formatters' => (is => "rw", isa => "HashRef");
 
 =head2 $package->new({%args})
 
@@ -151,20 +149,17 @@ sub accum_array
 
     my $method_name = $args->{method};
 
-    my $class = ((ref($self) eq "") ? $self : ref($self));
-
-    my $hierarchy = hierarchy_of($class);
+    my $class = ((ref($self) eq "") ? $self : ref($self));   
 
     my @results;
-    foreach my $isa_class (@$hierarchy)
+    foreach my $isa_class (
+        $self->meta->find_all_methods_by_name($method_name)
+    )
     {
-        no strict 'refs';
-        my $method = ${$isa_class . "::"}{$method_name};
-        if (defined($method))
-        {
-            push @results, @{$method->($self)};
-        }
+        my $body = $isa_class->{code}->body();
+        push @results, @{ $_->$body() };
     }
+
     return \@results;
 }
 
@@ -209,30 +204,6 @@ sub _run_sequence
         map { my $cb = $_; $self->$cb(@$params); }
         @{$self->$calc_cbs_sub(@$params)}
     ];
-}
-
-=head2 $package->delegate_methods($field, \@methods)
-
-Delegates the methods listed in @methods (as strings) to the accessor
-specified by $field.
-
-=cut
-
-sub delegate_methods
-{
-    my ($pkg, $field, $methods) = @_;
-
-    no strict 'refs';
-    foreach my $method (@$methods)
-    {
-        *{$pkg."::".$method} =
-            do {
-                my $m = $method;
-                sub { my $self = shift; return $self->$field->$m(@_); };
-            };
-    }
-
-    return;
 }
 
 1;

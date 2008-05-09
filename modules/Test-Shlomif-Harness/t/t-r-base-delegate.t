@@ -5,7 +5,8 @@ use Test::More tests => 5;
 
 package MyTestRun::From;
 
-use base 'Test::Run::Base';
+use Moose;
+extends("Test::Run::Base");
 
 sub _init
 {
@@ -39,9 +40,11 @@ sub mysum
 
 package MyTestRun::To;
 
-use base 'Test::Run::Base';
+use Moose;
 
-__PACKAGE__->mk_accessors(qw(_from));
+extends("Test::Run::Base");
+
+has '_from' => (is => "rw");
 
 __PACKAGE__->delegate_methods("_from", [qw(mysum set_g a100)]);
 

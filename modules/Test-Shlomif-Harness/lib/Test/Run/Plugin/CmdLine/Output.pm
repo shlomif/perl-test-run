@@ -7,7 +7,9 @@ use Carp;
 use Benchmark qw(timestr);
 use NEXT;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends("Test::Run::Base");
 
 use Test::Run::Output;
 

@@ -3,7 +3,9 @@ package Test::Run::Iface;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends("Test::Run::Base");
 
 1;
 

@@ -5,7 +5,9 @@ use Test::More tests => 2;
 
 package Base1;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends("Test::Run::Base");
 
 sub _init
 {
