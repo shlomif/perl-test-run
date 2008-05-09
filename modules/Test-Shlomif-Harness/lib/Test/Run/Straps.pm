@@ -14,7 +14,10 @@ Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 =cut
 
-use base 'Test::Run::Straps::Base';
+use Moose;
+
+extends('Test::Run::Straps::Base');
+
 
 use Config;
 use TAP::Parser;

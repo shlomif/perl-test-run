@@ -27,7 +27,10 @@ fields for easy debugging.
 
 =cut
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
+
 
 use Test::More;
 use Data::Dumper ();

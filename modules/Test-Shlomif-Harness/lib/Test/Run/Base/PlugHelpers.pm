@@ -13,7 +13,10 @@ pluggable helpers.
 use NEXT;
 use Carp;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends('Test::Run::Base');
+
 
 use Test::Run::Base::Plugger;
 

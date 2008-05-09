@@ -14,7 +14,10 @@ straps class.
 
 use Test::Run::Straps::StrapsDetailsObj;
 
-use base 'Test::Run::Straps::Base';
+use Moose;
+
+extends('Test::Run::Straps::Base');
+
 
 use vars qw(@fields);
 

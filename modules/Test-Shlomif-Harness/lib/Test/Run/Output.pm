@@ -3,7 +3,10 @@ package Test::Run::Output;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends('Test::Run::Base');
+
 
 __PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
 

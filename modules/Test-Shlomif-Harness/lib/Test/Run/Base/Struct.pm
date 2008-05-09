@@ -16,7 +16,10 @@ Inherits from L<Test::Run::Base>.
 
 use NEXT;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends('Test::Run::Base');
+
 
 sub _pre_init
 {

@@ -3,7 +3,10 @@ package Test::Run::Core;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base::PlugHelpers';
+use Moose;
+
+extends('Test::Run::Base::PlugHelpers');
+
 
 use vars qw($VERSION);
 

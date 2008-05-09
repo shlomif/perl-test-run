@@ -3,7 +3,10 @@ package Test::Run::Straps::EventWrapper;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends('Test::Run::Base');
+
 
 __PACKAGE__->mk_accessors(qw(
     _tp_result

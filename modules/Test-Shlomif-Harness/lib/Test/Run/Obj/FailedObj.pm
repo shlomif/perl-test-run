@@ -17,7 +17,10 @@ use warnings;
 
 use vars qw(@fields);
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
+
 
 @fields = (qw(
     canon

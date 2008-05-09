@@ -16,7 +16,10 @@ L<Test::Run::Straps> and L<Test::Run::Straps::StrapsTotalsObj>.
 
 use Test::Run::Base;
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
+
 
 use vars qw(@fields);
 

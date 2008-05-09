@@ -14,7 +14,10 @@ Test::Run::Obj::CanonFailedObj - the failed tests canon object.
 
 =cut
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
+
 
 use vars qw(@fields);
 
