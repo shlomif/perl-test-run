@@ -72,7 +72,15 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'bonus' => (is => "rw", isa => "Num");
+has 'failed' => (is => "rw", isa => "ArrayRef");
+has 'max' => (is => "rw", isa => "Num");
+has 'ml' => (is => "rw", isa => "Str");
+has 'next' => (is => "rw", isa => "Num");
+has 'ok' => (is => "rw", isa => "Num");
+has 'skip_all' => (is => "rw", isa => "Str");
+has 'skipped' => (is => "rw", isa => "Num");
+has 'skip_reason' => (is => "rw", isa => "Str");
 
 sub _init
 {

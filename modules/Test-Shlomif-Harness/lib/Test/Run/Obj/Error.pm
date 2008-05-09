@@ -49,7 +49,10 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'package' => (is => "rw", isa => "Str");
+has 'file' => (is => "rw", isa => "Str");
+has 'line' => (is => "rw", isa => "Num");
+has 'text' => (is => "rw", isa => "Str");
 
 sub _init
 {

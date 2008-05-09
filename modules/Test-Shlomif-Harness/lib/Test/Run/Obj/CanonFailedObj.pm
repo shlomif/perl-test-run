@@ -31,7 +31,8 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'failed' => (is => "rw", isa => "Str");
+has '_more_results' => (is => "rw", isa => "ArrayRef");
 
 sub _init
 {
