@@ -437,7 +437,8 @@ sub _create_parser
 =head2 my $results = $self->analyze( $name, \@output_lines)
 
 Analyzes the output @output_lines of a given test, to which the name
-$name is assigned. Returns the results $results of the test - an object.
+$name is assigned. Returns the results $results of the test - an object of
+type L<Test::Run::Straps::StrapsTotalsObj> .
 
 @output_lines should be the output of the test including newlines.
 

@@ -76,24 +76,24 @@ sub _get_private_simple_params
        )];
 }
 
-__PACKAGE__->mk_accessors(qw(
-    _bonusmsg
-    dir_files
-    _new_dir_files
-    failed_tests
-    format_columns
-    last_test_elapsed
-    last_test_obj
-    last_test_results
-    list_len
-    max_namelen
-    output
-    _start_time
-    Strap
-    tot
-    width
-    ));
+has "_bonusmsg" => (is => "rw", isa => "Str");
+has "_dir_files" => (is => "rw", isa => "ArrayRef");
+has "_new_dir_files" => (is => "rw", isa => "ArrayRef");
+has "failed_tests" => (is => "rw", isa => "HashRef");
+has "format_columns" => (is => "rw", isa => "Num");
+has "last_test_elapsed" => (is => "rw", isa => "Num");
+has "last_test_obj" => (is => "rw", isa => "Test::Run::Obj::TestObj");
+has "last_test_result" => (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+has "list_len" => (is => "rw", isa => "Num");
+has "max_namelen" => (is => "rw", isa => "Num");
 
+# I don't know for sure what output is. It is Test::Run::Output in 
+# Test::Run::Plugin::CmdLine::Output but could be different elsewhere.
+has "output" => (is => "rw", isa => "Ref");
+has "_start_time" => (is => "rw", isa => "Num");
+has "Strap" => (is => "rw", isa => "Test::Run::Straps");
+has "tot" => (is => "rw", isa => "Test::Run::Obj::TotObj");
+has "width" => (is => "rw", isa => "Num");
 
 sub _init_simple_params
 {

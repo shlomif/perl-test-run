@@ -7,8 +7,10 @@ use Moose;
 
 extends('Test::Run::Base');
 
-
-__PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
+has 'NoTty' => (is => "rw", isa => "Bool");
+has 'Verbose' => (is => "rw", isa => "Bool");
+has 'last_test_print' => (is => "rw", isa => "Num");
+has 'ml' => (is => "rw", isa => "Str");
 
 =head1 NAME
 
