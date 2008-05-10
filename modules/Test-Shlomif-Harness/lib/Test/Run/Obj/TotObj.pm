@@ -62,7 +62,7 @@ sub _pre_init
     my $self = shift;
     foreach my $f (@counter_fields)
     {
-        $self->set($f, 0);
+        $self->$f(0);
     }
     return 0;
 }
@@ -159,8 +159,8 @@ sub add
     {
         Carp::confess "Cannot add to field \"$field\"!";
     }
-    $self->set($field, $self->get($field) + $diff);
-    return $self->get($field);
+    $self->$field($self->$field() + $diff);
+    return $self->$field();
 }
 
 =head2 $self->inc($field)

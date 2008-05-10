@@ -67,6 +67,7 @@ has '_file_totals' =>
     (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
 has '_is_macos' => (is => "rw", isa => "Bool");
 has '_is_win32' => (is => "rw", isa => "Bool");
+has '_is_vms' => (is => "rw", isa => "Bool");
 has 'last_test_print' => (is => "rw", isa => "Bool");
 has 'next_test_num' => (is => "rw", isa => "Num");
 has '_old5lib' => (is => "rw", isa => "Str");
@@ -82,11 +83,7 @@ has 'Test_Interpreter' => (is => "rw", isa => "Str");
 has 'todo' => (is => "rw", isa => "HashRef");
 has 'too_many_tests' => (is => "rw", isa => "Bool");
 has 'totals' =>
-    (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
-
-__PACKAGE__->mk_accessors(@fields);
-
-
+    (is => "rw", isa => "HashRef");
 
 
 =head2 my $strap = Test::Run::Straps->new();
@@ -825,7 +822,7 @@ sub _reset_file_state
 
     while (my ($field, $value) = each(%$to))
     {
-        $self->set($field, $value);
+        $self->$field($value);
     }
 
     return;

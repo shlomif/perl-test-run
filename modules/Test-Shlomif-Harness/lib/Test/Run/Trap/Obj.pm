@@ -59,7 +59,7 @@ sub _get_private_fields
 }
 
 has 'die' => (is => "rw", isa => "Any");
-has 'exit' => (is => "rw", isa => "Num");
+has 'exit' => (is => "rw", isa => "Any");
 has 'leaveby' => (is => "rw", isa => "Str");
 has 'return' => (is => "rw", isa => "Any");
 has 'stderr' => (is => "rw", isa => "Str");

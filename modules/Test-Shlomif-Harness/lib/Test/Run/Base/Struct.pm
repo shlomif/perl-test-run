@@ -61,7 +61,7 @@ sub _init
     {
         if (exists($fields_map->{$k}))
         {
-            $self->set($k, $v);
+            $self->$k($v);
         }
         else
         {
@@ -95,7 +95,8 @@ sub add_to_field
     my ($self, $field, $diff) = @_;
     if (exists($self->_get_fields_map()->{$field}))
     {
-        $self->set($field, $self->get($field)+$diff);
+        Carp::cluck("Field == $field\n");
+        $self->$field($self->$field()+$diff);
     }
     else
     {

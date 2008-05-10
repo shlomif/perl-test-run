@@ -69,13 +69,13 @@ sub _get_private_simple_params
             test_files
             test_files_data
             Test_Interpreter
-            Timer
+            should_time
             Verbose
        )];
 }
 
 has "_bonusmsg" => (is => "rw", isa => "Str");
-has "_dir_files" => (is => "rw", isa => "ArrayRef");
+has "dir_files" => (is => "rw", isa => "ArrayRef");
 has "_new_dir_files" => (is => "rw", isa => "ArrayRef");
 has "failed_tests" => (is => "rw", isa => "HashRef");
 has "format_columns" => (is => "rw", isa => "Num");
@@ -93,6 +93,20 @@ has "Strap" => (is => "rw", isa => "Test::Run::Straps");
 has "tot" => (is => "rw", isa => "Test::Run::Obj::TotObj");
 has "width" => (is => "rw", isa => "Num");
 
+# Private Simple Params of _get_private_simple_params
+has "Columns" => (is => "rw", isa => "Num");
+has "Debug" => (is => "rw", isa => "Bool");
+has "Leaked_Dir" => (is => "rw", isa => "Str");
+has "NoTty" => (is => "rw", isa => "Bool");
+has "Switches" => (is => "rw", isa => "Str");
+has "Switches_Env" => (is => "rw", isa => "Str");
+has "test_files" => (is => "rw", isa => "ArrayRef");
+has "test_files_data" => (is => "rw", isa => "HashRef");
+has "Test_Interpreter" => (is => "rw", isa => "Str");
+has "should_time" => (is => "rw", isa => "Bool");
+has "Verbose" => (is => "rw", isa => "Bool");
+
+
 sub _init_simple_params
 {
     my ($self, $args) = @_;
@@ -100,7 +114,7 @@ sub _init_simple_params
     {
         if (exists($args->{$key}))
         {
-            $self->set($key, $args->{$key});
+            $self->$key($args->{$key});
         }
     }
 }
@@ -244,7 +258,7 @@ C<$self-E<gt>Verbose()>, which prints the output from the test being run.
 This value will be used for the width of the terminal. If it is not
 set then it will default to 80.
 
-=item C<$self-E<gt>Timer()>
+=item C<$self-E<gt>should_time()>
 
 If set to true, and C<Time::HiRes> is available, print elapsed seconds
 after each test file.
@@ -649,7 +663,7 @@ sub _set_start_time
 {
     my $self = shift;
 
-    if ($self->Timer())
+    if ($self->should_time())
     {
         $self->_start_time($self->_get_current_time());
     }
@@ -677,7 +691,7 @@ sub _get_elapsed
 {
     my $self = shift;
 
-    if ($self->Timer())
+    if ($self->should_time())
     {
         return sprintf(" %8.3fs",
             $self->_get_current_time() - $self->_start_time()
