@@ -98,11 +98,11 @@ has "Columns" => (is => "rw", isa => "Num");
 has "Debug" => (is => "rw", isa => "Bool");
 has "Leaked_Dir" => (is => "rw", isa => "Str");
 has "NoTty" => (is => "rw", isa => "Bool");
-has "Switches" => (is => "rw", isa => "Str");
-has "Switches_Env" => (is => "rw", isa => "Str");
+has "Switches" => (is => "rw", isa => "Maybe[Str]");
+has "Switches_Env" => (is => "rw", isa => "Maybe[Str]");
 has "test_files" => (is => "rw", isa => "ArrayRef");
 has "test_files_data" => (is => "rw", isa => "HashRef");
-has "Test_Interpreter" => (is => "rw", isa => "Str");
+has "Test_Interpreter" => (is => "rw", isa => "Maybe[Str]");
 has "should_time" => (is => "rw", isa => "Bool");
 has "Verbose" => (is => "rw", isa => "Bool");
 

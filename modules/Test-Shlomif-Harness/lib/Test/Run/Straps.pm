@@ -58,7 +58,7 @@ sub _get_private_fields
 }
 
 has 'bailout_reason' => (is => "rw", isa => "Str");
-has 'callback' => (is => "rw", isa => "CodeRef");
+has 'callback' => (is => "rw", isa => "Maybe[CodeRef]");
 has 'Debug' => (is => "rw", isa => "Bool");
 has 'error' => (is => "rw", isa => "Any");
 has 'exception' => (is => "rw", isa => "Any");
@@ -77,9 +77,9 @@ has 'results' =>
 has 'saw_bailout' => (is => "rw", isa => "Bool");
 has 'saw_header' => (is => "rw", isa => "Bool");
 has '_seen_header' => (is => "rw", isa => "Num");
-has 'Switches' => (is => "rw", isa => "Str");
-has 'Switches_Env' => (is => "rw", isa => "Str");
-has 'Test_Interpreter' => (is => "rw", isa => "Str");
+has 'Switches' => (is => "rw", isa => "Maybe[Str]");
+has 'Switches_Env' => (is => "rw", isa => "Maybe[Str]");
+has 'Test_Interpreter' => (is => "rw", isa => "Maybe[Str]");
 has 'todo' => (is => "rw", isa => "HashRef");
 has 'too_many_tests' => (is => "rw", isa => "Bool");
 has 'totals' =>
@@ -810,7 +810,7 @@ sub _calc_reset_file_state
         saw_header => 0,
         saw_bailout => 0,
         bailout_reason => "",
-        'next' => 1,
+        next_test_num => 1,
     };
 }
 

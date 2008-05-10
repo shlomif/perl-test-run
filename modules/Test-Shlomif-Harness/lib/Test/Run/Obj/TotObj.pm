@@ -56,6 +56,7 @@ has 'ok' => (is => "rw", isa => "Num");
 has 'skipped' => (is => "rw", isa => "Num");
 has 'sub_skipped' => (is => "rw", isa => "Num");
 has 'todo' => (is => "rw", isa => "Num");
+has 'tests' => (is => "rw", isa => "Num");
 
 sub _pre_init
 {

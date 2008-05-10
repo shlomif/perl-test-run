@@ -12,7 +12,7 @@ extends('Test::Run::Base');
 has '_tp_result' => 
 (
     is => "rw",
-    isa => "TAP::Parser::Result",
+    isa => "Maybe[TAP::Parser::Result]",
     handles => [qw(
         comment
         description

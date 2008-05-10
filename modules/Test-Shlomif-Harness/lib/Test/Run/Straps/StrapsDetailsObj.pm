@@ -26,6 +26,7 @@ extends('Test::Run::Base::Struct');
 @fields = (qw(
     actual_ok
     diagnostics
+    name
     ok
     reason
     type
@@ -44,6 +45,7 @@ sub _pre_init
 
 has 'actual_ok' => (is => "rw", isa => "Num");
 has 'diagnostics' => (is => "rw", isa => "Str");
+has 'name' => (is => "rw", isa => "Str");
 has 'ok' => (is => "rw", isa => "Num");
 has 'reason' => (is => "rw", isa => "Str");
 has 'type' => (is => "rw", isa => "Str");

@@ -48,6 +48,7 @@ has 'details' => (is => "rw", isa => "ArrayRef");
 has '_enormous_num_cb' => (is => "rw", isa => "CodeRef");
 has 'exit' => (is => "rw", isa => "Num");
 has 'filename' => (is => "rw", isa => "Str");
+has '_is_vms' => (is => "rw", isa => "Bool");
 has 'max' => (is => "rw", isa => "Num");
 has 'ok' => (is => "rw", isa => "Num");
 has 'passing' => (is => "rw", isa => "Bool");

@@ -95,7 +95,6 @@ sub add_to_field
     my ($self, $field, $diff) = @_;
     if (exists($self->_get_fields_map()->{$field}))
     {
-        Carp::cluck("Field == $field\n");
         $self->$field($self->$field()+$diff);
     }
     else
