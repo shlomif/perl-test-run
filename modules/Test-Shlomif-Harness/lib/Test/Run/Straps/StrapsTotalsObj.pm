@@ -43,6 +43,21 @@ sub _get_private_fields
     return [@fields];
 }
 
+has 'bonus' => (is => "rw", isa => "Num");
+has 'details' => (is => "rw", isa => "ArrayRef");
+has '_enormous_num_cb' => (is => "rw", isa => "CodeRef");
+has 'exit' => (is => "rw", isa => "Num");
+has 'filename' => (is => "rw", isa => "Str");
+has 'max' => (is => "rw", isa => "Num");
+has 'ok' => (is => "rw", isa => "Num");
+has 'passing' => (is => "rw", isa => "Bool");
+has 'seen' => (is => "rw", isa => "Bool");
+has 'skip' => (is => "rw", isa => "Num");
+has 'skip_all' => (is => "rw", isa => "Str");
+has 'skip_reason' => (is => "rw", isa => "Str");
+has 'todo' => (is => "rw", isa => "Num");
+has 'wait' => (is => "rw", isa => "Num");
+
 __PACKAGE__->mk_accessors(@fields);
 
 =head1 METHODS

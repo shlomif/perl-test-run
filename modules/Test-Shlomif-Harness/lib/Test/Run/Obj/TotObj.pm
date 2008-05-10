@@ -57,8 +57,6 @@ has 'skipped' => (is => "rw", isa => "Num");
 has 'sub_skipped' => (is => "rw", isa => "Num");
 has 'todo' => (is => "rw", isa => "Num");
 
-__PACKAGE__->mk_accessors(@fields);
-
 sub _pre_init
 {
     my $self = shift;

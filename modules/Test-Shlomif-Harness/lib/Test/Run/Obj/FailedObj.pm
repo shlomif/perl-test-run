@@ -21,15 +21,6 @@ use Moose;
 
 extends('Test::Run::Base::Struct');
 
-has 'canon' => (is => "rw", isa => "Str");
-has 'canon_strings' => (is => "rw", isa => "ArrayRef");
-has 'estat' => (is => "rw", isa => "Str");
-has 'failed' => (is => "rw", isa => "Str");
-has 'list_len' => (is => "rw", isa => "Num");
-has 'max' => (is => "rw", isa => "Num");
-has 'name' => (is => "rw", isa => "Str");
-has 'percent' => (is => "rw", isa => "Str");
-has 'wstat' => (is => "rw", isa => "Str");
 @fields = (qw(
     canon
     canon_strings
@@ -47,7 +38,15 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'canon' => (is => "rw", isa => "Str");
+has 'canon_strings' => (is => "rw", isa => "ArrayRef");
+has 'estat' => (is => "rw", isa => "Str");
+has 'failed' => (is => "rw", isa => "Str");
+has 'list_len' => (is => "rw", isa => "Num");
+has 'max' => (is => "rw", isa => "Num");
+has 'name' => (is => "rw", isa => "Str");
+has 'percent' => (is => "rw", isa => "Str");
+has 'wstat' => (is => "rw", isa => "Str");
 
 =head2 $self->_defined_percent()
 

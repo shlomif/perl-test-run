@@ -123,7 +123,7 @@ sub _get_private_fields
 
 @fields = (qw(bailout_reason));
 
-__PACKAGE__->mk_accessors(@fields);
+has 'bailout_reason' => (is => "rw", isa => "Str");
 
 sub stringify
 {

@@ -14,12 +14,11 @@ L<Test::Run::Straps> and L<Test::Run::Straps::StrapsTotalsObj>.
 
 =cut
 
-use Test::Run::Base;
-
 use Moose;
 
 extends('Test::Run::Base::Struct');
 
+use Test::Run::Straps::EventWrapper;
 
 use vars qw(@fields);
 
@@ -33,7 +32,7 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has '_event' => (is => "rw", isa => "Test::Run::Straps::EventWrapper");
 
 sub _is_event_pass
 {
