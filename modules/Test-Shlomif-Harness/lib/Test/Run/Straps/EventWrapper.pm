@@ -8,9 +8,7 @@ use Moose;
 extends('Test::Run::Base');
 
 
-__PACKAGE__->mk_accessors(qw(
-    _tp_result
-));
+has '_tp_result' => (is => "rw", isa => "TAP::Parser::Result");
 
 =head1 NAME
 

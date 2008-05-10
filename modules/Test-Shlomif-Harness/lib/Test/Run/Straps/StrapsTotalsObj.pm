@@ -58,8 +58,6 @@ has 'skip_reason' => (is => "rw", isa => "Str");
 has 'todo' => (is => "rw", isa => "Num");
 has 'wait' => (is => "rw", isa => "Num");
 
-__PACKAGE__->mk_accessors(@fields);
-
 =head1 METHODS
 
 =head2 $self->_calc_passing()
