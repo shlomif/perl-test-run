@@ -26,11 +26,6 @@ avoid license complications.
 
 =cut
 
-
-__PACKAGE__->mk_accessors(qw(
-    output
-));
-
 sub _get_new_output
 {
     my ($self, $args) = @_;

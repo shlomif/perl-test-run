@@ -45,8 +45,6 @@ END
     delete $ENV{HARNESS_NG_VERSION};
 }
 
-__PACKAGE__->mk_accessors(@{__PACKAGE__->_get_simple_params()});
-
 sub _get_simple_params
 {
     my $self = shift;

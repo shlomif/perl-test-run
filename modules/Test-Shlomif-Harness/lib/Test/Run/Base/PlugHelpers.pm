@@ -25,7 +25,7 @@ sub _get_private_fields
     return [qw(_plug_helpers)];
 }
 
-__PACKAGE__->mk_accessors(@{__PACKAGE__->_get_private_fields()});
+has '_plug_helpers' => (is => "rw", isa => "ArrayRef");
 
 sub _init
 {
