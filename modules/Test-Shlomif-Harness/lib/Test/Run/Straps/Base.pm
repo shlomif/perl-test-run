@@ -32,7 +32,7 @@ sub _get_private_fields
     return [@fields];
 }
 
-has '_event' => (is => "rw", isa => "Test::Run::Straps::EventWrapper");
+has '_event' => (is => "rw", isa => "Maybe[Test::Run::Straps::EventWrapper]");
 
 sub _is_event_pass
 {

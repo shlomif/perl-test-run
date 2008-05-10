@@ -78,9 +78,9 @@ has 'max' => (is => "rw", isa => "Num");
 has 'ml' => (is => "rw", isa => "Str");
 has 'next' => (is => "rw", isa => "Num");
 has 'ok' => (is => "rw", isa => "Num");
-has 'skip_all' => (is => "rw", isa => "Str");
+has 'skip_all' => (is => "rw", isa => "Maybe[Str]");
 has 'skipped' => (is => "rw", isa => "Num");
-has 'skip_reason' => (is => "rw", isa => "Str");
+has 'skip_reason' => (is => "rw", isa => "Maybe[Str]");
 
 sub _init
 {

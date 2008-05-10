@@ -46,7 +46,7 @@ sub _get_private_fields
 %counter_fields_map = (map { $_ => 1 } @counter_fields);
 
 has 'bad' => (is => "rw", isa => "Num");
-has 'bench' => (is => "rw", isa => "Num");
+has 'bench' => (is => "rw", isa => "Any");
 has 'bonus' => (is => "rw", isa => "Str");
 # TODO : Should this be removed?
 has 'files' => (is => "rw");

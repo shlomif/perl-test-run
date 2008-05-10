@@ -79,9 +79,9 @@ has "dir_files" => (is => "rw", isa => "ArrayRef");
 has "_new_dir_files" => (is => "rw", isa => "ArrayRef");
 has "failed_tests" => (is => "rw", isa => "HashRef");
 has "format_columns" => (is => "rw", isa => "Num");
-has "last_test_elapsed" => (is => "rw", isa => "Num");
+has "last_test_elapsed" => (is => "rw", isa => "Str");
 has "last_test_obj" => (is => "rw", isa => "Test::Run::Obj::TestObj");
-has "last_test_result" => (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+has "last_test_results" => (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
 has "list_len" => (is => "rw", isa => "Num");
 has "max_namelen" => (is => "rw", isa => "Num");
 
@@ -937,7 +937,7 @@ sub _calc_last_test_obj_params
             (qw(bonus max ok skip_reason skip_all))
         ),
         skipped => $results->skip(),
-        'next' => $self->Strap->next(),
+        'next' => $self->Strap->next_test_num(),
         failed => $results->_get_failed_details(),
         ml => $self->_calc_test_struct_ml($results),
     ];

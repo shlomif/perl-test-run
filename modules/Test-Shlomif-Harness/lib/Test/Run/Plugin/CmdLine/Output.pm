@@ -544,7 +544,7 @@ sub _report_test_progress__counter
     my $totals = $args->{totals};
 
     my $curr = $totals->seen;
-    my $next = $self->Strap->next();
+    my $next = $self->Strap->next_test_num();
 
     if ($curr > $next)
     {

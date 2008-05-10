@@ -45,14 +45,14 @@ sub _get_private_fields
 
 has 'bonus' => (is => "rw", isa => "Num");
 has 'details' => (is => "rw", isa => "ArrayRef");
-has '_enormous_num_cb' => (is => "rw", isa => "CodeRef");
+has '_enormous_num_cb' => (is => "rw", isa => "Maybe[CodeRef]");
 has 'exit' => (is => "rw", isa => "Num");
 has 'filename' => (is => "rw", isa => "Str");
 has '_is_vms' => (is => "rw", isa => "Bool");
 has 'max' => (is => "rw", isa => "Num");
 has 'ok' => (is => "rw", isa => "Num");
 has 'passing' => (is => "rw", isa => "Bool");
-has 'seen' => (is => "rw", isa => "Bool");
+has 'seen' => (is => "rw", isa => "Num");
 has 'skip' => (is => "rw", isa => "Num");
 has 'skip_all' => (is => "rw", isa => "Str");
 has 'skip_reason' => (is => "rw", isa => "Str");
