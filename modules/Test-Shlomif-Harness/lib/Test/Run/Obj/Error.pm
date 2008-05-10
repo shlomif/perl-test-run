@@ -16,6 +16,8 @@ package Test::Run::Obj::Error;
 use strict;
 use warnings;
 
+use Moose;
+
 use Test::Run::Base::Struct;
 
 use Scalar::Util ();
@@ -35,7 +37,7 @@ use overload
     'fallback' => 1
     ;
 
-@ISA = (qw(Test::Run::Base::Struct));
+extends(qw(Test::Run::Base::Struct));
 
 @fields = (qw(
     package
@@ -112,6 +114,8 @@ package Test::Run::Obj::Error::TestsFail::Bailout;
 
 use vars qw(@ISA @fields);
 
+use Moose;
+
 sub _get_private_fields
 {
     my $self = shift;
@@ -119,7 +123,7 @@ sub _get_private_fields
     return [@fields];
 }
 
-@ISA = (qw(Test::Run::Obj::Error::TestsFail));
+extends(qw(Test::Run::Obj::Error::TestsFail));
 
 @fields = (qw(bailout_reason));
 

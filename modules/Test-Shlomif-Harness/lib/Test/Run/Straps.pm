@@ -37,8 +37,7 @@ my @fields= (qw(
     _file_totals
     _is_macos
     _is_win32
-    last_test_print
-    next
+    next_test_num
     _old5lib
     _parser
     results
@@ -58,7 +57,36 @@ sub _get_private_fields
     return [@fields];
 }
 
+has 'bailout_reason' => (is => "rw", isa => "Str");
+has 'callback' => (is => "rw", isa => "CodeRef");
+has 'Debug' => (is => "rw", isa => "Bool");
+has 'error' => (is => "rw", isa => "Any");
+has 'exception' => (is => "rw", isa => "Any");
+has 'file' => (is => "rw", isa => "Str");
+has '_file_totals' =>
+    (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+has '_is_macos' => (is => "rw", isa => "Bool");
+has '_is_win32' => (is => "rw", isa => "Bool");
+has 'last_test_print' => (is => "rw", isa => "Bool");
+has 'next_test_num' => (is => "rw", isa => "Num");
+has '_old5lib' => (is => "rw", isa => "Str");
+has '_parser' => (is => "rw", isa => "TAP::Parser");
+has 'results' =>
+    (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+has 'saw_bailout' => (is => "rw", isa => "Bool");
+has 'saw_header' => (is => "rw", isa => "Bool");
+has '_seen_header' => (is => "rw", isa => "Num");
+has 'Switches' => (is => "rw", isa => "Str");
+has 'Switches_Env' => (is => "rw", isa => "Str");
+has 'Test_Interpreter' => (is => "rw", isa => "Str");
+has 'todo' => (is => "rw", isa => "HashRef");
+has 'too_many_tests' => (is => "rw", isa => "Bool");
+has 'totals' =>
+    (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+
 __PACKAGE__->mk_accessors(@fields);
+
+
 
 
 =head2 my $strap = Test::Run::Straps->new();
@@ -325,7 +353,7 @@ sub _bump_next
 
     if (defined(my $n = $self->_event->get_next_test_number()))
     {
-        $self->next($n);
+        $self->next_test_num($n);
     }
 
     return;
