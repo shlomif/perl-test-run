@@ -1,5 +1,9 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+0.0106  Mon Aug 18 20:16:20 IDT 2008
+        * _initialize() -> _init().
+        * Bumped the required versions.
+
 0.0105  Fri Apr  4 14:34:33 IDT 2008
         * Changed the plugin due to a Test::Run::Core incompatibility.
         * Now requiring Test::Run::Core 0.0115.

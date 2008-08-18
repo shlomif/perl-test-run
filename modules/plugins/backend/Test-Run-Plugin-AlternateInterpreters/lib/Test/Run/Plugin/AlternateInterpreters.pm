@@ -14,11 +14,11 @@ Test::Run::Plugin::AlternateInterpreters - Define different interpreters for dif
 
 =head1 VERSION
 
-Version 0.0105
+Version 0.0106
 
 =cut
 
-our $VERSION = '0.0105';
+our $VERSION = '0.0106';
 
 __PACKAGE__->mk_accessors(qw(
     alternate_interpreters
