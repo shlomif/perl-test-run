@@ -18,7 +18,7 @@ my $build = Test::Run::Builder->new(
     },
     requires => 
     {
-        'Test::Run::Core' => "0.0110",
+        'Test::Run::Core' => "0.0117",
         'UNIVERSAL::require' => 0,
     },
     dist_version_from => 'lib/Test/Run/CmdLine.pm',
