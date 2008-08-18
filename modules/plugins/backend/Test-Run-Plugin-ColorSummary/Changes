@@ -1,5 +1,11 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+0.0103       Mon Aug 18 20:35:35 IDT 2008
+    * Changed the license in Build.PL from "bsd" to "mit".
+    * Changed _initialize() to _init().
+        - in accordance to latest Test-Run.
+    * Bumped the version numbers of the dependencies.
+
 0.0102       Sat Jun 23 17:02:34 IDT 2007
     * Converted the distribution to Test-Run-Builder.
     * Merged the Test-Run-CmdLine-Plugin-ColorSummary into this distribution.

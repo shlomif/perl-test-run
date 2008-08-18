@@ -18,11 +18,11 @@ colors the summary.
 
 =head1 VERSION
 
-0.0102
+0.0103
 
 =cut
 
-our $VERSION = '0.0102';
+our $VERSION = '0.0103';
 
 __PACKAGE__->mk_accessors(qw(
     summary_color_failure
