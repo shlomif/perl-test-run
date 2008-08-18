@@ -1,5 +1,11 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+0.0104    Mon Aug 18 20:26:07 IDT 2008
+        * Changed _initialize() to _init().
+            - In accordance to the new Test-Run.
+        * Bumped the dependencies.
+        * Changed the licence to "mit" instead of "bsd".
+
 0.0103    Sat Jun 23 17:18:31 IDT 2007
         * Simplified the CanonFailedObj plugin-specifying code based on the
         new development of Test::Run::Base.
