@@ -1,5 +1,12 @@
 Revision history for Test::Run::Plugin::TrimDisplaysFilenames
 
+0.0101  Mon Aug 18 20:46:52 IDT 2008
+        - Changed _initialize to _init.
+            - In accordance to the new Test-Run.
+        - Bumped the dependencies in the Build.PL.
+        - Fixed the tests.
+        - Refactored ib/Test/Run/Plugin/TrimDisplayedFilenames.pm .
+
 0.01    Fri Apr  4 12:38:36 IDT 2008
         - First version, released on an unsuspecting world.
         - Forked from a previous module.
