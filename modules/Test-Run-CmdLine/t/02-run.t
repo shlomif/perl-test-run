@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use lib "./t/";
+use lib "./t/lib";
 
 use Test::More tests => 5;
 
