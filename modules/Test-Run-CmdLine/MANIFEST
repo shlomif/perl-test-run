@@ -14,8 +14,8 @@ examples/eumm-and-test-manifest/MyModule/testlib/Test/Run/CmdLine/WithTestManife
 examples/eumm-and-test-manifest/MyModule/t/pod-coverage.t
 examples/eumm-and-test-manifest/MyModule/t/pod.t
 examples/eumm-and-test-manifest/MyModule/t/test_manifest
-examples/Module-Build/README.txt
 examples/Module-Build/inc/Test/Run/Builder.pm
+examples/Module-Build/README.txt
 inc/Test/Run/Builder.pm
 lib/Test/Run/CmdLine/Drivers/Default.pm
 lib/Test/Run/CmdLine/Iface.pm
@@ -35,6 +35,7 @@ t/03-prove.t
 t/04-t-r-cl-iface.t
 t/05-prove-cl-process.t
 t/07-trap-prove-app.t
+t/08-collect-plugins.t
 t/pod-coverage.t
 t/pod.t
 t/sample-tests/bad.t
@@ -76,9 +77,11 @@ t/test-libs/lib1/MyHello.pm
 t/test-libs/lib2/MyFoo.pm
 t/Test/Run/CmdLine/Drivers/CmdLineTest.pm
 t/Test/Run/CmdLine/Plugin/BarField.pm
+t/Test/Run/CmdLine/Plugin/BarFieldWithAccum.pm
 t/Test/Run/CmdLine/Plugin/FooField.pm
 t/Test/Run/CmdLine/Plugin/StupidRunTests.pm
 t/Test/Run/CmdLine/Plugin/Super.pm
+t/Test/Run/CmdLine/Plugin/ZedField.pm
 t/Test/Run/Drivers/CmdLineTestBare.pm
 t/Test/Run/Drivers/CmdLineTest.pm
 t/Test/Run/Plugin/BarField.pm
