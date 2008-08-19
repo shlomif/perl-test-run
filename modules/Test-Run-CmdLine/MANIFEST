@@ -76,6 +76,8 @@ t/sample-tests/with-myhello-and-myfoo
 t/test-libs/lib1/MyHello.pm
 t/test-libs/lib2/MyFoo.pm
 t/Test/Run/CmdLine/Drivers/CmdLineTest.pm
+t/Test/Run/CmdLine/Drivers/CollectPluginsBarZed.pm
+t/Test/Run/CmdLine/Drivers/CollectPluginsZedBar.pm
 t/Test/Run/CmdLine/Plugin/BarField.pm
 t/Test/Run/CmdLine/Plugin/BarFieldWithAccum.pm
 t/Test/Run/CmdLine/Plugin/FooField.pm
