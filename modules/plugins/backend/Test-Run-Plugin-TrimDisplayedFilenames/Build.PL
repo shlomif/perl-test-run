@@ -17,7 +17,7 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::CmdLine::Trap::ProveApp' => 0,
     },
     requires => {
-        'Test::Run::CmdLine' => "0.0108",
+        'Test::Run::CmdLine' => "0.0110",
         'Test::Run::Core' => "0.0117",
         'YAML' => 0,
         'NEXT' => 0,

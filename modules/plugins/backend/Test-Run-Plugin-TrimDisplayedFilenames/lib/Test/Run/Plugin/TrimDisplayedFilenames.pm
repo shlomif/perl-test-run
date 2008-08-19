@@ -18,11 +18,11 @@ of the displayed filename to deal with excessively long ones.
 
 =head1 VERSION
 
-Version 0.0101
+Version 0.0102
 
 =cut
 
-our $VERSION = '0.0101';
+our $VERSION = '0.0102';
 
 __PACKAGE__->mk_accessors(qw(
     trim_displayed_filenames_query
