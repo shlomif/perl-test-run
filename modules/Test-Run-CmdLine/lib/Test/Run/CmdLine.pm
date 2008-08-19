@@ -416,7 +416,7 @@ sub _calc_single_plugin_for_ISA
     return "Test::Run::Plugin::$p";
 }
 
-=head2 $self->private_backend_args()
+=head2 $self->private_backend_plugins()
 
 Calculates the backend plugins specific for this class. They will be collected
 to formulate a list of plugins that will be C<add_to_backend_plugins()>'ed.
