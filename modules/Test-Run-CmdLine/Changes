@@ -1,5 +1,11 @@
 Revision history for Test-Run-CmdLine
 
+    * Factored out some methods in lib/Test/Run/CmdLine/Iface.pm to
+    make debugging easier.
+        - _real_prepare_driver_class
+        - _prepare_driver_class
+        - _calc_driver
+
 0.0108     Mon Aug 18 20:03:47 IDT 2008
     * Changed all the initializers to _init() instead of _initialize().
         - In compatibility with Test-Run-0.0117
