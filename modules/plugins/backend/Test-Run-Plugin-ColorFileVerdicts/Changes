@@ -1,5 +1,9 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+0.0105    Tue Aug 19 22:34:31 IDT 2008
+        * Converted to private_backend_plugins().
+        * Bumped the dependency to the latest Test-Run-CmdLine.
+
 0.0104    Mon Aug 18 20:26:07 IDT 2008
         * Changed _initialize() to _init().
             - In accordance to the new Test-Run.
