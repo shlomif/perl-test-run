@@ -1,5 +1,10 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+0.0104       Tue Aug 19 22:46:54 IDT 2008
+    * Converted to private_backend_plugins().
+    * Now depending on Test-Run-CmdLine-0.0110 which has
+    private_backend_plugins() .
+
 0.0103       Mon Aug 18 20:35:35 IDT 2008
     * Changed the license in Build.PL from "bsd" to "mit".
     * Changed _initialize() to _init().

@@ -22,7 +22,7 @@ my $builder = Test::Run::Builder->new(
         'Scalar::Util' => 0,
         'Test::Run::Obj' => 0,
         'Test::Run::Core' => '0.0117',
-        'Test::Run::CmdLine' => '0.0108',
+        'Test::Run::CmdLine' => '0.0110',
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorSummary-*' ],
     create_makefile_pl => 'traditional',

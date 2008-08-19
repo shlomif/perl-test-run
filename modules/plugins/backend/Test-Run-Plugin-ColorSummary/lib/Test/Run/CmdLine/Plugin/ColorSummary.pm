@@ -3,8 +3,6 @@ package Test::Run::CmdLine::Plugin::ColorSummary;
 use warnings;
 use strict;
 
-use NEXT;
-
 =head1 NAME
 
 Test::Run::CmdLine::Plugin::ColorSummary - Color the summary in Test::Run::CmdLine.
@@ -13,11 +11,18 @@ Test::Run::CmdLine::Plugin::ColorSummary - Color the summary in Test::Run::CmdLi
 
 our $VERSION = '0.0102';
 
-sub _init
+=head2 $self->private_backend_plugins()
+
+Returns the Backend Plugins as specified by this plugin. See 
+L<Test::Run::CmdLine> for more information.
+
+=cut
+
+sub private_backend_plugins
 {
     my $self = shift;
-    $self->NEXT::_init(@_);
-    $self->add_to_backend_plugins("ColorSummary");
+
+    return [qw(ColorSummary)];
 }
 
 =head2 $self->private_direct_backend_env_mapping()
