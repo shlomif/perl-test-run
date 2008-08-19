@@ -5,6 +5,9 @@ Revision history for Test-Run-CmdLine
     To:
         {{ =head2 $self->private_backend_plugins() }}
 
+    * Fixed a bug where YAML.pm was not loaded and as a result the YAML
+    arguments were broken.
+
 0.0109     Tue Aug 19 21:29:15 IDT 2008
     * Factored out some methods in lib/Test/Run/CmdLine/Iface.pm to
     make debugging easier.

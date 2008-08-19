@@ -5,6 +5,7 @@ use strict;
 
 use Carp;
 use UNIVERSAL::require;
+use YAML;
 
 use Test::Run::Base;
 

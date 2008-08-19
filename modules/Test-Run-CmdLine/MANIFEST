@@ -36,6 +36,8 @@ t/04-t-r-cl-iface.t
 t/05-prove-cl-process.t
 t/07-trap-prove-app.t
 t/08-collect-plugins.t
+t/09-yaml-args.t
+t/data/yaml-test.yml
 t/lib/Test/Run/CmdLine/Drivers/CmdLineTest.pm
 t/lib/Test/Run/CmdLine/Drivers/CollectPluginsBarZed.pm
 t/lib/Test/Run/CmdLine/Drivers/CollectPluginsZedBar.pm
@@ -44,6 +46,7 @@ t/lib/Test/Run/CmdLine/Plugin/BarFieldWithAccum.pm
 t/lib/Test/Run/CmdLine/Plugin/FooField.pm
 t/lib/Test/Run/CmdLine/Plugin/StupidRunTests.pm
 t/lib/Test/Run/CmdLine/Plugin/Super.pm
+t/lib/Test/Run/CmdLine/Plugin/YamlTest.pm
 t/lib/Test/Run/CmdLine/Plugin/ZedField.pm
 t/lib/Test/Run/Drivers/CmdLineTestBare.pm
 t/lib/Test/Run/Drivers/CmdLineTest.pm
