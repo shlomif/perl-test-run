@@ -3,10 +3,6 @@ package Test::Run::CmdLine::Plugin::AlternateInterpreters;
 use strict;
 use warnings;
 
-use NEXT;
-
-use YAML;
-
 =head1 NAME
 
 Test::Run::CmdLine::Plugin::AlternateInterpreters - Use configurable 
@@ -31,13 +27,20 @@ interpreters and their regular expressions. A sample one is:
 
 =cut
 
-our $VERSION = '0.0100';
+our $VERSION = '0.0101';
 
-sub _init
+=head2 $self->private_backend_plugins()
+
+Returns the Backend Plugins as specified by this plugin. See 
+L<Test::Run::CmdLine> for more information.
+
+=cut
+
+sub private_backend_plugins
 {
     my $self = shift;
-    $self->NEXT::_init(@_);
-    $self->add_to_backend_plugins("AlternateInterpreters");
+
+    return [qw(AlternateInterpreters)];
 }
 
 =head2 $self->private_non_direct_backend_env_mapping()

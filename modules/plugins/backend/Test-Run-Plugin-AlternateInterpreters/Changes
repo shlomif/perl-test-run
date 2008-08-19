@@ -1,5 +1,11 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+0.0107  Tue Aug 19 22:27:37 IDT 2008
+        * Converted to private_backend_plugins().
+        * Removed the loading of YAML and NEXT - no longer needed.
+        * Now depending on Test-Run-CmdLine-0.0110 which fixes the 
+        relevant bugs.
+
 0.0106  Mon Aug 18 20:16:20 IDT 2008
         * _initialize() -> _init().
         * Bumped the required versions.
