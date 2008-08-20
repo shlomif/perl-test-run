@@ -1,6 +1,6 @@
 ---
 name: Test-Run
-version: 0.0116
+version: 0.0117
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Base class to run standard TAP scripts.
@@ -38,7 +38,7 @@ provides:
     file: lib/Test/Run/Class/Hierarchy.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0116
+    version: 0.0117
   Test::Run::Core_GplArt:
     file: lib/Test/Run/Core_GplArt.pm
   Test::Run::Iface:

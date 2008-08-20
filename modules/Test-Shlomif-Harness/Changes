@@ -1,3 +1,11 @@
+0.0117    Mon Aug 18 19:53:38 IDT 2008
+    * Fixed t/sample-tests/skipall to generate the skip_all "rope" message
+    that will be acceptable on recent versions of TAP::Parser.
+    * Changed the name of the construction function from _initialize
+    to _init.
+    * Changed the interface of _register_obj_formatter() to
+    accept a hash ref instead of ($name, $format).
+
 0.0116    Fri Apr 11 20:20:50 IDT 2008
     * Wrote a fix to the test failures that Test-Run-0.0115 experienced on 
     BSD systems due to a test-script path over 256 bytes.
