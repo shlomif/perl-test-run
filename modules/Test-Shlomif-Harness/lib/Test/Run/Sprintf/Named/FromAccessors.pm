@@ -63,7 +63,10 @@ sub obj_format
 {
     my ($self, $obj, $other_args) = @_;
 
-    $other_args ||= {};
+    if (!$other_args)
+    {
+        $other_args = {};
+    }
 
     return $self->format({args => {obj => $obj, %$other_args}});
 }
