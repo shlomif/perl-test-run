@@ -3,13 +3,14 @@
 use strict;
 use warnings;
 
-use Test::More tests => 19;
+use Test::More tests => 20;
 
 use Test::Run::Obj;
 use Test::Run::Trap::Obj;
 use Cwd;
 use POSIX ();
 use List::Util ();
+use File::Path ();
 
 {
     my $got = Test::Run::Trap::Obj->trap_run({
@@ -294,6 +295,42 @@ sub get_max_system_path_len
         );
 }
 
+# Test the leaked dir feature.
+{
+    my $sample_tests_dir = File::Spec->catdir("t", "sample-tests");
+    my $leaked_files_dir = File::Spec->catdir($sample_tests_dir, "leaked-files-dir");
+    my $leaked_file = File::Spec->catfile($leaked_files_dir, "hello.txt");
+
+    my $leak_test_file = File::Spec->catfile($sample_tests_dir, "leak-file.t");
+
+    mkdir($leaked_files_dir, 0777);
+    {
+        {
+            local (*O);
+            open O, ">", $leaked_file;
+            print O "This is the file hello.txt";
+            close(O);
+        }
+    }
+
+    my $got = Test::Run::Trap::Obj->trap_run({args =>
+        [
+            test_files => 
+            [
+                $leak_test_file
+            ],
+            Leaked_Dir => $leaked_files_dir,
+        ]
+    });
+
+    # TEST
+    $got->field_like("stdout",
+        qr{^LEAKED FILES: new-file\.txt$}ms,
+        "Checking for output of the leaked files."
+    );
+
+    File::Path::rmtree($leaked_files_dir);
+}
 __END__
 
 =head1 LICENSE
