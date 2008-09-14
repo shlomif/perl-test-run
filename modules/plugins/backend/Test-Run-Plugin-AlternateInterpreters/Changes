@@ -1,5 +1,11 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+        * Added a fix for:
+    http://www.nntp.perl.org/group/perl.cpan.testers/2008/09/msg2204098.html
+            - Cwd.pm (not the XS version) cannot abs_path() a non-existent
+            file in an existent directory.
+            - fixed t/02-cmdline-run.t
+
 0.0107  Tue Aug 19 22:27:37 IDT 2008
         * Converted to private_backend_plugins().
         * Removed the loading of YAML and NEXT - no longer needed.
