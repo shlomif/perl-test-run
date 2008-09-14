@@ -18,7 +18,7 @@ Version 0.0106
 
 =cut
 
-our $VERSION = '0.0107';
+our $VERSION = '0.0108';
 
 __PACKAGE__->mk_accessors(qw(
     alternate_interpreters
