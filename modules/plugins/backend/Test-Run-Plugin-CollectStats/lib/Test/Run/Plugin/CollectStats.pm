@@ -18,7 +18,7 @@ data.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.0101
 
 =cut
 
@@ -26,7 +26,7 @@ __PACKAGE__->mk_accessors(qw(
     _recorded_test_files_data
     _test_files_names_map
 ));
-our $VERSION = '0.01';
+our $VERSION = '0.0101';
 
 =head1 SYNOPSIS
 

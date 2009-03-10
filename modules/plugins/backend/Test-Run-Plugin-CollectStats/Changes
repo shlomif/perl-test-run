@@ -1,5 +1,9 @@
 Revision history for Test-Run-Plugin-CollectStats
 
+0.0101  Tue Mar 10 17:51:26 IST 2009
+        - Adapted the module to recent Test::Run's.
+            - Now hopefully the CPAN Testers tests won't fail.
+
 0.01    Sat Mar 17 12:35:10 IST 2007
         First version, released on an unsuspecting world.
 
