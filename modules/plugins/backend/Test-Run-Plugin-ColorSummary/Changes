@@ -1,5 +1,8 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+0.0105       Mon May  4 21:11:22 IDT 2009
+    * Converted from NEXT.pm to MRO::Compat.
+
 0.0104       Tue Aug 19 22:46:54 IDT 2008
     * Converted to private_backend_plugins().
     * Now depending on Test-Run-CmdLine-0.0110 which has
