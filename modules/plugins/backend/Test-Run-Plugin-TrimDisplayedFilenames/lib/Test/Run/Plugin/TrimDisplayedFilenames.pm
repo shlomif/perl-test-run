@@ -3,7 +3,7 @@ package Test::Run::Plugin::TrimDisplayedFilenames;
 use warnings;
 use strict;
 
-use NEXT;
+use MRO::Compat;
 use File::Spec;
 use File::Basename;
 use List::MoreUtils ();
@@ -18,11 +18,11 @@ of the displayed filename to deal with excessively long ones.
 
 =head1 VERSION
 
-Version 0.0102
+Version 0.0103
 
 =cut
 
-our $VERSION = '0.0102';
+our $VERSION = '0.0103';
 
 __PACKAGE__->mk_accessors(qw(
     trim_displayed_filenames_query

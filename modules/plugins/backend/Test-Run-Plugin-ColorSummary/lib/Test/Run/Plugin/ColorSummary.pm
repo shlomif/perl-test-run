@@ -3,7 +3,7 @@ package Test::Run::Plugin::ColorSummary;
 use warnings;
 use strict;
 
-use NEXT;
+use MRO::Compat;
 use Term::ANSIColor;
 # Needed for ->autoflush()
 use IO::Handle;
@@ -18,11 +18,11 @@ colors the summary.
 
 =head1 VERSION
 
-0.0104
+0.0105
 
 =cut
 
-our $VERSION = '0.0104';
+our $VERSION = '0.0105';
 
 __PACKAGE__->mk_accessors(qw(
     summary_color_failure
@@ -102,7 +102,7 @@ sub _report_success
 {
     my $self = shift;
     print color($self->_get_success_summary_color());
-    $self->NEXT::_report_success();
+    $self->next::method();
     print color("reset");
 }
 

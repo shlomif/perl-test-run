@@ -11,13 +11,14 @@ package MyTestRun::Pluggable;
 
 use base 'Test::Run::Base::PlugHelpers';
 
-use NEXT;
+use MRO::Compat;
+
 
 sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
 
     $self->register_pluggable_helper(
         {

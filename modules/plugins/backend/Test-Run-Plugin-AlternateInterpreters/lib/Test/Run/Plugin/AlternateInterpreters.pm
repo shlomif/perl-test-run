@@ -3,7 +3,7 @@ package Test::Run::Plugin::AlternateInterpreters;
 use warnings;
 use strict;
 
-use NEXT;
+use MRO::Compat;
 
 use base 'Test::Run::Base';
 use base 'Class::Accessor';
@@ -14,11 +14,11 @@ Test::Run::Plugin::AlternateInterpreters - Define different interpreters for dif
 
 =head1 VERSION
 
-Version 0.0106
+Version 0.0109
 
 =cut
 
-our $VERSION = '0.0108';
+our $VERSION = '0.0109';
 
 __PACKAGE__->mk_accessors(qw(
     alternate_interpreters
@@ -45,7 +45,7 @@ sub _get_private_simple_params
 sub _init_strap
 {
     my ($self, $args) = @_;
-    $self->NEXT::_init_strap($args);
+    $self->next::method($args);
 
     $self->Strap()->alternate_interpreters($self->alternate_interpreters());
 

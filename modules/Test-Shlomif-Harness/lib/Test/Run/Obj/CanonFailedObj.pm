@@ -16,6 +16,9 @@ Test::Run::Obj::CanonFailedObj - the failed tests canon object.
 
 use base 'Test::Run::Base::Struct';
 
+use MRO::Compat;
+
+
 use vars qw(@fields);
 
 @fields = (qw(
@@ -34,7 +37,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
 
     $self->_more_results([]);
 

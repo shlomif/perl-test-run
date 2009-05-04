@@ -20,7 +20,7 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::CmdLine' => "0.0110",
         'Test::Run::Core' => "0.0117",
         'YAML' => 0,
-        'NEXT' => 0,
+        'MRO::Compat' => 0,
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-TrimDisplayedFilenames-*' ],
     create_makefile_pl => 'traditional',

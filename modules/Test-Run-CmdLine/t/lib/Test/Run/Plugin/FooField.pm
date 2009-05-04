@@ -3,12 +3,14 @@ package Test::Run::Plugin::FooField;
 use strict;
 use warnings;
 
-use NEXT;
+use MRO::Compat;
+
+use mro "dfs";
 
 sub runtests
 {
     my $self = shift;
-    my $ret = $self->NEXT::runtests(@_);
+    my $ret = $self->next::method(@_);
     $ret->{'foo'} = "myfoo";
     return $ret;
 }

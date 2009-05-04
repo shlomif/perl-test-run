@@ -13,7 +13,8 @@ use vars qw(@fields);
 
 use base 'Test::Run::Base::Struct';
 
-use NEXT;
+use MRO::Compat;
+
 
 @fields = (qw(
     ok
@@ -75,7 +76,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->next::method($args);
 
     $self->_register_obj_formatter(
         {

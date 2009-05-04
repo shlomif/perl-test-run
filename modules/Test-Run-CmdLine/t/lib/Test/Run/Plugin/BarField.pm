@@ -3,12 +3,14 @@ package Test::Run::Plugin::BarField;
 use strict;
 use warnings;
 
-use NEXT;
+use MRO::Compat;
+
+use mro "dfs";
 
 sub runtests
 {
     my $self = shift;
-    my $ret = $self->NEXT::runtests(@_);
+    my $ret = $self->next::method(@_);
     $ret->{'bar'} = "habar sheli";
     return $ret;
 }

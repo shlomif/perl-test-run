@@ -3,7 +3,8 @@ package Test::Run::Plugin::FailSummaryComponents;
 use warnings;
 use strict;
 
-use NEXT;
+use MRO::Compat;
+
 use Scalar::Util ();
 
 use base 'Test::Run::Base';
@@ -16,7 +17,7 @@ customizes the failure summary line.
 
 =cut
 
-our $VERSION = '0.0100_02';
+our $VERSION = '0.0100_03';
 
 my @params = (qw(
     failsumm_remove_test_scripts_number
@@ -81,7 +82,7 @@ sub _get_fail_test_scripts_string
     }
     else
     {
-        return $self->NEXT::_get_fail_test_scripts_string();
+        return $self->next::method();
     }
 }
 
@@ -94,7 +95,7 @@ sub _get_fail_tests_good_percent_string
     }
     else
     {
-        return $self->NEXT::_get_fail_tests_good_percent_string();
+        return $self->next::method();
     }
 }
 
@@ -104,7 +105,7 @@ sub _get_sub_percent_msg
 
     if (!$self->failsumm_remove_subtests_percent())
     {
-        return $self->NEXT::_get_sub_percent_msg();
+        return $self->next::method();
     }
 
     my $tot = $self->tot();

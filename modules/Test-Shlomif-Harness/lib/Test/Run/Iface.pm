@@ -3,7 +3,7 @@ package Test::Run::Iface;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base';
+use MRO::Compat;
 
 1;
 

@@ -3,6 +3,9 @@ package Test::Run::Base;
 use strict;
 use warnings;
 
+use MRO::Compat;
+
+
 =head1 NAME
 
 Test::Run::Base - base class for all of Test::Run.

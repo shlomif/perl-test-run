@@ -6,7 +6,7 @@ use warnings;
 sub _init
 {
     my $self = shift;
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
     $self->add_to_backend_plugins("BarField");
 }
 

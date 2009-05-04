@@ -18,7 +18,7 @@ my $build = Test::Run::Builder->new(
     },
     requires => 
     {
-        'Test::Run::Core' => "0.0117",
+        'Test::Run::Core' => "0.0118",
         'UNIVERSAL::require' => 0,
         'YAML' => 0,
     },

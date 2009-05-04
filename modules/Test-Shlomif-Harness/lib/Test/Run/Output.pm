@@ -5,6 +5,9 @@ use warnings;
 
 use base 'Test::Run::Base';
 
+use MRO::Compat;
+
+
 __PACKAGE__->mk_accessors(qw(NoTty Verbose last_test_print ml));
 
 =head1 NAME
@@ -20,7 +23,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->maybe::next::method(@_);
 
     $self->Verbose($args->{Verbose});
     $self->NoTty($args->{NoTty});

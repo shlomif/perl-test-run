@@ -27,7 +27,7 @@ interpreters and their regular expressions. A sample one is:
 
 =cut
 
-our $VERSION = '0.0101';
+our $VERSION = '0.0102';
 
 =head2 $self->private_backend_plugins()
 

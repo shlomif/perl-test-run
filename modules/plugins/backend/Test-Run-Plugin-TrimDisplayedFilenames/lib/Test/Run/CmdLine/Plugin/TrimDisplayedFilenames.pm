@@ -27,7 +27,7 @@ environment variable. A few sample ones are:
 
 =cut
 
-our $VERSION = '0.0101';
+our $VERSION = '0.0102';
 
 =head2 $self->private_backend_plugins()
 

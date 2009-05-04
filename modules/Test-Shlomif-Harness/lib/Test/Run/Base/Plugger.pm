@@ -3,7 +3,8 @@ package Test::Run::Base::Plugger;
 use strict;
 use warnings;
 
-use NEXT;
+use MRO::Compat;
+
 
 use base 'Test::Run::Base';
 
@@ -41,7 +42,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->maybe::next::method($args);
 
     $self->_base($args->{base})
         or confess "Wrong base $args->{base}";

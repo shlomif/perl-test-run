@@ -17,7 +17,7 @@ sub _init_strap
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init_strap($args);
+    $self->next::method($args);
 
     push @ret, "_init_strap called";
 }

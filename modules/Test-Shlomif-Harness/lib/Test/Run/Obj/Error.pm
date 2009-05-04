@@ -22,7 +22,8 @@ use Scalar::Util ();
 
 use vars qw(@ISA @fields);
 
-use NEXT;
+use MRO::Compat;
+
 
 sub _polymorphic_stringify
 {
@@ -55,11 +56,11 @@ sub _init
 {
     my $self = shift;
 
-    # Workaround to make NEXT:: behave.
+    # Workaround to make next::method behave.
     # It misbehaves upon a stringification operation.
     $self->text(Scalar::Util::refaddr($self));
 
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
 
     my ($pkg,$file,$line) = caller(1);
     $self->package($pkg);

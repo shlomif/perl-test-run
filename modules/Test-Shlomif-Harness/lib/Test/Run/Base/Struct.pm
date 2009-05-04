@@ -14,7 +14,8 @@ Inherits from L<Test::Run::Base>.
 
 =cut
 
-use NEXT;
+use MRO::Compat;
+
 
 use base 'Test::Run::Base';
 
@@ -45,7 +46,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->maybe::next::method(@_);
 
     my ($args) = @_;
     

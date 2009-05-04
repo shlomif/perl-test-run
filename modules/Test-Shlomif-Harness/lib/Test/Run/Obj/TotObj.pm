@@ -21,6 +21,9 @@ use Benchmark qw();
 
 use base qw(Test::Run::Base::Struct);
 
+use MRO::Compat;
+
+
 @counter_fields = (qw(
     bad
     bench
@@ -59,7 +62,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
 
     $self->_register_obj_formatter(
         {

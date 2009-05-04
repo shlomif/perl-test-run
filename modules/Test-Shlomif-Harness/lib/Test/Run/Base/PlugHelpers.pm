@@ -10,7 +10,8 @@ pluggable helpers.
 
 =cut
 
-use NEXT;
+use MRO::Compat;
+
 use Carp;
 
 use base 'Test::Run::Base';
@@ -28,7 +29,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->maybe::next::method(@_);
 
     $self->_plug_helpers({});
 
