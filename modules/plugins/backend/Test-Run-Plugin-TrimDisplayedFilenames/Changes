@@ -1,5 +1,8 @@
 Revision history for Test::Run::Plugin::TrimDisplaysFilenames
 
+0.0103  Mon May  4 21:20:35 IDT 2009
+        - Converted from NEXT.pm to MRO::Compat .
+
 0.0102  Tue Aug 19 23:01:21 IDT 2008
         - Converted to private_backend_plugins().
         - Now depending on Test-Run-CmdLine-0.0110 which fixes the 
