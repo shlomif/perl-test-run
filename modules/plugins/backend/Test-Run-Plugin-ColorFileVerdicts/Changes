@@ -1,5 +1,8 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+0.0106    Mon May  4 21:06:10 IDT 2009
+        * Converted from NEXT.pm to MRO::Compat.
+
 0.0105    Tue Aug 19 22:34:31 IDT 2008
         * Converted to private_backend_plugins().
         * Bumped the dependency to the latest Test-Run-CmdLine.
