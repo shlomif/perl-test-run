@@ -1,5 +1,8 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+0.0109  Mon May  4 20:53:16 IDT 2009
+        * Changed from NEXT.pm to MRO::Compat.
+
 0.0108  Sun Sep 14 10:11:46 IDT 2008
         * Added a fix for:
     http://www.nntp.perl.org/group/perl.cpan.testers/2008/09/msg2204098.html
