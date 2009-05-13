@@ -322,10 +322,12 @@ sub get_max_system_path_len
             Leaked_Dir => $leaked_files_dir,
         ]
     });
-
+    
+    # Ending the regex with a "$" does not appear to please perl-5.8.8
+    # and perl-5.8.x below it. Converting to a \n.
     # TEST
     $got->field_like("stdout",
-        qr{^LEAKED FILES: new-file\.txt$}ms,
+        qr{^LEAKED FILES: new-file\.txt\n}ms,
         "Checking for output of the leaked files."
     );
 

@@ -1,3 +1,6 @@
+0.0119    Wed May 13 23:50:28 IDT 2009
+    * Made t/output.t work on perl-5.8.8 and below.
+
 0.0118    Mon May  4 20:33:10 IDT 2009
     * Increased the test coverage.
     * Converted the use of the old and deprecated NEXT.pm to 

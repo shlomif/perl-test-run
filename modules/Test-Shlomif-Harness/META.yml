@@ -1,18 +1,18 @@
 ---
 name: Test-Run
-version: 0.0117
+version: 0.0118
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Base class to run standard TAP scripts.
 license: mit
 resources:
-  license: http://opensource.org/licenses/mit-license.php
+  license: http://www.opensource.org/licenses/mit-license.php
 requires:
   Class::Accessor: 0
   File::Spec: 0.6
   List::MoreUtils: 0
   List::Util: 0
-  NEXT: 0
+  MRO::Compat: 0
   Scalar::Util: 0
   TAP::Parser: 3.09
   Test::Harness: 2.53
@@ -38,7 +38,7 @@ provides:
     file: lib/Test/Run/Class/Hierarchy.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0117
+    version: 0.0118
   Test::Run::Core_GplArt:
     file: lib/Test/Run/Core_GplArt.pm
   Test::Run::Iface:
@@ -91,7 +91,7 @@ provides:
     file: lib/Test/Run/Straps_GplArt.pm
   Test::Run::Trap::Obj:
     file: lib/Test/Run/Trap/Obj.pm
-generated_by: Module::Build version 0.2808
+generated_by: Module::Build version 0.32
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2
