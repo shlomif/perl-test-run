@@ -299,9 +299,11 @@ sub _usage
     pod2usage(
         {
             '-verbose' => $verbosity, 
+            '-exitval' => 0,
         }
     );
-    exit(0);
+
+    return;
 }
 
 sub _default_ext

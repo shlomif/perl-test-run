@@ -1,5 +1,7 @@
 Revision history for Test-Run-CmdLine
 
+    * Changed the exit status of "runprove --help" to 0.
+
 0.0111     Mon May  4 20:37:06 IDT 2009
     * Replaced "NEXT.pm" with MRO::Compat.
 
