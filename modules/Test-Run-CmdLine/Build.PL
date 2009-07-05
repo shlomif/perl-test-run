@@ -11,6 +11,7 @@ use Test::Run::Builder;
 
 my $build = Test::Run::Builder->new(
     module_name => "Test::Run::CmdLine",
+    dist_author => 'Shlomi Fish <shlomif@cpan.org>',
     build_requires =>
     {
         "Test::Trap" => 0,
@@ -26,6 +27,33 @@ my $build = Test::Run::Builder->new(
     license => "mit",
     script_files => [ "bin/runprove", ],
     create_makefile_pl => "traditional",
+    meta_merge =>
+    {
+        resources =>
+        {
+            homepage => "http://web-cpan.berlios.de/modules/Test-Run/",
+            repository => "http://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/",
+        },
+        keywords =>
+        [
+            "cmdline",
+            "command-line",
+            "front-end",
+            "harness",
+            "prove",
+            "qa",
+            "QA",
+            "quality assurance",
+            "run",
+            "runprove",
+            "tap",
+            "TAP",
+            "TAP::Harness",
+            "test",
+            "testing",
+            "Test::Run",
+        ],
+    },
 );
 
 $build->create_build_script;
