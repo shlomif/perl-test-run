@@ -1,5 +1,6 @@
 Revision history for Test-Run-CmdLine
 
+0.0112     Sun Jul  5 15:11:19 IDT 2009
     * Changed the exit status of "runprove --help" to 0.
     * Added meta-data and other information to the Build.PL.
 
