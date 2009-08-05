@@ -22,9 +22,9 @@ use vars (qw($VERSION));
 
 $VERSION = '0.0112';
 
-use vars (qw(@ISA));
+use Moose;
 
-@ISA = (qw(Test::Run::Base));
+extends ('Test::Run::Base');
 
 =head1 SYNOPSIS
 
@@ -40,13 +40,11 @@ use vars (qw(@ISA));
 
 =cut
 
-__PACKAGE__->mk_accessors(qw(
-    backend_class
-    backend_params
-    backend_plugins
-    backend_env_args
-    test_files
-));
+has 'backend_class' => (is => "rw", isa => "Str");
+has 'backend_params' => (is => "rw", isa => "HashRef");
+has 'backend_plugins' => (is => "rw", isa => "ArrayRef");
+has 'backend_env_args' => (is => "rw", isa => "ArrayRef");
+has 'test_files' => (is => "rw", isa => "ArrayRef");
 
 sub _init
 {
