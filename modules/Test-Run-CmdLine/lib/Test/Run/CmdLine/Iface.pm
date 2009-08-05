@@ -32,12 +32,14 @@ __PACKAGE__->mk_accessors(qw(
     driver_plugins
     test_files
     backend_params
+    _is_driver_class_prepared
 ));
 
 sub _init
 {
     my ($self, $args) = @_;
 
+    $self->_is_driver_class_prepared(0);
     $self->driver_plugins([]);
     if ($args->{'driver_class'} || $args->{'driver_plugins'})
     {
@@ -124,9 +126,10 @@ TODO : Write more.
 
 =cut
 
-sub run
+sub _real_prepare_driver_class
 {
     my $self = shift;
+
     my $driver_class = $self->driver_class();
     $driver_class->require();
     if ($@)
@@ -153,14 +156,43 @@ sub run
         push @{"${driver_class}::ISA"}, "Test::Run::CmdLine";
     }
 
-    my $driver = $driver_class->new(
+
+}
+
+# Does _real_prepare_driver_class with memoization.
+
+sub _prepare_driver_class
+{
+    my $self = shift;
+
+    if (! $self->_is_driver_class_prepared())
+    {
+        $self->_real_prepare_driver_class();
+
+        $self->_is_driver_class_prepared(1);
+    }
+    return;
+}
+
+sub _calc_driver
+{
+    my $self = shift;
+
+    $self->_prepare_driver_class();
+
+    my $driver = $self->driver_class()->new(
         {
             'test_files' => $self->test_files(),
             'backend_params' => $self->backend_params(),
         }
     );
 
-    return $driver->run();
+}
+sub run
+{
+    my $self = shift;
+
+    return $self->_calc_driver()->run();
 }
 
 sub _check_driver_class

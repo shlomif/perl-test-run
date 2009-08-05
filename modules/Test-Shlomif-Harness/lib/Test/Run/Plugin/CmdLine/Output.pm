@@ -5,10 +5,9 @@ use warnings;
 
 use Carp;
 use Benchmark qw(timestr);
-use NEXT;
+use MRO::Compat;
 
 use Moose;
-
 extends("Test::Run::Base");
 
 use Test::Run::Output;
@@ -54,7 +53,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
 
     my ($args) = @_;
 

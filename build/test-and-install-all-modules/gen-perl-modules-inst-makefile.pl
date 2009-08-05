@@ -46,7 +46,7 @@ sub process_eumm_dir
     my $bin_prefix = q{\\$$(SITEPREFIX)/bin};
     handle_deps($dir, 
         [
-            "perl Makefile.PL PREFIX=\"$prefix\" INSTALLSITEBIN=\"$bin_prefix\" INSTALLSITESCRIPT=\"$bin_prefix\"", 
+            "$(PERL) Makefile.PL PREFIX=\"$prefix\" INSTALLSITEBIN=\"$bin_prefix\" INSTALLSITESCRIPT=\"$bin_prefix\"", 
             "make", 
             "make \$(TEST_TARGET)", 
             "make install",
@@ -60,7 +60,7 @@ sub process_mb_dir
     my $dir = shift;
     handle_deps($dir, 
         [
-            "perl Build.PL", 
+            "\$(PERL) Build.PL", 
             "./Build", 
             "./Build \$(TEST_TARGET)", 
             "./Build install prefix=\"$prefix\"",
@@ -107,6 +107,8 @@ else
 print O "all: ", join(" ", @dirs) . "\n\n";
 
 print O "TEST_TARGET = test\n\n";
+
+print O "PERL = perl\n\n";
 
 print O "cleanall: ", join(" ", map {"CLEAN--$_"} @dirs). "\n\n";
 

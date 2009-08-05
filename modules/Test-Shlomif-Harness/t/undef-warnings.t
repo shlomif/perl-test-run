@@ -17,10 +17,13 @@ package MyTestRun;
 use Moose;
 extends("Test::Run::Obj");
 
+use MRO::Compat;
+
+
 sub _init_strap
 {
     my ($self, $args) = @_;
-    $self->NEXT::_init_strap($args);
+    $self->next::method($args);
 
     my $test_file = $args->{test_file};
 

@@ -5,6 +5,7 @@ use strict;
 
 use Carp;
 use UNIVERSAL::require;
+use YAML;
 
 use Test::Run::Base;
 
@@ -19,7 +20,7 @@ Test::Run::CmdLine - Analyze tests from the command line using Test::Run
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0107';
+$VERSION = '0.0112';
 
 use vars (qw(@ISA));
 
@@ -58,6 +59,8 @@ sub _init
     $self->_process_args($args);
     $self->backend_env_args([]);
 
+    $self->_collect_backend_plugins();
+    
     return 0;
 }
 
@@ -412,6 +415,36 @@ sub _calc_single_plugin_for_ISA
     my $self = shift;
     my $p = shift;
     return "Test::Run::Plugin::$p";
+}
+
+=head2 $self->private_backend_plugins()
+
+Calculates the backend plugins specific for this class. They will be collected
+to formulate a list of plugins that will be C<add_to_backend_plugins()>'ed.
+
+=cut
+
+sub _get_backend_plugins_accumulation
+{
+    my $self = shift;
+
+    return [reverse(@{$self->accum_array(
+        {
+            method => "private_backend_plugins",
+        }
+    )})];
+}
+
+sub _collect_backend_plugins
+{
+    my $self = shift;
+
+    foreach my $plug (@{$self->_get_backend_plugins_accumulation()})
+    {
+        $self->add_to_backend_plugins($plug);
+    }
+
+    return;
 }
 
 =head2 $self->add_to_backend_plugins($plugin)

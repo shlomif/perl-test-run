@@ -10,6 +10,9 @@ extends('Test::Run::Base::PlugHelpers');
 
 use vars qw($VERSION);
 
+use MRO::Compat;
+
+
 use List::MoreUtils ();
 
 use Fatal qw(opendir);
@@ -29,11 +32,11 @@ Test::Run::Core - Base class to run standard TAP scripts.
 
 =head1 VERSION
 
-Version 0.0116
+Version 0.0119
 
 =cut
 
-$VERSION = '0.0116';
+$VERSION = '0.0119';
 
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;
@@ -135,7 +138,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->maybe::next::method($args);
 
     $self->Columns(80);
     $self->Switches("-w");

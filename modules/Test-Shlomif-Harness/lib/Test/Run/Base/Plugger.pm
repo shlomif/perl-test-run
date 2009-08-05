@@ -5,7 +5,7 @@ use warnings;
 
 use Moose;
 
-use NEXT;
+use MRO::Compat;
 
 extends ("Test::Run::Base");
 
@@ -39,7 +39,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->maybe::next::method($args);
 
     $self->_base($args->{base})
         or confess "Wrong base $args->{base}";

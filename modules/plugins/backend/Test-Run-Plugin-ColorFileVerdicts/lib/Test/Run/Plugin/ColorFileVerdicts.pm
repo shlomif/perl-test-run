@@ -3,7 +3,7 @@ package Test::Run::Plugin::ColorFileVerdicts;
 use warnings;
 use strict;
 
-use NEXT;
+use MRO::Compat;
 use Term::ANSIColor;
 
 use base 'Test::Run::Base';
@@ -19,11 +19,11 @@ colorful.
 
 =head1 VERSION
 
-Version 0.0101
+Version 0.0106
 
 =cut
 
-our $VERSION = '0.0103';
+our $VERSION = '0.0106';
 
 =head1 SYNOPSIS
 
@@ -73,7 +73,7 @@ sub _get_dubious_verdict_message
     my $self = shift;
 
     return color($self->_get_individual_test_file_color("dubious"))
-        . $self->NEXT::_get_dubious_verdict_message() .
+        . $self->next::method() .
         color("reset");
 }
 
@@ -83,7 +83,7 @@ sub _get_canonfailed_params
 
     return 
     [
-        @{$self->NEXT::_get_canonfailed_params()},
+        @{$self->next::method()},
         individual_test_file_verdict_colors =>
             $self->individual_test_file_verdict_colors(),
     ];

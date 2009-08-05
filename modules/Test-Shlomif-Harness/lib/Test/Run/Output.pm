@@ -25,7 +25,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->maybe::next::method(@_);
 
     $self->Verbose($args->{Verbose});
     $self->NoTty($args->{NoTty});

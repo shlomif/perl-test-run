@@ -3,8 +3,6 @@ package Test::Run::CmdLine::Plugin::ColorFileVerdicts;
 use strict;
 use warnings;
 
-use NEXT;
-
 =head1 NAME
 
 Test::Run::CmdLine::Plugin::ColorFileVerdicts - Color the individual test file
@@ -12,19 +10,26 @@ verdicts in Test::Run::CmdLine.
 
 =head1 VERSION
 
-0.01
+0.0102
 
 =head1 METHODS
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.0102';
 
-sub _init
+=head2 $self->private_backend_plugins()
+
+Returns the Backend Plugins as specified by this plugin. See 
+L<Test::Run::CmdLine> for more information.
+
+=cut
+
+sub private_backend_plugins
 {
     my $self = shift;
-    $self->NEXT::_init(@_);
-    $self->add_to_backend_plugins("ColorFileVerdicts");
+
+    return [qw(ColorFileVerdicts)];
 }
 
 =head2 $self->private_non_direct_backend_env_mapping()

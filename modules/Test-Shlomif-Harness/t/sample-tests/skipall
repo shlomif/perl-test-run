@@ -1,3 +1,3 @@
-print <<DUMMY_TEST;
-1..0 # skip: rope
-DUMMY_TEST
+#!/usr/bin/perl
+
+use Test::More skip_all => "rope";

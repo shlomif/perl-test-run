@@ -3,13 +3,14 @@ package MyTestRun::Plug::P::One;
 use strict;
 use warnings;
 
-use NEXT;
+use MRO::Compat;
+
 
 sub my_calc_first
 {
     my $self = shift;
 
-    return "First is {{{" . $self->NEXT::my_calc_first() . "}}}";
+    return "First is {{{" . $self->next::method() . "}}}";
 }
 
 1;

@@ -2,7 +2,7 @@
 
 use strict;
 
-use Test::More tests => 37;
+use Test::More tests => 39;
 use File::Spec;
 use File::Path;
 use Config;
@@ -13,8 +13,9 @@ use Test::Run::CmdLine::Trap::Prove;
 my $abs_cur = getcwd();
 my $alterr_filename = File::Spec->catfile($abs_cur, "alterr.txt");
 
-my $blib = File::Spec->catfile( File::Spec->curdir, "blib" );
-my $t_dir = File::Spec->catfile( File::Spec->curdir, "t" );
+my $blib = File::Spec->catdir( File::Spec->curdir, "blib" );
+my $t_dir = File::Spec->catdir( File::Spec->curdir, "t" );
+my $t_lib_dir = File::Spec->catdir( $t_dir, "lib");
 my $lib = File::Spec->catfile( $blib, "lib" );
 my $abs_lib = Cwd::abs_path($lib);
 my $runprove = File::Spec->catfile( $blib, "script", "runprove" );
@@ -65,6 +66,23 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         # TEST
         $got->field_is("system_ret", 0, 
             "runprove returns a zero exit code upon success."
+        );
+    }
+    {
+        my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
+            {
+                runprove => $runprove,
+                cmdline => qq{--help},
+            }
+        );
+        
+        # TEST
+        $got->field_like("stdout", qr/\Qrunprove [options]\E/, 
+            "Good results from runprove --help ");
+
+        # TEST
+        $got->field_is("system_ret", 0, 
+            "runprove --help returns a zero exit code upon success."
         );
     }
 
@@ -326,7 +344,10 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
     # unspecified HARNESS_DRIVER.
     {
         local $ENV{'HARNESS_PLUGINS'} = "Super";
-        local $ENV{'PERL5LIB'} = $t_dir.$Config{'path_sep'}.$ENV{'PERL5LIB'};
+        local $ENV{'PERL5LIB'} =
+            $t_lib_dir.$Config{'path_sep'}.$ENV{'PERL5LIB'}
+            ;
+
         my $got = Test::Run::CmdLine::Trap::Prove->trap_run(
             {
                 runprove => $runprove,

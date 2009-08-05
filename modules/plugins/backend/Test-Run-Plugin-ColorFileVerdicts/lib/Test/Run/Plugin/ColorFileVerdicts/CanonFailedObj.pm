@@ -22,7 +22,7 @@ __PACKAGE__->mk_accessors(qw(
     individual_test_file_verdict_colors
 ));
 
-use NEXT;
+use MRO::Compat;
 use Term::ANSIColor;
 
 sub _get_failed_string
@@ -32,7 +32,7 @@ sub _get_failed_string
     my $color = $self->_get_individual_test_file_color("failure");
 
     return color($color)
-         . $self->NEXT::_get_failed_string()
+         . $self->next::method($canon)
          . color("reset")
          ;
 }

@@ -20,6 +20,7 @@ use vars qw(@fields @counter_fields %counter_fields_map);
 use Benchmark qw();
 
 use Moose;
+use MRO::Compat;
 
 extends("Test::Run::Base::Struct");
 
@@ -72,7 +73,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
 
     $self->_register_obj_formatter(
         {

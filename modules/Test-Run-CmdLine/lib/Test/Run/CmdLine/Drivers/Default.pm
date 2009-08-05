@@ -3,10 +3,6 @@ package Test::Run::CmdLine::Drivers::Default;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base';
-
-
-
 =head1 NAME
 
 Test::Run::CmdLine::Drivers::Default - the default command line driver.

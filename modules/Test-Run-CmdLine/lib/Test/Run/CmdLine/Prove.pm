@@ -5,6 +5,10 @@ use warnings;
 
 use base 'Test::Run::Base';
 
+use MRO::Compat;
+
+use mro "dfs";
+
 use Test::Run::CmdLine::Iface;
 use Getopt::Long;
 use Pod::Usage 1.12;
@@ -45,7 +49,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->maybe::next::method($args);
 
     my $arguments = $args->{'args'};
     my $env_switches = $args->{'env_switches'};
@@ -295,9 +299,11 @@ sub _usage
     pod2usage(
         {
             '-verbose' => $verbosity, 
+            '-exitval' => 0,
         }
     );
-    exit(0);
+
+    return;
 }
 
 sub _default_ext

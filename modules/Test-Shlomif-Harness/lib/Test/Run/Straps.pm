@@ -16,8 +16,9 @@ Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 use Moose;
 
-extends('Test::Run::Straps::Base');
+use MRO::Compat;
 
+extends('Test::Run::Straps::Base');
 
 use Config;
 use TAP::Parser;
@@ -96,7 +97,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->maybe::next::method(@_);
 
     $self->_is_vms($^O eq "VMS");
     $self->_is_win32($^O =~ m{\A(?:MS)?Win32\z});

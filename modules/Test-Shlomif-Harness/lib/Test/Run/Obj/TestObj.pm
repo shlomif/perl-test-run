@@ -15,8 +15,7 @@ use Moose;
 
 extends('Test::Run::Base::Struct');
 
-
-use NEXT;
+use MRO::Compat;
 
 @fields = (qw(
     ok
@@ -86,7 +85,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    $self->NEXT::_init($args);
+    $self->next::method($args);
 
     $self->_register_obj_formatter(
         {
@@ -119,7 +118,7 @@ sub _get_reason_default
 
 Gets the reason or defaults to the default.
 
-=cut 
+=cut
 
 sub get_reason
 {
@@ -208,7 +207,7 @@ sub skipped_or_bonus
 
 A predicate that calculates if all the tests in the TestObj were successful.
 
-=cut 
+=cut
 
 sub all_succesful
 {

@@ -17,7 +17,7 @@ my $builder = Test::Run::Builder->new(
     },
     requires => {
         'Test::Run::Core' => '0.0106',
-        'NEXT' => 0,
+        'MRO::Compat' => 0,
         'Storable' => 0,
         'Test::Run::Base::Struct' => 0,
     },

@@ -3,7 +3,7 @@ package Test::Run::Plugin::CollectStats;
 use warnings;
 use strict;
 
-use NEXT;
+use MRO::Compat;
 use Storable ();
 
 use base 'Test::Run::Base';
@@ -18,7 +18,7 @@ data.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.0102
 
 =cut
 
@@ -26,7 +26,7 @@ __PACKAGE__->mk_accessors(qw(
     _recorded_test_files_data
     _test_files_names_map
 ));
-our $VERSION = '0.01';
+our $VERSION = '0.0102';
 
 =head1 SYNOPSIS
 
@@ -43,7 +43,7 @@ sub _init
 {
     my ($self, $args) = @_;
 
-    my $ret = $self->NEXT::_init($args);
+    my $ret = $self->next::method($args);
 
     $self->_recorded_test_files_data([]);
     $self->_test_files_names_map({});
@@ -55,7 +55,7 @@ sub _run_single_test
 
     my $filename = $args->{test_file};
 
-    $self->NEXT::_run_single_test($args);
+    $self->next::method($args);
 
     $self->_test_files_names_map->{$filename} =
         scalar(@{$self->_recorded_test_files_data()});

@@ -3,6 +3,9 @@ package Test::Run::Base;
 use strict;
 use warnings;
 
+use MRO::Compat;
+
+
 =head1 NAME
 
 Test::Run::Base - base class for all of Test::Run.
@@ -97,11 +100,6 @@ sub _get_obj_formatter
 sub _register_obj_formatter
 {
     my ($self, $args) = @_;
-
-    if (ref($args) ne "HASH")
-    {
-        Carp::confess("The second and only parameter to _register_obj_formatter is not a hashref.");
-    }
 
     my $name = $args->{name};
     my $fmt  = $args->{format};

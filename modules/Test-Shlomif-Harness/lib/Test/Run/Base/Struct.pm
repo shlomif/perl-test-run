@@ -14,12 +14,11 @@ Inherits from L<Test::Run::Base>.
 
 =cut
 
-use NEXT;
-
+use MRO::Compat;
 use Moose;
 
+use base 'Test::Run::Base';
 extends('Test::Run::Base');
-
 
 sub _pre_init
 {
@@ -48,7 +47,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->maybe::next::method(@_);
 
     my ($args) = @_;
     

@@ -25,11 +25,20 @@ my $suc1_cat_file = File::Spec->catfile($sample_tests_dir, "success1.cat");
 my $one_ok_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
 my $suc1_mok_file = File::Spec->catfile($sample_tests_dir, "success1.mok");
 
-my $config_file = Cwd::abs_path(
-    File::Spec->catfile(
+# Cwd.pm (not the XS version) has a problem referencing a non-existent
+# file inside an existing containing directory.
+my $_config_file_rel = File::Spec->catfile(
         File::Spec->curdir(), "t", "data", "config-files", "mokcat1.yml",
-    )
-);
+    );
+
+{
+    open my $out, ">", $_config_file_rel
+        or die "Could not open $_config_file_rel for writing.";
+    print {$out} "";
+    close($out);
+}
+
+my $config_file = Cwd::abs_path($_config_file_rel);
 
 {
     local %ENV = %ENV;

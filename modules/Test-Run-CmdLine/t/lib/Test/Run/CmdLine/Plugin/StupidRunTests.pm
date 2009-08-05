@@ -3,12 +3,14 @@ package Test::Run::CmdLine::Plugin::StupidRunTests;
 use strict;
 use warnings;
 
-use NEXT;
+use MRO::Compat;
+
+use mro "dfs";
 
 sub _init
 {
     my $self = shift;
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
     $self->add_to_backend_plugins("StupidRunTests");
 }
 

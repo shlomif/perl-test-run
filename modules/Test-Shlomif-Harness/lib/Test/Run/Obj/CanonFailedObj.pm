@@ -18,6 +18,7 @@ use Moose;
 
 extends('Test::Run::Base::Struct');
 
+use MRO::Compat;
 
 use vars qw(@fields);
 
@@ -38,7 +39,7 @@ sub _init
 {
     my $self = shift;
 
-    $self->NEXT::_init(@_);
+    $self->next::method(@_);
 
     $self->_more_results([]);
 

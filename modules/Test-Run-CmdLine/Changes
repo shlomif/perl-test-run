@@ -1,5 +1,39 @@
 Revision history for Test-Run-CmdLine
 
+0.0112     Sun Jul  5 15:11:19 IDT 2009
+    * Changed the exit status of "runprove --help" to 0.
+    * Added meta-data and other information to the Build.PL.
+
+0.0111     Mon May  4 20:37:06 IDT 2009
+    * Replaced "NEXT.pm" with MRO::Compat.
+
+0.0110     Tue Aug 19 22:20:08 IDT 2008
+    * Documentation fix - converted:
+        {{ =head2 $self->private_backend_args() }}
+    To:
+        {{ =head2 $self->private_backend_plugins() }}
+
+    * Fixed a bug where YAML.pm was not loaded and as a result the YAML
+    arguments were broken.
+
+0.0109     Tue Aug 19 21:29:15 IDT 2008
+    * Factored out some methods in lib/Test/Run/CmdLine/Iface.pm to
+    make debugging easier.
+        - _real_prepare_driver_class
+        - _prepare_driver_class
+        - _calc_driver
+    * Added private_backend_plugins() to collect the backend plugins
+    from the front-end plugins.
+    * Added more tests to the private_backend_plugins().
+    * Moved the t/Test module-directory-structure to under t/lib .
+        - Adapted the test files accordingly.
+        - Adapted the MANIFEST accordingly.
+
+0.0108     Mon Aug 18 20:03:47 IDT 2008
+    * Changed all the initializers to _init() instead of _initialize().
+        - In compatibility with Test-Run-0.0117
+    * Now depends on Test-Run-0.0117
+
 0.0107     Tue Feb 19 21:18:15 IST 2008
     * Now testing the system return code of runprove in t/03-prove.t.
         - Fixed it in the module.

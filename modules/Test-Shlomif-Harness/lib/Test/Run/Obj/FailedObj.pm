@@ -10,7 +10,7 @@ Inherits from Test::Run::Base::Struct.
 
 =head1 METHODS
 
-=cut.
+=cut
 
 use strict;
 use warnings;

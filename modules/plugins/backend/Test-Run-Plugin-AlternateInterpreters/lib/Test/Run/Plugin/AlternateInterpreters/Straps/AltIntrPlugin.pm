@@ -17,7 +17,7 @@ interpreters.
 
 use base 'Test::Run::Base';
 
-use NEXT;
+use MRO::Compat;
 
 __PACKAGE__->mk_accessors(qw(
     alternate_interpreters
@@ -45,7 +45,7 @@ sub _get_command_and_switches
             }
         }
     }
-    return $self->NEXT::_get_command_and_switches();
+    return $self->next::method();
 }
 
 sub _does_interpreter_match
