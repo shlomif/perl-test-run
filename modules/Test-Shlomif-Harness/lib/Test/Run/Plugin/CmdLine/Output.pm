@@ -450,7 +450,7 @@ sub _fail_other_report_tests_print_summary
 
     return $self->_obj_named_printf(
         ( "%(name)-\${max_namelen}s  "
-        . "%(estat)3s %(wstat)5s %(max)5s %(failed)4s "
+        . "%(estat)3s %(wstat)5s %(max_str)5s %(failed_str)4s "
         . "%(_defined_percent)6.2f%%  %(first_canon_string)s"
         ),
         $args->{test},

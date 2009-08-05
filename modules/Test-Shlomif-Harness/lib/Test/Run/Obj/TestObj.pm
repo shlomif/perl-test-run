@@ -257,7 +257,7 @@ sub get_failed_obj_params
     return
         [
             max => ($self->max() 
-                ? Test::Run::Obj::IntOrUnknown->new($self->max())
+                ? Test::Run::Obj::IntOrUnknown->create_int($self->max())
                 : Test::Run::Obj::IntOrUnknown->create_unknown()
             ),
         ];

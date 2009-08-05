@@ -522,7 +522,8 @@ SKIP: {
         is_deeply( {map { $_=>$totals->{$_} } keys %{$expect->{total}}},
                    $expect->{total},
                                                   "$test - totals" );
-        is_deeply( {map { $_=>$failed->{$test_path}{$_} }
+        is_deeply( {map 
+                { $_=> (($_ eq "failed" || $_ eq "max") ? $failed->{$test_path}{$_}->get_string_val() : $failed->{$test_path}{$_}) }
                     keys %{$expect->{failed}}},
                    $expect->{failed},
                                                   "$test - failed" );

@@ -139,6 +139,31 @@ sub rest_of_canons
     return [ @{$canons}[ 1 .. ($#$canons-1) ] ];
 }
 
+=head2 $self->max_str()
+
+A string representation of max.
+
+=cut
+
+sub max_str
+{
+    my $self = shift;
+
+    return $self->max->get_string_val();
+}
+
+=head2 $self->failed_str()
+
+A string representation of failed.
+
+=cut
+
+sub failed_str
+{
+    my $self = shift;
+
+    return $self->failed->get_string_val();
+}
 1;
 
 __END__

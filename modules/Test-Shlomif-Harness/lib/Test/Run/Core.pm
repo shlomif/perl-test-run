@@ -1702,7 +1702,7 @@ sub _get_dubious_summary_all_subtests_successful
 
     return
     [
-        failed => 0,
+        failed => Test::Run::Obj::IntOrUnknown->zero(),
         percent => 0,
         canon => "??",
     ];
