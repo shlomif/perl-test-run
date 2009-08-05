@@ -79,7 +79,7 @@ sub _get_private_simple_params
 
 has "_bonusmsg" => (is => "rw", isa => "Str");
 has "dir_files" => (is => "rw", isa => "ArrayRef");
-has "_new_dir_files" => (is => "rw", isa => "ArrayRef");
+has "_new_dir_files" => (is => "rw", isa => "Maybe[ArrayRef]");
 has "failed_tests" => (is => "rw", isa => "HashRef");
 has "format_columns" => (is => "rw", isa => "Num");
 has "last_test_elapsed" => (is => "rw", isa => "Str");
