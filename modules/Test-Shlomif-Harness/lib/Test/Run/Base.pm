@@ -103,11 +103,6 @@ sub _register_obj_formatter
 {
     my ($self, $args) = @_;
 
-    if (ref($args) ne "HASH")
-    {
-        Carp::confess("The second and only parameter to _register_obj_formatter is not a hashref.");
-    }
-
     my $name = $args->{name};
     my $fmt  = $args->{format};
 
