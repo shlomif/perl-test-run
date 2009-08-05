@@ -19,6 +19,8 @@ use vars qw(@fields);
 
 use Moose;
 
+use Test::Run::Obj::IntOrUnknown;
+
 extends('Test::Run::Base::Struct');
 
 @fields = (qw(
@@ -41,11 +43,11 @@ sub _get_private_fields
 has 'canon' => (is => "rw", isa => "Str");
 has 'canon_strings' => (is => "rw", isa => "ArrayRef");
 has 'estat' => (is => "rw", isa => "Str");
-has 'failed' => (is => "rw", isa => "Str");
+has 'failed' => (is => "rw", isa => "Test::Run::Obj::IntOrUnknown");
 has 'list_len' => (is => "rw", isa => "Num");
-has 'max' => (is => "rw", isa => "Num");
+has 'max' => (is => "rw", isa => "Test::Run::Obj::IntOrUnknown");
 has 'name' => (is => "rw", isa => "Str");
-has 'percent' => (is => "rw", isa => "Str");
+has 'percent' => (is => "rw", isa => "Maybe[Str]");
 has 'wstat' => (is => "rw", isa => "Str");
 
 =head2 $self->_defined_percent()

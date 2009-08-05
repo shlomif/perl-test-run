@@ -43,7 +43,7 @@ sub _pre_init
     $self->diagnostics("");
 }
 
-has 'actual_ok' => (is => "rw", isa => "Num");
+has 'actual_ok' => (is => "rw", isa => "Bool");
 has 'diagnostics' => (is => "rw", isa => "Str");
 has 'name' => (is => "rw", isa => "Str");
 has 'ok' => (is => "rw", isa => "Num");

@@ -25,6 +25,7 @@ use File::Spec;
 use Test::Run::Assert;
 use Test::Run::Obj::Error;
 use Test::Run::Straps;
+use Test::Run::Obj::IntOrUnknown;
 
 =head1 NAME
 
@@ -145,6 +146,7 @@ sub _init
     $self->_init_simple_params($args);
     $self->dir_files([]);
     $self->test_files_data({});
+    $self->list_len(0);
 
     $self->register_pluggable_helper(
         {
@@ -1099,7 +1101,10 @@ sub _calc_failed_before_any_test_obj
 
     return $self->_create_failed_obj_instance(
         {
-            (map { $_ => "??", } qw(canon max failed)),
+            (map 
+                { $_ => Test::Run::Obj::IntOrUnknown->create_unknown() } 
+                qw(canon max failed)
+            ),
             (map { $_ => "", } qw(estat wstat)),
             percent => undef,
             name => $self->_get_last_test_filename(),
@@ -1137,7 +1142,7 @@ sub _get_failed_and_max_params
     return
     [
         canon => $self->_failed_canon(),
-        failed => $last_test->num_failed(),
+        failed => Test::Run::Obj::IntOrUnknown->create_int($last_test->num_failed()),
         percent => $last_test->calc_percent(),
     ];
 }
@@ -1168,7 +1173,7 @@ sub _get_undef_tests_params
     return
     [
         canon => "??",
-        failed => "??",
+        failed => Test::Run::Obj::IntOrUnknown->create_unknown(),
         percent => undef,
     ];
 }
@@ -1561,7 +1566,9 @@ sub _get_common_FWRS_params
 
     return
     [
-        max => $self->last_test_obj->max(),
+        max => Test::Run::Obj::IntOrUnknown->create_int(
+            $self->last_test_obj->max()
+        ),
         name => $self->_get_last_test_filename(),
         estat => "",
         wstat => "",
@@ -1707,7 +1714,7 @@ sub _get_no_tests_summary
 
     return
     [
-        failed => "??",
+        failed => Test::Run::Obj::IntOrUnknown->create_unknown(),
         canon => "??",
         percent => undef(),
     ];

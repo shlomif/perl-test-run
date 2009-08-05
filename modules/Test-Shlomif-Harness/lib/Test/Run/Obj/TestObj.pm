@@ -17,6 +17,8 @@ extends('Test::Run::Base::Struct');
 
 use MRO::Compat;
 
+use Test::Run::Obj::IntOrUnknown;
+
 @fields = (qw(
     ok
     next
@@ -254,7 +256,10 @@ sub get_failed_obj_params
 
     return
         [
-            max => ($self->max() || "??"),
+            max => ($self->max() 
+                ? Test::Run::Obj::IntOrUnknown->new($self->max())
+                : Test::Run::Obj::IntOrUnknown->create_unknown()
+            ),
         ];
 }
 
