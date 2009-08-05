@@ -147,7 +147,7 @@ sub accum_array
 
     my $method_name = $args->{method};
 
-    my $class = ((ref($self) eq "") ? $self : ref($self));   
+    # my $class = ((ref($self) eq "") ? $self : ref($self));   
 
     my @results;
     foreach my $isa_class (
@@ -155,7 +155,7 @@ sub accum_array
     )
     {
         my $body = $isa_class->{code}->body();
-        push @results, @{ $_->$body() };
+        push @results, @{ $self->$body() };
     }
 
     return \@results;
