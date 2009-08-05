@@ -1103,8 +1103,9 @@ sub _calc_failed_before_any_test_obj
         {
             (map 
                 { $_ => Test::Run::Obj::IntOrUnknown->create_unknown() } 
-                qw(canon max failed)
+                qw(max failed)
             ),
+            canon => "??",
             (map { $_ => "", } qw(estat wstat)),
             percent => undef,
             name => $self->_get_last_test_filename(),
