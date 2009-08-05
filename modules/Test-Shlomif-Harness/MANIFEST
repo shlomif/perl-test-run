@@ -101,7 +101,6 @@ t/test-failure-report.t
 t/test-harness.t
 t/test-libs/lib1/MyHello.pm
 t/test-libs/lib2/MyFoo.pm
-t/t-r-base-delegate.t
 t/t-r-base-plugger.t
 t/t-r-core-assert-unit.t
 t/undef-warnings.t
