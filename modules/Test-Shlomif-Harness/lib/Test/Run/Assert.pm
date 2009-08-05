@@ -58,6 +58,10 @@ Rewritten as MIT-X11 Licensed code by:
 
 Shlomi Fish L<http://www.shlomifish.org/>
 
+=head1 COPYRIGHT
+
+Copyright by Shlomi Fish, 2008.
+
 =head1 LICENSE
 
 This file is licensed under the MIT X11 License:
