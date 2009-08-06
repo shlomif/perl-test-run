@@ -1,5 +1,7 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+        * Converted to Moose and to Test-Run-Core/Test-Run-CmdLine 0.0120.
+
 0.0106    Mon May  4 21:06:10 IDT 2009
         * Converted from NEXT.pm to MRO::Compat.
 

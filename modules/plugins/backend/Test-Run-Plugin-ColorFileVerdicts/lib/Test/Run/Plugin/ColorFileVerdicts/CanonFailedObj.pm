@@ -15,12 +15,14 @@ with colors.
 
 =cut
 
-use base 'Test::Run::Plugin::ColorFileVerdicts::ColorBase';
-use base 'Test::Run::Base';
+use Moose;
 
-__PACKAGE__->mk_accessors(qw(
-    individual_test_file_verdict_colors
-));
+
+extends(
+    'Test::Run::Plugin::ColorFileVerdicts::ColorBase'
+);
+
+has 'individual_test_file_verdict_colors' => (is => "rw", isa => "HashRef");
 
 use MRO::Compat;
 use Term::ANSIColor;

@@ -17,9 +17,10 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::CmdLine::Trap::ProveApp' => 0,
     },
     requires => {
+        "Moose" => 0,
         "Term::ANSIColor" => 0,
-        "Test::Run::Core" => "0.0118",
-        "Test::Run::CmdLine" => "0.0111",
+        "Test::Run::Core" => "0.0120",
+        "Test::Run::CmdLine" => "0.0120",
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorFileVerdicts-*' ],
     create_makefile_pl => 'traditional',
