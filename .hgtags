@@ -86,3 +86,4 @@ d7ae04d3ecc811375f3a682be462b43041fe7884 releases/modules/plugins/backend/Test-R
 1d748eddd4ce772d948270d0ff6b2083eb8e0528 releases/modules/plugins/backend/Test-Run-Plugin-ColorFileVerdicts/0.0120
 c7c7a3868d5aad789f040f69e38cc9f882cdd75d releases/modules/plugins/backend/Test-Run-Plugin-ColorSummary/0.0120
 afacc1506d936ab24a606ad502358a0917017a8f releases/modules/plugins/backend/Test-Run-Plugin-TrimDisplayedFilenames/0.0120
+02dbe3fa229d700440cf5b418bb89ec113970f7c releases/modules/plugins/backend/Test-Run-Plugin-ColorFileVerdicts/0.0121
