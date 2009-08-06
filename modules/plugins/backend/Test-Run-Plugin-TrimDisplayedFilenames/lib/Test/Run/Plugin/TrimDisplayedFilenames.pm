@@ -19,11 +19,11 @@ of the displayed filename to deal with excessively long ones.
 
 =head1 VERSION
 
-Version 0.0103
+Version 0.0120
 
 =cut
 
-our $VERSION = '0.0103';
+our $VERSION = '0.0120';
 
 has 'trim_displayed_filenames_query' => (is => "rw", isa => "Str");
 
