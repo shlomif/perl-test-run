@@ -82,3 +82,4 @@ df430ea0033ca346b96184da042e919d81e7c9f9 releases/modules/plugins/backend/Test-R
 7b9553f76c22d8511c7b1742e9b99853138dc2fe releases/modules/Test-Run-CmdLine/0.0112
 bf365498e6bafa2ab0111cd866136aa632352d0b releases/0.0120
 c57aa3e41628474b6c43e4e29347a92d0f87e2c0 releases/modules/Test-Run-CmdLine/0.0120
+d7ae04d3ecc811375f3a682be462b43041fe7884 releases/modules/plugins/backend/Test-Run-Plugin-AlternateInterpreters/0.0120
