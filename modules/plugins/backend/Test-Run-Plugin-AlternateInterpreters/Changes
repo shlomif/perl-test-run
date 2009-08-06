@@ -1,5 +1,7 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+        * Converted to YAML::XS instead of YAML.pm.
+
 0.0109  Mon May  4 20:53:16 IDT 2009
         * Changed from NEXT.pm to MRO::Compat.
 

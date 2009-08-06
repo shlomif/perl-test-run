@@ -9,7 +9,7 @@ use Config;
 use File::Spec;
 use Cwd;
 
-use YAML ();
+use YAML::XS ();
 
 use Test::Run::CmdLine::Trap::ProveApp;
 
