@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '0.26';
+$VERSION = '0.0120';
 
 =head1 NAME
 
@@ -14,10 +14,11 @@ Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 =cut
 
-use base 'Test::Run::Straps::Base';
+use Moose;
 
 use MRO::Compat;
 
+extends('Test::Run::Straps::Base');
 
 use Config;
 use TAP::Parser;
@@ -37,8 +38,7 @@ my @fields= (qw(
     _file_totals
     _is_macos
     _is_win32
-    last_test_print
-    next
+    next_test_num
     _old5lib
     _parser
     results
@@ -58,7 +58,33 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'bailout_reason' => (is => "rw", isa => "Str");
+has 'callback' => (is => "rw", isa => "Maybe[CodeRef]");
+has 'Debug' => (is => "rw", isa => "Bool");
+has 'error' => (is => "rw", isa => "Any");
+has 'exception' => (is => "rw", isa => "Any");
+has 'file' => (is => "rw", isa => "Str");
+has '_file_totals' =>
+    (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+has '_is_macos' => (is => "rw", isa => "Bool");
+has '_is_win32' => (is => "rw", isa => "Bool");
+has '_is_vms' => (is => "rw", isa => "Bool");
+has 'last_test_print' => (is => "rw", isa => "Bool");
+has 'next_test_num' => (is => "rw", isa => "Num");
+has '_old5lib' => (is => "rw", isa => "Str");
+has '_parser' => (is => "rw", isa => "Maybe[TAP::Parser]");
+has 'results' =>
+    (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+has 'saw_bailout' => (is => "rw", isa => "Bool");
+has 'saw_header' => (is => "rw", isa => "Bool");
+has '_seen_header' => (is => "rw", isa => "Num");
+has 'Switches' => (is => "rw", isa => "Maybe[Str]");
+has 'Switches_Env' => (is => "rw", isa => "Maybe[Str]");
+has 'Test_Interpreter' => (is => "rw", isa => "Maybe[Str]");
+has 'todo' => (is => "rw", isa => "HashRef");
+has 'too_many_tests' => (is => "rw", isa => "Bool");
+has 'totals' =>
+    (is => "rw", isa => "HashRef");
 
 
 =head2 my $strap = Test::Run::Straps->new();
@@ -325,7 +351,7 @@ sub _bump_next
 
     if (defined(my $n = $self->_event->get_next_test_number()))
     {
-        $self->next($n);
+        $self->next_test_num($n);
     }
 
     return;
@@ -437,7 +463,8 @@ sub _create_parser
 =head2 my $results = $self->analyze( $name, \@output_lines)
 
 Analyzes the output @output_lines of a given test, to which the name
-$name is assigned. Returns the results $results of the test - an object.
+$name is assigned. Returns the results $results of the test - an object of
+type L<Test::Run::Straps::StrapsTotalsObj> .
 
 @output_lines should be the output of the test including newlines.
 
@@ -784,7 +811,7 @@ sub _calc_reset_file_state
         saw_header => 0,
         saw_bailout => 0,
         bailout_reason => "",
-        'next' => 1,
+        next_test_num => 1,
     };
 }
 
@@ -796,7 +823,7 @@ sub _reset_file_state
 
     while (my ($field, $value) = each(%$to))
     {
-        $self->set($field, $value);
+        $self->$field($value);
     }
 
     return;

@@ -7,6 +7,7 @@ use Test::More tests => 20;
 
 use Test::Run::Obj;
 use Test::Run::Trap::Obj;
+use Test::Run::Obj::TotObj;
 use Cwd;
 use POSIX ();
 use List::Util ();

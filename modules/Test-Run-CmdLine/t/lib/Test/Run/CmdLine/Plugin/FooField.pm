@@ -5,8 +5,6 @@ use warnings;
 
 use MRO::Compat;
 
-use mro "dfs";
-
 sub _init
 {
     my $self = shift;

@@ -9,7 +9,8 @@ package MyTestRun::Plug::Iface;
 
 package MyTestRun::Pluggable;
 
-use base 'Test::Run::Base::PlugHelpers';
+use Moose;
+extends("Test::Run::Base::PlugHelpers");
 
 use MRO::Compat;
 

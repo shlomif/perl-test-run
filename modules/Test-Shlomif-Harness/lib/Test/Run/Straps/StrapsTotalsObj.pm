@@ -14,7 +14,10 @@ straps class.
 
 use Test::Run::Straps::StrapsDetailsObj;
 
-use base 'Test::Run::Straps::Base';
+use Moose;
+
+extends('Test::Run::Straps::Base');
+
 
 use vars qw(@fields);
 
@@ -40,7 +43,21 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'bonus' => (is => "rw", isa => "Num");
+has 'details' => (is => "rw", isa => "ArrayRef");
+has '_enormous_num_cb' => (is => "rw", isa => "Maybe[CodeRef]");
+has 'exit' => (is => "rw", isa => "Num");
+has 'filename' => (is => "rw", isa => "Str");
+has '_is_vms' => (is => "rw", isa => "Bool");
+has 'max' => (is => "rw", isa => "Num");
+has 'ok' => (is => "rw", isa => "Num");
+has 'passing' => (is => "rw", isa => "Bool");
+has 'seen' => (is => "rw", isa => "Num");
+has 'skip' => (is => "rw", isa => "Num");
+has 'skip_all' => (is => "rw", isa => "Str");
+has 'skip_reason' => (is => "rw", isa => "Str");
+has 'todo' => (is => "rw", isa => "Num");
+has 'wait' => (is => "rw", isa => "Num");
 
 =head1 METHODS
 

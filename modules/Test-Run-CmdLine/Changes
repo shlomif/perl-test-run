@@ -1,6 +1,8 @@
 Revision history for Test-Run-CmdLine
 
     * Changed to use YAML::XS instead of YAML.pm.
+    * Converted to Moose.
+    * Bumped the version number to 0.0120 to indicate the Moosification.
 
 0.0112     Sun Jul  5 15:11:19 IDT 2009
     * Changed the exit status of "runprove --help" to 0.

@@ -3,11 +3,13 @@ package Test::Run::CmdLine::Iface;
 use warnings;
 use strict;
 
-use base 'Test::Run::Base';
+extends ('Test::Run::Base');
 
 use UNIVERSAL::require;
 
 use Test::Run::CmdLine;
+
+use Moose;
 
 =head1 NAME
 
@@ -27,13 +29,11 @@ Test::Run::CmdLine::Iface - Analyze tests from the command line using Test::Run
 
 =cut
 
-__PACKAGE__->mk_accessors(qw(
-    driver_class
-    driver_plugins
-    test_files
-    backend_params
-    _is_driver_class_prepared
-));
+has 'driver_class' => (is => "rw", isa => "Str");
+has 'driver_plugins' => (is => "rw", isa => "ArrayRef");
+has 'test_files' => (is => "rw", isa => "ArrayRef");
+has 'backend_params' => (is => "rw", isa => "HashRef", predicate => "has_backend_params");
+has '_is_driver_class_prepared' => (is => "rw", isa => "Bool");
 
 sub _init
 {
@@ -71,7 +71,7 @@ sub _init
         );
     }
     
-    $self->test_files($args->{'test_files'});
+    $self->test_files($args->{'test_files'} || []);
     $self->_process_args($args);
 
     return 0;
@@ -123,7 +123,7 @@ them.
 Actually runs the tests on the command line.
 
 TODO : Write more.
-
+ 
 =cut
 
 sub _real_prepare_driver_class
@@ -183,7 +183,10 @@ sub _calc_driver
     my $driver = $self->driver_class()->new(
         {
             'test_files' => $self->test_files(),
-            'backend_params' => $self->backend_params(),
+            ($self->has_backend_params()
+                ? ('backend_params' => $self->backend_params())
+                : ()
+            ),
         }
     );
 

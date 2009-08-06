@@ -15,13 +15,13 @@ interpreters.
 
 =cut
 
-use base 'Test::Run::Base';
+use Moose;
 
 use MRO::Compat;
 
-__PACKAGE__->mk_accessors(qw(
-    alternate_interpreters
-    ));
+extends('Test::Run::Base');
+
+has 'alternate_interpreters' => (is => "rw", isa => "ArrayRef");
 
 sub _get_private_simple_params
 {

@@ -3,11 +3,11 @@ package Test::Run::CmdLine::Prove;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends('Test::Run::Base');
 
 use MRO::Compat;
-
-use mro "dfs";
 
 use Test::Run::CmdLine::Iface;
 use Getopt::Long;
@@ -15,21 +15,19 @@ use Pod::Usage 1.12;
 use File::Spec;
 
 use vars qw($VERSION);
-$VERSION = "0.0100_05";
+$VERSION = "0.0120";
 
-__PACKAGE__->mk_accessors(qw(
-    arguments
-    dry
-    ext_regex
-    ext_regex_string
-    recurse
-    shuffle
-    Verbose
-    Debug
-    Switches
-    Test_Interpreter
-    Timer
-));
+has 'arguments' => (is => "rw", isa => "ArrayRef");
+has 'dry' => (is => "rw", isa => "Bool");
+has 'ext_regex' => (is => "rw", isa => "Regexp");
+has 'ext_regex_string' => (is => "rw", isa => "Str");
+has 'recurse' => (is => "rw", isa => "Bool");
+has 'shuffle' => (is => "rw", isa => "Bool");
+has 'Verbose' => (is => "rw", isa => "Bool");
+has 'Debug' => (is => "rw", isa => "Bool");
+has 'Switches' => (is => "rw", isa => "ArrayRef");
+has 'Test_Interpreter' => (is => "rw", isa => "Maybe[Str]");
+has 'Timer' => (is => "rw", isa => "Bool");
 
 =head1 NAME
 
@@ -275,7 +273,7 @@ sub _get_backend_params
     my $ret = +{};
     foreach my $key (@{$self->_get_backend_params_keys()})
     {
-        my $value = $self->get($key);
+        my $value = $self->$key();
         if (ref($value) eq "ARRAY")
         {
             $ret->{$key} = join(" ", @$value);

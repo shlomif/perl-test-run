@@ -3,10 +3,11 @@ package Test::Run::Base::Plugger;
 use strict;
 use warnings;
 
+use Moose;
+
 use MRO::Compat;
 
-
-use base 'Test::Run::Base';
+extends ("Test::Run::Base");
 
 use Carp;
 
@@ -24,13 +25,9 @@ This is a class that abstracts an object class with plugins.
 
 =cut
 
-__PACKAGE__->mk_accessors(
-    qw(
-        _base
-        _into
-        _plugins
-    )
-);
+has '_base' => (is => "rw", isa => "Str");
+has '_into' => (is => "rw", isa => "Str");
+has '_plugins' => (is => "rw", isa => "ArrayRef");
 
 =head2 $plugger = Test::Run::Base::Plugger->new({base => $base, into => $into})
 

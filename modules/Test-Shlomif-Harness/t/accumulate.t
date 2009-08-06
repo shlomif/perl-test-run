@@ -5,7 +5,9 @@ use Test::More tests => 2;
 
 package Base1;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends("Test::Run::Base");
 
 sub _init
 {
@@ -61,6 +63,7 @@ package main;
             },
         ),
         [qw(David Becky Lisa Gabor Offer Shlomo Yuval Sophie Jack)],
+        "First Accum Array (Object)",
     );
 }
 
@@ -73,6 +76,7 @@ package main;
             },
         ),
         [qw(David Becky Lisa Gabor Offer Shlomo Sophie Jack)],
+        "Second Accum Array (Class)",
     );
 }
 

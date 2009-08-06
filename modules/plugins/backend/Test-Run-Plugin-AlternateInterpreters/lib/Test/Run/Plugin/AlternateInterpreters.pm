@@ -5,8 +5,7 @@ use strict;
 
 use MRO::Compat;
 
-use base 'Test::Run::Base';
-use base 'Class::Accessor';
+use Moose;
 
 =head1 NAME
 
@@ -14,15 +13,15 @@ Test::Run::Plugin::AlternateInterpreters - Define different interpreters for dif
 
 =head1 VERSION
 
-Version 0.0109
+Version 0.0120
 
 =cut
 
-our $VERSION = '0.0109';
+our $VERSION = '0.0120';
 
-__PACKAGE__->mk_accessors(qw(
-    alternate_interpreters
-));
+has 'alternate_interpreters' => (is => "rw", isa => "ArrayRef");
+
+extends('Test::Run::Base');
 
 sub _get_private_simple_params
 {

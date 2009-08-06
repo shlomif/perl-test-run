@@ -17,7 +17,11 @@ use warnings;
 
 use vars qw(@fields);
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+use Test::Run::Obj::IntOrUnknown;
+
+extends('Test::Run::Base::Struct');
 
 @fields = (qw(
     canon
@@ -36,7 +40,15 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'canon' => (is => "rw", isa => "Str");
+has 'canon_strings' => (is => "rw", isa => "ArrayRef");
+has 'estat' => (is => "rw", isa => "Str");
+has 'failed' => (is => "rw", isa => "Test::Run::Obj::IntOrUnknown");
+has 'list_len' => (is => "rw", isa => "Num");
+has 'max' => (is => "rw", isa => "Test::Run::Obj::IntOrUnknown");
+has 'name' => (is => "rw", isa => "Str");
+has 'percent' => (is => "rw", isa => "Maybe[Str]");
+has 'wstat' => (is => "rw", isa => "Str");
 
 =head2 $self->_defined_percent()
 
@@ -127,6 +139,31 @@ sub rest_of_canons
     return [ @{$canons}[ 1 .. ($#$canons-1) ] ];
 }
 
+=head2 $self->max_str()
+
+A string representation of max.
+
+=cut
+
+sub max_str
+{
+    my $self = shift;
+
+    return $self->max->get_string_val();
+}
+
+=head2 $self->failed_str()
+
+A string representation of failed.
+
+=cut
+
+sub failed_str
+{
+    my $self = shift;
+
+    return $self->failed->get_string_val();
+}
 1;
 
 __END__

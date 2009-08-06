@@ -11,10 +11,13 @@ Test::Run::Obj::TestObj - results of a single test script.
 
 use vars qw(@fields);
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
 
 use MRO::Compat;
 
+use Test::Run::Obj::IntOrUnknown;
 
 @fields = (qw(
     ok
@@ -70,7 +73,15 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'bonus' => (is => "rw", isa => "Num");
+has 'failed' => (is => "rw", isa => "ArrayRef");
+has 'max' => (is => "rw", isa => "Num");
+has 'ml' => (is => "rw", isa => "Str");
+has 'next' => (is => "rw", isa => "Num");
+has 'ok' => (is => "rw", isa => "Num");
+has 'skip_all' => (is => "rw", isa => "Maybe[Str]");
+has 'skipped' => (is => "rw", isa => "Num");
+has 'skip_reason' => (is => "rw", isa => "Maybe[Str]");
 
 sub _init
 {
@@ -245,7 +256,10 @@ sub get_failed_obj_params
 
     return
         [
-            max => ($self->max() || "??"),
+            max => ($self->max() 
+                ? Test::Run::Obj::IntOrUnknown->create_int($self->max())
+                : Test::Run::Obj::IntOrUnknown->create_unknown()
+            ),
         ];
 }
 

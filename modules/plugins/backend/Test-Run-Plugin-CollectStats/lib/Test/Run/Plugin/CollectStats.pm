@@ -3,11 +3,12 @@ package Test::Run::Plugin::CollectStats;
 use warnings;
 use strict;
 
+use Moose;
+
 use MRO::Compat;
 use Storable ();
 
-use base 'Test::Run::Base';
-use base 'Class::Accessor';
+extends('Test::Run::Base');
 
 use Test::Run::Plugin::CollectStats::TestFileData;
 
@@ -22,10 +23,9 @@ Version 0.0102
 
 =cut
 
-__PACKAGE__->mk_accessors(qw(
-    _recorded_test_files_data
-    _test_files_names_map
-));
+has '_recorded_test_files_data' => (is => "rw", isa => "ArrayRef");
+has '_test_files_names_map' => (is => "rw", isa => "HashRef");
+
 our $VERSION = '0.0102';
 
 =head1 SYNOPSIS

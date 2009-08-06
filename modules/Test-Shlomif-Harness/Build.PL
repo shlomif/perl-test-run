@@ -17,10 +17,10 @@ my $build = Test::Run::Builder->new(
     },
     requires => 
     {
-        'Class::Accessor' => 0,
         'File::Spec' => 0.6,
         'List::Util' => 0,
         'List::MoreUtils' => 0,
+        'Moose' => 0,
         'MRO::Compat' => 0,
         'Scalar::Util' => 0,
         'TAP::Parser' => "3.09",

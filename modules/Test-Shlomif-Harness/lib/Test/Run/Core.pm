@@ -3,7 +3,10 @@ package Test::Run::Core;
 use strict;
 use warnings;
 
-use base 'Test::Run::Base::PlugHelpers';
+use Moose;
+
+extends('Test::Run::Base::PlugHelpers');
+
 
 use vars qw($VERSION);
 
@@ -22,6 +25,7 @@ use File::Spec;
 use Test::Run::Assert;
 use Test::Run::Obj::Error;
 use Test::Run::Straps;
+use Test::Run::Obj::IntOrUnknown;
 
 =head1 NAME
 
@@ -29,11 +33,11 @@ Test::Run::Core - Base class to run standard TAP scripts.
 
 =head1 VERSION
 
-Version 0.0119
+Version 0.0120
 
 =cut
 
-$VERSION = '0.0119';
+$VERSION = '0.0120';
 
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;
@@ -44,8 +48,6 @@ END
     delete $ENV{HARNESS_ACTIVE};
     delete $ENV{HARNESS_NG_VERSION};
 }
-
-__PACKAGE__->mk_accessors(@{__PACKAGE__->_get_simple_params()});
 
 sub _get_simple_params
 {
@@ -76,23 +78,37 @@ sub _get_private_simple_params
        )];
 }
 
-__PACKAGE__->mk_accessors(qw(
-    _bonusmsg
-    dir_files
-    _new_dir_files
-    failed_tests
-    format_columns
-    last_test_elapsed
-    last_test_obj
-    last_test_results
-    list_len
-    max_namelen
-    output
-    _start_time
-    Strap
-    tot
-    width
-    ));
+has "_bonusmsg" => (is => "rw", isa => "Str");
+has "dir_files" => (is => "rw", isa => "ArrayRef");
+has "_new_dir_files" => (is => "rw", isa => "Maybe[ArrayRef]");
+has "failed_tests" => (is => "rw", isa => "HashRef");
+has "format_columns" => (is => "rw", isa => "Num");
+has "last_test_elapsed" => (is => "rw", isa => "Str");
+has "last_test_obj" => (is => "rw", isa => "Test::Run::Obj::TestObj");
+has "last_test_results" => (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
+has "list_len" => (is => "rw", isa => "Num");
+has "max_namelen" => (is => "rw", isa => "Num");
+
+# I don't know for sure what output is. It is Test::Run::Output in 
+# Test::Run::Plugin::CmdLine::Output but could be different elsewhere.
+has "output" => (is => "rw", isa => "Ref");
+has "_start_time" => (is => "rw", isa => "Num");
+has "Strap" => (is => "rw", isa => "Test::Run::Straps");
+has "tot" => (is => "rw", isa => "Test::Run::Obj::TotObj");
+has "width" => (is => "rw", isa => "Num");
+
+# Private Simple Params of _get_private_simple_params
+has "Columns" => (is => "rw", isa => "Num");
+has "Debug" => (is => "rw", isa => "Bool");
+has "Leaked_Dir" => (is => "rw", isa => "Str");
+has "NoTty" => (is => "rw", isa => "Bool");
+has "Switches" => (is => "rw", isa => "Maybe[Str]");
+has "Switches_Env" => (is => "rw", isa => "Maybe[Str]");
+has "test_files" => (is => "rw", isa => "ArrayRef");
+has "test_files_data" => (is => "rw", isa => "HashRef");
+has "Test_Interpreter" => (is => "rw", isa => "Maybe[Str]");
+has "Timer" => (is => "rw", isa => "Bool");
+has "Verbose" => (is => "rw", isa => "Bool");
 
 
 sub _init_simple_params
@@ -102,7 +118,7 @@ sub _init_simple_params
     {
         if (exists($args->{$key}))
         {
-            $self->set($key, $args->{$key});
+            $self->$key($args->{$key});
         }
     }
 }
@@ -130,6 +146,7 @@ sub _init
     $self->_init_simple_params($args);
     $self->dir_files([]);
     $self->test_files_data({});
+    $self->list_len(0);
 
     $self->register_pluggable_helper(
         {
@@ -925,7 +942,7 @@ sub _calc_last_test_obj_params
             (qw(bonus max ok skip_reason skip_all))
         ),
         skipped => $results->skip(),
-        'next' => $self->Strap->next(),
+        'next' => $self->Strap->next_test_num(),
         failed => $results->_get_failed_details(),
         ml => $self->_calc_test_struct_ml($results),
     ];
@@ -1084,7 +1101,11 @@ sub _calc_failed_before_any_test_obj
 
     return $self->_create_failed_obj_instance(
         {
-            (map { $_ => "??", } qw(canon max failed)),
+            (map 
+                { $_ => Test::Run::Obj::IntOrUnknown->create_unknown() } 
+                qw(max failed)
+            ),
+            canon => "??",
             (map { $_ => "", } qw(estat wstat)),
             percent => undef,
             name => $self->_get_last_test_filename(),
@@ -1122,7 +1143,7 @@ sub _get_failed_and_max_params
     return
     [
         canon => $self->_failed_canon(),
-        failed => $last_test->num_failed(),
+        failed => Test::Run::Obj::IntOrUnknown->create_int($last_test->num_failed()),
         percent => $last_test->calc_percent(),
     ];
 }
@@ -1153,7 +1174,7 @@ sub _get_undef_tests_params
     return
     [
         canon => "??",
-        failed => "??",
+        failed => Test::Run::Obj::IntOrUnknown->create_unknown(),
         percent => undef,
     ];
 }
@@ -1546,7 +1567,9 @@ sub _get_common_FWRS_params
 
     return
     [
-        max => $self->last_test_obj->max(),
+        max => Test::Run::Obj::IntOrUnknown->create_int(
+            $self->last_test_obj->max()
+        ),
         name => $self->_get_last_test_filename(),
         estat => "",
         wstat => "",
@@ -1680,7 +1703,7 @@ sub _get_dubious_summary_all_subtests_successful
 
     return
     [
-        failed => 0,
+        failed => Test::Run::Obj::IntOrUnknown->zero(),
         percent => 0,
         canon => "??",
     ];
@@ -1692,7 +1715,7 @@ sub _get_no_tests_summary
 
     return
     [
-        failed => "??",
+        failed => Test::Run::Obj::IntOrUnknown->create_unknown(),
         canon => "??",
         percent => undef(),
     ];

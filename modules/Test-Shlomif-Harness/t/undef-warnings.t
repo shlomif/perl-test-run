@@ -14,7 +14,8 @@ BEGIN
 
 package MyTestRun;
 
-use base 'Test::Run::Obj';
+use Moose;
+extends("Test::Run::Obj");
 
 use MRO::Compat;
 

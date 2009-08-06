@@ -6,8 +6,9 @@ use strict;
 use MRO::Compat;
 use Term::ANSIColor;
 
-use base 'Test::Run::Base';
-use base 'Test::Run::Plugin::ColorFileVerdicts::ColorBase';
+use Moose;
+
+extends('Test::Run::Plugin::ColorFileVerdicts::ColorBase');
 
 use Test::Run::Plugin::ColorFileVerdicts::CanonFailedObj;
 
@@ -19,11 +20,11 @@ colorful.
 
 =head1 VERSION
 
-Version 0.0106
+Version 0.0120
 
 =cut
 
-our $VERSION = '0.0106';
+our $VERSION = '0.0120';
 
 =head1 SYNOPSIS
 
@@ -51,9 +52,7 @@ our $VERSION = '0.0106';
 
 =cut
 
-__PACKAGE__->mk_accessors(qw(
-    individual_test_file_verdict_colors
-));
+has 'individual_test_file_verdict_colors' => (is => "rw", isa => "HashRef");
 
 sub _report_all_ok_test
 {

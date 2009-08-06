@@ -1,5 +1,7 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+    * Converted to Moose.
+
 0.0105       Mon May  4 21:11:22 IDT 2009
     * Converted from NEXT.pm to MRO::Compat.
 

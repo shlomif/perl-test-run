@@ -14,10 +14,11 @@ Test::Run::Obj::CanonFailedObj - the failed tests canon object.
 
 =cut
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
 
 use MRO::Compat;
-
 
 use vars qw(@fields);
 
@@ -31,7 +32,8 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'failed' => (is => "rw", isa => "ArrayRef");
+has '_more_results' => (is => "rw", isa => "ArrayRef");
 
 sub _init
 {

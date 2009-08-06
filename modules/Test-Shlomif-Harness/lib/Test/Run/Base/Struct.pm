@@ -15,9 +15,10 @@ Inherits from L<Test::Run::Base>.
 =cut
 
 use MRO::Compat;
-
+use Moose;
 
 use base 'Test::Run::Base';
+extends('Test::Run::Base');
 
 sub _pre_init
 {
@@ -59,7 +60,7 @@ sub _init
     {
         if (exists($fields_map->{$k}))
         {
-            $self->set($k, $v);
+            $self->$k($v);
         }
         else
         {
@@ -93,7 +94,7 @@ sub add_to_field
     my ($self, $field, $diff) = @_;
     if (exists($self->_get_fields_map()->{$field}))
     {
-        $self->set($field, $self->get($field)+$diff);
+        $self->$field($self->$field()+$diff);
     }
     else
     {

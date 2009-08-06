@@ -35,7 +35,10 @@ inside the sprintf fields (e.g: C<%(varname)s>) are read from the accessors
 
 =cut
 
-use base 'Text::Sprintf::Named';
+use Moose;
+
+extends('Text::Sprintf::Named');
+
 
 =head2 $formatter->calc_param()
 

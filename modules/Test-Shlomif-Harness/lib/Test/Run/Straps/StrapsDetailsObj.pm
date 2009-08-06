@@ -18,7 +18,10 @@ Inherits from Test::Run::Base::Struct.
 
 use vars qw(@fields);
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
+
 
 @fields = (qw(
     actual_ok
@@ -40,7 +43,12 @@ sub _pre_init
     $self->diagnostics("");
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'actual_ok' => (is => "rw", isa => "Bool");
+has 'diagnostics' => (is => "rw", isa => "Str");
+has 'name' => (is => "rw", isa => "Str");
+has 'ok' => (is => "rw", isa => "Num");
+has 'reason' => (is => "rw", isa => "Str");
+has 'type' => (is => "rw", isa => "Str");
 
 =head2 $self->append_to_diag($text)
 

@@ -27,7 +27,10 @@ fields for easy debugging.
 
 =cut
 
-use base 'Test::Run::Base::Struct';
+use Moose;
+
+extends('Test::Run::Base::Struct');
+
 
 use Test::More;
 use Data::Dumper ();
@@ -55,7 +58,15 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'die' => (is => "rw", isa => "Any");
+has 'exit' => (is => "rw", isa => "Any");
+has 'leaveby' => (is => "rw", isa => "Str");
+has 'return' => (is => "rw", isa => "Any");
+has 'stderr' => (is => "rw", isa => "Str");
+has 'stdout' => (is => "rw", isa => "Str");
+has 'wantarray' => (is => "rw", isa => "Bool");
+has 'warn' => (is => "rw", isa => "Any");
+has 'run_func' => (is => "rw", isa => "CodeRef");
 
 sub _stringify_value
 {

@@ -1,6 +1,7 @@
 Revision history for Test::Run::Plugin::TrimDisplaysFilenames
 
         - Converted thet tests to YAML::XS instead of YAML.pm.
+        - Converted to Moose.
 
 0.0103  Mon May  4 21:20:35 IDT 2009
         - Converted from NEXT.pm to MRO::Compat .

@@ -1,6 +1,9 @@
 * Update the documentation - currently it's mostly updated only to 
 Test::Harness.
 
+* Abstract away ->max_str() and ->failed_str() into a special "has" derived
+function that delegates it to them automatically.
+
 * Add an arbitrary number of leaked directories.
 
 * Add a registry for the classes of the helper objects.

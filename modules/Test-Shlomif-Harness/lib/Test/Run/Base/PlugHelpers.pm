@@ -14,7 +14,10 @@ use MRO::Compat;
 
 use Carp;
 
-use base 'Test::Run::Base';
+use Moose;
+
+extends('Test::Run::Base');
+
 
 use Test::Run::Base::Plugger;
 
@@ -23,7 +26,7 @@ sub _get_private_fields
     return [qw(_plug_helpers)];
 }
 
-__PACKAGE__->mk_accessors(@{__PACKAGE__->_get_private_fields()});
+has '_plug_helpers' => (is => "rw", isa => "HashRef");
 
 sub _init
 {

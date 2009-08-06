@@ -19,10 +19,10 @@ use vars qw(@fields @counter_fields %counter_fields_map);
 
 use Benchmark qw();
 
-use base qw(Test::Run::Base::Struct);
-
+use Moose;
 use MRO::Compat;
 
+extends("Test::Run::Base::Struct");
 
 @counter_fields = (qw(
     bad
@@ -46,14 +46,25 @@ sub _get_private_fields
 
 %counter_fields_map = (map { $_ => 1 } @counter_fields);
 
-__PACKAGE__->mk_accessors(@fields);
+has 'bad' => (is => "rw", isa => "Num");
+has 'bench' => (is => "rw", isa => "Any");
+has 'bonus' => (is => "rw", isa => "Str");
+# TODO : Should this be removed?
+has 'files' => (is => "rw");
+has 'good' => (is => "rw", isa => "Num");
+has 'max' => (is => "rw", isa => "Num");
+has 'ok' => (is => "rw", isa => "Num");
+has 'skipped' => (is => "rw", isa => "Num");
+has 'sub_skipped' => (is => "rw", isa => "Num");
+has 'todo' => (is => "rw", isa => "Num");
+has 'tests' => (is => "rw", isa => "Num");
 
 sub _pre_init
 {
     my $self = shift;
     foreach my $f (@counter_fields)
     {
-        $self->set($f, 0);
+        $self->$f(0);
     }
     return 0;
 }
@@ -150,8 +161,8 @@ sub add
     {
         Carp::confess "Cannot add to field \"$field\"!";
     }
-    $self->set($field, $self->get($field) + $diff);
-    return $self->get($field);
+    $self->$field($self->$field() + $diff);
+    return $self->$field();
 }
 
 =head2 $self->inc($field)

@@ -11,7 +11,8 @@ use vars qw(@leaked_file_rets);
 
 package MyTestRun::LeakedCheck;
 
-use base 'Test::Run::Obj';
+use Moose;
+extends("Test::Run::Obj");
 
 sub _report_leaked_files
 {

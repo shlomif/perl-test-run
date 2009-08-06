@@ -16,6 +16,8 @@ package Test::Run::Obj::Error;
 use strict;
 use warnings;
 
+use Moose;
+
 use Test::Run::Base::Struct;
 
 use Scalar::Util ();
@@ -36,7 +38,7 @@ use overload
     'fallback' => 1
     ;
 
-@ISA = (qw(Test::Run::Base::Struct));
+extends(qw(Test::Run::Base::Struct));
 
 @fields = (qw(
     package
@@ -50,7 +52,10 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'package' => (is => "rw", isa => "Str");
+has 'file' => (is => "rw", isa => "Str");
+has 'line' => (is => "rw", isa => "Num");
+has 'text' => (is => "rw", isa => "Str");
 
 sub _init
 {
@@ -110,6 +115,8 @@ package Test::Run::Obj::Error::TestsFail::Bailout;
 
 use vars qw(@ISA @fields);
 
+use Moose;
+
 sub _get_private_fields
 {
     my $self = shift;
@@ -117,11 +124,11 @@ sub _get_private_fields
     return [@fields];
 }
 
-@ISA = (qw(Test::Run::Obj::Error::TestsFail));
+extends(qw(Test::Run::Obj::Error::TestsFail));
 
 @fields = (qw(bailout_reason));
 
-__PACKAGE__->mk_accessors(@fields);
+has 'bailout_reason' => (is => "rw", isa => "Str");
 
 sub stringify
 {
