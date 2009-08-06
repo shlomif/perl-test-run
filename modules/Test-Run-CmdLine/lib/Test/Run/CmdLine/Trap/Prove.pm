@@ -3,7 +3,9 @@ package Test::Run::CmdLine::Trap::Prove;
 use strict;
 use warnings;
 
-use base 'Test::Run::Trap::Obj';
+use Moose;
+
+extends('Test::Run::Trap::Obj');
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
@@ -13,7 +15,7 @@ sub _get_private_fields
     return [@fields];
 }
 
-__PACKAGE__->mk_accessors(@fields);
+has 'system_ret' => (is => "rw", isa => "Num");
 
 sub trap_run
 {
