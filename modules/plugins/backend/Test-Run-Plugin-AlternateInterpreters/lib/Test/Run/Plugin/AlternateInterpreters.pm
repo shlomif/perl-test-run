@@ -13,11 +13,11 @@ Test::Run::Plugin::AlternateInterpreters - Define different interpreters for dif
 
 =head1 VERSION
 
-Version 0.0109
+Version 0.0120
 
 =cut
 
-our $VERSION = '0.0109';
+our $VERSION = '0.0120';
 
 has 'alternate_interpreters' => (is => "rw", isa => "ArrayRef");
 
