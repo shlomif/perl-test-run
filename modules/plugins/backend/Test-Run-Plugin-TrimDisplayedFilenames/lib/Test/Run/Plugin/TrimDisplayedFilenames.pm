@@ -3,13 +3,14 @@ package Test::Run::Plugin::TrimDisplayedFilenames;
 use warnings;
 use strict;
 
+use Moose;
+
 use MRO::Compat;
 use File::Spec;
 use File::Basename;
 use List::MoreUtils ();
 
-use base 'Test::Run::Base';
-use base 'Class::Accessor';
+extends ('Test::Run::Base');
 
 =head1 NAME
 
@@ -24,9 +25,7 @@ Version 0.0103
 
 our $VERSION = '0.0103';
 
-__PACKAGE__->mk_accessors(qw(
-    trim_displayed_filenames_query
-));
+has 'trim_displayed_filenames_query' => (is => "rw", isa => "Str");
 
 sub _get_private_simple_params
 {
@@ -176,8 +175,9 @@ sub _calc_test_file_data_display_path
 
     package MyTestRun;
 
-    use base 'Test::Run::Plugin::TrimDisplayedFilenames';
-    use base 'Test::Run::Obj';
+    use Moose;
+
+    extends('Test::Run::Plugin::TrimDisplayedFilenames');
 
 =head1 FUNCTIONS
 
