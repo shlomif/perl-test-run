@@ -21,6 +21,8 @@ use Moose;
 
 use Test::Run::Obj::IntOrUnknown;
 
+use Test::Run::Obj::IntOrUnknown::Moose;
+
 extends('Test::Run::Base::Struct');
 
 @fields = (qw(
@@ -43,9 +45,9 @@ sub _get_private_fields
 has 'canon' => (is => "rw", isa => "Str");
 has 'canon_strings' => (is => "rw", isa => "ArrayRef");
 has 'estat' => (is => "rw", isa => "Str");
-has 'failed' => (is => "rw", isa => "Test::Run::Obj::IntOrUnknown");
+has_IntOrUnknown 'failed';
+has_IntOrUnknown 'max';
 has 'list_len' => (is => "rw", isa => "Num");
-has 'max' => (is => "rw", isa => "Test::Run::Obj::IntOrUnknown");
 has 'name' => (is => "rw", isa => "Str");
 has 'percent' => (is => "rw", isa => "Maybe[Str]");
 has 'wstat' => (is => "rw", isa => "Str");
@@ -143,27 +145,12 @@ sub rest_of_canons
 
 A string representation of max.
 
-=cut
-
-sub max_str
-{
-    my $self = shift;
-
-    return $self->max->get_string_val();
-}
-
 =head2 $self->failed_str()
 
 A string representation of failed.
 
 =cut
 
-sub failed_str
-{
-    my $self = shift;
-
-    return $self->failed->get_string_val();
-}
 1;
 
 __END__

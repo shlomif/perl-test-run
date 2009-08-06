@@ -15,6 +15,7 @@ lib/Test/Run/Iface.pm
 lib/Test/Run/Obj/CanonFailedObj.pm
 lib/Test/Run/Obj/Error.pm
 lib/Test/Run/Obj/FailedObj.pm
+lib/Test/Run/Obj/IntOrUnknown/Moose.pm
 lib/Test/Run/Obj/IntOrUnknown.pm
 lib/Test/Run/Obj.pm
 lib/Test/Run/Obj/TestObj.pm
