@@ -5,7 +5,7 @@ use strict;
 
 use Carp;
 use UNIVERSAL::require;
-use YAML;
+use YAML::XS ();
 
 use Test::Run::Base;
 
@@ -345,7 +345,7 @@ sub _backend_spec_handler_for_yamldata
     my $env = $spec->{env};
 
     push @{$self->backend_env_args()},
-         ($arg => YAML::LoadFile($ENV{$env}));
+         ($arg => YAML::XS::LoadFile($ENV{$env}));
 }
 
 sub _calc_backend_env_var_map
