@@ -1,5 +1,6 @@
 Revision history for Test-Run-CmdLine
 
+0.0120     Thu Aug  6 15:02:29 IDT 2009
     * Changed to use YAML::XS instead of YAML.pm.
     * Converted to Moose.
     * Bumped the version number to 0.0120 to indicate the Moosification.
