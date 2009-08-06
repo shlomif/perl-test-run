@@ -1,5 +1,7 @@
     * Added has_IntOrUnknown in lib/Test/Run/Obj/IntOrUnknown/Moose.pm
     to abstract it.
+    * Added more test coverage:
+        - t/unit-format-self.t
 
 0.0120    Thu Aug  6 14:21:56 IDT 2009
     * Removed some trailing characters after the "=cut" of several

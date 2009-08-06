@@ -105,4 +105,5 @@ t/test-libs/lib2/MyFoo.pm
 t/t-r-base-plugger.t
 t/t-r-core-assert-unit.t
 t/undef-warnings.t
+t/unit-format-self.t
 t/version.t
