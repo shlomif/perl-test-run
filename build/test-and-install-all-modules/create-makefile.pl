@@ -28,10 +28,9 @@ system($^X,"gen-perl-modules-inst-makefile.pl",
             File::Spec->catdir($modules_dir, split(m{/}, $_)) 
          } 
     (qw(
-         Test-Shlomif-Harness
+         Test-Run
          Test-Run-CmdLine
          plugins/backend/Test-Run-Plugin-ColorSummary
-         plugins/cmdline/Test-Run-CmdLine-Plugin-ColorSummary
          plugins/backend/Test-Run-Plugin-FailSummaryComponents
          plugins/backend/Test-Run-Plugin-AlternateInterpreters
          plugins/backend/Test-Run-Plugin-CollectStats
