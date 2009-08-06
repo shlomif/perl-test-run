@@ -19,8 +19,10 @@ my $builder = Test::Run::Builder->new(
     requires => {
         'Test::Run::CmdLine' => "0.0111",
         'Test::Run::Core' => "0.0118",
-        'YAML' => 0,
         'MRO::Compat' => 0,
+    },
+    test_requires => {
+        'YAML::XS' => 0,
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-TrimDisplayedFilenames-*' ],
     create_makefile_pl => 'traditional',
