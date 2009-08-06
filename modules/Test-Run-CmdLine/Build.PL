@@ -19,6 +19,7 @@ my $build = Test::Run::Builder->new(
     },
     requires => 
     {
+        'Moose' => 0,
         'Test::Run::Core' => "0.0118",
         'UNIVERSAL::require' => 0,
         'YAML' => 0,
