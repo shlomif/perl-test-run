@@ -9,7 +9,7 @@ use Config;
 use File::Spec;
 use Cwd;
 
-use YAML ();
+use YAML::XS ();
 
 use Test::Run::CmdLine::Trap::ProveApp;
 
@@ -86,7 +86,7 @@ my $config_file = Cwd::abs_path($_config_file_rel);
             },
         ];
 
-        YAML::DumpFile($config_file, $yaml_data);
+        YAML::XS::DumpFile($config_file, $yaml_data);
 
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
