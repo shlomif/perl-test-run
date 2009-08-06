@@ -1,6 +1,8 @@
     * Removed some trailing characters after the "=cut" of several
     .pm files. It confused Pod::Xhtml.
     * Added resources and keywords to the Build.PL and META.yml.
+    * Converted to Moose.
+    * Bumped the version number to 0.0120 to indicate the Moosification.
 
 0.0119    Wed May 13 23:50:28 IDT 2009
     * Made t/output.t work on perl-5.8.8 and below.

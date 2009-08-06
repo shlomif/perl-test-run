@@ -33,11 +33,11 @@ Test::Run::Core - Base class to run standard TAP scripts.
 
 =head1 VERSION
 
-Version 0.0119
+Version 0.0120
 
 =cut
 
-$VERSION = '0.0119';
+$VERSION = '0.0120';
 
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;

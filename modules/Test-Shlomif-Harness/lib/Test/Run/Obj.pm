@@ -14,11 +14,11 @@ Test::Run::Obj - Run Perl standard test scripts with statistics
 
 =head1 VERSION
 
-Version 0.0100_09
+Version 0.0120
 
 =cut
 
-$VERSION = "0.0101";
+$VERSION = "0.0120";
 
 @ISA = (qw(
     Test::Run::Plugin::CmdLine::Output
