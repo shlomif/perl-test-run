@@ -14,7 +14,9 @@ sub _init
 
 sub people
 {
-    return ["Sophie", "Jack"];
+    my $self = shift;
+
+    return [(ref($self) eq "" ? () : ($self->{'p1'})), "Sophie", "Jack"];
 }
 
 package Son1;
@@ -49,6 +51,8 @@ package main;
 {
     my $grandson = Grandson1->new();
 
+    $grandson->{'p1'} = "Yuval";
+
     # TEST
     is_deeply(
         $grandson->accum_array(
@@ -56,7 +60,7 @@ package main;
                 method => "people",
             },
         ),
-        [qw(David Becky Lisa Gabor Offer Shlomo Sophie Jack)],
+        [qw(David Becky Lisa Gabor Offer Shlomo Yuval Sophie Jack)],
     );
 }
 
