@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 package MyClass;
 
@@ -13,6 +13,10 @@ extends ('Test::Run::Base::PlugHelpers');
 
 sub _init
 {
+    my $self = shift;
+    
+    $self->maybe::next::method();
+
     return;
 }
 
@@ -78,3 +82,25 @@ package main;
     );
 }
 
+{
+    my $obj = MyClass->new();
+    $obj->register_pluggable_helper(
+        {
+            id => "foo",
+            base => "MyClass::Foo",
+            collect_plugins_method => "collector",
+        },
+    );
+
+    my $result;
+    eval
+    {
+        $result = $obj->create_pluggable_helper_obj({id => "unknown"});  
+    };
+    my $Err = $@;
+
+    # TEST
+    like ($Err, qr{\AUnknown Pluggable Helper ID},
+        "Missing collect_plugins_method",
+    );
+}
