@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 package MyClass;
 
@@ -35,6 +35,26 @@ package main;
     # TEST
     like ($Err, qr{\A\s*'?"collect_plugins_method" not specified},
         "Missing collect_plugins_method",
+    );
+}
+
+{
+    my $obj = MyClass->new();
+    eval
+    {
+        $obj->register_pluggable_helper(
+            {
+                base => "MyClass::Sophie",
+                collect_plugins_method => "collector",
+            },
+        );
+    };
+
+    my $Err = $@;
+
+    # TEST
+    like ($Err, qr{\A\s*'?"id" not specified},
+        "Missing id",
     );
 }
 
