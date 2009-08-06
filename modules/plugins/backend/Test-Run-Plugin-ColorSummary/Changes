@@ -1,5 +1,6 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+0.0120       Thu Aug  6 13:47:27 IDT 2009
     * Converted to Moose.
 
 0.0105       Mon May  4 21:11:22 IDT 2009
