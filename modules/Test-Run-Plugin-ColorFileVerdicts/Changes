@@ -1,5 +1,9 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+        * Fixed a bug that could cause a crash when a failure was encountered.
+        Moose didn't like assigning an undef to 
+        individual_test_file_verdict_colors .
+
 0.0120    Thu Aug  6 13:45:46 IDT 2009
         * Converted to Moose and to Test-Run-Core/Test-Run-CmdLine 0.0120.
 

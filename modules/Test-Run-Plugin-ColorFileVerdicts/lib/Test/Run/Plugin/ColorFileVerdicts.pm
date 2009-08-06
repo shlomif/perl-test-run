@@ -52,7 +52,9 @@ our $VERSION = '0.0120';
 
 =cut
 
-has 'individual_test_file_verdict_colors' => (is => "rw", isa => "HashRef");
+has 'individual_test_file_verdict_colors' =>
+    (is => "rw", isa => "Maybe[HashRef]")
+    ;
 
 sub _report_all_ok_test
 {

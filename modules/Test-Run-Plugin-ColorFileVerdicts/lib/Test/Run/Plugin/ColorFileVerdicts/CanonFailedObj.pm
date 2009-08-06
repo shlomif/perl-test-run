@@ -22,7 +22,9 @@ extends(
     'Test::Run::Plugin::ColorFileVerdicts::ColorBase'
 );
 
-has 'individual_test_file_verdict_colors' => (is => "rw", isa => "HashRef");
+has 'individual_test_file_verdict_colors' =>
+    (is => "rw", isa => "Maybe[HashRef]")
+    ;
 
 use MRO::Compat;
 use Term::ANSIColor;

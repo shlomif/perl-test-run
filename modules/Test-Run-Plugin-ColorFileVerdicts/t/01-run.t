@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use Test::Run::Trap::Obj;
 
@@ -37,6 +37,28 @@ use Term::ANSIColor;
     # TEST
     $got->field_like("stdout", qr/\Q${color}\Eok\Q${reset}\E/,
         "ok is colored green");
+}
+
+{
+    my $got = Test::Run::Trap::Obj->trap_run(
+        {
+            class => "MyTestRun",
+            args =>
+            [
+            test_files => 
+            [
+                "t/sample-tests/simple_fail.t",
+            ],
+            ]
+        }
+        );
+
+    my $color = color("red");
+    my $reset = color("reset");
+
+    # TEST
+    $got->field_like("stdout", qr/\Q${color}\EFAILED tests.*?\Q${reset}\E/,
+        "not ok is colored red by default");
 }
 
 {
