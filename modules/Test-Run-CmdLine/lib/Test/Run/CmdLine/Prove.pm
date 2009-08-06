@@ -15,7 +15,7 @@ use Pod::Usage 1.12;
 use File::Spec;
 
 use vars qw($VERSION);
-$VERSION = "0.0100_05";
+$VERSION = "0.0120";
 
 has 'arguments' => (is => "rw", isa => "ArrayRef");
 has 'dry' => (is => "rw", isa => "Bool");
