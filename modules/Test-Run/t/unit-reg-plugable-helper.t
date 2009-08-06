@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 package MyClass;
 
@@ -54,6 +54,26 @@ package main;
 
     # TEST
     like ($Err, qr{\A\s*'?"id" not specified},
+        "Missing id",
+    );
+}
+
+{
+    my $obj = MyClass->new();
+    eval
+    {
+        $obj->register_pluggable_helper(
+            {
+                id => "quux",
+                collect_plugins_method => "collector",
+            },
+        );
+    };
+
+    my $Err = $@;
+
+    # TEST
+    like ($Err, qr{\A\s*'?"base" not specified},
         "Missing id",
     );
 }
