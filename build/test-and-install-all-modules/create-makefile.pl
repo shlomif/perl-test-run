@@ -30,12 +30,12 @@ system($^X,"gen-perl-modules-inst-makefile.pl",
     (qw(
          Test-Run
          Test-Run-CmdLine
-         plugins/backend/Test-Run-Plugin-ColorSummary
-         plugins/backend/Test-Run-Plugin-FailSummaryComponents
-         plugins/backend/Test-Run-Plugin-AlternateInterpreters
-         plugins/backend/Test-Run-Plugin-CollectStats
-         plugins/backend/Test-Run-Plugin-ColorFileVerdicts
-         plugins/backend/Test-Run-Plugin-TrimDisplayedFilenames
+         Test-Run-Plugin-ColorSummary
+         Test-Run-Plugin-FailSummaryComponents
+         Test-Run-Plugin-AlternateInterpreters
+         Test-Run-Plugin-CollectStats
+         Test-Run-Plugin-ColorFileVerdicts
+         Test-Run-Plugin-TrimDisplayedFilenames
     ))
 )
 );
