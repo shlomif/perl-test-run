@@ -21,11 +21,6 @@ extends('Test::Run::Base');
 
 use Test::Run::Base::Plugger;
 
-sub _get_private_fields
-{
-    return [qw(_plug_helpers)];
-}
-
 has '_plug_helpers' => (is => "rw", isa => "HashRef");
 
 sub _init
