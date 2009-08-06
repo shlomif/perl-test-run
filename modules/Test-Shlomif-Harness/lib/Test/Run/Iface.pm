@@ -3,10 +3,7 @@ package Test::Run::Iface;
 use strict;
 use warnings;
 
-use Moose;
 use MRO::Compat;
-
-extends("Test::Run::Base");
 
 1;
 

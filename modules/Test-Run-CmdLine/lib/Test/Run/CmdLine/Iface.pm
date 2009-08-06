@@ -32,7 +32,7 @@ Test::Run::CmdLine::Iface - Analyze tests from the command line using Test::Run
 has 'driver_class' => (is => "rw", isa => "Str");
 has 'driver_plugins' => (is => "rw", isa => "ArrayRef");
 has 'test_files' => (is => "rw", isa => "ArrayRef");
-has 'backend_params' => (is => "rw", isa => "HashRef");
+has 'backend_params' => (is => "rw", isa => "HashRef", predicate => "has_backend_params");
 has '_is_driver_class_prepared' => (is => "rw", isa => "Bool");
 
 sub _init
@@ -183,7 +183,10 @@ sub _calc_driver
     my $driver = $self->driver_class()->new(
         {
             'test_files' => $self->test_files(),
-            'backend_params' => $self->backend_params(),
+            ($self->has_backend_params()
+                ? ('backend_params' => $self->backend_params())
+                : ()
+            ),
         }
     );
 
