@@ -46,6 +46,7 @@ t/inc_taint.t
 t/leaked-dir.t
 t/lib/Dev/Null.pm
 t/lib/if.pm
+t/lib/MyClass/Base.pm
 t/lib/MyTestRun/Plug/Base.pm
 t/lib/MyTestRun/Plug/P/One.pm
 t/lib/MyTestRun/Plug/P/Two.pm
@@ -106,5 +107,6 @@ t/t-r-base-plugger.t
 t/t-r-core-assert-unit.t
 t/undef-warnings.t
 t/unit-format-self.t
+t/unit-plugger.t
 t/unit-reg-plugable-helper.t
 t/version.t

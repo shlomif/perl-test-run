@@ -72,6 +72,9 @@ provides:
     file: lib/Test/Run/Obj/FailedObj.pm
   Test::Run::Obj::IntOrUnknown:
     file: lib/Test/Run/Obj/IntOrUnknown.pm
+  Test::Run::Obj::IntOrUnknown::Moose:
+    file: lib/Test/Run/Obj/IntOrUnknown/Moose.pm
+    version: 0.0121
   Test::Run::Obj::TestObj:
     file: lib/Test/Run/Obj/TestObj.pm
   Test::Run::Obj::TotObj:
