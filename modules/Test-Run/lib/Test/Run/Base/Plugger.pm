@@ -41,10 +41,8 @@ sub _init
 
     $self->maybe::next::method($args);
 
-    $self->_base($args->{base})
-        or confess "Wrong base $args->{base}";
-    $self->_into($args->{into})
-        or confess "Wrong 'into' $args->{into}";
+    $self->_base($args->{base});
+    $self->_into($args->{into});
 
     $self->_plugins([]);
 
