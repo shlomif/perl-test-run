@@ -14,7 +14,7 @@ use Test::Run::CmdLine::Prove;
 sub run
 {
     my $p =
-        Test::Run::CmdLine::Prove->new(
+        Test::Run::CmdLine::Prove->create(
             {
                 'args' => [@ARGV],
                 'env_switches' => $ENV{'PROVE_SWITCHES'},
