@@ -125,7 +125,7 @@ sub _mk_leader__calc_te
 
     chomp($te);
 
-    $te =~ s{\.\w+$}{.};
+    $te =~ s{\.\w+$}{};
 
     if ($^O eq "VMS")
     {
@@ -147,7 +147,7 @@ sub _mk_leader__calc_leader
     my ($self, $args) = @_;
 
     my $te = $self->_mk_leader__calc_te($args->{te});
-    return ("$te" . '.' x ($args->{width} - length($te)));
+    return ("$te" . ' ' . ('.' x ($args->{width} - length($te) - 2 )) . ' ');
 }
 
 sub _mk_leader__calc_ml

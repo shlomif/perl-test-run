@@ -121,7 +121,7 @@ use File::Path ();
     
     # TEST
     $got->field_like("stdout", 
-        qr{t/sample-tests/skip\.+ok\n {8}1/5 skipped: rain delay\n},
+        qr{t/sample-tests/skip \.+ ok\n {8}1/5 skipped: rain delay\n},
         "skip - Matching the skipped line."
     );
 }
@@ -138,7 +138,7 @@ use File::Path ();
     
     # TEST
     $got->field_like("stdout",
-        qr{t/sample-tests/todo\.+ok\n {8}1/5 unexpectedly succeeded\n},
+        qr{t/sample-tests/todo \.+ ok\n {8}1/5 unexpectedly succeeded\n},
         "Todo only - Matching the bonus line."
     );
 
@@ -162,7 +162,7 @@ use File::Path ();
     
     # TEST
     $got->field_like("stdout", 
-        qr{t/sample-tests/skip_and_todo\.+ok\n {8}1/6 skipped: rain delay, 1/6 unexpectedly succeeded\n},
+        qr{t/sample-tests/skip_and_todo \.+ ok\n {8}1/6 skipped: rain delay, 1/6 unexpectedly succeeded\n},
         "skip_and_todo - Matching the bonus+skip line."
     );
 
@@ -186,7 +186,7 @@ use File::Path ();
     # TEST
     $got->field_like(
         "stdout",
-        qr{t/sample-tests/skipall\.+skipped\n {8}all skipped: rope\n},
+        qr{t/sample-tests/skipall \.+ skipped\n {8}all skipped: rope\n},
         "skipall - Matching the all skipped with the reason."
         );
     # TEST
@@ -209,7 +209,7 @@ use File::Path ();
     
     # TEST
     $got->field_like("stdout",
-        qr{t/sample-tests/simple_fail\.+FAILED tests 2, 5\n\tFailed 2/5 tests, 60.00% okay},
+        qr{t/sample-tests/simple_fail \.+ FAILED tests 2, 5\n\tFailed 2/5 tests, 60.00% okay},
         "simple_fail - Matching the FAILED test report"
         );
     # TEST

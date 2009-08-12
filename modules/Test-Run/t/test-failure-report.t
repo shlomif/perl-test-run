@@ -34,7 +34,7 @@ use Test::Run::Obj;
     );
 
     my $right_text = <<"EOF";
-t/sample-tests/simple_fail...FAILED tests 2, 5
+t/sample-tests/simple_fail . FAILED tests 2, 5
 	Failed 2/5 tests, 60.00% okay
 Failed Test                Stat Wstat Total Fail  Failed  List of Failed
 -------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ EOF
     );
 
     my $right_text = <<"EOF";
-t/sample-tests/simple_fail...FAILED tests 2, 5
+t/sample-tests/simple_fail . FAILED tests 2, 5
 	Failed 2/5 tests, 60.00% okay
 Failed Test                Stat Wstat Total Fail  Failed  List of Failed
 ---------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ EOF
     );
 
     my $right_text = <<"EOF";
-t/sample-tests/test_more_fail....dubious
+t/sample-tests/test_more_fail .. dubious
 	Test returned status 1 (wstat 256, 0x100)
 DIED. FAILED test 1
 	Failed 1/1 tests, 0.00% okay
