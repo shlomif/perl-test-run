@@ -71,7 +71,7 @@ has '_is_win32' => (is => "rw", isa => "Bool");
 has '_is_vms' => (is => "rw", isa => "Bool");
 has 'last_test_print' => (is => "rw", isa => "Bool");
 has 'next_test_num' => (is => "rw", isa => "Num");
-has '_old5lib' => (is => "rw", isa => "Str");
+has '_old5lib' => (is => "rw", isa => "Maybe[Str]");
 has '_parser' => (is => "rw", isa => "Maybe[TAP::Parser]");
 has 'results' =>
     (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
