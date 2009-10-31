@@ -5,7 +5,7 @@ use warnings;
 
 use Moose;
 
-with 'MooseX::Getopt';
+with 'MooseX::Getopt::Basic';
 
 has 'dry' => (
     traits => ['Getopt'], is => "rw", 
