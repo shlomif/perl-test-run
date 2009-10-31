@@ -47,6 +47,7 @@ t/leaked-dir.t
 t/lib/Dev/Null.pm
 t/lib/if.pm
 t/lib/MyClass/Base.pm
+t/lib/MyTestRun/Plug/Base/Faulty.pm
 t/lib/MyTestRun/Plug/Base.pm
 t/lib/MyTestRun/Plug/P/One.pm
 t/lib/MyTestRun/Plug/P/Two.pm

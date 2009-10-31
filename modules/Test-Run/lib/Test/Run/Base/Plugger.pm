@@ -64,16 +64,14 @@ sub _update_ISA
 
     foreach my $plugin (@{$self->_plugins()})
     {
-        $plugin->require();
-        if ($@)
+        if (!$plugin->require())
         {
             die $@;
         }
         push @$isa_ref, $plugin;
     }    
 
-    $base_class->require();
-    if ($@)
+    if (!$base_class->require())
     {
         die $@;
     }
