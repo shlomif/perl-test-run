@@ -1,5 +1,8 @@
 Revision history for Test::Run::Plugin::TrimDisplaysFilenames
 
+        - Fixed the tests with the latest trunk - spacing between the dots
+        after the test script filenames.
+
 0.0120  Thu Aug  6 13:55:05 IDT 2009
         - Converted thet tests to YAML::XS instead of YAML.pm.
         - Converted to Moose.

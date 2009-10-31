@@ -56,12 +56,12 @@ my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
         );
 
         # TEST
-        $got->field_like("stdout", qr/^one-ok\.{4}/ms, 
+        $got->field_like("stdout", qr/^one-ok \.{2}/ms, 
             "one-ok.t appears alone without the long path."
         );
 
         # TEST
-        $got->field_like("stdout", qr/^several-oks\.{4}/ms, 
+        $got->field_like("stdout", qr/^several-oks \.{2}/ms, 
             "several-oks.t appears alone without the long path."
         );
     }
