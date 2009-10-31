@@ -40,9 +40,8 @@ sub assert($;$)
         require Carp;
         
         my $msg = 
-            sprintf("Assert failed%s!", 
-                defined($name) ? " - '$name'" : ""
-            );
+            sprintf("Assert failed - '%s'!", $name)
+            ; 
 
         Carp::croak($msg);
     }
@@ -66,7 +65,7 @@ Copyright by Shlomi Fish, 2008.
 
 This file is licensed under the MIT X11 License:
 
-http://www.opensource.org/licenses/mit-license.php
+L<http://www.opensource.org/licenses/mit-license.php>
 
 =cut
 
