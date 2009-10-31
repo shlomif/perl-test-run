@@ -75,7 +75,7 @@ sub _update_ISA
     $base_class->require();
     if ($@)
     {
-        die $@
+        die $@;
     }
 
     push @$isa_ref, $base_class;
