@@ -51,7 +51,14 @@ sub _init
 
     my ($args) = @_;
     
+=begin debugging_code
+
     Carp::confess '$args not a hash' if (ref($args) ne "HASH");
+
+=end debugging_code
+
+=cut
+
     $self->_pre_init();
 
     my $fields_map = $self->_get_fields_map();
