@@ -110,4 +110,5 @@ t/undef-warnings.t
 t/unit-format-self.t
 t/unit-plugger.t
 t/unit-reg-plugable-helper.t
+t/unit-struct.t
 t/version.t
