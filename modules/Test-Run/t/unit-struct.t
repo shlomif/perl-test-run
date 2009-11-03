@@ -5,7 +5,7 @@ use warnings;
 
 # use lib "./t/lib";
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 package MyClass;
 
@@ -42,5 +42,26 @@ package main;
     is ($class->field2(), "val2", "field2()'s value is OK.");
 }
 
-# TODO : add a test for an exception that is thrown in case MyClass
-# gets an unknown field.
+{
+    my $self;
+
+    eval {
+        $self = MyClass->new(
+            {
+                'field1' => "MyValue 1",
+                'non_existent' => "iSuck",
+            }
+        );
+    };
+
+    my $err = $@;
+
+    # TEST
+    like(
+        $err,
+        qr{\ACalled with undefined field "non_existent"},
+        "Initialize a struct with an unknown field.",
+    );
+}
+
+
