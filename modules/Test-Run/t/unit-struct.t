@@ -5,7 +5,7 @@ use warnings;
 
 # use lib "./t/lib";
 
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 package MyClass;
 
@@ -65,3 +65,45 @@ package main;
 }
 
 
+package MyNumClass;
+
+use Moose;
+
+extends ('Test::Run::Base::Struct');
+
+sub _get_private_fields
+{
+    return [qw(age name)];
+}
+
+has 'age' => (is => "rw", isa => "Num");
+has 'name' => (is => "rw", isa => "Str");
+
+package main;
+
+{
+    my $jack = MyNumClass->new(
+        {
+            name => "Jack",
+            age => 10,
+        }
+    );
+
+    $jack->add_to_field('age', 3);
+
+    # TEST
+    is ($jack->age(), 13, "Age was incremented");
+
+    eval {
+        $jack->add_to_field('non-exist', 3);
+    };
+
+    my $err = $@;
+
+    # TEST
+    like(
+        $err, 
+        qr{\ATrying to increment non-existent field "non-exist"},
+        "Failed to increment non-existent field.",
+    );
+}
