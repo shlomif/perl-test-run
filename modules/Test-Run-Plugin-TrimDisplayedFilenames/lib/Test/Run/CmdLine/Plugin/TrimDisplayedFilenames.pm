@@ -23,11 +23,18 @@ environment variable. A few sample ones are:
 
 (to keep only 3 components).
 
+=head1 VERSION
+
+Version 0.0121
+
+=cut
+
+our $VERSION = '0.0121';
+
 =head1 METHODS
 
 =cut
 
-our $VERSION = '0.0120';
 
 =head2 $self->private_backend_plugins()
 

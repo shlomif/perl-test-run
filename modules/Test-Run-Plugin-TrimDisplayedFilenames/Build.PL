@@ -18,7 +18,7 @@ my $builder = Test::Run::Builder->new(
     },
     requires => {
         'Test::Run::CmdLine' => "0.0120",
-        'Test::Run::Core' => "0.0120",
+        'Test::Run::Core' => "0.0121",
         'MRO::Compat' => 0,
         'Moose' => 0,
     },
