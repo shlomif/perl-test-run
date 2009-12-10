@@ -113,6 +113,8 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 
 =cut
 
+=begin removed_code
+
 around '_parse_argv' => sub {
     my $orig = shift;
     my $self = shift;
@@ -121,6 +123,10 @@ around '_parse_argv' => sub {
     delete($params{'usage'});
     return %params;
 };
+
+=end removed_code
+
+=cut
 
 sub create
 {
@@ -142,11 +148,11 @@ sub create
     {
         # Temporary workaround for MooseX::Getopt;
         local @ARGV = @argv;
-    $self = $class->new_with_options(
-        argv => \@argv, 
-        "no_ignore_case" => 1,
-        "bundling" => 1,
-    );
+        $self = $class->new_with_options(
+            argv => \@argv, 
+            "no_ignore_case" => 1,
+            "bundling" => 1,
+        );
     }
 
     $self->_initial_process($args);
