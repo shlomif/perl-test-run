@@ -83,6 +83,12 @@ has 'skip_all' => (is => "rw", isa => "Maybe[Str]");
 has 'skipped' => (is => "rw", isa => "Num");
 has 'skip_reason' => (is => "rw", isa => "Maybe[Str]");
 
+=head2 BUILD
+
+For Moose.
+
+=cut
+
 sub BUILD
 {
     my $self = shift;

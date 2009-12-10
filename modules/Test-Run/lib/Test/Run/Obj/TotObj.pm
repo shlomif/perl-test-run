@@ -69,6 +69,12 @@ sub _pre_init
     return 0;
 }
 
+=head2 BUILD
+
+For Moose.
+
+=cut
+
 sub BUILD
 {
     my $self = shift;

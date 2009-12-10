@@ -35,6 +35,10 @@ has '_plugins' => (is => "rw", isa => "ArrayRef",
 
 $base is the base class and $into is the namespace to put everything into.
 
+=head2 BUILD
+
+For Moose.
+
 =cut
 
 sub BUILD

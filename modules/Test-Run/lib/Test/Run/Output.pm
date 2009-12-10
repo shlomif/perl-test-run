@@ -21,6 +21,12 @@ harmess.
 
 =cut
 
+=head2 BUILD
+
+For Moose.
+
+=cut
+
 sub BUILD
 {
     my ($self, $args) = @_;

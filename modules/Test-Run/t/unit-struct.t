@@ -59,7 +59,7 @@ package main;
     # TEST
     like(
         $err,
-        qr{\ACalled with undefined field "non_existent"},
+        qr{\AFound unknown attribute},
         "Initialize a struct with an unknown field.",
     );
 }

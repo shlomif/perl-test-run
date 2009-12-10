@@ -16,9 +16,16 @@ Inherits from L<Test::Run::Base>.
 
 use MRO::Compat;
 use Moose;
+
+# We need to put it here before the use MooseX::StrictConstructor due
+# to a Moose mis-feature. Thanks to doy.
+BEGIN
+{
+    extends('Test::Run::Base');
+}
+
 use MooseX::StrictConstructor;
 
-extends('Test::Run::Base');
 
 sub _pre_init
 {
@@ -42,6 +49,12 @@ sub _get_fields_map
 }
 
 use Carp;
+
+=head2 BUILD
+
+For Moose.
+
+=cut
 
 sub BUILD
 {

@@ -23,6 +23,8 @@ This class has gradually re-implemented all of the
 L<Test::Run::Plugin::CmdLine::Output::GplArt> functionality to 
 avoid license complications. 
 
+=head1 METHODS
+
 =cut
 
 sub _get_new_output
@@ -50,6 +52,12 @@ sub _named_printf
 }
 
 has "+output" => (lazy => 1, builder => "_get_new_output");
+
+=head2 BUILD
+
+For Moose.
+
+=cut
 
 sub BUILD
 {

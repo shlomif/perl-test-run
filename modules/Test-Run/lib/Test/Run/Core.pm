@@ -128,6 +128,12 @@ sub _get_new_strap
     );
 }
 
+=head2 BUILD
+
+For Moose.
+
+=cut
+
 sub BUILD
 {
     my $self = shift;
