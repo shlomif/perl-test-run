@@ -23,8 +23,13 @@ Version 0.0102
 
 =cut
 
-has '_recorded_test_files_data' => (is => "rw", isa => "ArrayRef");
-has '_test_files_names_map' => (is => "rw", isa => "HashRef");
+has '_recorded_test_files_data' => (is => "rw", isa => "ArrayRef",
+    default => sub { [] },
+);
+
+has '_test_files_names_map' => (is => "rw", isa => "HashRef",
+    default => sub { +{} },
+);
 
 our $VERSION = '0.0102';
 
@@ -38,16 +43,6 @@ our $VERSION = '0.0102';
 =head1 METHODS
 
 =cut
-
-sub _init
-{
-    my ($self, $args) = @_;
-
-    my $ret = $self->next::method($args);
-
-    $self->_recorded_test_files_data([]);
-    $self->_test_files_names_map({});
-}
 
 sub _run_single_test
 {
