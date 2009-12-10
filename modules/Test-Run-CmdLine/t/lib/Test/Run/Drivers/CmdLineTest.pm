@@ -3,15 +3,7 @@ package Test::Run::Drivers::CmdLineTest;
 use strict;
 use warnings;
 
-use MRO::Compat;
-
-use mro "dfs";
-
-sub _init
-{
-    my $self = shift;
-    $self->next::method(@_);
-}
+use Moose;
 
 sub runtests
 {

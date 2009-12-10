@@ -40,26 +40,25 @@ extends ('Test::Run::Base');
 
 =cut
 
-has 'backend_class' => (is => "rw", isa => "Str");
+has 'backend_class' => (is => "rw", isa => "Str",
+    default => "Test::Run::Iface"
+);
 has 'backend_params' => (is => "rw", isa => "HashRef");
-has 'backend_plugins' => (is => "rw", isa => "ArrayRef");
-has 'backend_env_args' => (is => "rw", isa => "ArrayRef");
+has 'backend_plugins' => (is => "rw", isa => "ArrayRef", 
+    default => sub { [] },
+);
+has 'backend_env_args' => (is => "rw", isa => "ArrayRef",
+    default => sub { [] },
+);
 has 'test_files' => (is => "rw", isa => "ArrayRef");
 
-sub _init
+sub BUILD
 {
-    my ($self, $args) = @_;
+    my $self = shift;
     
-    $self->backend_class("Test::Run::Iface");
-    $self->backend_plugins([]);
-
-    $self->test_files($args->{'test_files'});
-    $self->_process_args($args);
-    $self->backend_env_args([]);
-
     $self->_collect_backend_plugins();
-    
-    return 0;
+ 
+    return;
 }
 
 sub _process_args
@@ -101,6 +100,10 @@ the processing. Defaults to L<Test::Run::Obj>.
 Actually runs the tests on the command line.
 
 TODO : Write more.
+
+=head2 BUILD
+
+For Moose.
 
 =cut
 
