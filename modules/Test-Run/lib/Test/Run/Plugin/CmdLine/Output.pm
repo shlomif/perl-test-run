@@ -8,7 +8,7 @@ use Benchmark qw(timestr);
 use MRO::Compat;
 
 use Moose;
-extends("Test::Run::Base");
+extends("Test::Run::Core");
 
 use Test::Run::Output;
 
@@ -29,7 +29,7 @@ sub _get_new_output
 {
     my ($self, $args) = @_;
 
-    return Test::Run::Output->new($args);
+    return Test::Run::Output->new({ Verbose => $self->Verbose(), NoTty => $self->NoTty()});
 }
 
 sub _print
@@ -49,15 +49,14 @@ sub _named_printf
         );
 }
 
-sub _init
+has "+output" => (lazy => 1, builder => "_get_new_output");
+
+sub BUILD
 {
     my $self = shift;
 
-    $self->next::method(@_);
-
     my ($args) = @_;
 
-    $self->output($self->_get_new_output($args));
     {
         my %formatters =
         (

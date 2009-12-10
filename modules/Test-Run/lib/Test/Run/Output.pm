@@ -21,11 +21,9 @@ harmess.
 
 =cut
 
-sub _init
+sub BUILD
 {
     my ($self, $args) = @_;
-
-    $self->maybe::next::method(@_);
 
     $self->Verbose($args->{Verbose});
     $self->NoTty($args->{NoTty});

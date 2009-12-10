@@ -69,11 +69,9 @@ sub _pre_init
     return 0;
 }
 
-sub _init
+sub BUILD
 {
     my $self = shift;
-
-    $self->next::method(@_);
 
     $self->_register_obj_formatter(
         {

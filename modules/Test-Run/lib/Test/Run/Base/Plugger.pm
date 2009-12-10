@@ -25,9 +25,11 @@ This is a class that abstracts an object class with plugins.
 
 =cut
 
-has '_base' => (is => "rw", isa => "Str");
-has '_into' => (is => "rw", isa => "Str");
-has '_plugins' => (is => "rw", isa => "ArrayRef");
+has '_base' => (is => "rw", isa => "Str", init_arg => "base", );
+has '_into' => (is => "rw", isa => "Str", init_arg => "into", );
+has '_plugins' => (is => "rw", isa => "ArrayRef",
+    default => sub { []; }, lazy => 1
+);
 
 =head2 $plugger = Test::Run::Base::Plugger->new({base => $base, into => $into})
 
@@ -35,20 +37,13 @@ $base is the base class and $into is the namespace to put everything into.
 
 =cut
 
-sub _init
+sub BUILD
 {
-    my ($self, $args) = @_;
-
-    $self->maybe::next::method($args);
-
-    $self->_base($args->{base});
-    $self->_into($args->{into});
-
-    $self->_plugins([]);
+    my $self = shift;
 
     $self->_update_ISA();
-    
-    return 0;
+ 
+    return;
 }
 
 sub _update_ISA

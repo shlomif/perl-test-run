@@ -79,49 +79,42 @@ sub _get_private_simple_params
 }
 
 has "_bonusmsg" => (is => "rw", isa => "Str");
-has "dir_files" => (is => "rw", isa => "ArrayRef");
+has "dir_files" => (is => "rw", isa => "ArrayRef", lazy => 1, 
+    default => sub { [] },
+);
 has "_new_dir_files" => (is => "rw", isa => "Maybe[ArrayRef]");
 has "failed_tests" => (is => "rw", isa => "HashRef");
 has "format_columns" => (is => "rw", isa => "Num");
 has "last_test_elapsed" => (is => "rw", isa => "Str");
 has "last_test_obj" => (is => "rw", isa => "Test::Run::Obj::TestObj");
 has "last_test_results" => (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
-has "list_len" => (is => "rw", isa => "Num");
+has "list_len" => (is => "rw", isa => "Num", default => 0);
 has "max_namelen" => (is => "rw", isa => "Num");
 
 # I don't know for sure what output is. It is Test::Run::Output in 
 # Test::Run::Plugin::CmdLine::Output but could be different elsewhere.
 has "output" => (is => "rw", isa => "Ref");
 has "_start_time" => (is => "rw", isa => "Num");
-has "Strap" => (is => "rw", isa => "Test::Run::Straps");
+has "Strap" => (is => "rw", isa => "Test::Run::Straps",
+    lazy => 1, builder => "_get_new_strap"
+);
 has "tot" => (is => "rw", isa => "Test::Run::Obj::TotObj");
 has "width" => (is => "rw", isa => "Num");
 
 # Private Simple Params of _get_private_simple_params
-has "Columns" => (is => "rw", isa => "Num");
+has "Columns" => (is => "rw", isa => "Num", default => "80");
 has "Debug" => (is => "rw", isa => "Bool");
 has "Leaked_Dir" => (is => "rw", isa => "Str");
 has "NoTty" => (is => "rw", isa => "Bool");
-has "Switches" => (is => "rw", isa => "Maybe[Str]");
+has "Switches" => (is => "rw", isa => "Maybe[Str]", default => "-w",);
 has "Switches_Env" => (is => "rw", isa => "Maybe[Str]");
 has "test_files" => (is => "rw", isa => "ArrayRef");
-has "test_files_data" => (is => "rw", isa => "HashRef");
+has "test_files_data" => (is => "rw", isa => "HashRef", 
+    default => sub { +{} },
+);
 has "Test_Interpreter" => (is => "rw", isa => "Maybe[Str]");
 has "Timer" => (is => "rw", isa => "Bool");
 has "Verbose" => (is => "rw", isa => "Bool");
-
-
-sub _init_simple_params
-{
-    my ($self, $args) = @_;
-    foreach my $key (@{$self->_get_simple_params()})
-    {
-        if (exists($args->{$key}))
-        {
-            $self->$key($args->{$key});
-        }
-    }
-}
 
 sub _get_new_strap
 {
@@ -135,18 +128,9 @@ sub _get_new_strap
     );
 }
 
-sub _init
+sub BUILD
 {
-    my ($self, $args) = @_;
-
-    $self->maybe::next::method($args);
-
-    $self->Columns(80);
-    $self->Switches("-w");
-    $self->_init_simple_params($args);
-    $self->dir_files([]);
-    $self->test_files_data({});
-    $self->list_len(0);
+    my $self = shift;
 
     $self->register_pluggable_helper(
         {
@@ -193,10 +177,6 @@ sub _init
             name => "fail_other_except",
             format => "Failed %(_get_fail_test_scripts_string)s%(_get_fail_tests_good_percent_string)s.%(_get_sub_percent_msg)s\n"
         },
-    );
-
-    $self->Strap(
-        $self->_get_new_strap($args),
     );
 
     return 0;

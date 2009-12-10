@@ -14,12 +14,9 @@ extends("Test::Run::Base::PlugHelpers");
 
 use MRO::Compat;
 
-
-sub _init
+sub BUILD
 {
     my $self = shift;
-
-    $self->next::method(@_);
 
     $self->register_pluggable_helper(
         {

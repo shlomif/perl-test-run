@@ -16,8 +16,8 @@ Inherits from L<Test::Run::Base>.
 
 use MRO::Compat;
 use Moose;
+use MooseX::StrictConstructor;
 
-use base 'Test::Run::Base';
 extends('Test::Run::Base');
 
 sub _pre_init
@@ -43,13 +43,9 @@ sub _get_fields_map
 
 use Carp;
 
-sub _init
+sub BUILD
 {
     my $self = shift;
-
-    $self->maybe::next::method(@_);
-
-    my ($args) = @_;
     
 =begin debugging_code
 
@@ -61,19 +57,7 @@ sub _init
 
     $self->_pre_init();
 
-    my $fields_map = $self->_get_fields_map();
-
-    while (my ($k, $v) = each(%$args))
-    {
-        if (exists($fields_map->{$k}))
-        {
-            $self->$k($v);
-        }
-        else
-        {
-            Carp::confess "Called with undefined field \"$k\"";
-        }
-    }
+    return;
 }
 
 =head1 METHODS

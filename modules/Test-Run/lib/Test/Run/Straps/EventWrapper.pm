@@ -13,6 +13,7 @@ has '_tp_result' =>
 (
     is => "rw",
     isa => "Maybe[TAP::Parser::Result]",
+    init_arg => "event",
     handles => [qw(
         comment
         description
@@ -46,16 +47,6 @@ have created this class which holds an instance of the actual events,
 delegates some methods to it, and defines some of its own methods.
 
 =cut
-
-sub _init
-{
-    my $self = shift;
-    my $args = shift;
-
-    $self->_tp_result($args->{event});
-
-    return 0;
-}
 
 =head2 $event->is_pass()
 

@@ -21,19 +21,9 @@ extends('Test::Run::Base');
 
 use Test::Run::Base::Plugger;
 
-has '_plug_helpers' => (is => "rw", isa => "HashRef");
-
-sub _init
-{
-    my $self = shift;
-
-    $self->maybe::next::method(@_);
-
-    $self->_plug_helpers({});
-
-    return 0;
-}
-
+has '_plug_helpers' => (is => "rw", isa => "HashRef", 
+    lazy => 1, default => sub { +{} },
+);
 
 =head2 $self->register_pluggable_helper( { %args } )
 
