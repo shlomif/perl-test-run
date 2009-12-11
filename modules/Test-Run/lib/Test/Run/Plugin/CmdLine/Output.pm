@@ -8,7 +8,7 @@ use Benchmark qw(timestr);
 use MRO::Compat;
 
 use Moose;
-extends("Test::Run::Base");
+extends("Test::Run::Core");
 
 use Test::Run::Output;
 
@@ -23,13 +23,15 @@ This class has gradually re-implemented all of the
 L<Test::Run::Plugin::CmdLine::Output::GplArt> functionality to 
 avoid license complications. 
 
+=head1 METHODS
+
 =cut
 
 sub _get_new_output
 {
     my ($self, $args) = @_;
 
-    return Test::Run::Output->new($args);
+    return Test::Run::Output->new({ Verbose => $self->Verbose(), NoTty => $self->NoTty()});
 }
 
 sub _print
@@ -49,15 +51,20 @@ sub _named_printf
         );
 }
 
-sub _init
+has "+output" => (lazy => 1, builder => "_get_new_output");
+
+=head2 BUILD
+
+For Moose.
+
+=cut
+
+sub BUILD
 {
     my $self = shift;
 
-    $self->next::method(@_);
-
     my ($args) = @_;
 
-    $self->output($self->_get_new_output($args));
     {
         my %formatters =
         (

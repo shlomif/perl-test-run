@@ -69,11 +69,15 @@ sub _pre_init
     return 0;
 }
 
-sub _init
+=head2 BUILD
+
+For Moose.
+
+=cut
+
+sub BUILD
 {
     my $self = shift;
-
-    $self->next::method(@_);
 
     $self->_register_obj_formatter(
         {

@@ -5,7 +5,88 @@ use warnings;
 
 use Moose;
 
-extends('Test::Run::Base');
+with 'MooseX::Getopt::Basic';
+
+has 'dry' => (
+    traits => ['Getopt'], is => "rw", 
+    isa => "Bool", cmd_aliases => [qw(D)],
+);
+
+has '_ext_regex' => (accessor => "ext_regex", is => "rw", isa => "Regexp");
+has '_ext_regex_string' => 
+    (accessor => "ext_regex_string", is => "rw", isa => "Str")
+    ;
+has 'recurse' => (traits => ['Getopt'], is => "rw", 
+    isa => "Bool", cmd_aliases => [qw(r)],
+);
+has 'shuffle' => (
+    traits => ['Getopt'], is => "rw", 
+    isa => "Bool", cmd_aliases => [qw(s)],
+);
+has 'Verbose' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(v)],
+);
+has 'Debug' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(d)],
+);
+
+has '_Switches' => (accessor => "Switches", is => "rw", isa => "ArrayRef");
+has 'Test_Interpreter' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Str", cmd_aliases => [qw(perl)],
+);
+has 'Timer' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool",
+    cmd_aliases => [qw(timer)],
+);
+has 'proto_includes' => (
+    traits => ['Getopt'],
+    is => "rw", isa => "ArrayRef",
+    cmd_aliases => [qw(I)],
+    default => sub { return []; },
+);
+has 'blib' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(b)],
+);
+
+has 'lib' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(l)],
+);
+
+has 'taint' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(t)],
+);
+
+has 'uc_taint' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(T)],
+);
+
+has 'help' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(h ?)],
+);
+
+has 'man' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(H)],
+);
+
+has 'version' => (
+    traits => ['Getopt'], is => "rw",
+    isa => "Bool", cmd_aliases => [qw(V)],
+);
+
+has 'ext' => (
+    is => "rw", isa => "ArrayRef",
+    default => sub { return []; },
+);
 
 use MRO::Compat;
 
@@ -17,17 +98,6 @@ use File::Spec;
 use vars qw($VERSION);
 $VERSION = "0.0120";
 
-has 'arguments' => (is => "rw", isa => "ArrayRef");
-has 'dry' => (is => "rw", isa => "Bool");
-has 'ext_regex' => (is => "rw", isa => "Regexp");
-has 'ext_regex_string' => (is => "rw", isa => "Str");
-has 'recurse' => (is => "rw", isa => "Bool");
-has 'shuffle' => (is => "rw", isa => "Bool");
-has 'Verbose' => (is => "rw", isa => "Bool");
-has 'Debug' => (is => "rw", isa => "Bool");
-has 'Switches' => (is => "rw", isa => "ArrayRef");
-has 'Test_Interpreter' => (is => "rw", isa => "Maybe[Str]");
-has 'Timer' => (is => "rw", isa => "Bool");
 
 =head1 NAME
 
@@ -43,89 +113,108 @@ Test::Run::CmdLine::Prove - A Module for running tests from the command line
 
 =cut
 
-sub _init
+=begin removed_code
+
+around '_parse_argv' => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    my %params = $self->$orig(@_);
+    delete($params{'usage'});
+    return %params;
+};
+
+=end removed_code
+
+=cut
+
+sub create
+{
+    my $class = shift;
+    my $args = shift;
+
+    my @argv = @{$args->{'args'}};
+    my $env_switches = $args->{'env_switches'};
+
+    if (defined($env_switches))
+    {
+        unshift @argv, split(" ", $env_switches);
+    }
+
+    Getopt::Long::Configure( "no_ignore_case" );
+    Getopt::Long::Configure( "bundling" );
+
+    my $self;
+    {
+        # Temporary workaround for MooseX::Getopt;
+        local @ARGV = @argv;
+        $self = $class->new_with_options(
+            argv => \@argv, 
+            "no_ignore_case" => 1,
+            "bundling" => 1,
+        );
+    }
+
+    $self->_initial_process($args);
+
+    return $self;
+}
+
+sub _initial_process
 {
     my ($self, $args) = @_;
 
     $self->maybe::next::method($args);
 
-    my $arguments = $args->{'args'};
-    my $env_switches = $args->{'env_switches'};
+    my @switches = ();
 
-    $self->arguments($arguments);
-
-    local @ARGV = @$arguments;
-
-    if (defined($env_switches))
+    if ($self->version())
     {
-        unshift @ARGV, split(" ", $env_switches);
+        $self->_print_version();
+        exit(0);
     }
 
-    # Allow a -I<path> switch instead of -I <path>
-    @ARGV = (map { /^-I(.+)/ ? ("-I", $1) : ($_) } @ARGV);
+    if ($self->help())
+    {
+        $self->_usage(1);
+    }
 
-    Getopt::Long::Configure( "no_ignore_case" );
-    Getopt::Long::Configure( "bundling" );
+    if ($self->man())
+    {
+        $self->_usage(2);
+    }
 
-    my $verbose = undef;
-    my $debug = undef;
-    my $timer = undef;
-    my $interpreter = undef;
-    my @switches = ();
-    my @includes = ();
-    my $blib = 0;
-    my $lib = 0;
-    my $dry = 0;
-    my @ext = ();
-    my $recurse = 0;
-    my $shuffle = 0;
+    if ($self->taint())
+    {
+        unshift @switches, "-t";
+    }
 
-    GetOptions(
-        'b|blib' => \$blib,
-        'd|debug' => \$debug,
-        'D|dry' => \$dry,
-        'h|help|?' => sub { $self->_usage(1); },
-        'H|man' => sub { $self->_usage(2); },
-        'I=s@' => \@includes,
-        'l|lib' => \$lib,
-        'perl=s' => \$interpreter,
-        'r|recurse' => \$recurse,
-        's|shuffle' => \$shuffle,
-        # Always put -t and -T up front.
-        't' => sub { unshift @switches, "-t"; }, 
-        'T' => sub { unshift @switches, "-T"; }, 
-        'timer' => \$timer,
-        'v|verbose' => \$verbose,
-        'V|version' => sub { $self->_print_version(); exit(0); },
-        'ext=s@' => \@ext,
-    );
+    if ($self->uc_taint())
+    {
+        unshift @switches, "-T";
+    }
 
-    if ($blib)
+    my @includes = @{$self->proto_includes()};
+
+    if ($self->blib())
     {
         unshift @includes, ($self->_blibdirs());
     }
 
     # Handle the lib include path
-    if ($lib)
+    if ($self->lib())
     {
         unshift @includes, "lib";
     }
 
+    $self->proto_includes(\@includes);
+
     push @switches, (map { $self->_include_map($_) } @includes);
 
-    $self->Verbose($verbose);
-    $self->Debug($debug);
     $self->Switches(\@switches);
-    $self->Test_Interpreter($interpreter);
-    $self->Timer($timer);
-    $self->dry($dry);
-    $self->recurse($recurse);
-    $self->shuffle($shuffle);
 
-    $self->_set_ext(\@ext);
+    $self->_set_ext([ @{$self->ext()} ]);
     
-    $self->arguments([@ARGV]);
-
     return 0;
 }
 
@@ -159,7 +248,7 @@ sub _print_version
 
 =head1 Interface Functions
 
-=head2 $prove = Test::Run::CmdLine::Prove->new({'args' => [@ARGV], 'env_switches' => $env_switches});
+=head2 $prove = Test::Run::CmdLine::Prove->create({'args' => [@ARGV], 'env_switches' => $env_switches});
 
 Initializes a new object. C<'args'> is a keyed parameter that gives the
 command line for the prove utility (as an array ref of strings). 
@@ -294,7 +383,7 @@ sub _usage
     my $self = shift;
     my $verbosity = shift;
 
-    pod2usage(
+    Pod::Usage::pod2usage(
         {
             '-verbose' => $verbosity, 
             '-exitval' => 0,
@@ -374,8 +463,8 @@ sub _perform_shuffle
 sub _get_arguments
 {
     my $self = shift;
-    my $args = $self->arguments();
-    if (@$args)
+    my $args = $self->extra_argv();
+    if (defined($args) && @$args)
     {
         return $args;
     }

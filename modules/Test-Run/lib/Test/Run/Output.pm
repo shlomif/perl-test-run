@@ -21,11 +21,15 @@ harmess.
 
 =cut
 
-sub _init
+=head2 BUILD
+
+For Moose.
+
+=cut
+
+sub BUILD
 {
     my ($self, $args) = @_;
-
-    $self->maybe::next::method(@_);
 
     $self->Verbose($args->{Verbose});
     $self->NoTty($args->{NoTty});

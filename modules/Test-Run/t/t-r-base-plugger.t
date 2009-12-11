@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use Test::Run::Base::Plugger;
 
@@ -52,5 +52,27 @@ use lib "./t/lib";
     # TEST
     is ($obj->my_calc_last(),
         "If you want the last name, it is: Smith"
+    );
+}
+
+{
+    my $plugger;
+
+    eval {
+        $plugger = Test::Run::Base::Plugger->new(
+            {
+                base => "MyTestRun::Plug::Base::Faulty",
+                into => "MyTestRun::Plug::NonExist",
+            }
+        );
+    };
+
+    my $err = $@;
+
+    # TEST
+    like (
+        $err, 
+        qr{Global symbol "\$x".*?Compilation failed}ms, 
+        "An exception was thrown (by require)."
     );
 }

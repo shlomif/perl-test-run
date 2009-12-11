@@ -3,12 +3,13 @@ package Test::Run::Plugin::FailSummaryComponents;
 use warnings;
 use strict;
 
+use Moose;
+
 use MRO::Compat;
 
 use Scalar::Util ();
 
-use base 'Test::Run::Base';
-use base 'Class::Accessor';
+extends ("Test::Run::Base");
 
 =head1 NAME
 
@@ -25,9 +26,9 @@ my @params = (qw(
     failsumm_remove_subtests_percent
 ));
 
-__PACKAGE__->mk_accessors(
-    @params
-);
+has 'failsumm_remove_subtests_percent' => (is => "rw", isa => "Bool",);
+has 'failsumm_remove_test_scripts_number' => (is => "rw", isa => "Bool",);
+has 'failsumm_remove_test_scripts_percent' => (is => "rw", isa => "Bool",);
 
 sub _get_private_simple_params
 {

@@ -17,8 +17,15 @@ Inherits from L<Test::Run::Base>.
 use MRO::Compat;
 use Moose;
 
-use base 'Test::Run::Base';
-extends('Test::Run::Base');
+# We need to put it here before the use MooseX::StrictConstructor due
+# to a Moose mis-feature. Thanks to doy.
+BEGIN
+{
+    extends('Test::Run::Base');
+}
+
+use MooseX::StrictConstructor;
+
 
 sub _pre_init
 {
@@ -43,30 +50,27 @@ sub _get_fields_map
 
 use Carp;
 
-sub _init
+=head2 BUILD
+
+For Moose.
+
+=cut
+
+sub BUILD
 {
     my $self = shift;
-
-    $self->maybe::next::method(@_);
-
-    my ($args) = @_;
     
+=begin debugging_code
+
     Carp::confess '$args not a hash' if (ref($args) ne "HASH");
+
+=end debugging_code
+
+=cut
+
     $self->_pre_init();
 
-    my $fields_map = $self->_get_fields_map();
-
-    while (my ($k, $v) = each(%$args))
-    {
-        if (exists($fields_map->{$k}))
-        {
-            $self->$k($v);
-        }
-        else
-        {
-            Carp::confess "Called with undefined field \"$k\"";
-        }
-    }
+    return;
 }
 
 =head1 METHODS

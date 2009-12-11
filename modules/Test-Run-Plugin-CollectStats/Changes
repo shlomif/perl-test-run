@@ -1,6 +1,7 @@
 Revision history for Test-Run-Plugin-CollectStats
 
         - Converted to Moose.
+        - Updated to latest Test-Run and Moose.
 
 0.0101  Tue Mar 10 17:51:26 IST 2009
         - Adapted the module to recent Test::Run's.

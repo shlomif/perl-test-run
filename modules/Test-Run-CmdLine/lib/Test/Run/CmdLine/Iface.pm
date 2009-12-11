@@ -29,25 +29,30 @@ Test::Run::CmdLine::Iface - Analyze tests from the command line using Test::Run
 
 =cut
 
-has 'driver_class' => (is => "rw", isa => "Str");
-has 'driver_plugins' => (is => "rw", isa => "ArrayRef");
-has 'test_files' => (is => "rw", isa => "ArrayRef");
+has 'driver_class' => (is => "rw", isa => "Str", init_arg => undef,);
+has 'driver_plugins' => (is => "rw", isa => "ArrayRef", 
+    default => sub { [] }, init_arg => undef,);
+has '_driver_class_arg' => (is => "ro", isa => "Str", init_arg => "driver_class");
+has '_driver_plugins_arg' => (is => "ro", isa => "Maybe[ArrayRef]", init_arg => "driver_plugins");
+
+has 'test_files' => (is => "rw", isa => "ArrayRef", default => sub { [] },);
 has 'backend_params' => (is => "rw", isa => "HashRef", predicate => "has_backend_params");
-has '_is_driver_class_prepared' => (is => "rw", isa => "Bool");
+has '_is_driver_class_prepared' => (is => "rw", isa => "Bool", default => 0);
 
-sub _init
+sub BUILD
 {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
-    $self->_is_driver_class_prepared(0);
-    $self->driver_plugins([]);
-    if ($args->{'driver_class'} || $args->{'driver_plugins'})
+    my $driver_class = $self->_driver_class_arg() ;
+    my $plugins = $self->_driver_plugins_arg();
+
+    if ($driver_class || $plugins)
     {
         $self->_set_driver(
             {
-                'class' => ($args->{'driver_class'} ||
+                'class' => ($driver_class ||
                     "Test::Run::CmdLine::Drivers::Default"),
-                'plugins' => ($args->{'driver_plugins'} || []),
+                'plugins' => ($plugins || []),
             }
         );
     }
@@ -71,21 +76,7 @@ sub _init
         );
     }
     
-    $self->test_files($args->{'test_files'} || []);
-    $self->_process_args($args);
-
-    return 0;
-}
-
-sub _process_args
-{
-    my ($self, $args) = @_;
-    if (exists($args->{backend_params}))
-    {
-        $self->backend_params($args->{backend_params});
-    }
-
-    return 0;
+    return;
 }
 
 =head1 Interface Functions
@@ -121,6 +112,10 @@ them.
 =head2 $tester->run()
 
 Actually runs the tests on the command line.
+
+=head2 BUILD
+
+For Moose.
 
 TODO : Write more.
  

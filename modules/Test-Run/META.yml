@@ -1,6 +1,6 @@
 ---
 name: Test-Run
-version: 0.0120
+version: 0.0121
 author:
   - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
 abstract: Base class to run standard TAP scripts.
@@ -17,13 +17,14 @@ requires:
   List::Util: 0
   MRO::Compat: 0
   Moose: 0
+  MooseX::StrictConstructor: 0
   Scalar::Util: 0
   TAP::Parser: 3.09
   Test::Harness: 2.53
   Text::Sprintf::Named: 0.02
   UNIVERSAL::require: 0
 configure_requires:
-  Module::Build: 0.34
+  Module::Build: 0.35
 provides:
   Test::Run:
     file: lib/Test/Run.pm
@@ -42,14 +43,14 @@ provides:
     file: lib/Test/Run/Class/Hierarchy.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0120
+    version: 0.0121
   Test::Run::Core_GplArt:
     file: lib/Test/Run/Core_GplArt.pm
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
   Test::Run::Obj:
     file: lib/Test/Run/Obj.pm
-    version: 0.0120
+    version: 0.0121
   Test::Run::Obj::CanonFailedObj:
     file: lib/Test/Run/Obj/CanonFailedObj.pm
   Test::Run::Obj::Error:
@@ -87,7 +88,7 @@ provides:
     file: lib/Test/Run/Sprintf/Named/FromAccessors.pm
   Test::Run::Straps:
     file: lib/Test/Run/Straps.pm
-    version: 0.0120
+    version: 0.0121
   Test::Run::Straps::Base:
     file: lib/Test/Run/Straps/Base.pm
   Test::Run::Straps::EventWrapper:
@@ -100,7 +101,7 @@ provides:
     file: lib/Test/Run/Straps_GplArt.pm
   Test::Run::Trap::Obj:
     file: lib/Test/Run/Trap/Obj.pm
-generated_by: Module::Build version 0.34
+generated_by: Module::Build version 0.35
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '0.0120';
+$VERSION = '0.0121';
 
 =head1 NAME
 
@@ -66,12 +66,18 @@ has 'exception' => (is => "rw", isa => "Any");
 has 'file' => (is => "rw", isa => "Str");
 has '_file_totals' =>
     (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
-has '_is_macos' => (is => "rw", isa => "Bool");
-has '_is_win32' => (is => "rw", isa => "Bool");
-has '_is_vms' => (is => "rw", isa => "Bool");
+has '_is_macos' => (is => "rw", isa => "Bool", 
+    default => sub { return ($^O eq "MacOS"); },
+);
+has '_is_win32' => (is => "rw", isa => "Bool",
+    default => sub { return ($^O =~ m{\A(?:MS)?Win32\z}); },
+);
+has '_is_vms' => (is => "rw", isa => "Bool", 
+    default => sub { return ($^O eq "VMS"); },
+);
 has 'last_test_print' => (is => "rw", isa => "Bool");
 has 'next_test_num' => (is => "rw", isa => "Num");
-has '_old5lib' => (is => "rw", isa => "Str");
+has '_old5lib' => (is => "rw", isa => "Maybe[Str]");
 has '_parser' => (is => "rw", isa => "Maybe[TAP::Parser]");
 has 'results' =>
     (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
@@ -81,10 +87,10 @@ has '_seen_header' => (is => "rw", isa => "Num");
 has 'Switches' => (is => "rw", isa => "Maybe[Str]");
 has 'Switches_Env' => (is => "rw", isa => "Maybe[Str]");
 has 'Test_Interpreter' => (is => "rw", isa => "Maybe[Str]");
-has 'todo' => (is => "rw", isa => "HashRef");
+has 'todo' => (is => "rw", isa => "HashRef", default => sub { +{} },);
 has 'too_many_tests' => (is => "rw", isa => "Bool");
 has 'totals' =>
-    (is => "rw", isa => "HashRef");
+    (is => "rw", isa => "HashRef", default => sub { +{} },);
 
 
 =head2 my $strap = Test::Run::Straps->new();
@@ -92,22 +98,6 @@ has 'totals' =>
 Initialize a new strap.
 
 =cut
-
-sub _init
-{
-    my $self = shift;
-
-    $self->maybe::next::method(@_);
-
-    $self->_is_vms($^O eq "VMS");
-    $self->_is_win32($^O =~ m{\A(?:MS)?Win32\z});
-    $self->_is_macos($^O eq "MacOS");
-
-    $self->totals(+{});
-    $self->todo(+{});
-
-    return 0;
-}
 
 sub _start_new_file
 {

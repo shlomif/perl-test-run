@@ -11,15 +11,6 @@ use Moose;
 
 extends ('Test::Run::Base::PlugHelpers');
 
-sub _init
-{
-    my $self = shift;
-    
-    $self->maybe::next::method();
-
-    return;
-}
-
 package main;
 
 {

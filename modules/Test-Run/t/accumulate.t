@@ -9,11 +9,6 @@ use Moose;
 
 extends("Test::Run::Base");
 
-sub _init
-{
-    return 0;
-}
-
 sub people
 {
     my $self = shift;

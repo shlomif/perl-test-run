@@ -83,11 +83,15 @@ has 'skip_all' => (is => "rw", isa => "Maybe[Str]");
 has 'skipped' => (is => "rw", isa => "Num");
 has 'skip_reason' => (is => "rw", isa => "Maybe[Str]");
 
-sub _init
-{
-    my ($self, $args) = @_;
+=head2 BUILD
 
-    $self->next::method($args);
+For Moose.
+
+=cut
+
+sub BUILD
+{
+    my $self = shift;
 
     $self->_register_obj_formatter(
         {
@@ -96,7 +100,7 @@ sub _init
         },
     );
 
-    return 0;
+    return;
 }
 
 =head2 $self->add_to_failed(@failures)

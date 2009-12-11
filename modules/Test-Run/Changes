@@ -1,8 +1,14 @@
+0.0121    Fri Sep  4 17:23:25 IDT 2009
     * Added has_IntOrUnknown in lib/Test/Run/Obj/IntOrUnknown/Moose.pm
     to abstract it.
     * Added more test coverage.
     * Changed the output to be more Test-Harness-3.x-like with spaces
     surrounding the "...." leader (after the filename and before the OK).
+    * Fixed the fact that _old5lib in lib/Test/Run/Straps.pm can be
+    undef (in case PERL5LIB is not defined).
+        - Thanks to http://pythack.com/ for running the
+        http://fc-solve.berlios.de/ - based test-suite on his system and
+        discovering that.
 
 0.0120    Thu Aug  6 14:21:56 IDT 2009
     * Removed some trailing characters after the "=cut" of several

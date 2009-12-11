@@ -11,11 +11,6 @@ use Moose;
 
 extends ('Test::Run::Base');
 
-sub _init
-{
-    return;
-}
-
 package main;
 
 {

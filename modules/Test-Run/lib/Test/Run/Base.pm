@@ -28,26 +28,14 @@ use Test::Run::Class::Hierarchy (qw(hierarchy_of rev_hierarchy_of));
 
 use Carp ();
 
-has '_formatters' => (is => "rw", isa => "HashRef");
+has '_formatters' => (is => "rw", isa => "HashRef", default => sub { +{} },);
 
 =head2 $package->new({%args})
 
-The default constructor. Do not over-ride it. Instead over-ride
-L<_init()>, which accepts the same arguments on an already constructed
-and blessed object reference.
+The default constructor. Do not over-ride it. Instead, define a
+L<BUILD()> method.
 
 =cut
-
-sub new
-{
-    my $class = shift;
-    my $self = {};
-    bless $self, $class;
-    $self->_formatters({});
-    $self->_init(@_);
-    return $self;
-}
-
 
 =head2 $dest->copy_from($source, [@fields])
 

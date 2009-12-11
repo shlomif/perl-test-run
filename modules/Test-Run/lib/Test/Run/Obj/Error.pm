@@ -57,15 +57,15 @@ has 'file' => (is => "rw", isa => "Str");
 has 'line' => (is => "rw", isa => "Num");
 has 'text' => (is => "rw", isa => "Str");
 
-sub _init
+=head2 BUILD
+
+For Moose.
+
+=cut
+
+sub BUILD
 {
     my $self = shift;
-
-    # Workaround to make next::method behave.
-    # It misbehaves upon a stringification operation.
-    $self->text(Scalar::Util::refaddr($self));
-
-    $self->next::method(@_);
 
     my ($pkg,$file,$line) = caller(1);
     $self->package($pkg);
