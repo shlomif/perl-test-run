@@ -407,13 +407,6 @@ sub _init_tot
     );
 }
 
-sub _tot_add
-{
-    my ($self, $field, $diff) = @_;
-
-    $self->tot()->add($field, $diff);
-}
-
 sub _tot_inc
 {
     my ($self, $field) = @_;
