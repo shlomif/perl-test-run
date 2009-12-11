@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 package A;
 
@@ -44,12 +44,23 @@ is_deeply (hierarchy_of("E"), [qw(E D C B A)],
 
 # TEST
 is_deeply (rev_hierarchy_of("C"), [qw(A B C )],
-    "Checking a simple hierarchy"
+    "Checking a simple rev-hierarchy"
 );
 
 # TEST
 is_deeply (rev_hierarchy_of("E"), [qw(A B C D E)],
-    "Checking a multi-inheritance hierarchy"
+    "Checking a multi-inheritance rev-hierarchy"
+);
+
+
+# TEST
+is_deeply (rev_hierarchy_of("C"), [qw(A B C )],
+    "Checking a simple rev-hierarchy again (for caching)"
+);
+
+# TEST
+is_deeply (rev_hierarchy_of("E"), [qw(A B C D E)],
+    "Checking a multi-inheritance rev-hierarchy again (for caching)"
 );
 
 =head1 LICENSE
