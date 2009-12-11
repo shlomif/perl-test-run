@@ -493,32 +493,15 @@ sub _tap_event_strap_callback
     return $self->_tap_event_handle_strap($args);
 }
 
-sub _tap_event__calc_conds_raw
-{
-    my $self = shift;
-
-    return
-    [
-        [ plan => "header" ],
-        [ bailout => "bailout" ],
-        [ test => "test" ],
-    ];
-}
-
 sub _tap_event__calc_conds
 {
     my $self = shift;
 
     return
     [
-        map
-        {
-            my $c = $_;
-            my $cond = "is_$c->[0]";
-            my $handler = "_strap_$c->[1]_handler";
-            +{ cond => $cond, handler => $handler, };
-        }
-        @{$self->_tap_event__calc_conds_raw()}
+        { cond => "is_plan", handler => "_strap_header_handler", },
+        { cond => "is_bailout", handler => "_strap_bailout_handler", },
+        { cond => "is_test", handler => "_strap_test_handler"},
     ];
 }
 
