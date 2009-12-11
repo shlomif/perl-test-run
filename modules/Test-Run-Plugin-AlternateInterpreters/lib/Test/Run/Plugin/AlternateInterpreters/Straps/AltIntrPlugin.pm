@@ -23,11 +23,6 @@ extends('Test::Run::Base');
 
 has 'alternate_interpreters' => (is => "rw", isa => "ArrayRef");
 
-sub _get_private_simple_params
-{
-    my $self = shift;
-    return [qw(alternate_interpreters)];
-}
 
 sub _get_command_and_switches
 {

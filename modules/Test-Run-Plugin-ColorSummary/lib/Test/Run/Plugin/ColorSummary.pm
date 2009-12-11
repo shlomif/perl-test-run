@@ -28,11 +28,6 @@ our $VERSION = '0.0120';
 has 'summary_color_failure' => (is => "rw", isa => "Str");
 has 'summary_color_success' => (is => "rw", isa => "Str");
 
-sub _get_private_simple_params
-{
-    my $self = shift;
-    return [qw(summary_color_failure summary_color_success)];
-}
 
 sub _get_failure_summary_color
 {

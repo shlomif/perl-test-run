@@ -30,11 +30,6 @@ has 'failsumm_remove_subtests_percent' => (is => "rw", isa => "Bool",);
 has 'failsumm_remove_test_scripts_number' => (is => "rw", isa => "Bool",);
 has 'failsumm_remove_test_scripts_percent' => (is => "rw", isa => "Bool",);
 
-sub _get_private_simple_params
-{
-    my $self = shift;
-    return [@params];
-}
 
 
 =head1 SYNOPSIS

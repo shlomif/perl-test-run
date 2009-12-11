@@ -49,35 +49,6 @@ END
     delete $ENV{HARNESS_NG_VERSION};
 }
 
-sub _get_simple_params
-{
-    my $self = shift;
-
-    return $self->accum_array(
-        {
-            method => "_get_private_simple_params",
-        }
-    );
-}
-
-sub _get_private_simple_params
-{
-    return
-        [qw(
-            Columns
-            Debug
-            Leaked_Dir
-            NoTty
-            Switches
-            Switches_Env
-            test_files
-            test_files_data
-            Test_Interpreter
-            Timer
-            Verbose
-       )];
-}
-
 has "_bonusmsg" => (is => "rw", isa => "Str");
 has "dir_files" => (is => "rw", isa => "ArrayRef", lazy => 1, 
     default => sub { [] },

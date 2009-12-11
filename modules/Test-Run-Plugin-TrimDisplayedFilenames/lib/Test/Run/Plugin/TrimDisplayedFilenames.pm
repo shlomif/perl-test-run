@@ -27,11 +27,6 @@ our $VERSION = '0.0121';
 
 has 'trim_displayed_filenames_query' => (is => "rw", isa => "Str");
 
-sub _get_private_simple_params
-{
-    my $self = shift;
-    return [qw(trim_displayed_filenames_query)];
-}
 
 sub _process_filename_dirs
 {
