@@ -112,4 +112,5 @@ t/unit-format-self.t
 t/unit-plugger.t
 t/unit-reg-plugable-helper.t
 t/unit-struct.t
+t/unit-test-run-trap-obj-1.t
 t/version.t
