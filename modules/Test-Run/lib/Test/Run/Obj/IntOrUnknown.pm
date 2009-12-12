@@ -21,16 +21,6 @@ use Moose;
 
 extends('Test::Run::Base::Struct');
 
-@fields = (qw(
-    _val
-    _is_unknown
-));
-
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 has '_is_unknown' => (is => "rw", isa => "Bool");
 has '_val' => (is => "rw", isa => "Maybe[Int]");
 

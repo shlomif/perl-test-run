@@ -18,31 +18,6 @@ use Moose;
 
 extends('Test::Run::Straps::Base');
 
-
-use vars qw(@fields);
-
-@fields = (qw(
-    bonus
-    details
-    _enormous_num_cb
-    exit
-    filename
-    max
-    ok
-    passing
-    seen
-    skip
-    skip_all
-    skip_reason
-    todo
-    wait
-));
-
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 has 'bonus' => (is => "rw", isa => "Num");
 has 'details' => (is => "rw", isa => "ArrayRef");
 has '_enormous_num_cb' => (is => "rw", isa => "Maybe[CodeRef]");

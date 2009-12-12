@@ -18,21 +18,9 @@ Version 0.0101
 
 extends('Test::Run::Base::Struct');
 
-my @fields = 
-(qw(
-    elapsed_time
-    results
-    summary_object
-));
-
 has 'elapsed_time' => (is => "rw", isa => "Str");
 has 'results' => (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
 has 'summary_object' => (is => "rw", isa => "Test::Run::Obj::TestObj");
-
-sub _get_private_fields
-{
-    return [@fields];
-}
 
 1;
 

@@ -9,12 +9,6 @@ extends('Test::Run::Trap::Obj');
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
-my @fields = (qw(system_ret));
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 has 'system_ret' => (is => "rw", isa => "Num");
 
 sub trap_run

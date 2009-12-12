@@ -25,23 +25,6 @@ use Test::Run::Obj::IntOrUnknown::Moose;
 
 extends('Test::Run::Base::Struct');
 
-@fields = (qw(
-    canon
-    canon_strings
-    estat
-    failed
-    list_len
-    max
-    name
-    percent
-    wstat
-));
-
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 has 'canon' => (is => "rw", isa => "Str");
 has 'canon_strings' => (is => "rw", isa => "ArrayRef");
 has 'estat' => (is => "rw", isa => "Str");

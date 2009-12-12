@@ -53,10 +53,6 @@ my @fields = qw(
     run_func
 );
 
-sub _get_private_fields
-{
-    return [@fields];
-}
 
 has 'die' => (is => "rw", isa => "Any");
 has 'exit' => (is => "rw", isa => "Any");

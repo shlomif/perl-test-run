@@ -22,16 +22,6 @@ use MRO::Compat;
 
 use vars qw(@fields);
 
-@fields = (qw(
-    failed
-    _more_results
-));
-
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 has 'failed' => (is => "rw", isa => "ArrayRef");
 has '_more_results' => (is => "rw", isa => "ArrayRef", 
     lazy => 1, default => sub { [] },

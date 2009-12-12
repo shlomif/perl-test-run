@@ -22,21 +22,6 @@ use Moose;
 
 extends('Test::Run::Base::Struct');
 
-
-@fields = (qw(
-    actual_ok
-    diagnostics
-    name
-    ok
-    reason
-    type
-));
-
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 sub _pre_init
 {
     my $self = shift;

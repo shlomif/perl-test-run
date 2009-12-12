@@ -15,17 +15,6 @@ For internal use.
 
 =cut
 
-sub _get_private_fields
-{
-    my $self = shift;
-
-    return 
-    [
-        qw(individual_test_file_verdict_colors),
-    ];
-}
-
-
 sub _get_individual_test_file_verdict_user_set_color
 {
     my ($self, $event) = @_;

@@ -19,18 +19,6 @@ use MRO::Compat;
 
 use Test::Run::Obj::IntOrUnknown;
 
-@fields = (qw(
-    ok
-    next
-    max
-    failed
-    bonus
-    skipped
-    skip_reason
-    skip_all
-    ml
-));
-
 =head1 FIELDS
 
 =head2 $self->bonus()
@@ -67,11 +55,6 @@ in cases when it was.
 The skip reason for the last skipped test that specified such a reason.
 
 =cut
-
-sub _get_private_fields
-{
-    return [@fields];
-}
 
 has 'bonus' => (is => "rw", isa => "Num");
 has 'failed' => (is => "rw", isa => "ArrayRef");

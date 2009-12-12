@@ -28,36 +28,6 @@ use Test::Run::Straps::StrapsTotalsObj;
 
 use Test::Run::Obj::Error;
 
-my @fields= (qw(
-    bailout_reason
-    callback
-    Debug
-    error
-    exception
-    file
-    _file_totals
-    _is_macos
-    _is_win32
-    next_test_num
-    _old5lib
-    _parser
-    results
-    saw_bailout
-    saw_header
-    _seen_header
-    Switches
-    Switches_Env
-    Test_Interpreter
-    todo
-    too_many_tests
-    totals
-));
-
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 has 'bailout_reason' => (is => "rw", isa => "Str");
 has 'callback' => (is => "rw", isa => "Maybe[CodeRef]");
 has 'Debug' => (is => "rw", isa => "Bool");

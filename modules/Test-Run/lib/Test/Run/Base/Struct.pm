@@ -31,23 +31,6 @@ sub _pre_init
 {
 }
 
-sub _get_fields
-{
-    my $self = shift;
-
-    return $self->accum_array(
-        {
-            method => "_get_private_fields",
-        }
-    );
-}
-
-sub _get_fields_map
-{
-    my $self = shift;
-    return +{ map { $_ => 1 } @{$self->_get_fields()} };
-}
-
 use Carp;
 
 =head2 BUILD
@@ -96,14 +79,7 @@ Add $difference to the slot $field_name.
 sub add_to_field
 {
     my ($self, $field, $diff) = @_;
-    if (exists($self->_get_fields_map()->{$field}))
-    {
-        $self->$field($self->$field()+$diff);
-    }
-    else
-    {
-        Carp::confess "Trying to increment non-existent field \"$field\"";
-    }
+    $self->$field($self->$field()+$diff);
 }
 
 1;

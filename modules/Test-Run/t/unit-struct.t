@@ -13,11 +13,6 @@ use Moose;
 
 extends ('Test::Run::Base::Struct');
 
-sub _get_private_fields
-{
-    return [qw(field1 field2)];
-}
-
 has 'field1' => (is => "rw", isa => "Str");
 has 'field2' => (is => "rw", isa => "Str");
 
@@ -71,11 +66,6 @@ use Moose;
 
 extends ('Test::Run::Base::Struct');
 
-sub _get_private_fields
-{
-    return [qw(age name)];
-}
-
 has 'age' => (is => "rw", isa => "Num");
 has 'name' => (is => "rw", isa => "Str");
 
@@ -103,7 +93,7 @@ package main;
     # TEST
     like(
         $err, 
-        qr{\ATrying to increment non-existent field "non-exist"},
+        qr{\ACan't locate object method},
         "Failed to increment non-existent field.",
     );
 }

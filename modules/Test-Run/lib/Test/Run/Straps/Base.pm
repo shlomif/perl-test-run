@@ -22,16 +22,6 @@ use Test::Run::Straps::EventWrapper;
 
 use vars qw(@fields);
 
-@fields = (qw(
-    _event
-    _is_vms
-));
-
-sub _get_private_fields
-{
-    return [@fields];
-}
-
 has '_event' => (is => "rw", isa => "Maybe[Test::Run::Straps::EventWrapper]");
 
 sub _is_event_pass
