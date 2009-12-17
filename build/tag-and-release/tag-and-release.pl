@@ -28,35 +28,36 @@ sub _create_svn_ra
     ) ; 
 }
 
+sub _get_correct_node_kind
+{
+    my $self = shift;
+    return $self->should_be_dir() ? $SVN::Node::dir : $SVN::Node::file;
+}
+
+sub _should_be_dir
+{
+    my ($self, $path) = @_;
+
+    return (($path eq "") || ($path =~ m{/\z}));
+}
+
 sub _check_node_kind
 {
     my $self = shift;
+    my $path = shift;
     my $node_kind = shift;
 
     if (($node_kind eq $SVN::Node::none) || ($node_kind eq $SVN::Node::unknown))
     {
-        die +{
-            'callback' =>
-                sub {
-                    print $self->cgi()->header();
-                    print "<html><head><title>Does not exist!</title></head>";
-                    print "<body><h1>Does not exist!</h1></body></html>";
-                },
-        };        
+        return "unknown";
     }
-    elsif ($node_kind ne $self->_get_correct_node_kind())
+    elsif ($node_kind ne $self->_get_correct_node_kind($path))
     {
-        die +{
-            'callback' =>
-                sub {
-                    $self->path() =~ m{([^/]+)$};
-                    print $self->cgi()->redirect(
-                        ($node_kind eq $SVN::Node::dir) ? 
-                            "./$1/" :
-                            "../$1"
-                        );
-                },
-        };
+        return "mismatch";
+    }
+    else
+    {
+        return $SVN::Node::dir ? "dir" : "file";
     }
 }
 
@@ -69,9 +70,7 @@ sub check_path
         $self->_svn_ra()->get_latest_revnum(),
     );
 
-    $self->_check_node_kind($node_kind);
-
-    return $node_kind;
+    return $self->_check_node_kind($path, $node_kind);
 }
 
 package main;
@@ -85,11 +84,5 @@ my $app = MyTaggerApp->new(
 # Must not start with a slash.
 my $node_kind = $app->check_path( "Test-Harness-NG/tags/releases/0.0122");
 
-if ($node_kind eq $SVN::Node::dir)
-{
-    print "Directory exists\n";
-}
-else
-{
-    print "File exists\n";
-}
+print $node_kind, "\n";
+
