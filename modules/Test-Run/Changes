@@ -1,3 +1,13 @@
+0.0122    Thu Dec 17 18:55:12 IST 2009
+    * Moved away from an explicit sub new { ... } + _init() to
+    the more Moosey "BUILD" and 'default' mechanisms.
+    * Added some tests for better test coverage.
+    * Got rid of _get_simple_params and _get_private_simple_params .
+    * Got rid of the _get_private_fields anti-Moosism.
+        - It was not really used.
+    * Made _tap_event__calc_conds simpler :
+        - http://en.wikipedia.org/wiki/KISS_principle
+
 0.0121    Fri Sep  4 17:23:25 IDT 2009
     * Added has_IntOrUnknown in lib/Test/Run/Obj/IntOrUnknown/Moose.pm
     to abstract it.
