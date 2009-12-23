@@ -28,17 +28,18 @@ sub _create_svn_ra
     ) ; 
 }
 
-sub _get_correct_node_kind
-{
-    my $self = shift;
-    return $self->should_be_dir() ? $SVN::Node::dir : $SVN::Node::file;
-}
-
 sub _should_be_dir
 {
     my ($self, $path) = @_;
 
     return (($path eq "") || ($path =~ m{/\z}));
+}
+
+sub _get_correct_node_kind
+{
+    my ($self, $path) = @_;
+
+    return $self->_should_be_dir($path) ? $SVN::Node::dir : $SVN::Node::file;
 }
 
 sub _check_node_kind
@@ -61,12 +62,21 @@ sub _check_node_kind
     }
 }
 
+sub _get_canon_path
+{
+    my ($self, $path) = @_;
+
+    $path =~ s{/\z}{};
+
+    return $path;
+}
+
 sub check_path
 {
     my ($self, $path) = @_;
 
     my $node_kind = $self->_svn_ra->check_path(
-        $path,
+        $self->_get_canon_path($path),
         $self->_svn_ra()->get_latest_revnum(),
     );
 
@@ -75,6 +85,10 @@ sub check_path
 
 package main;
 
+my ($path) = @ARGV;
+
+$path =~ s{^/}{};
+
 my $app = MyTaggerApp->new(
     {
         repos_path => "https://svn.berlios.de/svnroot/repos/web-cpan/",
@@ -82,7 +96,7 @@ my $app = MyTaggerApp->new(
 );
 
 # Must not start with a slash.
-my $node_kind = $app->check_path( "Test-Harness-NG/tags/releases/0.0122");
+my $node_kind = $app->check_path( $path );
 
 print $node_kind, "\n";
 
