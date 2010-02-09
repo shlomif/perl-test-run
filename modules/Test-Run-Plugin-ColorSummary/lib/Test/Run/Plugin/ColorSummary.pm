@@ -19,11 +19,11 @@ colors the summary.
 
 =head1 VERSION
 
-0.0120
+0.0121
 
 =cut
 
-our $VERSION = '0.0120';
+our $VERSION = '0.0121';
 
 has 'summary_color_failure' => (is => "rw", isa => "Str");
 has 'summary_color_success' => (is => "rw", isa => "Str");
