@@ -20,7 +20,7 @@ Test::Run::CmdLine - Analyze tests from the command line using Test::Run
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0120';
+$VERSION = '0.0121';
 
 use Moose;
 
