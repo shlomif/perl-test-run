@@ -1,5 +1,9 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+0.0121  Tue Feb  9 20:34:01 IST 2010
+        * Remove _get_simple_params and _get_private_simple_params.
+            - they seem to be unused.
+
 0.0120  Thu Aug  6 15:01:32 IDT 2009
         * Converted to YAML::XS instead of YAML.pm.
         * Moosified.
