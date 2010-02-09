@@ -22,7 +22,7 @@ my $build = Test::Run::Builder->new(
         'Moose' => 0,
         'MooseX::Getopt' => 0.26,
         'MooseX::Getopt::Basic' => 0,
-        'Test::Run::Core' => "0.0120",
+        'Test::Run::Core' => "0.0122",
         'UNIVERSAL::require' => 0,
         'YAML::XS' => 0,
     },
