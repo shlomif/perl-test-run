@@ -1,5 +1,9 @@
 Revision history for Test-Run-Plugin-ColorFileVerdicts
 
+0.0122    Tue Feb  9 20:46:17 IST 2010
+        * Got rid of _get_private_fields() _get_simple_params() and
+        _get_private_simple_params().
+
 0.0121    Thu Aug  6 20:19:51 IDT 2009
         * Fixed a bug that could cause a crash when a failure was encountered.
         Moose didn't like assigning an undef to 

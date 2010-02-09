@@ -19,8 +19,8 @@ my $builder = Test::Run::Builder->new(
     requires => {
         "Moose" => 0,
         "Term::ANSIColor" => 0,
-        "Test::Run::Core" => "0.0120",
-        "Test::Run::CmdLine" => "0.0120",
+        "Test::Run::Core" => "0.0122",
+        "Test::Run::CmdLine" => "0.0121",
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorFileVerdicts-*' ],
     create_makefile_pl => 'traditional',
