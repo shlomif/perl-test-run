@@ -1,6 +1,7 @@
 Revision history for Test-Run-Plugin-FailSummaryComponents
 
     - Moosified.
+    - Remove _get_simple_params and _get_private_simple_params.
 
 0.0100_02    Thu Oct  5 17:26:41 IST 2006
     Fixed the tests to compile with the new Test::Run.
