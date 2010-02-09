@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 20;
+use Test::More tests => 21;
 
 use Test::Run::Obj;
 use Test::Run::Trap::Obj;
@@ -334,6 +334,56 @@ sub get_max_system_path_len
 
     File::Path::rmtree($leaked_files_dir);
 }
+
+package MyTestRun::Obj::AlwaysTerm;
+
+use Moose;
+
+extends(
+    "MyTestRun::Plugin::CmdLine::Output::AlwaysTerm",
+    "Test::Run::Core"
+);
+
+package MyTestRun::Plugin::CmdLine::Output::AlwaysTerm;
+
+use Moose;
+
+extends(
+    "Test::Run::Plugin::CmdLine::Output",
+);
+
+sub _get_new_output
+{
+    my ($self, $args) = @_;
+
+    return MyTestRun::Output::AlwaysTerm->new({ Verbose => $self->Verbose(), NoTty => $self->NoTty()});
+}
+
+package MyTestRun::Output::AlwaysTerm;
+
+use Moose;
+
+extends(
+    "Test::Run::Output"
+);
+
+sub _is_terminal { return 1; }
+
+package main;
+
+{
+    my $got = Test::Run::Trap::Obj->trap_run({
+        class => "MyTestRun::Obj::AlwaysTerm",
+        args => [test_files => ["t/sample-tests/simple"]],
+    });
+
+    # TEST
+    $got->field_like("stdout",
+        qr{\r +\r},
+        "Check for leader in terminal output."
+    );
+}
+
 __END__
 
 =head1 LICENSE
