@@ -1,6 +1,11 @@
 Revision history for Test::Run::Plugin::TrimDisplaysFilenames
 
-0.0121 Sat Nov 14 07:52:29 IST 2009
+0.0122    Tue Feb  9 21:06:23 IST 2010
+        - Remove _get_simple_params and _get_private_simple_params.
+            - they seem to be unused.
+        - Bumped the dependency on Test-Run and Test-Run-CmdLine.
+
+0.0121    Sat Nov 14 07:52:29 IST 2009
         - Fixed the tests with the latest trunk - spacing between the dots
         after the test script filenames.
         - Bumped the dependency on Test-Run-Core to 0.0121.

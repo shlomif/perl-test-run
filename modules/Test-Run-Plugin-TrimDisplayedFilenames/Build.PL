@@ -17,8 +17,8 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::CmdLine::Trap::ProveApp' => 0,
     },
     requires => {
-        'Test::Run::CmdLine' => "0.0120",
-        'Test::Run::Core' => "0.0121",
+        'Test::Run::CmdLine' => "0.0121",
+        'Test::Run::Core' => "0.0122",
         'MRO::Compat' => 0,
         'Moose' => 0,
     },

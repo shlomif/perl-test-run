@@ -25,11 +25,11 @@ environment variable. A few sample ones are:
 
 =head1 VERSION
 
-Version 0.0121
+Version 0.0122
 
 =cut
 
-our $VERSION = '0.0121';
+our $VERSION = '0.0122';
 
 =head1 METHODS
 
