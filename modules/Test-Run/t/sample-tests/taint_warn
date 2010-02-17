@@ -6,6 +6,6 @@ use Test::More tests => 1;
 my $warnings = '';
 {
     local $SIG{__WARN__} = sub { $warnings .= join '', @_ };
-    kill 0, $^X;
+    open my $out, "echo $^X|";
 }
-like( $warnings, '/^Insecure dependency/',   '-t honored' );
+like( $warnings, '/^Insecure/',   '-t honored' );
