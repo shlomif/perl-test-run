@@ -44,7 +44,7 @@ provides:
     file: lib/Test/Run/Class/Hierarchy.pm
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0122
+    version: 0.0123
   Test::Run::Core_GplArt:
     file: lib/Test/Run/Core_GplArt.pm
   Test::Run::Iface:
@@ -118,4 +118,4 @@ resources:
   homepage: http://web-cpan.berlios.de/modules/Test-Run/
   license: http://www.opensource.org/licenses/mit-license.php
   repository: http://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/
-version: 0.0122
+version: 0.0123

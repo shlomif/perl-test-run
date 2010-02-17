@@ -1,3 +1,9 @@
+0.0123    Wed Feb 17 19:49:18 IST 2010
+    * Fixed t/sample-tests/taint_warn in perl-5.11.4. See:
+        - http://www.cpantesters.org/cpan/report/6799538
+        - https://rt.cpan.org/Ticket/Display.html?id=54534
+        - Thanks to Andreas Koenig for reporting.
+
 0.0122    Thu Dec 17 18:55:12 IST 2009
     * Moved away from an explicit sub new { ... } + _init() to
     the more Moosey "BUILD" and 'default' mechanisms.
