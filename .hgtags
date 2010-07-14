@@ -97,3 +97,4 @@ c96b58d148af4a18265b83f2b8bc4b7e97bb50cd releases/modules/plugins/backend/Test-R
 bcde8000286e0657b160cf11416a213120d49c98 releases/modules/plugins/backend/Test-Run-Plugin-TrimDisplayedFilenames/0.0122
 beb109761301e80fd39c948fc15127fe746e4868 releases/0.0123
 13b35abfe6b727bbaf8247a26bc5958114f5386c releases/modules/plugins/backend/Test-Run-Plugin-CollectStats/0.0102
+94236aca839bac3c7020e96d686f2245cfd9cb1f releases/modules/Test-Run-CmdLine/0.0122
