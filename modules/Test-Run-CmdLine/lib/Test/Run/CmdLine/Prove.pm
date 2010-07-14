@@ -12,7 +12,7 @@ has 'dry' => (
     isa => "Bool", cmd_aliases => [qw(D)],
 );
 
-has '_ext_regex' => (accessor => "ext_regex", is => "rw", isa => "Regexp");
+has '_ext_regex' => (accessor => "ext_regex", is => "rw", isa => "RegexpRef");
 has '_ext_regex_string' => 
     (accessor => "ext_regex_string", is => "rw", isa => "Str")
     ;

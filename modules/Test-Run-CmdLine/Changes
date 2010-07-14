@@ -1,5 +1,9 @@
 Revision history for Test-Run-CmdLine
 
+0.0122     Wed Jul 14 10:20:56 IDT 2010
+    * Changed the wrong "Regexp" type constraint to "RegexpRef".
+        - this caused a breakage in recent Moose releases.
+
 0.0121     Tue Feb  9 20:20:36 IST 2010
     * Converted to MooseX-Getopt.
     * Moved away from _init into BUILD.
