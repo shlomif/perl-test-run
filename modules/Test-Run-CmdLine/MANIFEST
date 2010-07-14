@@ -37,6 +37,7 @@ t/05-prove-cl-process.t
 t/07-trap-prove-app.t
 t/08-collect-plugins.t
 t/09-yaml-args.t
+tag-release.pl
 t/data/yaml-test.yml
 t/lib/Test/Run/CmdLine/Drivers/CmdLineTest.pm
 t/lib/Test/Run/CmdLine/Drivers/CollectPluginsBarZed.pm
