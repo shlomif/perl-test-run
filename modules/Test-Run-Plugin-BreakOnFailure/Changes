@@ -1,0 +1,53 @@
+Revision history for Test::Run::Plugin::AlternateInterpreters
+
+0.0121  Tue Feb  9 20:34:01 IST 2010
+        * Remove _get_simple_params and _get_private_simple_params.
+            - they seem to be unused.
+
+0.0120  Thu Aug  6 15:01:32 IDT 2009
+        * Converted to YAML::XS instead of YAML.pm.
+        * Moosified.
+
+0.0109  Mon May  4 20:53:16 IDT 2009
+        * Changed from NEXT.pm to MRO::Compat.
+
+0.0108  Sun Sep 14 10:11:46 IDT 2008
+        * Added a fix for:
+    http://www.nntp.perl.org/group/perl.cpan.testers/2008/09/msg2204098.html
+            - Cwd.pm (not the XS version) cannot abs_path() a non-existent
+            file in an existent directory.
+            - fixed t/02-cmdline-run.t
+
+0.0107  Tue Aug 19 22:27:37 IDT 2008
+        * Converted to private_backend_plugins().
+        * Removed the loading of YAML and NEXT - no longer needed.
+        * Now depending on Test-Run-CmdLine-0.0110 which fixes the 
+        relevant bugs.
+
+0.0106  Mon Aug 18 20:16:20 IDT 2008
+        * _initialize() -> _init().
+        * Bumped the required versions.
+
+0.0105  Fri Apr  4 14:34:33 IDT 2008
+        * Changed the plugin due to a Test::Run::Core incompatibility.
+        * Now requiring Test::Run::Core 0.0115.
+
+0.0104  Sat Jun 23 13:49:58 IDT 2007
+        * Converted the distribution to Test-Run-Builder.
+        * Now using Test::Run::CmdLine::Trap::ProveApp for the tests (to
+        prevent the "runprove" cannot be found false failures.)
+
+0.0103  Mon Jun 11 15:08:25 IDT 2007
+        * Converted to the "yamldata" environment variable type 
+        of Test-Run-CmdLine-0.0105
+        * Converted the tests to Test::Trap.
+
+0.0102  Sat Mar 17 18:14:14 IST 2007
+        Fixed the code to build against the latest Test::Run, while fixing
+        Test::Run::Core in the process.
+
+0.0101  Fri Mar 16 10:05:21 IST 2007
+        Added the prerequisites to the Build.PL
+
+0.01    Fri Mar 16 09:43:38 IST 2007
+        First version, released on an unsuspecting world.
