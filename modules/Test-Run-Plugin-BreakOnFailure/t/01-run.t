@@ -6,7 +6,7 @@ use warnings;
 use File::Spec;
 
 use Test::Run::Obj;
-use Test::Run::Plugin::AlternateInterpreters;
+use Test::Run::Plugin::BreakOnFailure;
 
 use Test::Run::Trap::Obj;
 
@@ -14,16 +14,12 @@ package MyTestRun;
 
 use vars qw(@ISA);
 
-@ISA = (qw(Test::Run::Plugin::AlternateInterpreters Test::Run::Obj));
+@ISA = (qw(Test::Run::Plugin::BreakOnFailure Test::Run::Obj));
 
 package main;
 
 use Test::More tests => 2;
 
-ok(1);
-ok(1);
-exit(0);
-
 {
     my $got = Test::Run::Trap::Obj->trap_run(
         {
@@ -32,29 +28,17 @@ exit(0);
             [
                 test_files => 
                 [
-                    "t/sample-tests/success1.cat",
-                    "t/sample-tests/one-ok.t"
+                    "t/sample-tests/one-fail.t",
+                    "t/sample-tests/one-ok.t",
                 ],
-                alternate_interpreters =>
-                [
-                    {
-                        cmd => 
-                        ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
-                            "interpreters", "cat.pl"
-                            ) . " "
-                        ),
-                        type => "regex",
-                        pattern => '\.cat$',
-                    },
-                ],
-            ]
+                should_break_on_failure => 1,
+            ],
         }
         );
 
     # TEST
-    $got->field_like("stdout", qr/All tests successful\./, 
-        "All test are successful with multiple interpreters"
+    $got->field_unlike("stdout", qr/one-ok/, 
+        "Successful tests were skipped upon failure."
     );
 }
 
@@ -66,40 +50,16 @@ exit(0);
             [
                 test_files => 
                 [
-                    "t/sample-tests/success2.mok.cat",
-                    "t/sample-tests/success1.cat",
+                    "t/sample-tests/one-fail.t",
                     "t/sample-tests/one-ok.t",
-                    "t/sample-tests/success1.mok",
                 ],
-                alternate_interpreters =>
-                [
-                    {
-                        cmd => 
-                        ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
-                            "interpreters", "mini-ok.pl"
-                            ) . " "
-                        ),
-                        type => "regex",
-                        pattern => '\.mok(?:\.cat)?\z',
-                    },
-                    {
-                        cmd => 
-                        ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
-                            "interpreters", "cat.pl"
-                            ) . " "
-                        ),
-                        type => "regex",
-                        pattern => '\.cat\z',
-                    },
-                ],
+                should_break_on_failure => '',
             ],
         }
-    );
+        );
 
     # TEST
-    $got->field_like("stdout", qr/All tests successful\./, 
-        "Tests over-riding order is applied.");
+    $got->field_like("stdout", qr/one-ok/, 
+        "Failing test did not break the run of the rest upon no should_break_on_failure."
+    );
 }
-

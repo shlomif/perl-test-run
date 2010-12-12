@@ -22,6 +22,8 @@ our $VERSION = '0.0.1';
 
 extends('Test::Run::Base');
 
+has 'should_break_on_failure' => (isa => "Bool", is => "rw",);
+
 =head1 SYNOPSIS
 
     package MyTestRun;
@@ -31,6 +33,11 @@ extends('Test::Run::Base');
     extends(qw(Test::Run::Plugin::BreakOnFailure Test::Run::Obj);
 
 =head1 FUNCTIONS
+
+=head2 $self->should_break_on_failure()
+
+A boolean flag that determines if the test suite should break after the
+first failing test.
 
 =cut
 
@@ -43,7 +50,9 @@ sub _run_all_tests_loop
     {
         $self->_run_single_test({ test_file => $test_file_path});
 
-        if (! $self->last_test_results->passing())
+        if ($self->should_break_on_failure()
+            && (!$self->last_test_results->passing())
+           )
         {
             last TEST_FILES_LOOP;
         }
