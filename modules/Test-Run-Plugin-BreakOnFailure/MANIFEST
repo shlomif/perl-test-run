@@ -1,5 +1,6 @@
 Build.PL
 Changes
+Dist/tag-release.pl
 inc/Test/Run/Builder.pm
 lib/Test/Run/CmdLine/Plugin/BreakOnFailure.pm
 lib/Test/Run/Plugin/BreakOnFailure.pm
