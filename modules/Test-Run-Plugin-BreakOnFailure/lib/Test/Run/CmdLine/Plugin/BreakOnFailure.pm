@@ -13,6 +13,9 @@ This is a L<Test::Run::CmdLine> plugin that terminates the test suite after
 the first failing test script. This way, you can know more quickly in case
 something went wrong. 
 
+To enable, add C<BreakOnFailure> to the C<HARNESS_PLUGINS> environment
+variable and set the C<HARNESS_BREAK> environment variable to a true value.
+
 =head1 METHODS
 
 =cut
@@ -33,25 +36,22 @@ sub private_backend_plugins
     return [qw(BreakOnFailure)];
 }
 
-=head2 $self->private_non_direct_backend_env_mapping()
+=head2 $self->private_direct_backend_env_mapping()
 
 Returns the non-direct Backend Environment Mappings, that will specify
 the YAML information. See L<Test::Run::CmdLine> for more information.
 
 =cut
 
-# TODO :
-# Implement the flag to toggle it.
-sub _private_non_direct_backend_env_mapping
+sub private_direct_backend_env_mapping
 {
     my $self = shift;
 
     return
     [
         {
-            type => "yamldata",
-            env => "HARNESS_ALT_INTRP_FILE",
-            arg => "alternate_interpreters",
+            env => 'HARNESS_BREAK',
+            arg => 'should_break_on_failure',
         },
     ];
 }
