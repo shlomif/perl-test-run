@@ -17,8 +17,6 @@ distribution.
 
 * Add a way to append/remove plugins using the command line.
 
-* Add a plugin to stop after the first failing test.
-
 * Add a plugin to skip tests that are long/known-to-fail/etc.
 
 * Add a plugin to display the blurbs of the failing tests in each test
