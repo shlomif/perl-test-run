@@ -5,8 +5,6 @@ Test::Harness.
 
 * Add a registry for the classes of the helper objects.
 
-* Implement a plugin system for the helper objects.
-
 * Add examples for Test::Run (not T::R::CL) under examples/ in the T::R (core)
 distribution.
 
