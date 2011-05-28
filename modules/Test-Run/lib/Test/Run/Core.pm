@@ -12,7 +12,6 @@ use vars qw($VERSION);
 
 use MRO::Compat;
 
-
 use List::MoreUtils ();
 
 use Fatal qw(opendir);
