@@ -12,6 +12,10 @@ use Test::Run::Builder;
 my $build = Test::Run::Builder->new(
     module_name => "Test::Run::CmdLine",
     dist_author => 'Shlomi Fish <shlomif@cpan.org>',
+    configure_requires =>
+    {
+        'Module::Build' => 0.36,
+    },
     build_requires =>
     {
         "Test::Trap" => 0,
