@@ -1,5 +1,8 @@
 Revision history for Test-Run-CmdLine
 
+    - Fix failing tests when Test::More is in PERL5LIB and under taint:
+        - http://www.cpantesters.org/cpan/report/a37248f8-9d15-11e0-a7a9-d9218ce8c8b8
+
 0.0122     Wed Jul 14 10:20:56 IDT 2010
     * Changed the wrong "Regexp" type constraint to "RegexpRef".
         - this caused a breakage in recent Moose releases.

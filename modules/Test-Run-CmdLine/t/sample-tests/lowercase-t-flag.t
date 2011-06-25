@@ -1,7 +1,11 @@
 #!/usr/bin/perl -w
 
-use strict;
+# Needed to get PERL5LIB under taint mode.
+# See - http://objectmix.com/perl/78372-taint-breaking-perl5lib-over-zealous-cgi.html
+use Config;
+use lib map { /(.*)/ } $ENV{PERL5LIB} =~ /([^$Config{path_sep}]+)/g;
 
+use strict;
 use Test::More tests => 1;
 
 my $num_warnings = 0;
