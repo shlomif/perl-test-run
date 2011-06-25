@@ -96,7 +96,7 @@ use Pod::Usage 1.12;
 use File::Spec;
 
 use vars qw($VERSION);
-$VERSION = "0.0120";
+$VERSION = "0.0123";
 
 
 =head1 NAME
