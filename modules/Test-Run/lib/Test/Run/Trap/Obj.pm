@@ -82,7 +82,7 @@ sub _stringify_value
 
 =head2 $trapper->diag_all()
 
-Calls L<Test::More>'s diag() with alll the trapped fields, like stdout,
+Calls L<Test::More>'s diag() with all the trapped fields, like stdout,
 stderr, etc.
 
 =cut
