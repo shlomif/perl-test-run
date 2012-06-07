@@ -1,3 +1,5 @@
+    * Fix a warning with perl-5.17.0 about unescaped { and }.
+
 0.0123    Wed Feb 17 19:49:18 IST 2010
     * Fixed t/sample-tests/taint_warn in perl-5.11.4. See:
         - http://www.cpantesters.org/cpan/report/6799538

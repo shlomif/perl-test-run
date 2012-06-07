@@ -432,7 +432,7 @@ sub _namelenize_string
 {
     my ($self, $string) = @_;
     
-    $string =~ s{\${max_namelen}}{$self->max_namelen()}ge;
+    $string =~ s{\$\{max_namelen\}}{$self->max_namelen()}ge;
 
     return $string;
 }
