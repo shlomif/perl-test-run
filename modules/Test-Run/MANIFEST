@@ -116,3 +116,4 @@ t/unit-struct.t
 t/unit-test-run-trap-obj-1.t
 t/unit-test-run-trap-obj-2.t
 t/version.t
+META.json

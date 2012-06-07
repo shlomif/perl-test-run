@@ -1,12 +1,13 @@
 ---
 abstract: 'Base class to run standard TAP scripts.'
 author:
-  - 'Shlomi Fish C<< <shlomif@iglu.org.il> >>'
+  - unknown
 build_requires:
   Test::Trap: 0
 configure_requires:
-  Module::Build: 0.36
-generated_by: 'Module::Build version 0.3603'
+  Module::Build: 0.39
+dynamic_config: 1
+generated_by: 'Module::Build version 0.3901, CPAN::Meta::Converter version 2.120921'
 keywords:
   - back-end
   - harness
@@ -29,79 +30,109 @@ name: Test-Run
 provides:
   Test::Run:
     file: lib/Test/Run.pm
+    version: 0
   Test::Run::Assert:
     file: lib/Test/Run/Assert.pm
     version: 0.03
   Test::Run::Base:
     file: lib/Test/Run/Base.pm
+    version: 0
   Test::Run::Base::PlugHelpers:
     file: lib/Test/Run/Base/PlugHelpers.pm
+    version: 0
   Test::Run::Base::Plugger:
     file: lib/Test/Run/Base/Plugger.pm
+    version: 0
   Test::Run::Base::Struct:
     file: lib/Test/Run/Base/Struct.pm
+    version: 0
   Test::Run::Class::Hierarchy:
     file: lib/Test/Run/Class/Hierarchy.pm
+    version: 0
   Test::Run::Core:
     file: lib/Test/Run/Core.pm
-    version: 0.0123
+    version: 0.0124
   Test::Run::Core_GplArt:
     file: lib/Test/Run/Core_GplArt.pm
+    version: 0
   Test::Run::Iface:
     file: lib/Test/Run/Iface.pm
+    version: 0
   Test::Run::Obj:
     file: lib/Test/Run/Obj.pm
-    version: 0.0121
+    version: 0.0124
   Test::Run::Obj::CanonFailedObj:
     file: lib/Test/Run/Obj/CanonFailedObj.pm
+    version: 0
   Test::Run::Obj::Error:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::Error::Straps:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::Error::Straps::CannotRunPerl:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::Error::TestsFail:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::Error::TestsFail::Bailout:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::Error::TestsFail::NoOutput:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::Error::TestsFail::NoTestsRun:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::Error::TestsFail::Other:
     file: lib/Test/Run/Obj/Error.pm
+    version: 0
   Test::Run::Obj::FailedObj:
     file: lib/Test/Run/Obj/FailedObj.pm
+    version: 0
   Test::Run::Obj::IntOrUnknown:
     file: lib/Test/Run/Obj/IntOrUnknown.pm
+    version: 0
   Test::Run::Obj::IntOrUnknown::Moose:
     file: lib/Test/Run/Obj/IntOrUnknown/Moose.pm
-    version: 0.0121
+    version: 0.0124
   Test::Run::Obj::TestObj:
     file: lib/Test/Run/Obj/TestObj.pm
+    version: 0
   Test::Run::Obj::TotObj:
     file: lib/Test/Run/Obj/TotObj.pm
+    version: 0
   Test::Run::Output:
     file: lib/Test/Run/Output.pm
+    version: 0
   Test::Run::Plugin::CmdLine::Output:
     file: lib/Test/Run/Plugin/CmdLine/Output.pm
+    version: 0
   Test::Run::Sprintf::Named::FromAccessors:
     file: lib/Test/Run/Sprintf/Named/FromAccessors.pm
+    version: 0
   Test::Run::Straps:
     file: lib/Test/Run/Straps.pm
-    version: 0.0121
+    version: 0.0124
   Test::Run::Straps::Base:
     file: lib/Test/Run/Straps/Base.pm
+    version: 0
   Test::Run::Straps::EventWrapper:
     file: lib/Test/Run/Straps/EventWrapper.pm
+    version: 0
   Test::Run::Straps::StrapsDetailsObj:
     file: lib/Test/Run/Straps/StrapsDetailsObj.pm
+    version: 0
   Test::Run::Straps::StrapsTotalsObj:
     file: lib/Test/Run/Straps/StrapsTotalsObj.pm
+    version: 0
   Test::Run::Straps_GplArt:
     file: lib/Test/Run/Straps_GplArt.pm
+    version: 0
   Test::Run::Trap::Obj:
     file: lib/Test/Run/Trap/Obj.pm
+    version: 0
 requires:
   File::Spec: 0.6
   List::MoreUtils: 0
@@ -118,4 +149,4 @@ resources:
   homepage: http://web-cpan.berlios.de/modules/Test-Run/
   license: http://www.opensource.org/licenses/mit-license.php
   repository: http://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/
-version: 0.0123
+version: 0.0124

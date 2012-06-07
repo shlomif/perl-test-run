@@ -6,7 +6,7 @@ Test::Run::Obj::IntOrUnknown::Moose - export has_IntOrUnknown .
 
 =head1 VERSION
 
-Version 0.0121
+Version 0.0124
 
 =head1 DESCRIPTION
 
@@ -24,13 +24,7 @@ use Moose::Exporter;
 
 use vars qw($VERSION);
 
-=head1 VERSION
-
-Version 0.0121
-
-=cut
-
-$VERSION = '0.0121';
+$VERSION = '0.0124';
 
 Moose::Exporter->setup_import_methods(
       with_caller => [ 'has_IntOrUnknown' ],
