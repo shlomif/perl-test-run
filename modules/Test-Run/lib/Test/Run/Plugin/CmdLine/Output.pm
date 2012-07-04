@@ -431,8 +431,8 @@ sub _report_all_skipped_test
 sub _namelenize_string
 {
     my ($self, $string) = @_;
-    
-    $string =~ s{\$\{max_namelen\}}{$self->max_namelen()}ge;
+
+    $string =~ s/\$\{max_namelen\}/$self->max_namelen()/ge;
 
     return $string;
 }

@@ -1,3 +1,7 @@
+0.0125    Wed Jul  4 16:06:35 IDT 2012
+    * Fix the perl-5.17.1 warning for good by changing delimiter to s
+    with / \{ .. \} / ... /.
+
 0.0124    Thu Jun  7 13:05:45 IDT 2012
     * Fix a warning with perl-5.17.0 about unescaped { and }.
 
