@@ -1,3 +1,7 @@
+0.0126
+    * Fix the tests on windows by using IPC::System::Simple instead of
+    list-form of open "-|".
+
 0.0125    Wed Jul  4 16:06:35 IDT 2012
     * Fix the perl-5.17.1 warning for good by changing delimiter to s
     with / \{ .. \} / ... /.
