@@ -21,6 +21,9 @@ use MRO::Compat;
 extends('Test::Run::Straps::Base');
 
 use Config;
+
+use IPC::System::Simple qw( capturex );
+
 use TAP::Parser;
 
 use Test::Run::Straps::EventWrapper;
@@ -550,20 +553,8 @@ sub _default_inc
 
     my $perl_includes;
 
-    if (!open ($perl_includes, "-|", $^X, "-e", qq{print join("\\n", \@INC);}))
-    {
-        die Test::Run::Obj::Error::Straps::CannotRunPerl->new(
-            {text => "Cannot invoke \"$^X\" for determining includes"}
-        );
-    }
-    
-    my @includes;
-    while (my $inc = <$perl_includes>)
-    {
-        chomp($inc);
-        push @includes, $inc;
-    }
-    close($perl_includes);
+    my @includes = capturex( $^X, "-e", qq{print join("\\n", \@INC);} );
+    chomp(@includes);
 
     return \@includes;
 }

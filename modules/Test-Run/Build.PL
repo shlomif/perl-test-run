@@ -18,6 +18,7 @@ my $build = Test::Run::Builder->new(
     requires => 
     {
         'File::Spec' => 0.6,
+        'IPC::System::Simple' => '1.21',
         'List::Util' => 0,
         'List::MoreUtils' => 0,
         'Moose' => 0,
