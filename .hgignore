@@ -1,7 +1,10 @@
 build/test-and-install-all-modules/Modules.mak
 modules/Test-Run-CmdLine/Build
+modules/Test-Run-CmdLine/Makefile.PL
 modules/Test-Run-CmdLine/MYMETA.json
 modules/Test-Run-CmdLine/MYMETA.yml
+modules/Test-Run-CmdLine/META.json
+modules/Test-Run-CmdLine/META.yml
 modules/Test-Run-CmdLine/_build
 modules/Test-Run-CmdLine/blib
 modules/Test-Run-Plugin-AlternateInterpreters/Build
