@@ -1,5 +1,10 @@
 Revision history for Test-Run-CmdLine
 
+0.0124     Tue  4 Sep 12:26:01 IDT 2012
+    - Explicit dependency on Test::Run::Core-0.0126, due to failing tests
+    because of old Test::Runs such as:
+        - http://www.cpantesters.org/cpan/report/1ed1430c-c44b-11e1-a3d2-759981a2c3a6
+
 0.0123     Sat Jun 25 21:31:12 IDT 2011
     - Fix failing tests when Test::More is in PERL5LIB and under taint:
         - http://www.cpantesters.org/cpan/report/a37248f8-9d15-11e0-a7a9-d9218ce8c8b8

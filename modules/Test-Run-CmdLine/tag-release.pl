@@ -5,9 +5,9 @@ use warnings;
 
 use IO::All;
 
-my ($version) = 
-    (map { m{\$VERSION *= *'([^']+)'} ? ($1) : () } 
-    io->file("./lib/Test/Run/CmdLine.pm")->getlines()
+my ($version) =
+    (map { m{\$VERSION *= *'([^']+)'} ? ($1) : () }
+    io->file('lib/Test/Run/CmdLine.pm')->getlines()
     )
     ;
 
@@ -17,11 +17,11 @@ if (!defined ($version))
 }
 
 my @cmd = (
-    "svn", "copy", "-m",
-    "Tagging Test-Run-CmdLine as $version",
-    "https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/trunk",
-    "https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/tags/releases/modules/Test-Run-CmdLine/$version",
+    "hg", "tag", "-m",
+    "Tagging the Test-Run-CmdLine release as $version",
+    "releases/modules/Test-Run-CmdLine/$version",
 );
 
-print join(" ", @cmd), "\n";
+print join(" ", map { /\s/ ? qq{"$_"} : $_ } @cmd), "\n";
 exec(@cmd);
+

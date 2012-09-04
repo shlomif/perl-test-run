@@ -37,6 +37,10 @@ modules/Test-Run-Plugin-TrimDisplayedFilenames/_build
 modules/Test-Run-Plugin-TrimDisplayedFilenames/blib
 modules/Test-Run/Build
 modules/Test-Run/MYMETA.json
+modules/Test-Run/Makefile.PL
 modules/Test-Run/MYMETA.yml
 modules/Test-Run/_build
 modules/Test-Run/blib
+modules/Test-Run/META.json
+modules/Test-Run/META.yml
+
