@@ -1,5 +1,9 @@
 Revision history for Test-Run-CmdLine
 
+0.0125     Wed  5 Sep 20:12:26 IDT 2012
+    - Moved away tag-release.pl under scripts to it won't be installed
+    by default.
+
 0.0124     Tue  4 Sep 12:26:01 IDT 2012
     - Explicit dependency on Test::Run::Core-0.0126, due to failing tests
     because of old Test::Runs such as:

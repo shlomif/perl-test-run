@@ -28,6 +28,7 @@ Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
 README
+scripts/tag-release.pl
 t/00-load.t
 t/01-class-name.t
 t/02-run.t
@@ -37,7 +38,6 @@ t/05-prove-cl-process.t
 t/07-trap-prove-app.t
 t/08-collect-plugins.t
 t/09-yaml-args.t
-tag-release.pl
 t/data/yaml-test.yml
 t/lib/Test/Run/CmdLine/Drivers/CmdLineTest.pm
 t/lib/Test/Run/CmdLine/Drivers/CollectPluginsBarZed.pm
