@@ -9,7 +9,7 @@ use strict;
 
 use Test::More tests => 1;
 
-sub is_tainted 
+sub is_tainted
 {
     return ! eval { eval("#" . substr(join("", @_), 0, 0)); 1 };
 }

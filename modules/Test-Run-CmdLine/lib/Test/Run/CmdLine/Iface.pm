@@ -30,7 +30,7 @@ Test::Run::CmdLine::Iface - Analyze tests from the command line using Test::Run
 =cut
 
 has 'driver_class' => (is => "rw", isa => "Str", init_arg => undef,);
-has 'driver_plugins' => (is => "rw", isa => "ArrayRef", 
+has 'driver_plugins' => (is => "rw", isa => "ArrayRef",
     default => sub { [] }, init_arg => undef,);
 has '_driver_class_arg' => (is => "ro", isa => "Str", init_arg => "driver_class");
 has '_driver_plugins_arg' => (is => "ro", isa => "Maybe[ArrayRef]", init_arg => "driver_plugins");
@@ -75,7 +75,7 @@ sub BUILD
             }
         );
     }
-    
+
     return;
 }
 
@@ -103,7 +103,7 @@ the processing. Defaults to L<Test::Run::CmdLine::Drivers::Default>.
 =item driver_plugins
 
 This is a list of plugin classes to be used by the driver class. Each plugin
-is a module and a corresponding class, that is prefixed by 
+is a module and a corresponding class, that is prefixed by
 C<Test::Run::CmdLine::Plugin::> - a prefix which should not be included in
 them.
 
@@ -118,7 +118,7 @@ Actually runs the tests on the command line.
 For Moose.
 
 TODO : Write more.
- 
+
 =cut
 
 sub _real_prepare_driver_class
@@ -244,10 +244,10 @@ sub _set_driver
 sub _calc_plugins_for_ISA
 {
     my $self = shift;
-    return 
-        [ 
-            map { $self->_calc_single_plugin_for_ISA($_) } 
-            @{$self->driver_plugins()} 
+    return
+        [
+            map { $self->_calc_single_plugin_for_ISA($_) }
+            @{$self->driver_plugins()}
         ];
 }
 

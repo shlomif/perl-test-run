@@ -46,7 +46,7 @@ F<runprove> is a command-line interface to the test-running functionality
 of C<Test::Run>.  With no arguments, it will run all tests in the
 current directory.
 
-Shell metacharacters may be used with command lines options and will be exanded 
+Shell metacharacters may be used with command lines options and will be exanded
 via C<glob>.
 
 =head1 RUNPROVE VS. "MAKE TEST"
@@ -61,7 +61,7 @@ Perl users typically run the test harness through a makefile via
 C<make test>.  That's fine for module distributions, but it's
 suboptimal for a test/code/debug development cycle.
 
-=item * F<runprove> is granular 
+=item * F<runprove> is granular
 
 F<runprove> let your run only the files you want to check.
 Running C<runprove t/live/ t/master.t> checks every F<*.t> in F<t/live>,
@@ -187,7 +187,7 @@ Andy Lester C<< <andy@petdance.com> >>
 
 Copyright 2005 by Andy Lester C<< <andy@petdance.com> >>.
 
-This program is free software; you can redistribute it and/or 
+This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 See L<http://www.perl.com/perl/misc/Artistic.html>.

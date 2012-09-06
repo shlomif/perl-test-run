@@ -25,7 +25,7 @@ my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
 
 {
     local %ENV = %ENV;
-    
+
     local $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
@@ -45,9 +45,9 @@ my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
                 cmdline => [$test_file, $several_oks_file],
             }
         );
-        
+
         # TEST
-        $got->field_like("stdout", qr/All tests successful\./, 
+        $got->field_like("stdout", qr/All tests successful\./,
             "Good results from runprove");
     }
 }

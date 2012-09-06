@@ -1,5 +1,7 @@
 Revision history for Test-Run-CmdLine
 
+    - Get rid of trailing space with a test - t/style-trailing-space.t .
+
 0.0125     Wed  5 Sep 20:12:26 IDT 2012
     - Moved away tag-release.pl under scripts to it won't be installed
     by default.
@@ -68,11 +70,11 @@ Revision history for Test-Run-CmdLine
     build-systems under examples/.
 
 0.0106      Sat Jun 23 13:22:16 IDT 2007
-    * Placed the runprove trapping functionality in 
+    * Placed the runprove trapping functionality in
     lib/Test/Run/CmdLine/Trap/Prove.pm for easy re-use by the
     plugins.
     * Added lib/Test/Run/CmdLine/Prove/App.pm as a standalone -M command
-    line module implementing the "runprove" functionality. 
+    line module implementing the "runprove" functionality.
         - Also useful for testing - see below.
         - converted runprove to use it.
     * Added lib/Test/Run/CmdLine/Trap/ProveApp.pm for testing
@@ -84,19 +86,19 @@ Revision history for Test-Run-CmdLine
     * Converted t/04-t-r-cl-iface.t to Test::Trap.
     * Refactored the get_backend_env_args() method of Test::Run::CmdLine.
     * Extracted a method.
-    * Extended the environment variables handling in 
-    Test::Run::CmdLine with types. 
-    * Replaced "back_end" with "backend" in an identifier for better 
-    consistency. 
-    * Added the yamldata backend environment variable type, and 
-    converted the "alternate interpreters" plugin to use it. 
+    * Extended the environment variables handling in
+    Test::Run::CmdLine with types.
+    * Replaced "back_end" with "backend" in an identifier for better
+    consistency.
+    * Added the yamldata backend environment variable type, and
+    converted the "alternate interpreters" plugin to use it.
     * Added the "varmap" type to Test::Run::CmdLine.
-    * Converted to use Build.PL and Test::Run::Builder. 
-    * Refactored the tests of t/03-prove.t into Test::Run::Trap::Obj. 
-    * Converted the Test::Run::CmdLine get_backend_env_args to 
+    * Converted to use Build.PL and Test::Run::Builder.
+    * Refactored the tests of t/03-prove.t into Test::Run::Trap::Obj.
+    * Converted the Test::Run::CmdLine get_backend_env_args to
     private_backend_args (using accum_array) instead of NEXT::.
-    * Converted the indirect_env_mapping routines to using 
-    accum_array instead of NEXT::. 
+    * Converted the indirect_env_mapping routines to using
+    accum_array instead of NEXT::.
 
 0.0104      Mon Mar 19 15:40:20 IST 2007
     * Fixed running runprove with no arguments.
@@ -121,7 +123,7 @@ Revision history for Test-Run-CmdLine
     * Added UNIVERSAL::require to the pre-requisites.
 
 0.0001_03   Thu Oct  5 13:52:55 IST 2006
-    * Fixed the tests in Test-Run-CmdLine so they'll pass even if plugins 
+    * Fixed the tests in Test-Run-CmdLine so they'll pass even if plugins
     are specified by deafult (or any other $ENV{HARNESS_.*}) shenanigan.
     * Adapted to the new ($self, $args) instead of ($self, %args) interface
     of Test::Run.
@@ -139,7 +141,7 @@ Revision history for Test-Run-CmdLine
       itself and adapted it for runprove.
     * Added pod to Test::Run::CmdLine.
     * Added many tests.
-    
+
 0.0001_01   Tue Nov 29 22:57:02 IST 2005
     * Initial CPAN.pm version. Works sort of and has a functional "runprove"
     utility.

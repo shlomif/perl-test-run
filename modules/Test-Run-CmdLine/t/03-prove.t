@@ -37,7 +37,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
 
 {
     local %ENV = %ENV;
-    
+
     local $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
@@ -58,13 +58,13 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => qq{$test_file},
             }
         );
-        
+
         # TEST
-        $got->field_like("stdout", qr/All tests successful\./, 
+        $got->field_like("stdout", qr/All tests successful\./,
             "Good results from runprove");
 
         # TEST
-        $got->field_is("system_ret", 0, 
+        $got->field_is("system_ret", 0,
             "runprove returns a zero exit code upon success."
         );
     }
@@ -75,13 +75,13 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => qq{--help},
             }
         );
-        
+
         # TEST
-        $got->field_like("stdout", qr/\Qrunprove [options]\E/, 
+        $got->field_like("stdout", qr/\Qrunprove [options]\E/,
             "Good results from runprove --help ");
 
         # TEST
-        $got->field_is("system_ret", 0, 
+        $got->field_is("system_ret", 0,
             "runprove --help returns a zero exit code upon success."
         );
     }
@@ -116,7 +116,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => $test_file,
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout" , qr/^ok 1/m,
             "Testing is 'Verbose' if HARNESS_VERBOSE is 1.");
@@ -143,7 +143,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => qq{-v $test_file},
             }
         );
-        
+
         # TEST
         $got->field_like("stdout", qr/^ok 1/m,
             "Testing is 'Verbose' with the '-v' flag."
@@ -157,7 +157,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => $test_file,
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout" , qr/# Running:/,
             "Testing is 'Debug' if HARNESS_DEBUG is 1.");
@@ -169,7 +169,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => qq{-d $test_file},
             }
         );
-        
+
         # TEST
         $got->field_like("stdout", qr/# Running:/,
             "Testing is 'Debug' is the '-d' flag was specified."
@@ -235,7 +235,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "$test_file $several_oks_file",
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout" , qr/ok\s+\d+(?:\.\d+)?s\n?$/m,
             "Displays the time if HARNESS_TIMER is 1.");
@@ -247,7 +247,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "--timer $test_file $several_oks_file",
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout" , qr/ok\s+\d+(?:\.\d+)?s\n?$/m,
             "Displays the time if --timer was set.");
@@ -259,7 +259,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "$test_file $several_oks_file",
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout" , qr/ok\n?$/m,
             "Timer control experiment");
@@ -272,9 +272,9 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "$test_file $several_oks_file",
             }
         );
-        
+
         # TEST
-        $got->field_like ("stdout" , qr/All tests successful\./, 
+        $got->field_like ("stdout" , qr/All tests successful\./,
             "Good results from HARNESS_NOTTY");
     }
     {
@@ -378,9 +378,9 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "$no_t_flags_file",
             }
         );
-        
+
         # TEST
-        $got->field_like ("stdout", qr/All tests successful\./, 
+        $got->field_like ("stdout", qr/All tests successful\./,
             "Good results for the absence of the -t flag");
     }
     {
@@ -390,9 +390,9 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "-t $lowercase_t_flag_file",
             }
         );
-        
+
         # TEST
-        $got->field_like ("stdout", qr/All tests successful\./, 
+        $got->field_like ("stdout", qr/All tests successful\./,
             "Good results for the presence of the -t flag");
     }
     {
@@ -402,9 +402,9 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "-T $uppercase_t_flag_file",
             }
         );
-        
+
         # TEST
-        $got->field_like ("stdout", qr/All tests successful\./, 
+        $got->field_like ("stdout", qr/All tests successful\./,
             "Good results for the presence of the -T flag");
     }
     {
@@ -414,9 +414,9 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "-T $no_t_flags_file",
             }
         );
-        
+
         # TEST
-        $got->field_like ("stdout", qr/FAILED test/, 
+        $got->field_like ("stdout", qr/FAILED test/,
             "Test that requires no taint fails if -T is specified");
     }
     {
@@ -426,7 +426,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "$uppercase_t_flag_file",
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout", qr/FAILED test/,
             "Good results for the presence of the -T flag");
@@ -441,7 +441,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "--blib " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout", qr/All tests successful\./,
             "Good results for the presence of the --blib flag");
@@ -457,7 +457,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "" . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout", qr/DIED. FAILED test 1/,
             "File fails if it doesn't have --blib where there is a required module");
@@ -473,7 +473,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "--lib " . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout", qr/All tests successful\./,
             "Good results for the presence of the --lib flag");
@@ -489,7 +489,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "" . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout", qr/DIED. FAILED test 1/,
             "File fails if it doesn't have --lib where there is a required module");
@@ -502,7 +502,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => qq{--dry $test_file $with_myhello_file},
             }
         );
-        
+
         # TEST
         $got->field_is("stdout", "$test_file\n$with_myhello_file\n",
             "Testing dry run"
@@ -532,7 +532,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "" . File::Spec->catfile(File::Spec->curdir(), "t", "mytest.t"),
             }
         );
-        
+
         # TEST
         $got->field_like ("stdout", qr/All tests successful\./,
             "Good results for the presence of the --lib flag in ENV{PROVE_SWITCHES}");
@@ -545,7 +545,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
                 cmdline => "",
             }
         );
-        
+
         # TEST
         $got->field_is("stdout", "",
             "Empty file list does not croak with weird errors (STDOUT)"

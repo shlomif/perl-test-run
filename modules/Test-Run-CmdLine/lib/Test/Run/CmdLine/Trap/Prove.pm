@@ -21,8 +21,8 @@ sub trap_run
 
     trap { $system_ret = system("$runprove $cmdline"); };
 
-    return $class->new({ 
-        ( map { $_ => $trap->$_() } 
+    return $class->new({
+        ( map { $_ => $trap->$_() }
         (qw(stdout stderr die leaveby exit return warn wantarray))),
         system_ret => $system_ret,
     });

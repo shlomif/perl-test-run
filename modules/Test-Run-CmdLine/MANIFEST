@@ -92,6 +92,7 @@ t/sample-tests/with-lib/lib/MyTestModule5.pm
 t/sample-tests/with-lib/t/mytest.t
 t/sample-tests/with-myhello
 t/sample-tests/with-myhello-and-myfoo
+t/style-trailing-space.t
 t/test-libs/lib1/MyHello.pm
 t/test-libs/lib2/MyFoo.pm
 META.json

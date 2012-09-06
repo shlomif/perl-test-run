@@ -22,10 +22,10 @@ is (mytest ([qw{t/hello.t}]), '\.(?:t)$', "Testing for default extension");
 # TEST
 is (mytest ([qw{--ext=cgi t}]), '\.(?:cgi)$', "Testing for single extension");
 # TEST
-is (mytest (['--ext=cgi,pl', 't']), '\.(?:cgi|pl)$', 
+is (mytest (['--ext=cgi,pl', 't']), '\.(?:cgi|pl)$',
     "Testing for extensions separated with commas");
 # TEST
-is (mytest (['--ext=cgi,.pl', '--ext=.hello,perl', 't']), 
+is (mytest (['--ext=cgi,.pl', '--ext=.hello,perl', 't']),
     '\.(?:cgi|pl|hello|perl)$',
     "Testing for several extension args along with periods"
 );
@@ -46,14 +46,14 @@ my $recurse_dir = File::Spec->catdir($sample_tests_dir, "recurse-dir");
 
 # TEST
 is_deeply (
-    get_test_files ([$test_file]), 
+    get_test_files ([$test_file]),
     [$test_file],
     "Testing one file"
 );
 
 # TEST
 is_deeply (
-    get_test_files ([$test_file, $with_myhello_file]), 
+    get_test_files ([$test_file, $with_myhello_file]),
     [$test_file, $with_myhello_file],
     "Testing two files (one without a proper extension)"
 );

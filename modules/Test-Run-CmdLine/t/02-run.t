@@ -19,20 +19,20 @@ use Test::Run::Drivers::CmdLineTest;
         my $iface = Test::Run::CmdLine::Iface->new();
 
         # TEST
-        is ($iface->driver_class(), "Test::Run::CmdLine::Drivers::Default", 
+        is ($iface->driver_class(), "Test::Run::CmdLine::Drivers::Default",
             "Right default driver_class");
-            
+
     }
- 
+
     {
         local $ENV{HARNESS_DRIVER} = "Foo::Bar";
         my $iface = Test::Run::CmdLine::Iface->new();
 
         # TEST
-        is ($iface->driver_class(), "Foo::Bar", 
+        is ($iface->driver_class(), "Foo::Bar",
             "Right driver_class set from ENV");
     }
-    
+
     {
         local @Test::Run::CmdLine::Drivers::CmdLineTest::ISA;
         local @Test::Run::Drivers::CmdLineTest::ISA;
@@ -43,7 +43,7 @@ use Test::Run::Drivers::CmdLineTest;
             }
         );
         # TEST
-        is ($iface->driver_class(), "Test::Run::CmdLine::Drivers::CmdLineTest", 
+        is ($iface->driver_class(), "Test::Run::CmdLine::Drivers::CmdLineTest",
             "Right driver_class set from ENV");
 
         my $got = $iface->run();
@@ -63,8 +63,8 @@ use Test::Run::Drivers::CmdLineTest;
 
         my $got = $iface->run();
         # TEST
-        is_deeply($got, 
-            +{'tested' => [qw(one.t TWO tHREE)], 
+        is_deeply($got,
+            +{'tested' => [qw(one.t TWO tHREE)],
               'foo' => "myfoo",
               'bar' => "habar sheli",
             },

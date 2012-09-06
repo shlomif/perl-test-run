@@ -7,7 +7,7 @@ use ExtUtils::MakeMaker;
 
     sub test_via_harness {
         my($self, $perl, $tests) = @_;
-        
+
         return qq|\t$perl "-MTest::Manifest" | .
           qq|"-e" "run_t_manifest(\$(TEST_VERBOSE), '\$(INST_LIB)', | .
             qq|'\$(INST_ARCHLIB)')"\n|;

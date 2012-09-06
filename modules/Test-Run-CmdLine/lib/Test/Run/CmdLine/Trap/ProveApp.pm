@@ -13,15 +13,15 @@ sub trap_run
 
     my $cmdline = $args->{cmdline};
 
-    trap { 
+    trap {
         system(
-            $^X, "-MTest::Run::CmdLine::Prove::App", "-e", "run()", "--", 
+            $^X, "-MTest::Run::CmdLine::Prove::App", "-e", "run()", "--",
             @$cmdline,
         );
     };
 
-    return $class->new({ 
-        ( map { $_ => $trap->$_() } 
+    return $class->new({
+        ( map { $_ => $trap->$_() }
         (qw(stdout stderr die leaveby exit return warn wantarray)))
     });
 }
@@ -35,14 +35,14 @@ L<Test::Run::CmdLine::Prove::App>.
 
 =head1 DESCRIPTION
 
-Testing class to trap the output of a 
+Testing class to trap the output of a
 C<perl -MTest::Run::CmdLine::Prove::App ...> run.
 
 =head1 METHODS
 
 =head2 Test::Run::CmdLine::Trap::Prove->trap_run({cmdline => [@ARGS]})
 
-Traps the output of the application with the command line args of C<@ARGS>. 
+Traps the output of the application with the command line args of C<@ARGS>.
 Returns the object. To be used as a constructor.
 
 =head1 AUTHORS

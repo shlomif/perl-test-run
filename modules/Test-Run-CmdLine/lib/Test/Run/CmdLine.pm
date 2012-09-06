@@ -44,7 +44,7 @@ has 'backend_class' => (is => "rw", isa => "Str",
     default => "Test::Run::Iface"
 );
 has 'backend_params' => (is => "rw", isa => "HashRef");
-has 'backend_plugins' => (is => "rw", isa => "ArrayRef", 
+has 'backend_plugins' => (is => "rw", isa => "ArrayRef",
     default => sub { [] },
 );
 has 'backend_env_args' => (is => "rw", isa => "ArrayRef",
@@ -55,9 +55,9 @@ has 'test_files' => (is => "rw", isa => "ArrayRef");
 sub BUILD
 {
     my $self = shift;
-    
+
     $self->_collect_backend_plugins();
- 
+
     return;
 }
 
@@ -93,7 +93,7 @@ from L<Test::Run::Obj>.)
 This is the backend class that will be instantiated and used to perform
 the processing. Defaults to L<Test::Run::Obj>.
 
-=back 
+=back
 
 =head2 $tester->run()
 
@@ -147,7 +147,7 @@ sub run
 
 =head1 Environment Variables
 
-The following environment variables (C<%ENV>) affect the behaviour of 
+The following environment variables (C<%ENV>) affect the behaviour of
 Test::Run::CmdLine:
 
 =over 4
@@ -155,7 +155,7 @@ Test::Run::CmdLine:
 =item HARNESS_COLUMNS
 
 This determines the width of the terminal (sets C<'Columns'>) in
-L<Test::Run::Obj>). If not specified, it will be determined according 
+L<Test::Run::Obj>). If not specified, it will be determined according
 to the C<COLUMNS> environment variable, that is normally specified by
 the terminal.
 
@@ -168,17 +168,17 @@ debugging information about itself as it runs the tests.
 
 This variable points to a directory that will be monitored. After each
 test file, the module will check if new files appeared in the direcotry
-and report them. 
-    
+and report them.
+
 It is advisable to give an absolute path here. If it is relative, it would
 be relative to the current working directory when C<$tester-E<gt>run()> was
 called.
 
 =item HARNESS_NOTTY
 
-Triggers the C<'NoTty'> option in Test::Run::Obj. Meaning, it causes 
+Triggers the C<'NoTty'> option in Test::Run::Obj. Meaning, it causes
 Test::Run::CmdLine not to treat STDOUT as if it were a console. In this
-case, it will not emit more frequent progress reports using carriage 
+case, it will not emit more frequent progress reports using carriage
 returns (C<"\r">s).
 
 =item HARNESS_PERL
@@ -189,7 +189,7 @@ specifying a different Perl interprter to use besides C<$^X>.
 =item HARNESS_PERL_SWITCHES
 
 Specifies the C<'Switches'> variable of L<Test::Run::Obj>. This allows
-specifying more switches to the Perl interpreter. 
+specifying more switches to the Perl interpreter.
 
 =item HARNESS_TIMER
 
@@ -198,7 +198,7 @@ does is causes the time that took for tests to run to be displayed.
 
 =item HARNESS_VERBOSE
 
-Triggers the C<'Verbose'> option in Test::Run::Obj. Meaning, it emits 
+Triggers the C<'Verbose'> option in Test::Run::Obj. Meaning, it emits
 the standard output of the test files while they are processed.
 
 =back
@@ -235,7 +235,7 @@ sub private_backend_args
     my $self = shift;
 
     $self->get_backend_env_args();
-   
+
     my $init_args = $self->get_backend_init_args();
 
     return [@{$self->backend_env_args()}, @$init_args];
@@ -297,7 +297,7 @@ sub _get_backend_env_mapping
 {
     my $self = shift;
 
-    return 
+    return
     [
         (map { +{ type => "direct", %$_ } } @{$self->_get_direct_backend_env_mapping()}),
         @{$self->_get_non_direct_backend_env_mapping()},
@@ -354,9 +354,9 @@ sub _calc_backend_env_var_map
     my ($self, $mapping_string) = @_;
 
     my @assignments = split(/\s*;\s*/, $mapping_string);
-    return 
+    return
     +{
-        map { /\A([^=]*)=(.*)\z/ms ? ($1 => $2) : () } 
+        map { /\A([^=]*)=(.*)\z/ms ? ($1 => $2) : () }
             @assignments
     };
 }
@@ -404,10 +404,10 @@ sub get_backend_init_args
 sub _calc_plugins_for_ISA
 {
     my $self = shift;
-    return 
-        [ 
-            map { $self->_calc_single_plugin_for_ISA($_) } 
-            @{$self->backend_plugins()} 
+    return
+        [
+            map { $self->_calc_single_plugin_for_ISA($_) }
+            @{$self->backend_plugins()}
         ];
 }
 

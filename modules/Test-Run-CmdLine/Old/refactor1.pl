@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 
 use strict;
 use warnings;
@@ -13,7 +13,7 @@ LINES: while(my $line = <>)
         {
             my ($ws, $cl) = ($1, $2);
             my $tab = " " x 4;
-            print "${ws}my \$got = TestRunCmdLineTrapper->new(\n" 
+            print "${ws}my \$got = TestRunCmdLineTrapper->new(\n"
                 . "${ws}${tab}\{\n"
                 . "${ws}${tab}${tab}runprove => \$runprove,\n"
                 . "${ws}${tab}${tab}cmdline => qq{${cl}},\n"

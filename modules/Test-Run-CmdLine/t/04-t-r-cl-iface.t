@@ -28,7 +28,7 @@ my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
 # Default behaviour
 {
     local %ENV = %ENV;
-    
+
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
     delete($ENV{'HARNESS_DEBUG'});
@@ -40,7 +40,7 @@ my $test_file = File::Spec->catfile($sample_tests_dir, "one-ok.t");
     delete($ENV{'HARNESS_DRIVER'});
     delete($ENV{'HARNESS_PLUGINS'});
     delete($ENV{'PROVE_SWITCHES'});
-    
+
     my $got = Test::Run::Trap::Obj->trap_run(
         {
             class => "Test::Run::CmdLine::Iface",

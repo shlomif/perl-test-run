@@ -19,9 +19,9 @@ my $build = Test::Run::Builder->new(
     build_requires =>
     {
         "Test::Trap" => 0,
-        'Test::More' => 0,        
+        'Test::More' => 0,
     },
-    requires => 
+    requires =>
     {
         'Moose' => 0,
         'MooseX::Getopt' => 0.26,

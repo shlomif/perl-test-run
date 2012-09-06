@@ -8,19 +8,19 @@ use Moose;
 with 'MooseX::Getopt::Basic';
 
 has 'dry' => (
-    traits => ['Getopt'], is => "rw", 
+    traits => ['Getopt'], is => "rw",
     isa => "Bool", cmd_aliases => [qw(D)],
 );
 
 has '_ext_regex' => (accessor => "ext_regex", is => "rw", isa => "RegexpRef");
-has '_ext_regex_string' => 
+has '_ext_regex_string' =>
     (accessor => "ext_regex_string", is => "rw", isa => "Str")
     ;
-has 'recurse' => (traits => ['Getopt'], is => "rw", 
+has 'recurse' => (traits => ['Getopt'], is => "rw",
     isa => "Bool", cmd_aliases => [qw(r)],
 );
 has 'shuffle' => (
-    traits => ['Getopt'], is => "rw", 
+    traits => ['Getopt'], is => "rw",
     isa => "Bool", cmd_aliases => [qw(s)],
 );
 has 'Verbose' => (
@@ -149,7 +149,7 @@ sub create
         # Temporary workaround for MooseX::Getopt;
         local @ARGV = @argv;
         $self = $class->new_with_options(
-            argv => \@argv, 
+            argv => \@argv,
             "no_ignore_case" => 1,
             "bundling" => 1,
         );
@@ -214,7 +214,7 @@ sub _initial_process
     $self->Switches(\@switches);
 
     $self->_set_ext([ @{$self->ext()} ]);
-    
+
     return 0;
 }
 
@@ -223,8 +223,8 @@ sub _include_map
     my $self = shift;
     my $arg = shift;
     my $ret = "-I$arg";
-    if (($arg =~ /\s/) && 
-        (! (($arg =~ /^"/) && ($arg =~ /"$/)) ) 
+    if (($arg =~ /\s/) &&
+        (! (($arg =~ /^"/) && ($arg =~ /"$/)) )
        )
     {
         return "\"$ret\"";
@@ -251,9 +251,9 @@ sub _print_version
 =head2 $prove = Test::Run::CmdLine::Prove->create({'args' => [@ARGV], 'env_switches' => $env_switches});
 
 Initializes a new object. C<'args'> is a keyed parameter that gives the
-command line for the prove utility (as an array ref of strings). 
+command line for the prove utility (as an array ref of strings).
 
-C<'env_switches'> is a keyed parameter that gives a string containing more 
+C<'env_switches'> is a keyed parameter that gives a string containing more
 arguments, or undef if not wanted.
 
 =head2 $prove->run()
@@ -385,7 +385,7 @@ sub _usage
 
     Pod::Usage::pod2usage(
         {
-            '-verbose' => $verbosity, 
+            '-verbose' => $verbosity,
             '-exitval' => 0,
         }
     );
@@ -418,10 +418,10 @@ sub _set_ext
     my $self = shift;
     my $ext = $self->_default_ext(shift);
 
-    $self->ext_regex_string('\.(?:' . 
-        join("|", map { quotemeta($_) } 
+    $self->ext_regex_string('\.(?:' .
+        join("|", map { quotemeta($_) }
             @{$self->_normalize_extensions($ext)}
-        ) 
+        )
         . ')$'
     );
     $self->_set_ext_re();
@@ -477,12 +477,12 @@ sub _get_arguments
 sub _get_test_files
 {
     my $self = shift;
-    return 
+    return
         $self->_post_process_test_files_list(
-            [ 
-                map 
-                { $self->_get_test_files_from_arg($_) } 
-                @{$self->_get_arguments()} 
+            [
+                map
+                { $self->_get_test_files_from_arg($_) }
+                @{$self->_get_arguments()}
             ]
         );
 }
@@ -519,14 +519,14 @@ sub _get_test_files_from_dir
     {
         my @files = sort readdir($dir);
         closedir($dir);
-        return 
+        return
             (map { $self->_get_test_files_from_dir_entry($path, $_) } @files);
     }
     else
     {
         warn "$path: $!\n";
         return ();
-    }    
+    }
 }
 
 sub _should_ignore_dir_entry
@@ -534,7 +534,7 @@ sub _should_ignore_dir_entry
     my ($self, $dir, $file) = @_;
     return
         (
-            ($file eq File::Spec->updir()) || 
+            ($file eq File::Spec->updir()) ||
             ($file eq File::Spec->curdir()) ||
             ($file eq ".svn") ||
             ($file eq "CVS")
