@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 
 use strict;
 use warnings;
@@ -21,12 +21,12 @@ for my $components_to_remove (1 .. 2)
 }
 
 my $modules_dir = File::Spec->catfile(@source_dir, "modules");
-system($^X,"gen-perl-modules-inst-makefile.pl", 
+system($^X,"gen-perl-modules-inst-makefile.pl",
     "-o", File::Spec->catfile($cwd, "Modules.mak"),
     "--prefix=$inst_modules_dir",
-    (map { "--dir=" . 
-            File::Spec->catdir($modules_dir, split(m{/}, $_)) 
-         } 
+    (map { "--dir=" .
+            File::Spec->catdir($modules_dir, split(m{/}, $_))
+         }
     (qw(
          Test-Run
          Test-Run-CmdLine

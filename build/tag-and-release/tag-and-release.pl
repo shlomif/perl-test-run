@@ -13,19 +13,19 @@ use SVN::Core;
 
 has '_repos_path' => (isa => "Str", is => "ro", required => 1,
     init_arg => "repos_path");
-has '_svn_ra' => (isa => "SVN::Ra", is => "ro", lazy => 1, 
+has '_svn_ra' => (isa => "SVN::Ra", is => "ro", lazy => 1,
     builder  => "_create_svn_ra"
 );
 
 sub _create_svn_ra
-{ 
+{
     my $self = shift;
 
     my ($baton) = SVN::Core::auth_open_helper([SVN::Client::get_ssl_server_trust_file_provider()]);
     return SVN::Ra->new(
         url => $self->_repos_path(),
         auth => $baton,
-    ) ; 
+    ) ;
 }
 
 sub _should_be_dir

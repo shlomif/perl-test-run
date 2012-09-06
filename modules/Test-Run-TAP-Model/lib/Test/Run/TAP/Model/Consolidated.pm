@@ -52,7 +52,7 @@ sub _transpose_arrays {
 	my @arrays = @_ or return ();
 
 	my $max = List::Util::max(map { scalar @$_ } @arrays);
-	
+
 	my @result;
 
 	for (my $i = 0; $i < $max; $i++) {
@@ -80,7 +80,7 @@ reports.
 =head1 SYNOPSIS
 
 	use Test::Run::TAP::Model::Consolidated;
-	
+
 	my $c = Test::Run::TAP::Model::Consolidated->new(@models); # see Test::Run::TAP::Model
 
 	$c->ok; # all tests from all models are OK?

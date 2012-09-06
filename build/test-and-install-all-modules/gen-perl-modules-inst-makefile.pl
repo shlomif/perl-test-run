@@ -44,11 +44,11 @@ sub process_eumm_dir
 {
     my $dir = shift;
     my $bin_prefix = q{\\$$(SITEPREFIX)/bin};
-    handle_deps($dir, 
+    handle_deps($dir,
         [
-            "$(PERL) Makefile.PL PREFIX=\"$prefix\" INSTALLSITEBIN=\"$bin_prefix\" INSTALLSITESCRIPT=\"$bin_prefix\"", 
-            "make", 
-            "make \$(TEST_TARGET)", 
+            "$(PERL) Makefile.PL PREFIX=\"$prefix\" INSTALLSITEBIN=\"$bin_prefix\" INSTALLSITESCRIPT=\"$bin_prefix\"",
+            "make",
+            "make \$(TEST_TARGET)",
             "make install",
         ],
         "make clean",
@@ -58,11 +58,11 @@ sub process_eumm_dir
 sub process_mb_dir
 {
     my $dir = shift;
-    handle_deps($dir, 
+    handle_deps($dir,
         [
-            "\$(PERL) Build.PL", 
-            "./Build", 
-            "./Build \$(TEST_TARGET)", 
+            "\$(PERL) Build.PL",
+            "./Build",
+            "./Build \$(TEST_TARGET)",
             "./Build install prefix=\"$prefix\"",
         ],
         "./Build clean",
@@ -79,8 +79,8 @@ sub handle_deps
     $text .= "${dir}: $id-step0\n\n";
     foreach my $i (0 .. $#deps)
     {
-        $text .= "$id-step${i}: " . 
-            (($i == $#deps) ? "" : ("$id-step" . ($i+1))) . 
+        $text .= "$id-step${i}:" .
+            (($i == $#deps) ? "" : (" $id-step" . ($i+1))) .
             "\n";
         $text .= "\t(cd $dir && " . $deps[$i] . ")\n";
         $text .= "\n";
@@ -104,13 +104,13 @@ else
     open O, ">", $o_fn;
 }
 
-print O "all: ", join(" ", @dirs) . "\n\n";
+print O "all:", join('', map { " $_" } @dirs) . "\n\n";
 
 print O "TEST_TARGET = test\n\n";
 
 print O "PERL = perl\n\n";
 
-print O "cleanall: ", join(" ", map {"CLEAN--$_"} @dirs). "\n\n";
+print O "cleanall:", join('', map {" CLEAN--$_"} @dirs). "\n\n";
 
 print O $text;
 

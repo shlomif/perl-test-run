@@ -67,7 +67,7 @@ sub _test_structs {
 			my $diff = @cases - $max;
 			for (my $i = $diff; $i; $i--){
 				$cases[-$i]{unplanned} = 1;
-			}	
+			}
 		}
 	}
 
@@ -140,7 +140,7 @@ test script's output.
 =head1 SYNOPSIS
 
 	my $f = ( $t->test_files )[0];
-	
+
 	if ($f->ok){ # et cetera
 		print "happy happy joy joy!";
 	}

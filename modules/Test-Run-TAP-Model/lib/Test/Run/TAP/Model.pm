@@ -29,7 +29,7 @@ sub _handle_bailout {
 
 	die "Bailed out"; # catch with an eval { }
 }
-        
+
 sub _handle_test {
 	my($self, $line, $type, $totals) = @_;
 	my $curr = $totals->{seen}||0;
@@ -140,7 +140,7 @@ sub log_event {
 sub latest_event {
 	my($self) = shift;
         my %event = @_;
-        $self->{events}[-1] || $self->log_event(%event);  
+        $self->{events}[-1] || $self->log_event(%event);
 }
 
 sub run {
@@ -171,7 +171,7 @@ sub run_test {
 	my $file = shift;
 
 	my $test_file = $self->start_file($file);
-	
+
 	my %results = eval { $self->analyze_file($file) };
 	$test_file->{results} = \%results;
 	delete $test_file->{results}{details};
@@ -191,7 +191,7 @@ sub start_file {
 	$test_file;
 }
 
-sub file_class { "Test::Run::TAP::Model::File" }	
+sub file_class { "Test::Run::TAP::Model::File" }
 
 sub test_files {
 	my $self = shift;
@@ -245,7 +245,7 @@ for L<Test::Run::Straps> runs.
 
 	# here's a convenient wrapper
 	$t = Test::Run::TAP::Model->new_with_tests(glob("t/*.t"));
-	
+
 	# that's shorthand for new->run_tests
 	$t->run_tests(qw{ t/foo.t t/bar.t });
 
@@ -324,7 +324,7 @@ I hope this illustrates how the structure looks.
 		pre_diag => # diagnosis emitted before any test
 	};
 
-	%results = $strap->analyze_foo(); 
+	%results = $strap->analyze_foo();
 
 	$events = [
 		{

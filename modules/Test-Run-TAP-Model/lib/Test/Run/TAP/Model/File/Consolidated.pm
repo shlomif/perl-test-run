@@ -110,7 +110,7 @@ __END__
 
 =head1 NAME
 
-Test::Run::TAP::Model::File::Consolidated - 
+Test::Run::TAP::Model::File::Consolidated -
 
 =head1 SYNOPSIS
 

@@ -33,7 +33,7 @@ ok 2 bar
 TAP
 
 	ok($s->ok, "suite OK");
-	
+
 	is($s->test_files, 1, "one file");
 	isa_ok(my $f = ($s->test_files)[0], "Test::Run::TAP::Model::File");
 
@@ -83,7 +83,7 @@ TAP
 
 	is($s->test_files, 1, "one file");
 	isa_ok(my $f = ($s->test_files)[0], "Test::Run::TAP::Model::File");
-	
+
 	is($f->cases, 4, "actual cases");
 	is($f->planned, 4, "number planned");
 	ok($f->nok, "file as a whole is not ok");
@@ -181,7 +181,7 @@ ok 1
 ok 2
 ok 3
 TAP
-	
+
 	ok(!$s->ok, "suite isn't ok yet");
 	my $f = ($s->test_files)[0];
 	is($f->planned, 0, "no tests planned");
@@ -195,7 +195,7 @@ ok 2
 ok 3
 1..3
 TAP
-	
+
 	ok($s->ok, "suite ok");
 	my $f = ($s->test_files)[0];
 	is($f->planned, 3, "plan at end registered");

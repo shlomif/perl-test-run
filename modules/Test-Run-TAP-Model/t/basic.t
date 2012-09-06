@@ -57,7 +57,7 @@ ok($@, "Test::Run::TAP::Model dies when calling run()");
 $s = $t->structure;
 my $t2 = Test::Run::TAP::Model->new_with_struct($s);
 isa_ok($t2, $m);
-isa_ok($t2, "Test::Run::Straps"); 
+isa_ok($t2, "Test::Run::Straps");
 
 # Try new_with_tests
 my $t3 = Test::Run::TAP::Model->new_with_tests($s->{test_files});
@@ -73,7 +73,7 @@ $event{type} = 'test';
 $event{todo} = 1;
 $t4->latest_event(%event);
 isa_ok(my $l = $t4->latest_event, "HASH");
-is_deeply([ sort keys %$l], [ sort qw/type todo/], 
+is_deeply([ sort keys %$l], [ sort qw/type todo/],
    "Test latest_event with parameters");
 
 __DATA__

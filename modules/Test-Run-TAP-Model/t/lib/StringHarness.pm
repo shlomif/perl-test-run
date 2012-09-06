@@ -31,7 +31,7 @@ __END__
 
 =head1 NAME
 
-StringHarness - 
+StringHarness -
 
 =head1 SYNOPSIS
 

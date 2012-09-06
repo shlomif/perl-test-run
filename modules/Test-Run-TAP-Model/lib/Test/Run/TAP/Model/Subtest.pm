@@ -14,7 +14,7 @@ sub new {
 	my $struct = shift;
 
 	croak "eek! You can't bless non test events into $pkg" unless $struct->{type} eq "test";
-	
+
 	bless \$struct, $pkg; # don't bless the structure, it's not ours to mess with
 }
 
