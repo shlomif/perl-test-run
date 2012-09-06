@@ -7,6 +7,11 @@ modules/Test-Run-CmdLine/META.json
 modules/Test-Run-CmdLine/META.yml
 modules/Test-Run-CmdLine/_build
 modules/Test-Run-CmdLine/blib
+modules/Test-Run-TAP-Model/blib
+modules/Test-Run-TAP-Model/_build
+modules/Test-Run-TAP-Model/Build
+modules/Test-Run-TAP-Model/MYMETA.json
+modules/Test-Run-TAP-Model/MYMETA.yml
 modules/Test-Run-Plugin-AlternateInterpreters/Build
 modules/Test-Run-Plugin-AlternateInterpreters/MYMETA.json
 modules/Test-Run-Plugin-AlternateInterpreters/MYMETA.yml
