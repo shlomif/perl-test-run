@@ -35,13 +35,13 @@ has 'failsumm_remove_test_scripts_percent' => (is => "rw", isa => "Bool",);
 =head1 SYNOPSIS
 
     package MyTestRun;
-    
+
     use vars qw(@ISA);
 
     @ISA = (qw(Test::Run::Plugin::FailSummaryComponents Test::Run::Obj));
 
     my $tester = MyTestRun->new(
-        test_files => 
+        test_files =>
         [
             "t/sample-tests/one-ok.t",
             "t/sample-tests/several-oks.t"
@@ -106,7 +106,7 @@ sub _get_sub_percent_msg
 
     my $tot = $self->tot();
     return sprintf(" %d/%d subtests failed.",
-        $tot->max() - $tot->ok(), $tot->max(), 
+        $tot->max() - $tot->ok(), $tot->max(),
         );
 }
 

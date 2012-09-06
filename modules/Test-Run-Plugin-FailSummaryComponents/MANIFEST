@@ -1,5 +1,6 @@
 Build.PL
 Changes
+inc/Test/Run/Builder.pm
 lib/Test/Run/Plugin/FailSummaryComponents.pm
 Makefile.PL
 MANIFEST
@@ -12,3 +13,5 @@ t/pod.t
 t/sample-tests/one-fail.t
 t/sample-tests/one-ok.t
 t/sample-tests/several-oks.t
+t/style-trailing-space.t
+META.json

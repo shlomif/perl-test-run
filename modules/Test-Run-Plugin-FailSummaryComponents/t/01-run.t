@@ -29,7 +29,7 @@ sub tester
     $tester->runtests();
     };
 
-    return 
+    return
     {
         'stdout' => $trap->stdout(),
         'stderr' => $trap->stderr(),
@@ -53,7 +53,7 @@ sub tester
 }
 
 {
-    my $results = tester({test_files => 
+    my $results = tester({test_files =>
         [
             "t/sample-tests/one-ok.t",
             "t/sample-tests/one-fail.t"
@@ -70,7 +70,7 @@ sub tester
 }
 
 {
-    my $results = tester({test_files => 
+    my $results = tester({test_files =>
         [
             "t/sample-tests/one-ok.t",
             "t/sample-tests/one-fail.t"
@@ -88,7 +88,7 @@ sub tester
 
 {
     my $results = tester({
-        test_files => 
+        test_files =>
         [
             "t/sample-tests/one-ok.t",
             "t/sample-tests/one-fail.t"
