@@ -15,7 +15,7 @@ my $build = Test::Run::Builder->new(
     {
         "Test::Trap" => 0,
     },
-    requires => 
+    requires =>
     {
         'File::Spec' => 0.6,
         'IPC::System::Simple' => '1.21',

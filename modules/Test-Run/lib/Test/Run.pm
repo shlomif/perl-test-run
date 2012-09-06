@@ -79,8 +79,8 @@ Learn how to write Perl tests.
 
 =head1 ACKNOWLEDGEMENTS
 
-The (possibly ad-hoc) regex for matching the optional digits+symbols 
-parameters' prefix of the sprintf conversion was originally written by Bart 
+The (possibly ad-hoc) regex for matching the optional digits+symbols
+parameters' prefix of the sprintf conversion was originally written by Bart
 Lateur (BARTL on CPAN) for his L<String::Sprintf> module.
 
 =head1 COPYRIGHT & LICENSE

@@ -1,3 +1,5 @@
+    * Remove trailing space with a test - t/style-trailing-space.t .
+
 0.0126
     * Fix the tests on windows by using IPC::System::Simple instead of
     list-form of open "-|".
@@ -49,7 +51,7 @@
 
 0.0118    Mon May  4 20:33:10 IDT 2009
     * Increased the test coverage.
-    * Converted the use of the old and deprecated NEXT.pm to 
+    * Converted the use of the old and deprecated NEXT.pm to
     MRO::Compat / mro.pm .
 
 0.0117    Mon Aug 18 19:53:38 IDT 2008
@@ -61,7 +63,7 @@
     accept a hash ref instead of ($name, $format).
 
 0.0116    Fri Apr 11 20:20:50 IDT 2008
-    * Wrote a fix to the test failures that Test-Run-0.0115 experienced on 
+    * Wrote a fix to the test failures that Test-Run-0.0115 experienced on
     BSD systems due to a test-script path over 256 bytes.
         - bug in the test script, not the code.
         - http://cpantesters.perl.org/show/Test-Run.html#Test-Run-0.0115
@@ -92,25 +94,25 @@
 
 0.0113    Tue Feb 19 20:05:29 IST 2008
     * Converted more functionality from Test::Run::Core_GplArt into
-    a BSD-licensed code. Now there's nothing in Core_GplArt except 
+    a BSD-licensed code. Now there's nothing in Core_GplArt except
     (out-of-date) documentation.
-    * Moved Test::Run::Straps Test::Run::Straps_GplArt and made 
+    * Moved Test::Run::Straps Test::Run::Straps_GplArt and made
     Test::Run::Straps a BSD-licensed class that inherits from it. Started
     moving functionality and documentation there.
     * Moved Test::Trap from the requires to the build_requires.
     * More refactoring - methods extractions, etc.
     * Added "use strict" and "use warnings" to all the .pm files.
-    * Added a link to the MIT X11 license to many modules and some POD to one 
-    of the modules. This way finding which modules are MIT X11 will be easier 
+    * Added a link to the MIT X11 license to many modules and some POD to one
+    of the modules. This way finding which modules are MIT X11 will be easier
     using grep -rL or grep -rl.
     * Added the _run_sequence method to Test::Run::Base to run a sequence
     of methods one after the other.
-    * Added the Test::Run::Straps::EventWrapper class to wrap a 
+    * Added the Test::Run::Straps::EventWrapper class to wrap a
     TAP::Parser::Result and derived objects, and to delegate methods to it.
     * Implemented the delegate_methods() method in Test::Run::Base to
     delegate methods to an accessor.
         - Added the t-r-base-delegate.t test file.
-    * Added the Test::Run module which will serve as the front-page for 
+    * Added the Test::Run module which will serve as the front-page for
     the Test::Run suite on search.cpan.org and other resources.
 
 0.0112    Sun Jun 24 19:23:42 IDT 2007
@@ -119,32 +121,32 @@
     test file.
 
 0.0111    Sat Jun 23 11:56:31 IDT 2007
-    * Added Test::Run::Base::Plugger for managing classes with plug-ins and 
+    * Added Test::Run::Base::Plugger for managing classes with plug-ins and
     made the helper classes into pluggable classes.
     * Converted more functionality from Test::Run::Core_GplArt into
     a BSD-licensed code.
 
 0.0110     Mon Jun 11 14:13:58 IDT 2007
-    * Converted several helper modules to the MIT X11 licence, while 
+    * Converted several helper modules to the MIT X11 licence, while
     refactoring them in the process.
         - every module specifically mentions its licence.
     * Converted several functions to use Text::Sprintf::Named.
-    * Added dependence on Text::Sprintf::Named 0.02, in order to better 
-    refactor the code. Added the T::R::Sprintf::Named::FromAccessors module 
-    to retrieve values from the accessors. Started refactoring some of the 
+    * Added dependence on Text::Sprintf::Named 0.02, in order to better
+    refactor the code. Added the T::R::Sprintf::Named::FromAccessors module
+    to retrieve values from the accessors. Started refactoring some of the
     code to use it.
-    * Added the Test::Run::Trap::Obj class for managing trapping with 
+    * Added the Test::Run::Trap::Obj class for managing trapping with
     verbose debug information.
         - base on Test::Trap
         - Converted most of the tests to use it.
-    * Fixed the Test-Run-Plugin-ColorFileVerdicts module, as it was 
+    * Fixed the Test-Run-Plugin-ColorFileVerdicts module, as it was
     broken due to the refactorings and moving of methods to ::CanonFailedObj.
     * Added the class hierarchy calculation routines.
         - Added the feature to accumulate directly on the class.
         - concept borrowed from (but does not share code with) Class::Std.
 
 0.0109    Mon Mar 19 15:22:35 IST 2007
-    * Refactored some code to make it more easily extensible and 
+    * Refactored some code to make it more easily extensible and
     over-ridable. Used in some plugins.
     * Added an ACTION_tags to Test::Run::Builder.
     * Converted the tests to use Test::Trap.
@@ -186,18 +188,18 @@
     changes to the tests and code to get over several regressions.
 
 0.0104    Fri Feb 23 14:25:29 IST 2007
-    * Added an empty PL_FILES key to the Makefile.PL to please old 
+    * Added an empty PL_FILES key to the Makefile.PL to please old
       ExtUtils::MakeMaker's that try to invoke "Build.PL Build".
-    * Fixed the skip to skip 7 tests instead of 8 - it broke the build 
+    * Fixed the skip to skip 7 tests instead of 8 - it broke the build
       in perl-5.6.2.
 
 0.0103    Fri Feb 16 23:09:24 IST 2007
     * Made part of the Straps code clearer.
     * Extracted out the _init_strap method. This will be used by future
     plugins.
-    * Fixed a bug where the modified Test_Interperter was used to query the 
+    * Fixed a bug where the modified Test_Interperter was used to query the
     Perl paths.
-    * Fixed a bug with the percent being possibly undefined in output. 
+    * Fixed a bug with the percent being possibly undefined in output.
     Added a regression test.
 
 0.0102    Wed Nov 15 22:18:10 IST 2006
@@ -206,10 +208,10 @@
     * Bumped the version number.
 
 0.0101    Wed Nov  1 21:43:36 IST 2006
-    * Fixed the error indicator in the call to 
+    * Fixed the error indicator in the call to
     _handle_test_file_closing_error() - $! instead of $1.
     * Added more POD for web resources of the module.
-    * Added an example for integrating Test::Run into an EU::MM and 
+    * Added an example for integrating Test::Run into an EU::MM and
     Test::Manifest setup.
     * Updated the TODO.
     * First non-Developer release!
@@ -231,20 +233,20 @@
     wrong) for better debugability.
     * A lot of refactoring of Test::Run::Straps.
     * Added several tests for the output of tests' outcomes.
-    * Moved all the ->output()'s outputs to a separate plugin 
+    * Moved all the ->output()'s outputs to a separate plugin
     (Test::Run::Plugin::CmdLine::Output), and moved the rest of the core
     functionality to Test::Run::Core.
     * Converted the strap handlers to be methods of Test::Run::Core, and
     the callback to be a closure that calls its method.
 
 0.0100_09 Sat May 13 11:56:41 IDT 2006
-    * Extracted the _get_fail_test_scripts_string() and 
-    _get_fail_tests_good_percent_string() methods out of 
+    * Extracted the _get_fail_test_scripts_string() and
+    _get_fail_tests_good_percent_string() methods out of
     _get_fail_other_exception_text() methods for easy overriding, and
     implementing the error line customization plugins.
 
 0.0100_08 Sat Apr  8 18:39:28 IDT 2006
-    * A refactoring of _handle_runtests_error(), which would allow an 
+    * A refactoring of _handle_runtests_error(), which would allow an
     easier coding of Plugin::ColorSummary.
     * Added Scalar::Util to the Makefile.PL's "PREREQ_PM" and removed a
     redundant statement.
@@ -261,19 +263,19 @@
 0.0100_06 Tue Nov 29 22:40:08 IST 2005
     * Fixed the bug where "All tests successful." was displayed as
     "All tests successful0.". Added an appropriate test.
-    * Eliminated the unnecessary warning on the Pod::Usage in the 
+    * Eliminated the unnecessary warning on the Pod::Usage in the
     Makefile.PL of Test::Run. Now it just doesn't install prove.
     * Moved two test scripts that are depenedent on prove (or exit on its
     non-installation), to a temporary location to be restored when
     Test::Run::CmdLine is in better shape.
     * Some refactorings.
-        - Added the Test::Run::Obj::Error module for throwing errors. Moved 
-        one FAILED report to it, and change Run::Obj to be compatible with 
+        - Added the Test::Run::Obj::Error module for throwing errors. Moved
+        one FAILED report to it, and change Run::Obj to be compatible with
         some refactoring in the way.
     * Added a TODO File.
     * Fix a problem with a missing comma in the output of Test::Run when
     there are skipped subtests.
-    
+
 0.0100_05 Sat Nov 09 21:00:00 IST 2005
     * Renamed to Test::Run
 
@@ -602,13 +604,13 @@ Revision history for Perl extension Test::Harness
 
     There are also some minor bug fixes in Test::Harness itself, listed
     below in the 2.31_* notes.
-     
+
 
 2.31_05     Thu Nov  6 14:56:22 CST 2003
     [FIXES]
     - If a MacPerl script had a shebang with -T, the -T wouldn't get
       passed as a switch.
-    - Removed the -T on three *.t files, which didn't need them, and 
+    - Removed the -T on three *.t files, which didn't need them, and
       which were causing problems.
     - Conditionally installs bin/prove, depending on whether Pod::Usage
       is available, which prove needs.
@@ -714,7 +716,7 @@ Revision history for Perl extension Test::Harness
     - Ilya noticed the per test skip reason was accumlating between tests.
 
 2.26  Wed Jun 19 16:58:02 EDT 2002
-    - Workaround for MacPerl's lack of a working putenv.  It will never 
+    - Workaround for MacPerl's lack of a working putenv.  It will never
       see the PERL5LIB environment variable (perl@16942).
 
 2.25  Sun Jun 16 03:00:33 EDT 2002
@@ -725,7 +727,7 @@ Revision history for Perl extension Test::Harness
       die, not return false, when any tests fail.  This is silly, but
       historically necessary for 'make test'.  Docs corrected.
     - MacPerl test fixes from Pudge. (mutation of bleadperl@16989)
-    - Undef warning introduced in 2.24 on skipped tests with no reasons 
+    - Undef warning introduced in 2.24 on skipped tests with no reasons
       fixed.
     * Test::Harness now depends on File::Spec
 
@@ -775,9 +777,9 @@ Revision history for Perl extension Test::Harness
 2.02  Thu Mar 14 18:06:04 EST 2002
     * Ken Williams fixed the long standing $^X bug.
     * Added HARNESS_VERBOSE
-    * Fixed a bug where Test::Harness::Straps was considering a test that 
+    * Fixed a bug where Test::Harness::Straps was considering a test that
       is ok but died as passing.
-    - Added the exit and wait codes of the test to the 
+    - Added the exit and wait codes of the test to the
       analyze_file() results.
 
 2.01  Thu Dec 27 18:54:36 EST 2001
@@ -796,7 +798,7 @@ Revision history for Perl extension Test::Harness
       but Test::Harness still doesn't.
 
 2.00_05 Mon Dec 17 22:08:02 EST 2001
-    * Wasn't filtering @INC properly when a test is run with -T, caused the 
+    * Wasn't filtering @INC properly when a test is run with -T, caused the
       command line to be too long on VMS.  VMS should be 100% now.
     - Little bug in the skip 'various reasons' logic.
     - Minor POD nit in 5.004_04

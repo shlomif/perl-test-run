@@ -82,7 +82,7 @@ sub _get_obj_formatter
     return
         Test::Run::Sprintf::Named::FromAccessors->new(
             { fmt => $fmt, },
-        );    
+        );
 }
 
 sub _register_obj_formatter
@@ -124,7 +124,7 @@ sub _format_self
 
 This is a more simplistic version of the :CUMULATIVE functionality
 in Class::Std. It was done to make sure that one can collect all the
-members of array refs out of methods defined in each class into one big 
+members of array refs out of methods defined in each class into one big
 array ref, that can later be used.
 
 =cut
@@ -135,7 +135,7 @@ sub accum_array
 
     my $method_name = $args->{method};
 
-    # my $class = ((ref($self) eq "") ? $self : ref($self));   
+    # my $class = ((ref($self) eq "") ? $self : ref($self));
 
     my @results;
     foreach my $isa_class (
@@ -168,8 +168,8 @@ sub _pluralize
 
 =head2 $self->_run_sequence(\@params)
 
-Runs the sequence of commands specified using 
-C<_calc__${calling_sub}__callbacks> while passing @params to 
+Runs the sequence of commands specified using
+C<_calc__${calling_sub}__callbacks> while passing @params to
 each one. Generates a list of all the callbacks return values.
 
 =cut
@@ -185,8 +185,8 @@ sub _run_sequence
 
     my $calc_cbs_sub = "_calc__${1}__callbacks";
 
-    return 
-    [ 
+    return
+    [
         map { my $cb = $_; $self->$cb(@$params); }
         @{$self->$calc_cbs_sub(@$params)}
     ];

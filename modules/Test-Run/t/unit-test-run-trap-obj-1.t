@@ -27,16 +27,16 @@ package main;
 {
     my $got = Test::Run::Trap::Obj->trap_run({
             class => "MyPersonClass",
-            args => 
+            args =>
             [
                 name => "Sophie",
                 favourite_dish => "Apples",
             ],
             run_func => "print_info",
         });
-    
+
     # TEST
-    $got->field_like("stdout", 
+    $got->field_like("stdout",
         qr{\Q<<My name is Sophie and I like Apples>>\E},
         "Testing setting run_func() to something.",
     );

@@ -27,7 +27,7 @@ my $IsVMS     = $^O eq 'VMS';
 
 # VMS uses native, not POSIX, exit codes.
 # MacPerl's exit codes are broken.
-my $die_estat = $IsVMS     ? 44 : 
+my $die_estat = $IsVMS     ? 44 :
                 $IsMacPerl ? 0  :
                              1;
 
@@ -522,7 +522,7 @@ SKIP: {
         is_deeply( {map { $_=>$totals->{$_} } keys %{$expect->{total}}},
                    $expect->{total},
                                                   "$test - totals" );
-        is_deeply( {map 
+        is_deeply( {map
                 { $_=> (($_ eq "failed" || $_ eq "max") ? $failed->{$test_path}{$_}->get_string_val() : $failed->{$test_path}{$_}) }
                     keys %{$expect->{failed}}},
                    $expect->{failed},

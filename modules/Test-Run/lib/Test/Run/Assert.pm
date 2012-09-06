@@ -38,10 +38,10 @@ sub assert($;$)
     if (! $condition)
     {
         require Carp;
-        
-        my $msg = 
+
+        my $msg =
             sprintf("Assert failed - '%s'!", $name)
-            ; 
+            ;
 
         Carp::croak($msg);
     }

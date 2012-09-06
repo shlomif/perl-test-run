@@ -1,6 +1,6 @@
 * Speed up the performance of Test::Run. It's currently pretty slow.
 
-* Update the documentation - currently it's mostly updated only to 
+* Update the documentation - currently it's mostly updated only to
 Test::Harness.
 
 * Add an arbitrary number of leaked directories.

@@ -134,7 +134,7 @@ sub BUILD
 sub _good_percent
 {
     my $self = shift;
-    
+
     return $self->_percent("good", "tests");
 }
 
@@ -199,7 +199,7 @@ sub all_ok
     my $self = shift;
 
     return $self->_normalize_cond(
-           ($self->bad() == 0) 
+           ($self->bad() == 0)
         && ($self->max() || $self->skipped())
     );
 }

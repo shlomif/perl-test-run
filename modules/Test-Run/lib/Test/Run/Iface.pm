@@ -9,7 +9,7 @@ use MRO::Compat;
 
 =head1 NAME
 
-Test::Run::Iface  
+Test::Run::Iface
 
 =head1 LICENSE
 

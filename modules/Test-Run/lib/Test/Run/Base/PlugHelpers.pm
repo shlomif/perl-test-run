@@ -21,7 +21,7 @@ extends('Test::Run::Base');
 
 use Test::Run::Base::Plugger;
 
-has '_plug_helpers' => (is => "rw", isa => "HashRef", 
+has '_plug_helpers' => (is => "rw", isa => "HashRef",
     lazy => 1, default => sub { +{} },
 );
 
@@ -44,7 +44,7 @@ The base class to use as the ultimate primary class of the plugin-based class.
 
 The method from which to collect the plugins. It should be defined for every
 base class in the hierarchy of the main class (that instantiates the helpers)
-and is traversed there. 
+and is traversed there.
 
 =back
 
@@ -64,7 +64,7 @@ sub register_pluggable_helper
         $plug_helper_struct{$key} = $value;
     }
 
-    $self->_plug_helpers()->{$plug_helper_struct{'id'}} 
+    $self->_plug_helpers()->{$plug_helper_struct{'id'}}
         = \%plug_helper_struct;
 
     return;
@@ -119,7 +119,7 @@ sub create_pluggable_helper_obj
         )
     );
 
-    return 
+    return
         $plugger->create_new(
             $args->{args},
         );

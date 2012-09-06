@@ -46,14 +46,14 @@ sub BUILD
     my $self = shift;
 
     $self->_update_ISA();
- 
+
     return;
 }
 
 sub _update_ISA
 {
     my $self = shift;
-    
+
     my $base_class = $self->_base();
     my $into_class = $self->_into();
 
@@ -68,7 +68,7 @@ sub _update_ISA
             die $@;
         }
         push @$isa_ref, $plugin;
-    }    
+    }
 
     if (!$base_class->require())
     {

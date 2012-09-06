@@ -42,7 +42,7 @@ For Moose.
 sub BUILD
 {
     my $self = shift;
-    
+
 =begin debugging_code
 
     Carp::confess '$args not a hash' if (ref($args) ne "HASH");

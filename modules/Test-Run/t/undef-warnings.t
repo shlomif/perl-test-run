@@ -47,9 +47,9 @@ package main;
 {
     my $got = Test::Run::Trap::Obj->trap_run({
             class => "MyTestRun",
-            args => 
+            args =>
             [
-                test_files => 
+                test_files =>
                 [
                     "t/sample-tests/simple",
                     "t/sample-tests/success1.mok",

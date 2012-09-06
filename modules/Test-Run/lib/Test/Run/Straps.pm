@@ -39,13 +39,13 @@ has 'exception' => (is => "rw", isa => "Any");
 has 'file' => (is => "rw", isa => "Str");
 has '_file_totals' =>
     (is => "rw", isa => "Test::Run::Straps::StrapsTotalsObj");
-has '_is_macos' => (is => "rw", isa => "Bool", 
+has '_is_macos' => (is => "rw", isa => "Bool",
     default => sub { return ($^O eq "MacOS"); },
 );
 has '_is_win32' => (is => "rw", isa => "Bool",
     default => sub { return ($^O =~ m{\A(?:MS)?Win32\z}); },
 );
-has '_is_vms' => (is => "rw", isa => "Bool", 
+has '_is_vms' => (is => "rw", isa => "Bool",
     default => sub { return ($^O eq "VMS"); },
 );
 has 'last_test_print' => (is => "rw", isa => "Bool");
@@ -98,7 +98,7 @@ sub _calc_next_event
 
     if (defined($event))
     {
-        return 
+        return
             Test::Run::Straps::EventWrapper->new(
                 {
                     event => $event,
@@ -222,7 +222,7 @@ sub _on_first_too_many_tests
     my $self = shift;
 
     warn "Enormous test number seen [test ", $self->_event->number(), "]\n";
-    warn "Can't detailize, too big.\n"; 
+    warn "Can't detailize, too big.\n";
 
     return;
 }
@@ -257,7 +257,7 @@ sub _handle_test_event
 =head2 $self->_handle_event()
 
 Handles the current event according to the list of types in the cascade. It
-checks each type and if matches calls the appropriate 
+checks each type and if matches calls the appropriate
 C<_handle_${type}_event> callback. Returns the type of the event that matched.
 
 =cut
@@ -617,10 +617,10 @@ sub _split_switches
     my $self = shift;
     my $switches = shift;
 
-    return 
-    [ 
+    return
+    [
         map
-        { my $s = $_; $s =~ s{\A"(.*)"\z}{$1}; $s } 
+        { my $s = $_; $s =~ s{\A"(.*)"\z}{$1}; $s }
         map
         { split(/\s+/, $_) }
         grep
@@ -728,7 +728,7 @@ sub _handle_test_file_closing_error
 
 =head2 $strap->_restore_PERL5LIB()
 
-Restores the old value of PERL5LIB. This is necessary on VMS. Does not 
+Restores the old value of PERL5LIB. This is necessary on VMS. Does not
 do anything on other platforms.
 
 =cut
@@ -784,9 +784,9 @@ sub _calc_existing_switches
 {
     my $self = shift;
 
-    return $self->_clean_switches( 
+    return $self->_clean_switches(
         $self->_split_switches(
-            [$self->Switches(), $self->Switches_Env()] 
+            [$self->Switches(), $self->Switches_Env()]
         )
     );
 }

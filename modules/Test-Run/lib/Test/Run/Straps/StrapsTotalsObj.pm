@@ -45,7 +45,7 @@ Calculates whether the test file has passed.
 sub _is_skip_all
 {
     my $self = shift;
-    
+
     return (($self->max() == 0) && defined($self->skip_all()));
 }
 
@@ -143,7 +143,7 @@ sub _defined_hash_values
 
     return
     {
-        map 
+        map
         { $_ => _def_or_blank($hash->{$_}) }
         keys(%$hash)
     };
@@ -155,7 +155,7 @@ sub _calc_always_def_details_initializer
 
     my $event = $self->_event;
 
-    return 
+    return
     {
         actual_ok => scalar($event->is_ok()),
         name => $event->description,

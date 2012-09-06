@@ -19,9 +19,9 @@ Test::Run::CmdLine.
 
 =head1 MOTIVATION
 
-This class has gradually re-implemented all of the 
-L<Test::Run::Plugin::CmdLine::Output::GplArt> functionality to 
-avoid license complications. 
+This class has gradually re-implemented all of the
+L<Test::Run::Plugin::CmdLine::Output::GplArt> functionality to
+avoid license complications.
 
 =head1 METHODS
 
@@ -216,7 +216,7 @@ sub _get_leaked_files_string
 sub _report_leaked_files
 {
     my ($self, $args) = @_;
-    
+
     $self->_print("LEAKED FILES: " . $self->_get_leaked_files_string($args));
 }
 
@@ -295,7 +295,7 @@ sub _get_all_skipped_test_msgs
     my ($self) = @_;
     return
     [
-        @{$self->_get_skipped_msgs()}, 
+        @{$self->_get_skipped_msgs()},
         @{$self->_get_bonus_msgs()}
     ];
 }
@@ -319,7 +319,7 @@ sub _output__get_display_filename_param
 sub _output_print_leader
 {
     my ($self, $args) = @_;
-    
+
     $self->output()->print_leader(
         {
             filename => $self->_output__get_display_filename_param($args),
@@ -492,7 +492,7 @@ sub _fail_other_report_test
         test => $test,
         script => $script,
     };
-    
+
     $self->_fail_other_report_tests_print_summary($args_to_pass);
 
     $self->_fail_other_report_test_print_rest_of_canons($args_to_pass);
@@ -504,7 +504,7 @@ sub _calc_fail_other_bonus_message
 
     my $message = $self->_bonusmsg() || "";
     $message =~ s{\A,\s*}{};
-    
+
     return $message ? "$message." : "";
 }
 
@@ -653,13 +653,13 @@ sub _fail_other_print_top
 
     $self->_named_printf(
         \("%(failed)-" . $self->max_namelen() . "s%(middle)s%(list)s") ,
-        { 
+        {
             failed => $self->_get_format_failed_str(),
             middle => $self->_get_format_middle_str(),
             list =>   $self->_get_format_list_str(),
         }
     );
-    
+
     $self->_print("-" x $self->format_columns());
 }
 

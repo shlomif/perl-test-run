@@ -436,9 +436,9 @@ Checks to make sure the $module or $object can do these @methods
 
 is almost exactly like saying:
 
-    ok( Foo->can('this') && 
-        Foo->can('that') && 
-        Foo->can('whatever') 
+    ok( Foo->can('this') &&
+        Foo->can('that') &&
+        Foo->can('whatever')
       );
 
 only without all the typing and with a better interface.  Handy for
@@ -472,9 +472,9 @@ sub can_ok ($@) {
     }
 
     my $name;
-    $name = @methods == 1 ? "$class->can('$methods[0]')" 
+    $name = @methods == 1 ? "$class->can('$methods[0]')"
                           : "$class->can(...)";
-    
+
     my $ok = $Test->ok( !@nok, $name );
 
     $Test->diag(map "    $class->can('$_') failed\n", @nok);
@@ -547,8 +547,8 @@ WHOA
             $diag = "$obj_name isn't a '$class' it's a '$ref'";
         }
     }
-            
-      
+
+
 
     my $ok;
     if( $diag ) {
@@ -726,7 +726,7 @@ DIAGNOSTIC
 
 Sometimes running a test under certain conditions will cause the
 test script to die.  A certain function or method isn't implemented
-(such as fork() on MacOS), some resource isn't available (like a 
+(such as fork() on MacOS), some resource isn't available (like a
 net connection) or a module isn't available.  In these cases it's
 necessary to skip tests, or declare that they are supposed to fail
 but will work in the future (a todo test).
@@ -961,7 +961,7 @@ sub _format_stack {
     my $out = "Structures begin differing at:\n";
     foreach my $idx (0..$#vals) {
         my $val = $vals[$idx];
-        $vals[$idx] = !defined $val ? 'undef' : 
+        $vals[$idx] = !defined $val ? 'undef' :
                       $val eq $DNE  ? "Does not exist"
                                     : "'$val'";
     }
@@ -1010,7 +1010,7 @@ sub _deep_check {
     my $eq;
     {
         # Quiet uninitialized value warnings when comparing undefs.
-        local $^W = 0; 
+        local $^W = 0;
 
         if( $e1 eq $e2 ) {
             $ok = 1;
@@ -1211,7 +1211,7 @@ Slaymaker, Tony Bowden, chromatic and the perl-qa gang.
 
 Copyright 2001 by Michael G Schwern E<lt>schwern@pobox.comE<gt>.
 
-This program is free software; you can redistribute it and/or 
+This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 See F<http://www.perl.com/perl/misc/Artistic.html>

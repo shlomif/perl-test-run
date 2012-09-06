@@ -43,7 +43,7 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
     );
 
     # TEST
-    $got->field_like("stdout", qr/All tests successful\./, 
+    $got->field_like("stdout", qr/All tests successful\./,
         "With Switches_Env - 'All tests successful.' string as is"
     );
 }
@@ -52,7 +52,7 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
 {
     my $got = Test::Run::Trap::Obj->trap_run(
         {
-            args => 
+            args =>
             [
                 test_files => ["t/sample-tests/with-myhello-and-myfoo"],
                 Switches => $switches_lib2,
@@ -63,7 +63,7 @@ my $switches_lib2 = "-I" . File::Spec->catdir(File::Spec->curdir(), "t", "test-l
 
     # TEST
     $got->field_like("stdout",
-        qr/All tests successful\./, 
+        qr/All tests successful\./,
         "With Switches and Switches_Env - 'All tests successful.' string as is"
     );
 }

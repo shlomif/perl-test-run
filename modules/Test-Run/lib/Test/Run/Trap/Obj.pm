@@ -16,7 +16,7 @@ Test::Run::Trap::Obj - wrapper around Test::Trap for trapping errors.
     $got->field_like("stdout", qr/All tests successful/,
         "Everything is OK."
     );
-    
+
 =head1 DESCRIPTION
 
 This class implements a wrapper around L<Test::Trap>. When an
@@ -36,7 +36,7 @@ use Test::More;
 use Data::Dumper ();
 
 use Text::Sprintf::Named;
-    
+
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
 use Test::Run::Obj;
@@ -99,7 +99,7 @@ sub diag_all
             map { "$_ ===\n{{{{{{\n%($_)s\n}}}}}}\n\n" }
             (@fields))
             }
-        )->format({args => { map { my $name = $_; 
+        )->format({args => { map { my $name = $_;
                         ($name => $self->_stringify_value($name)) }
                     @fields
                 }})
@@ -207,8 +207,8 @@ sub trap_run
 
     trap { $tester->$run_func(); };
 
-    return $class->new({ 
-        ( map { $_ => $trap->$_() } 
+    return $class->new({
+        ( map { $_ => $trap->$_() }
         (qw(stdout stderr die leaveby exit return warn wantarray)))
     });
 }

@@ -5,7 +5,7 @@
 
 use Test::Run::Obj;
 
-my $tester = 
+my $tester =
     Test::Run::Obj->new(
         {
             'test_files' => ["t/sample-tests/head_fail"],

@@ -92,7 +92,7 @@ Returns "??" if the value is undefined or its numeric value otherwise.
 sub get_string_val
 {
     my $self = shift;
-    
+
     return ($self->_is_unknown() ? "??" : $self->_val());
 }
 

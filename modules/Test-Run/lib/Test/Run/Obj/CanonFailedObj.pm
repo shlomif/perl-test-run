@@ -23,7 +23,7 @@ use MRO::Compat;
 use vars qw(@fields);
 
 has 'failed' => (is => "rw", isa => "ArrayRef");
-has '_more_results' => (is => "rw", isa => "ArrayRef", 
+has '_more_results' => (is => "rw", isa => "ArrayRef",
     lazy => 1, default => sub { [] },
 );
 
@@ -91,7 +91,7 @@ sub _calc_Failed_percent_okay
     my ($self, $test) = @_;
 
     return
-        $test->max() 
+        $test->max()
             ? sprintf("%.2f%% okay", 100*(1-$self->failed_num()/$test->max()))
             : "?% okay"
         ;
@@ -105,7 +105,7 @@ sub add_Failed
     my $failed_num = $self->failed_num();
 
     $self->_add_Failed_summary($test);
-    $self->_add_Failed_percent_okay($test);   
+    $self->_add_Failed_percent_okay($test);
 }
 
 =head2 $self->add_skipped($test)
@@ -144,7 +144,7 @@ sub _calc_skipped_percent
 {
     my ($self, $test) = @_;
 
-    return 
+    return
         $test->max()
             ? sprintf("%.2f", 100*($self->good($test)/$test->max()))
             : "?"
@@ -190,7 +190,7 @@ sub canon_list
 {
     my $self = shift;
 
-    return (@{$self->failed()} == 1) 
+    return (@{$self->failed()} == 1)
         ? [ @{$self->failed()} ]
         : $self->_get_canon_ranges()
        ;
@@ -245,7 +245,7 @@ sub _get_failed_string
 
     my $canon = $self->canon_list;
 
-    return 
+    return
         sprintf("FAILED %s %s",
             $self->_list_pluralize("test", $canon),
             join(", ", @$canon)

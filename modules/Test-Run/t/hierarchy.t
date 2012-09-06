@@ -19,7 +19,7 @@ package C;
 
 our @ISA = (qw(B));
 
-package D; 
+package D;
 
 our @ISA = (qw(B));
 

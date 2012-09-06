@@ -92,7 +92,7 @@ package main;
 
     # TEST
     like(
-        $err, 
+        $err,
         qr{\ACan't locate object method},
         "Failed to increment non-existent field.",
     );

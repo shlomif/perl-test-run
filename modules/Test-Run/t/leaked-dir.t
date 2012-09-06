@@ -42,9 +42,9 @@ mkdir($leaked_files_dir, 0777);
 
     my $got = Test::Run::Trap::Obj->trap_run({
             class => "MyTestRun::LeakedCheck",
-            args => 
+            args =>
             [
-                test_files => [$leak_test_file], 
+                test_files => [$leak_test_file],
                 Leaked_Dir => $leaked_files_dir,
             ]
         });

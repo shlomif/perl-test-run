@@ -37,7 +37,7 @@ has 'wstat' => (is => "rw", isa => "Str");
 
 =head2 $self->_defined_percent()
 
-Returns a defined percentage. It returns the percentage or 0 if it is 
+Returns a defined percentage. It returns the percentage or 0 if it is
 undefined.
 
 =cut

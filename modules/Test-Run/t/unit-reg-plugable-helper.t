@@ -86,7 +86,7 @@ package main;
     my $result;
     eval
     {
-        $result = $obj->create_pluggable_helper_obj({id => "unknown"});  
+        $result = $obj->create_pluggable_helper_obj({id => "unknown"});
     };
     my $Err = $@;
 

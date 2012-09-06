@@ -33,7 +33,7 @@ as arguments and checks standard output for the expected strings
 in TAP format.
 
 L<Test::Run::Obj> is an applicative derived class of Test::Run::Core
-that provides a programmer API for running and analyzing the output of TAP 
+that provides a programmer API for running and analyzing the output of TAP
 files. For calling from the command line, look at
 L<Test::Run::CmdLine>.
 
@@ -308,7 +308,7 @@ HARNESS_COMPILE_TEST currently assumes it's run from the Perl source
 directory.
 
 Please use the CPAN bug ticketing system at L<http://rt.cpan.org/>.
-You can also mail bugs, fixes and enhancements to 
+You can also mail bugs, fixes and enhancements to
 C<< <bug-test-harness >> at C<< rt.cpan.org> >>.
 
 
@@ -319,7 +319,7 @@ Copyright 2002-2005
 by Michael G Schwern C<< <schwern at pobox.com> >>,
 Andy Lester C<< <andy at petdance.com> >>.
 
-This program is free software; you can redistribute it and/or 
+This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 See L<http://www.perl.com/perl/misc/Artistic.html>.

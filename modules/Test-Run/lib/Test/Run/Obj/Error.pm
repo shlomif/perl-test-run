@@ -7,7 +7,7 @@ Test::Run::Obj::Error - an error class hierarchy for Test::Run.
 This module provides an error class hieararchy for Test::Run. This is used
 for throwing exceptions that should be handled programatically.
 
-=head1 METHODS 
+=head1 METHODS
 =cut
 
 
@@ -33,7 +33,7 @@ sub _polymorphic_stringify
     return $self->stringify(@_);
 }
 
-use overload 
+use overload
     '""' => \&_polymorphic_stringify,
     'fallback' => 1
     ;
@@ -112,7 +112,7 @@ sub stringify
 {
     my $self = shift;
     return "FAILED--Further testing stopped" .
-        ($self->bailout_reason() ? 
+        ($self->bailout_reason() ?
             (": " . $self->bailout_reason() . "\n") :
             ".\n"
         );

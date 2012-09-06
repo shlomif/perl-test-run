@@ -243,7 +243,7 @@ sub ok {
     }
 
     $Curr_Test++;
-    
+
     $self->diag(<<ERR) if defined $name and $name =~ /^[\d\s]+$/;
     You named your test '$name'.  You shouldn't use numbers for your test names.
     Very confusing.
@@ -282,7 +282,7 @@ ERR
     unless( $test ) {
         my $msg = $todo ? "Failed (TODO)" : "Failed";
         $self->diag("    $msg test ($file at line $line)\n");
-    } 
+    }
 
     return $test ? 1 : 0;
 }
@@ -359,7 +359,7 @@ sub _is_diag {
     expected: %s
 DIAGNOSTIC
 
-}    
+}
 
 =item B<isnt_eq>
 
@@ -521,7 +521,7 @@ sub cmp_ok {
 
 sub _cmp_diag {
     my($self, $got, $type, $expect) = @_;
-    
+
     $got    = defined $got    ? "'$got'"    : 'undef';
     $expect = defined $expect ? "'$expect'" : 'undef';
     $self->diag(sprintf <<DIAGNOSTIC, $got, $type, $expect);
@@ -875,7 +875,7 @@ sub _new_fh {
     my $fh;
     unless( UNIVERSAL::isa($file_or_fh, 'GLOB') ) {
         $fh = do { local *FH };
-        open $fh, ">$file_or_fh" or 
+        open $fh, ">$file_or_fh" or
             die "Can't open test output log $file_or_fh: $!";
     }
     else {
@@ -967,7 +967,7 @@ sub summary {
 
 Like summary(), but with a lot more detail.
 
-    $tests[$test_num - 1] = 
+    $tests[$test_num - 1] =
             { ok         => is the test considered ok?
               actual_ok  => did it literally say 'ok'?
               name       => name of the test (if any)
@@ -1018,7 +1018,7 @@ Like the normal caller(), except it reports according to your level().
 sub caller {
     my($self, $height) = @_;
     $height ||= 0;
-    
+
     my @caller = CORE::caller($self->level + $height + 1);
     return wantarray ? @caller : $caller[0];
 }
@@ -1044,7 +1044,7 @@ error message.
 #'#
 sub _sanity_check {
     _whoa($Curr_Test < 0,  'Says here you ran a negative number of tests!');
-    _whoa(!$Have_Plan and $Curr_Test, 
+    _whoa(!$Have_Plan and $Curr_Test,
           'Somehow your tests ran without a plan!');
     _whoa($Curr_Test != @Test_Results,
           'Somehow you got a different number of results than tests ran!');
@@ -1184,7 +1184,7 @@ E<lt>schwern@pobox.comE<gt>
 Copyright 2001 by chromatic E<lt>chromatic@wgz.orgE<gt>,
                   Michael G Schwern E<lt>schwern@pobox.comE<gt>.
 
-This program is free software; you can redistribute it and/or 
+This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 See F<http://www.perl.com/perl/misc/Artistic.html>

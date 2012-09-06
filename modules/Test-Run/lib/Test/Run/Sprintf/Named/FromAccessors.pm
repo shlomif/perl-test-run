@@ -24,7 +24,7 @@ values of accessors.
     my $person2 = Person->new(name => "Rachel", age => 30);
 
     my $msg2 = $formatter->format({args => { obj => $person2 }});
-    
+
 =head1 DESCRIPTION
 
 This module is a sub-class of L<Text::Sprintf::Named> where the variables
@@ -88,7 +88,7 @@ This file is licensed under the MIT X11 License:
 
 http://www.opensource.org/licenses/mit-license.php
 
-=head1 SEE ALSO 
+=head1 SEE ALSO
 
 L<Text::Sprintf::Named> , L<Test::Run>
 

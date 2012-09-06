@@ -221,7 +221,7 @@ sub get_dubious_summary_main_obj_method
 {
     my $self = shift;
 
-    return 
+    return
         $self->max()
             ? ($self->all_succesful()
                 ? "_get_dubious_summary_all_subtests_successful"
@@ -243,7 +243,7 @@ sub get_failed_obj_params
 
     return
         [
-            max => ($self->max() 
+            max => ($self->max()
                 ? Test::Run::Obj::IntOrUnknown->create_int($self->max())
                 : Test::Run::Obj::IntOrUnknown->create_unknown()
             ),

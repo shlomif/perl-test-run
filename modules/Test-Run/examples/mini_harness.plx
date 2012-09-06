@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
-# This is an example of how to write your own harness using 
-# Test::Harness::Straps.  It duplicates most of the features of 
+# This is an example of how to write your own harness using
+# Test::Harness::Straps.  It duplicates most of the features of
 # Test::Harness.
 #
 # It uses an undocumented, experimental

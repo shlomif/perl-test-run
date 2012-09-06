@@ -9,7 +9,7 @@ use Test::Run::Base;
 
 extends('Test::Run::Base');
 
-has '_tp_result' => 
+has '_tp_result' =>
 (
     is => "rw",
     isa => "Maybe[TAP::Parser::Result]",
@@ -40,7 +40,7 @@ which delegates to its methods and has its own methods.
 
 =head1 DESCRIPTION
 
-L<TAP::Parser>'s C<next()> method returns a sub-class of 
+L<TAP::Parser>'s C<next()> method returns a sub-class of
 L<TAP::Parser::Result>. However, we need to define our own methods
 on such objects. Since we cannot inherit from all the sub-classes, we
 have created this class which holds an instance of the actual events,

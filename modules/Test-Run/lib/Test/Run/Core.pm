@@ -49,7 +49,7 @@ END
 }
 
 has "_bonusmsg" => (is => "rw", isa => "Str");
-has "dir_files" => (is => "rw", isa => "ArrayRef", lazy => 1, 
+has "dir_files" => (is => "rw", isa => "ArrayRef", lazy => 1,
     default => sub { [] },
 );
 has "_new_dir_files" => (is => "rw", isa => "Maybe[ArrayRef]");
@@ -61,7 +61,7 @@ has "last_test_results" => (is => "rw", isa => "Test::Run::Straps::StrapsTotalsO
 has "list_len" => (is => "rw", isa => "Num", default => 0);
 has "max_namelen" => (is => "rw", isa => "Num");
 
-# I don't know for sure what output is. It is Test::Run::Output in 
+# I don't know for sure what output is. It is Test::Run::Output in
 # Test::Run::Plugin::CmdLine::Output but could be different elsewhere.
 has "output" => (is => "rw", isa => "Ref");
 has "_start_time" => (is => "rw", isa => "Num");
@@ -79,7 +79,7 @@ has "NoTty" => (is => "rw", isa => "Bool");
 has "Switches" => (is => "rw", isa => "Maybe[Str]", default => "-w",);
 has "Switches_Env" => (is => "rw", isa => "Maybe[Str]");
 has "test_files" => (is => "rw", isa => "ArrayRef");
-has "test_files_data" => (is => "rw", isa => "HashRef", 
+has "test_files_data" => (is => "rw", isa => "HashRef",
     default => sub { +{} },
 );
 has "Test_Interpreter" => (is => "rw", isa => "Maybe[Str]");
@@ -184,7 +184,7 @@ C<'test_files'> argument):
         }
     );
 
-Alternatively, before C<runtests()> is called, they can be set by passing a 
+Alternatively, before C<runtests()> is called, they can be set by passing a
 value to their accessor:
 
     $tester->Verbose(1);
@@ -193,7 +193,7 @@ value to their accessor:
 
 =item C<$self-E<gt>Verbose()>
 
-The object variable C<$self-E<gt>Verbose()> can be used to let C<runtests()> 
+The object variable C<$self-E<gt>Verbose()> can be used to let C<runtests()>
 display the standard output of the script without altering the behavior
 otherwise.  The F<runprove> utility's C<-v> flag will set this.
 
@@ -205,10 +205,10 @@ test whether new files appeared in that directory, and report them as
   LEAKED FILES: scr.tmp 0 my.db
 
 If relative, directory name is with respect to the current directory at
-the moment C<$tester-E<gt>runtests()> was called.  Putting the absolute path 
+the moment C<$tester-E<gt>runtests()> was called.  Putting the absolute path
 into C<Leaked_Dir> will give more predictable results.
 
-=item C<$self-E<gt>Debug()> 
+=item C<$self-E<gt>Debug()>
 
 If C<$self-E<gt>Debug()> is true, Test::Run will print debugging information
 about itself as it runs the tests.  This is different from
@@ -244,7 +244,7 @@ These two values will be prepended to the switches used to invoke perl on
 each test.  For example, setting one of them to C<-W> will
 run all tests with all warnings enabled.
 
-The difference between them is that C<Switches_Env()> is expected to be 
+The difference between them is that C<Switches_Env()> is expected to be
 filled in by the environment and C<Switches()> from other sources (like the
 programmer).
 
@@ -282,7 +282,7 @@ Arguments are:
 
 =over 4
 
-=item * test_struct 
+=item * test_struct
 
 The test struct as returned by straps.
 
@@ -325,11 +325,11 @@ sub _recheck_dir_files
 sub _calc_leaked_files_since_last_update
 {
     my $self = shift;
-   
+
     my %found;
 
     @found{@{$self->_new_dir_files()}} = (1) x @{$self->_new_dir_files()};
-    
+
     delete(@found{@{$self->dir_files()}});
 
     return [sort keys(%found)];
@@ -340,9 +340,9 @@ sub _real_recheck_dir_files
     my $self = shift;
 
     $self->_new_dir_files($self->_get_dir_files());
-    
+
     $self->_report_leaked_files(
-        { 
+        {
             leaked_files => $self->_calc_leaked_files_since_last_update()
         }
     );
@@ -553,7 +553,7 @@ sub _get_dir_files
 
 sub _calc_strap_callback_map
 {
-    return 
+    return
     {
         "tap_event"        => "_tap_event_strap_callback",
         "report_start_env" => "_report_script_start_environment",
@@ -566,7 +566,7 @@ sub _calc_strap_callback_map
 sub _strap_callback
 {
     my ($self, $args) = @_;
-    
+
     my $type = $args->{type};
     my $cb = $self->_calc_strap_callback_map()->{$type};
 
@@ -850,7 +850,7 @@ sub _canonfailed_get_failed
 
 =head2 $self->_calc_test_struct_ml($results)
 
-Calculates the ml(). (See L<Test::Run::Output>) for the test. 
+Calculates the ml(). (See L<Test::Run::Output>) for the test.
 
 =cut
 
@@ -866,11 +866,11 @@ sub _calc_last_test_obj_params
     my $self = shift;
 
     my $results = $self->last_test_results;
-    
-    return 
+
+    return
     [
         (
-            map { $_ => $results->$_(), } 
+            map { $_ => $results->$_(), }
             (qw(bonus max ok skip_reason skip_all))
         ),
         skipped => $results->skip(),
@@ -913,7 +913,7 @@ sub _calc_test_struct
     my $results = $self->last_test_results;
 
     $self->_tot_add_results($results);
-    
+
     return $self->last_test_obj(
         $self->_create_test_obj_instance(
             {
@@ -982,7 +982,7 @@ sub _get_filename_map_max_len
 
     return $self->_max_len(
         [ map { $self->$cb($self->_get_test_file_display_path($_)) }
-          @{$self->test_files()} 
+          @{$self->test_files()}
         ]
     );
 }
@@ -1033,8 +1033,8 @@ sub _calc_failed_before_any_test_obj
 
     return $self->_create_failed_obj_instance(
         {
-            (map 
-                { $_ => Test::Run::Obj::IntOrUnknown->create_unknown() } 
+            (map
+                { $_ => Test::Run::Obj::IntOrUnknown->create_unknown() }
                 qw(max failed)
             ),
             canon => "??",
@@ -1156,8 +1156,8 @@ sub _get_runtests_error_text
 {
     my $self = shift;
     my $error = shift;
-    
-    return 
+
+    return
         ($self->_is_error_object($error)
             ? $error->stringify()
             : $error
@@ -1311,7 +1311,7 @@ sub _calc__run_single_test__callbacks
         _time_single_test
         _calc_test_struct
         _process_test_file_results
-        _recheck_dir_files    
+        _recheck_dir_files
     )];
 }
 
@@ -1328,7 +1328,7 @@ sub _list_tests_as_failures
 {
     my $self = shift;
 
-    return 
+    return
         $self->last_test_obj->list_tests_as_failures(
             $self->last_test_results->details()
         );
@@ -1338,7 +1338,7 @@ sub _process_test_file_results
 {
     my ($self) = @_;
 
-    if ($self->_is_test_passing()) 
+    if ($self->_is_test_passing())
     {
         $self->_handle_passing_test();
     }
@@ -1513,7 +1513,7 @@ sub _get_failed_with_results_seen_params
 {
     my ($self) = @_;
 
-    return 
+    return
         {
             @{$self->_get_common_FWRS_params()},
             @{$self->_get_FWRS_tests_existence_params()},
@@ -1556,7 +1556,7 @@ sub _add_to_failed_tests
 {
     my $self = shift;
 
-    $self->failed_tests()->{$self->_get_last_test_filename()} = 
+    $self->failed_tests()->{$self->_get_last_test_filename()} =
         $self->_get_failed_struct();
 
     return;
@@ -1732,7 +1732,7 @@ sub _calc_len_subtraction
 {
     my ($self, $field) = @_;
 
-    return $self->format_columns() 
+    return $self->format_columns()
          - $self->_get_fmt_mid_str_len()
          - $self->$field()
          ;
@@ -1780,7 +1780,7 @@ sub _calc_fmt_list_len
 
     if ($self->list_len() < $self->_get_fmt_list_str_len()) {
         $self->_calc_updated_lens();
-        if ($self->max_namelen() < $self->_get_format_failed_str_len()) 
+        if ($self->max_namelen() < $self->_get_format_failed_str_len())
         {
             $self->_calc_more_updated_lens();
         }
@@ -1794,7 +1794,7 @@ sub _calc_format_widths
     my $self = shift;
 
     $self->_calc_initial_max_namelen();
-    
+
     $self->_calc_fmt_list_len();
 
     return;
@@ -1907,8 +1907,8 @@ Should start the report for the C<test_file> file.
 
 [This is a method that needs to be over-rided.]
 
-Reports the C<$event_handle> event to channel C<$channel>. This should be 
-overrided by derived classes to do alternate functionality besides calling 
+Reports the C<$event_handle> event to channel C<$channel>. This should be
+overrided by derived classes to do alternate functionality besides calling
 output()->print_message(), also different based on the channel.
 
 Currently available channels are:
@@ -1921,7 +1921,7 @@ The success report.
 
 =back
 
-An event is a hash ref that should contain a 'type' property. Currently 
+An event is a hash ref that should contain a 'type' property. Currently
 supported types are:
 
 =over 4
@@ -2062,7 +2062,7 @@ Test::Harness was then maintained by Andy Lester C<< <andy at petdance.com> >>.
 
 Shlomi Fish C<< <shlomif@iglu.org.il> >>
 
-Note: this file is a rewrite of the original Test::Run code in order to 
+Note: this file is a rewrite of the original Test::Run code in order to
 change to a more liberal license.
 
 =head1 BUGS

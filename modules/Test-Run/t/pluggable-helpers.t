@@ -31,7 +31,7 @@ sub _my_plugin_collector
 {
     return
     [
-        "MyTestRun::Plug::P::One", 
+        "MyTestRun::Plug::P::One",
         "MyTestRun::Plug::P::Two",
     ];
 }
@@ -53,7 +53,7 @@ use lib "./t/lib";
     my $obj = $main_obj->create_pluggable_helper_obj(
         {
             id => "myplug",
-            args => 
+            args =>
             {
                 first => "Aharon",
                 'last' => "Smith",

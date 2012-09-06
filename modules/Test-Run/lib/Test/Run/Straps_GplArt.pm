@@ -10,8 +10,8 @@ Test::Run::Straps - detailed analysis of test results
 
 =head1 WARNING
 
-This module contains nothing but old (and possibly out of date) documentation. 
-All the code-wise functionality was moved to the MIT X11-licensed 
+This module contains nothing but old (and possibly out of date) documentation.
+All the code-wise functionality was moved to the MIT X11-licensed
 L<Test::Run::Straps> and other modules.
 
 Don't use this module, but you may wish to consult its documentation for
@@ -69,7 +69,7 @@ Methods for identifying what sort of line you're looking at.
 The C<%results> returned from C<analyze()> contain the following
 information:
 
-  passing           true if the whole test is considered a pass 
+  passing           true if the whole test is considered a pass
                     (or skipped), false if its a failure
 
   exit              the exit code of the test run, if from a file
@@ -77,14 +77,14 @@ information:
 
   max               total tests which should have been run
   seen              total tests actually seen
-  skip_all          if the whole test was skipped, this will 
+  skip_all          if the whole test was skipped, this will
                       contain the reason.
 
-  ok                number of tests which passed 
+  ok                number of tests which passed
                       (including todo and skips)
 
   todo              number of todo tests seen
-  bonus             number of todo tests which 
+  bonus             number of todo tests which
                       unexpectedly passed
 
   skip              number of tests skipped
@@ -94,10 +94,10 @@ So a successful test should have max == seen == ok.
 
 There is one final item, the details.
 
-  details           an array ref reporting the result of 
+  details           an array ref reporting the result of
                     each test looks like this:
 
-    $results{details}[$test_num - 1] = 
+    $results{details}[$test_num - 1] =
             { ok          => is the test considered ok?
               actual_ok   => did it literally say 'ok'?
               name        => name of the test (if any)
@@ -118,7 +118,7 @@ See F<examples/mini_harness.plx> for an example of use.
 Michael G Schwern C<< <schwern@pobox.com> >>, later maintained by
 Andy Lester C<< <andy@petdance.com> >>.
 
-Converted to Test::Run::Straps by Shlomi Fish 
+Converted to Test::Run::Straps by Shlomi Fish
 C<< <shlomif@iglu.org.il> >>.
 
 =head1 LICENSE

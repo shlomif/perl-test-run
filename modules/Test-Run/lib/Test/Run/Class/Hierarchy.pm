@@ -70,7 +70,7 @@ sub hierarchy_of
             {
                   $a->isa($b) ? -1
                 : $b->isa($a) ? +1
-                :               0 
+                :               0
             }
             @unique
         ];

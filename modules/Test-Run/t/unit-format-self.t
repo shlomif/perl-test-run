@@ -24,6 +24,6 @@ package main;
         ),
         "Hello Sophie! Welcome to Israel!",
         "_format_self works fine with extra args."
-    );      
+    );
 }
 

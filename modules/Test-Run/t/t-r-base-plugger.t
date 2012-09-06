@@ -21,7 +21,7 @@ use lib "./t/lib";
 
     $plugger->add_plugins(
         [
-            "MyTestRun::Plug::P::One", 
+            "MyTestRun::Plug::P::One",
             "MyTestRun::Plug::P::Two"
         ]
     );
@@ -71,8 +71,8 @@ use lib "./t/lib";
 
     # TEST
     like (
-        $err, 
-        qr{Global symbol "\$x".*?Compilation failed}ms, 
+        $err,
+        qr{Global symbol "\$x".*?Compilation failed}ms,
         "An exception was thrown (by require)."
     );
 }

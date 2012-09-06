@@ -174,7 +174,7 @@ sub _mk_leader__calc_ml
 
 Generates the 't/foo........' leader for the given C<$test_file> as well
 as a similar version which will overwrite the current line (by use of
-\r and such).  C<$ml> may be empty if Test::Run doesn't think 
+\r and such).  C<$ml> may be empty if Test::Run doesn't think
 you're on TTY.
 
 The C<$width> is the width of the "yada/blah.." string.

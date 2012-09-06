@@ -27,7 +27,7 @@ $tester->runtests();
     my $err = $@;
 
     # TEST
-    like ($err, qr{\$ok is mutually exclusive}, 
+    like ($err, qr{\$ok is mutually exclusive},
         "Got the right error."
     );
 }

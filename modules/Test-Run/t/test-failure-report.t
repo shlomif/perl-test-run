@@ -20,13 +20,13 @@ my $IsVMS     = $^O eq 'VMS';
 
 # VMS uses native, not POSIX, exit codes.
 # MacPerl's exit codes are broken.
-my $die_estat = $IsVMS     ? 44 : 
+my $die_estat = $IsVMS     ? 44 :
                 $IsMacPerl ? 0  :
                              1;
 
 use Test::Run::Obj;
 
-{      
+{
     my $got = Test::Run::Trap::Obj->trap_run(
         {
             args => [ test_files => ["t/sample-tests/simple_fail"], ],
@@ -42,7 +42,7 @@ t/sample-tests/simple_fail                5    2  40.00%  2 5
 EOF
 
     # TEST
-    $got->field_is("stdout", $right_text, 
+    $got->field_is("stdout", $right_text,
         "simple_fail (only) - Right failure text"
     );
 }
@@ -51,7 +51,7 @@ EOF
 {
     my $tester = Test::Run::Trap::Obj->trap_run(
         {
-            args => 
+            args =>
             [
                 test_files => ["t/sample-tests/simple_fail"],
                 Columns => 100,
@@ -67,11 +67,11 @@ Failed Test                Stat Wstat Total Fail  Failed  List of Failed
 t/sample-tests/simple_fail                5    2  40.00%  2 5
 EOF
     # TEST
-    $tester->field_is("stdout", $right_text, 
+    $tester->field_is("stdout", $right_text,
         "simple_fail's right output with Columns == 100");
 }
 
-{       
+{
     my $tester = Test::Run::Trap::Obj->trap_run(
         {
             args =>
@@ -92,7 +92,7 @@ t/sample-tests/test_more_fail.t    1   256     1    1 100.00%  1
 EOF
 
     # TEST
-    $tester->field_is("stdout", $right_text, 
+    $tester->field_is("stdout", $right_text,
         "Right output with a Test::More generated failure"
     );
 }
