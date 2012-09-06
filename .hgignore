@@ -34,6 +34,9 @@ modules/Test-Run-Plugin-ColorSummary/MYMETA.yml
 modules/Test-Run-Plugin-ColorSummary/_build
 modules/Test-Run-Plugin-ColorSummary/blib
 modules/Test-Run-Plugin-FailSummaryComponents/Build
+modules/Test-Run-Plugin-FailSummaryComponents/Makefile.PL
+modules/Test-Run-Plugin-FailSummaryComponents/META.json
+modules/Test-Run-Plugin-FailSummaryComponents/META.yml
 modules/Test-Run-Plugin-FailSummaryComponents/MYMETA.json
 modules/Test-Run-Plugin-FailSummaryComponents/MYMETA.yml
 modules/Test-Run-Plugin-FailSummaryComponents/_build
@@ -51,4 +54,3 @@ modules/Test-Run/_build
 modules/Test-Run/blib
 modules/Test-Run/META.json
 modules/Test-Run/META.yml
-
