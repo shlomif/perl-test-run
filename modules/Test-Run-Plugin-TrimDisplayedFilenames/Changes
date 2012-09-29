@@ -1,5 +1,6 @@
 Revision history for Test::Run::Plugin::TrimDisplaysFilenames
 
+0.0123    Sat 29 Sep 08:25:49 IST 2012
         - Remove a stray "END:" label in one of the tests that causes
         breakages in some perl versions:
             - http://www.cpantesters.org/cpan/report/0597188c-09a9-11e2-8e23-9a24f233959e
