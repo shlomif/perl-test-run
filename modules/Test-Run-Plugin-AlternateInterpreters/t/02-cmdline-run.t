@@ -104,6 +104,3 @@ my $config_file = Cwd::abs_path($_config_file_rel);
         );
     }
 }
-
-END:
-

@@ -1,5 +1,9 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+        * Remove a stray "END:" label in one of the tests, which caused
+        the tests to break on some perl versions:
+            - http://www.cpantesters.org/cpan/report/1006fb2a-09a9-11e2-8e23-9a24f233959e
+
 0.0121  Tue Feb  9 20:34:01 IST 2010
         * Remove _get_simple_params and _get_private_simple_params.
             - they seem to be unused.
