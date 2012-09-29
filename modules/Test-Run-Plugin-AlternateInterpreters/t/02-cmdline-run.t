@@ -42,7 +42,7 @@ my $config_file = Cwd::abs_path($_config_file_rel);
 
 {
     local %ENV = %ENV;
-    
+
     $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
@@ -58,16 +58,16 @@ my $config_file = Cwd::abs_path($_config_file_rel);
     delete($ENV{'HARNESS_ALT_INTRP_FILE'});
 
     $ENV{'HARNESS_PLUGINS'} = "AlternateInterpreters";
-    
+
     {
         local $ENV{'HARNESS_ALT_INTRP_FILE'} = $config_file;
 
         my $yaml_data =
         [
             {
-                cmd => 
+                cmd =>
                 ("$^X " . File::Spec->catfile(
-                    File::Spec->curdir(), "t", "data", 
+                    File::Spec->curdir(), "t", "data",
                     "interpreters", "mini-ok.pl"
                     ) . " "
                 ),
@@ -75,9 +75,9 @@ my $config_file = Cwd::abs_path($_config_file_rel);
                 pattern => '\.mok(?:\.cat)?\z',
             },
             {
-                cmd => 
+                cmd =>
                 ("$^X " . File::Spec->catfile(
-                    File::Spec->curdir(), "t", "data", 
+                    File::Spec->curdir(), "t", "data",
                     "interpreters", "cat.pl"
                     ) . " "
                 ),
@@ -90,7 +90,7 @@ my $config_file = Cwd::abs_path($_config_file_rel);
 
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
-                cmdline => 
+                cmdline =>
                 [
                     $suc2_mok_file,$suc1_cat_file, $one_ok_file,
                     $suc1_mok_file
@@ -99,7 +99,7 @@ my $config_file = Cwd::abs_path($_config_file_rel);
         );
 
         # TEST
-        $got->field_like("stdout", qr/All tests successful\./, 
+        $got->field_like("stdout", qr/All tests successful\./,
             "All tests were successful with the new interpreters"
         );
     }

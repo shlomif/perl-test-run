@@ -5,14 +5,14 @@ use warnings;
 
 =head1 NAME
 
-Test::Run::CmdLine::Plugin::AlternateInterpreters - Use configurable 
+Test::Run::CmdLine::Plugin::AlternateInterpreters - Use configurable
 alternate interpreters to run the tests.
 
 =head1 DESCRIPTION
 
 This is a L<Test::Run::CmdLine> plugin that allows enabling alternate
 interpreters. One can specify them by setting the C<'HARNESS_ALT_INTRP_FILE'>
-environment variable to the path to a YAML configuration file which lists the 
+environment variable to the path to a YAML configuration file which lists the
 interpreters and their regular expressions. A sample one is:
 
     ---
@@ -31,7 +31,7 @@ our $VERSION = '0.0121';
 
 =head2 $self->private_backend_plugins()
 
-Returns the Backend Plugins as specified by this plugin. See 
+Returns the Backend Plugins as specified by this plugin. See
 L<Test::Run::CmdLine> for more information.
 
 =cut

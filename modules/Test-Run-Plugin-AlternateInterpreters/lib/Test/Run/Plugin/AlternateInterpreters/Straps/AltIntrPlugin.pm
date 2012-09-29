@@ -10,7 +10,7 @@ for Test::Run::Straps to handle the alternative interpreters.
 
 =head1 DESCRIPTION
 
-This is a plugin for Test::Run::Straps to handle the alternative 
+This is a plugin for Test::Run::Straps to handle the alternative
 interpreters.
 
 =cut
@@ -29,7 +29,7 @@ sub _get_command_and_switches
     my $self = shift;
 
     my $test_file = $self->file();
-    
+
     if (defined(my $interpreters_ref = $self->alternate_interpreters()))
     {
         foreach my $i_ref (@$interpreters_ref)
