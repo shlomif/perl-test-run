@@ -1,5 +1,9 @@
 Revision history for Test::Run::Plugin::TrimDisplaysFilenames
 
+        - Remove a stray "END:" label in one of the tests that causes
+        breakages in some perl versions:
+            - http://www.cpantesters.org/cpan/report/0597188c-09a9-11e2-8e23-9a24f233959e
+
 0.0122    Tue Feb  9 21:06:23 IST 2010
         - Remove _get_simple_params and _get_private_simple_params.
             - they seem to be unused.

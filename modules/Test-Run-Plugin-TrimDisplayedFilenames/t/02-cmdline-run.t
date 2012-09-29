@@ -67,5 +67,3 @@ my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
     }
 }
 
-END:
-
