@@ -106,3 +106,4 @@ beb109761301e80fd39c948fc15127fe746e4868 releases/0.0123
 924945cab66792aec1ec590714cd7be6f8cd9e34 releases/modules/Test-Run-CmdLine/0.0124
 74652569f05b691608411e58a36ef4ba900654e0 releases/modules/Test-Run-CmdLine/0.0125
 0e9342fdca249c24c42cd1a7f910edf74c1002b9 releases/modules/plugins/backend/Test-Run-Plugin-AlternateInterpreters/0.0122
+cf0712b25a7d0fb12798cd23c8407c786ca23969 releases/modules/plugins/backend/Test-Run-Plugin-TrimDisplayedFilenames/0.0123
