@@ -13,6 +13,9 @@ modules/Test-Run-TAP-Model/Build
 modules/Test-Run-TAP-Model/MYMETA.json
 modules/Test-Run-TAP-Model/MYMETA.yml
 modules/Test-Run-Plugin-AlternateInterpreters/Build
+modules/Test-Run-Plugin-AlternateInterpreters/Makefile.PL
+modules/Test-Run-Plugin-AlternateInterpreters/META.json
+modules/Test-Run-Plugin-AlternateInterpreters/META.yml
 modules/Test-Run-Plugin-AlternateInterpreters/MYMETA.json
 modules/Test-Run-Plugin-AlternateInterpreters/MYMETA.yml
 modules/Test-Run-Plugin-AlternateInterpreters/_build
