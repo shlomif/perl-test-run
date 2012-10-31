@@ -10,12 +10,12 @@ Plugins
 
 =cut
 
-our $VERSION = '0.0100';
+our $VERSION = '0.0101';
 
 =head1 DESCRIPTION
 
 Test::Run ( L<http://web-cpan.berlios.de/modules/Test-Run/> ) is an improved
-harness for running test files based on the "Test Anything Protocol" 
+harness for running test files based on the "Test Anything Protocol"
 (TAP - L<http://testanything.org/> ), which is commonly used for writing tests
 for Perl code, but is otherwise universal.
 
@@ -38,7 +38,7 @@ Or if you wish to use the Alternate Interpreters plugin as well to:
 
     export HARNESS_PLUGINS="ColorSummary ColorFileVerdicts AlternateInterpreters"
 
-Then you can use runprove to run and analyze TAP scripts (like CPAN 
+Then you can use runprove to run and analyze TAP scripts (like CPAN
 modules t/*.t files) from the command line:
 
     runprove t/*.t
@@ -80,9 +80,14 @@ L<http://cpanratings.perl.org/d/Task-Latemp>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Task-Latemp>
 
+=item * MetaCPAN
+
+L<http://metacpan.org/release/Task-Test-Run-AllPlugins>
+
+
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Task-Latemp>
+L<http://search.cpan.org/dist/Task-Test-Run-AllPlugins>
 
 =back
 
@@ -102,4 +107,4 @@ This program is released under the following license: bsd
 
 =cut
 
-1; # End of Task::Latemp
+1; # End of Task::Test::Run::AllPlugins
