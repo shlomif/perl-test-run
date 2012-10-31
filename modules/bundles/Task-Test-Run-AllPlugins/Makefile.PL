@@ -8,7 +8,7 @@ WriteMakefile(
     VERSION_FROM        => 'lib/Task/Test/Run/AllPlugins.pm',
     ABSTRACT_FROM       => 'lib/Task/Test/Run/AllPlugins.pm',
     PL_FILES            => {},
-    PREREQ_PM => 
+    PREREQ_PM =>
     {
         'Test::Run::Core' => 0,
         'Test::Run::CmdLine' => 0,
