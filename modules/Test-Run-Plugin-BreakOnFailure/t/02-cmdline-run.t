@@ -81,5 +81,3 @@ my $fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
     }
 }
 
-END:
-
