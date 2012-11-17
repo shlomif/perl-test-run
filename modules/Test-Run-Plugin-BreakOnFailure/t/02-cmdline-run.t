@@ -26,7 +26,7 @@ my $fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
 
 {
     local %ENV = %ENV;
-    
+
     $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
@@ -43,11 +43,11 @@ my $fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
     delete($ENV{'HARNESS_BREAK'});
 
     $ENV{'HARNESS_PLUGINS'} = "BreakOnFailure";
-    
+
     {
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
-                cmdline => 
+                cmdline =>
                 [
                     $fail_file,
                     $one_ok_file,
@@ -56,7 +56,7 @@ my $fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
         );
 
         # TEST
-        $got->field_like("stdout", qr/one-ok/, 
+        $got->field_like("stdout", qr/one-ok/,
             "Test not skipped upon unset HARNESS_BREAK"
         );
     }
@@ -66,7 +66,7 @@ my $fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
 
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
-                cmdline => 
+                cmdline =>
                 [
                     $fail_file,
                     $one_ok_file,
@@ -75,7 +75,7 @@ my $fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
         );
 
         # TEST
-        $got->field_unlike("stdout", qr/one-ok/, 
+        $got->field_unlike("stdout", qr/one-ok/,
             "Test breaks on failure upon HARNESS_BREAK."
         );
     }

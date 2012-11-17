@@ -11,7 +11,7 @@ Test::Run::CmdLine::Plugin::BreakOnFailure - break on the first test failure.
 
 This is a L<Test::Run::CmdLine> plugin that terminates the test suite after
 the first failing test script. This way, you can know more quickly in case
-something went wrong. 
+something went wrong.
 
 To enable, add C<BreakOnFailure> to the C<HARNESS_PLUGINS> environment
 variable and set the C<HARNESS_BREAK> environment variable to a true value.
@@ -24,7 +24,7 @@ our $VERSION = '0.0.1';
 
 =head2 $self->private_backend_plugins()
 
-Returns the Backend Plugins as specified by this plugin. See 
+Returns the Backend Plugins as specified by this plugin. See
 L<Test::Run::CmdLine> for more information.
 
 =cut
