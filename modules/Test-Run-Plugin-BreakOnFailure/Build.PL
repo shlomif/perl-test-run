@@ -11,6 +11,9 @@ my $builder = Test::Run::Builder->new(
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
     dist_version_from   => 'lib/Test/Run/Plugin/BreakOnFailure.pm',
+    configure_requires => {
+        'Module::Build' => '0.39',
+    },
     build_requires => {
         'Test::More' => 0,
         'Test::Trap' => 0,

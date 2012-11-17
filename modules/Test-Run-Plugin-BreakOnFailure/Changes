@@ -1,5 +1,6 @@
 Revision history for Test::Run::Plugin::AlternateInterpreters
 
+0.0.2   Sat 17 Nov 11:37:48 IST 2012
         - Add Dist/tag-release.pl to tag a release.
         - Fix the tests on some versions (due to a stray "END:" label):
             - http://www.cpantesters.org/cpan/report/1b2066a2-243b-11e2-b162-b0ec0f99f9b5
