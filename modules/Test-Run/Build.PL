@@ -11,6 +11,7 @@ use Test::Run::Builder;
 
 my $build = Test::Run::Builder->new(
     module_name => "Test::Run",
+    configure_requires => { 'Module::Build' => '0.36', },
     build_requires =>
     {
         "Test::Trap" => 0,
@@ -37,7 +38,7 @@ my $build = Test::Run::Builder->new(
     {
         resources =>
         {
-            repository => "http://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/",
+            repository => "http://bitbucket.org/shlomif/perl-test-run",
             homepage => "http://web-cpan.berlios.de/modules/Test-Run/",
         },
         keywords =>
