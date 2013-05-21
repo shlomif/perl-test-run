@@ -73,3 +73,6 @@ modules/Test-Run/_build
 modules/Test-Run/blib
 modules/Test-Run/META.json
 modules/Test-Run/META.yml
+
+syntax: regexp
+^modules/Test-Run/Test-Run-\d+\.\d+(?:/|\.tar\.gz$)
