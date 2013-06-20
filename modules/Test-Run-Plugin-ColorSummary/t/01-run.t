@@ -25,7 +25,7 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/several-oks.t"
@@ -37,7 +37,7 @@ use Term::ANSIColor;
     my $color = color("bold blue");
 
     # TEST
-    $got->field_like("stdout", qr/\Q${color}\EAll tests successful\./, 
+    $got->field_like("stdout", qr/\Q${color}\EAll tests successful\./,
         "'All tests successful.' string as is"
     );
 }
@@ -48,7 +48,7 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-fail.t",
             ],
@@ -59,7 +59,7 @@ use Term::ANSIColor;
     my $color = color("bold red");
 
     # TEST
-    $got->field_like("die", qr/\Q${color}\EFailed 1\/1 test scripts/, 
+    $got->field_like("die", qr/\Q${color}\EFailed 1\/1 test scripts/,
         qq{Found colored "Failed 1/1" string}
     );
 }
@@ -70,7 +70,7 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-                test_files => 
+                test_files =>
                 [
                     "t/sample-tests/one-ok.t",
                     "t/sample-tests/several-oks.t"
@@ -84,7 +84,7 @@ use Term::ANSIColor;
     my $color = color("green");
 
     # TEST
-    $got->field_like("stdout", qr/\Q${color}\EAll tests successful\./, 
+    $got->field_like("stdout", qr/\Q${color}\EAll tests successful\./,
         "Text is colored green on explicity SummaryColor_success"
     );
 }
@@ -95,7 +95,7 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-                test_files => 
+                test_files =>
                 [
                     "t/sample-tests/one-fail.t",
                 ],
@@ -108,7 +108,7 @@ use Term::ANSIColor;
     my $color = color("yellow");
 
     # TEST
-    $got->field_like("die", qr/\Q${color}\EFailed 1\/1 test scripts/, 
+    $got->field_like("die", qr/\Q${color}\EFailed 1\/1 test scripts/,
         qq{Found colored "Failed 1/1" string with user-specified color}
     );
 }
