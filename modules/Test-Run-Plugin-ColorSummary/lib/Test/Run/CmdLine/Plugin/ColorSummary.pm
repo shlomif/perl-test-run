@@ -13,7 +13,7 @@ our $VERSION = '0.0121';
 
 =head2 $self->private_backend_plugins()
 
-Returns the Backend Plugins as specified by this plugin. See 
+Returns the Backend Plugins as specified by this plugin. See
 L<Test::Run::CmdLine> for more information.
 
 =cut
@@ -27,7 +27,7 @@ sub private_backend_plugins
 
 =head2 $self->private_direct_backend_env_mapping()
 
-Returns the HARNESS_SUMMARY_COL_FAIL and HARNESS_SUMMARY_COL_SUC
+Returns the HARNESS_SUMMARY_COLOR_FAIL and HARNESS_SUMMARY_COLOR_SUCCESS
 environment variables.
 
 =cut
@@ -38,11 +38,11 @@ sub private_direct_backend_env_mapping
     return
     [
         {
-            'env' => "HARNESS_SUMMARY_COL_SUC",
+            'env' => "HARNESS_SUMMARY_COLOR_SUCCESS",
             'arg' => "summary_color_success",
         },
         {
-            'env' => "HARNESS_SUMMARY_COL_FAIL",
+            'env' => "HARNESS_SUMMARY_COLOR_FAIL",
             'arg' => "summary_color_failure",
         },
     ];
@@ -58,11 +58,11 @@ This module accepts the followinge environment variables:
 
 =over 4
 
-=item HARNESS_SUMMARY_COL_SUC
+=item HARNESS_SUMMARY_COLOR_SUCCESS
 
 This specifies the Term::ANSIColor color for the success line.
 
-=item HARNESS_SUMMARY_COL_FAIL
+=item HARNESS_SUMMARY_COLOR_FAIL
 
 This specifies the Term::ANSIColor color for the failure line
 
@@ -110,14 +110,14 @@ L<http://search.cpan.org/dist/Test::Run::CmdLine::Plugin::ColorSummary/>
 
 =head1 SOURCE AVAILABILITY
 
-The latest source of Test::Run::CmdLine::Plugin::ColorSummary is available from the 
+The latest source of Test::Run::CmdLine::Plugin::ColorSummary is available from the
 Test::Run BerliOS Subversion repository:
 
 L<https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/>
 
 =head1 SEE ALSO
 
-L<Test::Run::Obj>, L<Term::ANSIColor>, 
+L<Test::Run::Obj>, L<Term::ANSIColor>,
 L<Test::Run::Plugin::ColorSummary>.
 
 =head1 ACKNOWLEDGEMENTS

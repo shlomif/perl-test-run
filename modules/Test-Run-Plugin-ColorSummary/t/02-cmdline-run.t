@@ -23,7 +23,7 @@ my $one_fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
 
 {
     local %ENV = %ENV;
-    
+
     $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
@@ -36,18 +36,18 @@ my $one_fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
     delete($ENV{'HARNESS_DRIVER'});
     delete($ENV{'HARNESS_PLUGINS'});
     delete($ENV{'PROVE_SWITCHES'});
-    delete($ENV{'HARNESS_SUMMARY_COL_SUC'});
-    delete($ENV{'HARNESS_SUMMARY_COL_FAIL'});
+    delete($ENV{'HARNESS_SUMMARY_COLOR_SUCCESS'});
+    delete($ENV{'HARNESS_SUMMARY_COLOR_FAIL'});
 
     $ENV{'HARNESS_PLUGINS'} = "ColorSummary";
-    
+
     {
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
                 cmdline => [$test_file, $several_oks_file],
             }
         );
-        
+
         my $color = color("bold blue");
 
         # TEST
@@ -66,13 +66,13 @@ my $one_fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
         my $color = color("bold red");
 
         # TEST
-        $got->field_like("stderr", qr/\Q${color}\EFailed 1\/1 test scripts/, 
+        $got->field_like("stderr", qr/\Q${color}\EFailed 1\/1 test scripts/,
             qq{Found colored "Failed 1/1" string}
         );
     }
     {
-        local $ENV{'HARNESS_SUMMARY_COL_SUC'} = "green";
-        local $ENV{'HARNESS_SUMMARY_COL_FAIL'} = "yellow";
+        local $ENV{'HARNESS_SUMMARY_COLOR_SUCCESS'} = "green";
+        local $ENV{'HARNESS_SUMMARY_COLOR_FAIL'} = "yellow";
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
                 cmdline => [$test_file, $several_oks_file],
@@ -83,13 +83,13 @@ my $one_fail_file = File::Spec->catfile($sample_tests_dir, "one-fail.t");
 
         # TEST
         $got->field_like("stdout",
-            qr/\Q${color}\EAll tests successful\./, 
+            qr/\Q${color}\EAll tests successful\./,
             "'All tests successful.' string in user-speced color"
         );
     }
     {
-        local $ENV{'HARNESS_SUMMARY_COL_SUC'} = "green";
-        local $ENV{'HARNESS_SUMMARY_COL_FAIL'} = "yellow";
+        local $ENV{'HARNESS_SUMMARY_COLOR_SUCCESS'} = "green";
+        local $ENV{'HARNESS_SUMMARY_COLOR_FAIL'} = "yellow";
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
                 cmdline => [$one_fail_file],
