@@ -32,7 +32,7 @@ has 'summary_color_success' => (is => "rw", isa => "Str");
 sub _get_failure_summary_color
 {
     my $self = shift;
-    return $self->summary_color_failure() || 
+    return $self->summary_color_failure() ||
         $self->_get_default_failure_summary_color();
 }
 
@@ -44,7 +44,7 @@ sub _get_default_failure_summary_color
 sub _get_success_summary_color
 {
     my $self = shift;
-    return $self->summary_color_success() || 
+    return $self->summary_color_success() ||
         $self->_get_default_success_summary_color();
 }
 
@@ -56,14 +56,14 @@ sub _get_default_success_summary_color
 =head1 SYNOPSIS
 
     package MyTestRun;
-    
+
     use vars qw(@ISA);
 
     @ISA = (qw(Test::Run::Plugin::ColorSummary Test::Run::Obj));
 
     my $tester = MyTestRun->new(
         {
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/several-oks.t"
@@ -85,7 +85,7 @@ conforms to the one specified in L<Term::ANSIColor>.
 =head2 summary_color_failure
 
 This is the color string for coloring the summary line in case of
-failure. The string itself conforms to the one specified 
+failure. The string itself conforms to the one specified
 in L<Term::ANSIColor>.
 
 =head1 FUNCTIONS
@@ -115,7 +115,7 @@ sub _handle_runtests_error_text
 
     STDERR->autoflush();
     $text =~ s{\n\z}{};
-    die color($self->_get_failure_summary_color()).$text.color("reset")."\n";  
+    die color($self->_get_failure_summary_color()).$text.color("reset")."\n";
 }
 
 1;
@@ -162,14 +162,14 @@ L<http://search.cpan.org/dist/Test::Run::Plugin::ColorSummary/>
 
 =head1 SOURCE AVAILABILITY
 
-The latest source of Test::Run::Plugin::ColorSummary is available from the 
+The latest source of Test::Run::Plugin::ColorSummary is available from the
 Test::Run BerliOS Subversion repository:
 
 L<https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/>
 
 =head1 SEE ALSO
 
-L<Test::Run::Obj>, L<Term::ANSIColor>, 
+L<Test::Run::Obj>, L<Term::ANSIColor>,
 L<Test::Run::CmdLine::Plugin::ColorSummary>.
 
 =head1 ACKNOWLEDGEMENTS
