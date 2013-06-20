@@ -109,3 +109,6 @@ beb109761301e80fd39c948fc15127fe746e4868 releases/0.0123
 cf0712b25a7d0fb12798cd23c8407c786ca23969 releases/modules/plugins/backend/Test-Run-Plugin-TrimDisplayedFilenames/0.0123
 1d5143ca07b50de57bd6ae37e5a033227307a967 Task-Test-Run-AllPlugins-0.0101
 ac02e993b9f3188de814716a62d3cf762ded8748 releases/modules/plugins/backend/Test-Run-Plugin-BreakOnFailure/0.0.2
+54af6a49120369334681fae4c8ff020a9f702894 m
+54af6a49120369334681fae4c8ff020a9f702894 Tagging Test-Run-Plugin-ColorSummary as 0.0200
+54af6a49120369334681fae4c8ff020a9f702894 releases/modules/plugins/backend/Test-Run-Plugin-ColorSummary/0.0200
