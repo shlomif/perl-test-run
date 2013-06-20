@@ -9,7 +9,7 @@ Test::Run::CmdLine::Plugin::ColorSummary - Color the summary in Test::Run::CmdLi
 
 =cut
 
-our $VERSION = '0.0121';
+our $VERSION = '0.0200';
 
 =head2 $self->private_backend_plugins()
 

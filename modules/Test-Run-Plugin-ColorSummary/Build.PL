@@ -11,6 +11,10 @@ my $builder = Test::Run::Builder->new(
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/Test/Run/Plugin/ColorSummary.pm',
+    configure_requires =>
+    {
+        'Module::Build' => '0.36',
+    },
     build_requires =>
     {
         'Test::Run::Trap::Obj' => 0,
@@ -25,7 +29,6 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::CmdLine' => '0.0111',
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorSummary-*' ],
-    create_makefile_pl => 'traditional',
 );
 
 $builder->create_build_script();
