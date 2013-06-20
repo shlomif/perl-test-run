@@ -47,6 +47,8 @@ modules/Test-Run-Plugin-ColorFileVerdicts/blib
 modules/Test-Run-Plugin-ColorSummary/Build
 modules/Test-Run-Plugin-ColorSummary/MYMETA.json
 modules/Test-Run-Plugin-ColorSummary/MYMETA.yml
+modules/Test-Run-Plugin-ColorSummary/META.json
+modules/Test-Run-Plugin-ColorSummary/META.yml
 modules/Test-Run-Plugin-ColorSummary/_build
 modules/Test-Run-Plugin-ColorSummary/blib
 modules/Test-Run-Plugin-FailSummaryComponents/Build
@@ -76,3 +78,4 @@ modules/Test-Run/META.yml
 
 syntax: regexp
 ^modules/Test-Run/Test-Run-\d+\.\d+(?:/|\.tar\.gz$)
+^modules/Test-Run-Plugin-ColorSummary/Test-Run-Plugin-ColorSummary-\d+\.\d+(?:/|\.tar\.gz$)
