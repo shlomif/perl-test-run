@@ -14,6 +14,7 @@ t/00-load.t
 t/01-run.t
 t/02-cmdline-run.t
 t/boilerplate.t
+t/cpan-changes.t
 t/data/config-files/placeholder
 t/data/interpreters/cat.pl
 t/data/interpreters/mini-ok.pl
@@ -25,3 +26,4 @@ t/sample-tests/several-oks.t
 t/sample-tests/success1.cat
 t/sample-tests/success1.mok
 t/sample-tests/success2.mok.cat
+t/style-trailing-space.t

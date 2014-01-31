@@ -26,7 +26,7 @@ use Test::More tests => 2;
             class => "MyTestRun",
             args =>
             [
-                test_files => 
+                test_files =>
                 [
                     "t/sample-tests/success1.cat",
                     "t/sample-tests/one-ok.t"
@@ -34,9 +34,9 @@ use Test::More tests => 2;
                 alternate_interpreters =>
                 [
                     {
-                        cmd => 
+                        cmd =>
                         ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
+                            File::Spec->curdir(), "t", "data",
                             "interpreters", "cat.pl"
                             ) . " "
                         ),
@@ -49,7 +49,7 @@ use Test::More tests => 2;
         );
 
     # TEST
-    $got->field_like("stdout", qr/All tests successful\./, 
+    $got->field_like("stdout", qr/All tests successful\./,
         "All test are successful with multiple interpreters"
     );
 }
@@ -60,7 +60,7 @@ use Test::More tests => 2;
             class => "MyTestRun",
             args =>
             [
-                test_files => 
+                test_files =>
                 [
                     "t/sample-tests/success2.mok.cat",
                     "t/sample-tests/success1.cat",
@@ -70,9 +70,9 @@ use Test::More tests => 2;
                 alternate_interpreters =>
                 [
                     {
-                        cmd => 
+                        cmd =>
                         ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
+                            File::Spec->curdir(), "t", "data",
                             "interpreters", "mini-ok.pl"
                             ) . " "
                         ),
@@ -80,9 +80,9 @@ use Test::More tests => 2;
                         pattern => '\.mok(?:\.cat)?\z',
                     },
                     {
-                        cmd => 
+                        cmd =>
                         ("$^X " . File::Spec->catfile(
-                            File::Spec->curdir(), "t", "data", 
+                            File::Spec->curdir(), "t", "data",
                             "interpreters", "cat.pl"
                             ) . " "
                         ),
@@ -95,7 +95,7 @@ use Test::More tests => 2;
     );
 
     # TEST
-    $got->field_like("stdout", qr/All tests successful\./, 
+    $got->field_like("stdout", qr/All tests successful\./,
         "Tests over-riding order is applied.");
 }
 

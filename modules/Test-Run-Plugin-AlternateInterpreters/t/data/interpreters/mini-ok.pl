@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 
 use strict;
 use warnings;
@@ -16,7 +16,7 @@ while(<>)
         if ($1+$2 == $3)
         {
             print "ok $num\n";
-            
+
         }
         else
         {
