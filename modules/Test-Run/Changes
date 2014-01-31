@@ -1,4 +1,5 @@
     * Remove trailing space with a test - t/style-trailing-space.t .
+    * Add the README to the distribution.
 
 0.0126
     * Fix the tests on windows by using IPC::System::Simple instead of
