@@ -10,13 +10,13 @@ verdicts in Test::Run::CmdLine.
 
 =head1 VERSION
 
-0.0122
+0.0123
 
 =head1 METHODS
 
 =cut
 
-our $VERSION = '0.0122';
+our $VERSION = '0.0123';
 
 =head2 $self->private_backend_plugins()
 

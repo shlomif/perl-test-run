@@ -20,11 +20,11 @@ colorful.
 
 =head1 VERSION
 
-Version 0.0122
+Version 0.0123
 
 =cut
 
-our $VERSION = '0.0122';
+our $VERSION = '0.0123';
 
 =head1 SYNOPSIS
 
