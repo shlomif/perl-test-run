@@ -15,6 +15,7 @@ modules/Test-Run-CmdLine/META.json
 modules/Test-Run-CmdLine/META.yml
 modules/Test-Run-CmdLine/_build
 modules/Test-Run-CmdLine/blib
+modules/Test-Run-CmdLine/Test-Run-CmdLine-*
 modules/Test-Run-TAP-Model/blib
 modules/Test-Run-TAP-Model/_build
 modules/Test-Run-TAP-Model/Build
