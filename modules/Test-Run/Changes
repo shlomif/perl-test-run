@@ -1,5 +1,7 @@
+0.0301    Fri 31 Jan 19:58:27 IST 2014
     * Remove trailing space with a test - t/style-trailing-space.t .
     * Add the README to the distribution.
+    * Add scripts/bump-version-number.pl
 
 0.0126
     * Fix the tests on windows by using IPC::System::Simple instead of
