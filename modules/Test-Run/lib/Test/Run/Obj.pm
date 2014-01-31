@@ -3,6 +3,8 @@ package Test::Run::Obj;
 use strict;
 use warnings;
 
+use 5.008;
+
 use vars qw(@ISA $VERSION);
 
 use Test::Run::Core;

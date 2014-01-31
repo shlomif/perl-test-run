@@ -30,6 +30,7 @@ my $build = Test::Run::Builder->new(
         'Test::Harness' => "2.53",
         'Text::Sprintf::Named' => '0.02',
         'UNIVERSAL::require' => 0,
+        'perl' => '5.008',
     },
     dist_version_from => "lib/Test/Run/Core.pm",
     license => "mit",
