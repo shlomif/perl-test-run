@@ -27,6 +27,7 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::Obj' => 0,
         'Test::Run::Core' => '0.0118',
         'Test::Run::CmdLine' => '0.0111',
+        'perl' => '5.008',
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorSummary-*' ],
 );
