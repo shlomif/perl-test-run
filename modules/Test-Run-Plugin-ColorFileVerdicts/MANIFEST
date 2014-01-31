@@ -16,6 +16,7 @@ t/01-run.t
 t/02-cmdline-run.t
 t/03-inheritance-problems.t
 t/boilerplate.t
+t/cpan-changes.t
 t/pod-coverage.t
 t/pod.t
 t/sample-tests/one-fail-exit-0.t
@@ -23,3 +24,4 @@ t/sample-tests/one-fail.t
 t/sample-tests/one-ok.t
 t/sample-tests/several-oks.t
 t/sample-tests/simple_fail.t
+t/style-trailing-space.t

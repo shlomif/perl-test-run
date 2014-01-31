@@ -30,7 +30,7 @@ sub _get_individual_test_file_color
 
     return $self->_get_individual_test_file_verdict_user_set_color($event)
         || $self->_get_default_individual_test_file_verdict_color($event);
-            
+
 }
 
 sub _get_default_individual_test_file_verdict_color

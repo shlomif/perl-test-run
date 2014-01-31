@@ -18,7 +18,7 @@ my $abs_lib = Cwd::abs_path($lib);
 
 {
     local %ENV = %ENV;
-    
+
     $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
@@ -34,7 +34,7 @@ my $abs_lib = Cwd::abs_path($lib);
     delete($ENV{'PERL_HARNESS_VERDICT_COLORS'});
 
     $ENV{'HARNESS_PLUGINS'} = "ColorFileVerdicts";
-    
+
     {
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
@@ -51,7 +51,7 @@ my $abs_lib = Cwd::abs_path($lib);
 
         # TEST
         $got->field_like(
-            "stdout", qr/\Q${color}\Eok\Q${reset}\E/, 
+            "stdout", qr/\Q${color}\Eok\Q${reset}\E/,
             "ok is colored"
         );
     }
@@ -74,7 +74,7 @@ my $abs_lib = Cwd::abs_path($lib);
 
         # TEST
         $got->field_like(
-            "stdout", qr/\Q${color}\Eok\Q${reset}\E/, 
+            "stdout", qr/\Q${color}\Eok\Q${reset}\E/,
             "ok is colored"
         );
     }
@@ -97,8 +97,8 @@ my $abs_lib = Cwd::abs_path($lib);
 
         # TEST
         $got->field_like(
-            "stdout", qr/\Q${color}\Eok\Q${reset}\E/, 
+            "stdout", qr/\Q${color}\Eok\Q${reset}\E/,
             "ok is colored"
-        );        
+        );
     }
 }

@@ -29,14 +29,14 @@ our $VERSION = '0.0122';
 =head1 SYNOPSIS
 
     package MyTestRun;
-    
+
     use vars qw(@ISA);
 
     @ISA = (qw(Test::Run::Plugin::ColorFileVerdicts Test::Run::Obj));
 
     my $tester = MyTestRun->new(
         {
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/several-oks.t"
@@ -82,7 +82,7 @@ sub _get_canonfailed_params
 {
     my $self = shift;
 
-    return 
+    return
     [
         @{$self->next::method()},
         individual_test_file_verdict_colors =>

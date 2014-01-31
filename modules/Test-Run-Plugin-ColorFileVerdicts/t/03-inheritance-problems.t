@@ -34,7 +34,7 @@ package main;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
             ],

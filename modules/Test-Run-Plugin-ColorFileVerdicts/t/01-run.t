@@ -22,7 +22,7 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/several-oks.t"
@@ -45,7 +45,7 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/simple_fail.t",
             ],
@@ -67,12 +67,12 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/several-oks.t"
             ],
-            individual_test_file_verdict_colors => 
+            individual_test_file_verdict_colors =>
             {
                 success => "yellow",
                 failure => "blue",
@@ -96,12 +96,12 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/one-fail-exit-0.t"
             ],
-            individual_test_file_verdict_colors => 
+            individual_test_file_verdict_colors =>
             {
                 success => "yellow",
                 failure => "blue",
@@ -124,12 +124,12 @@ use Term::ANSIColor;
             class => "MyTestRun",
             args =>
             [
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/one-ok.t",
                 "t/sample-tests/one-fail.t"
             ],
-            individual_test_file_verdict_colors => 
+            individual_test_file_verdict_colors =>
             {
                 success => "yellow",
                 failure => "blue",

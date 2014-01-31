@@ -20,7 +20,7 @@ our $VERSION = '0.0122';
 
 =head2 $self->private_backend_plugins()
 
-Returns the Backend Plugins as specified by this plugin. See 
+Returns the Backend Plugins as specified by this plugin. See
 L<Test::Run::CmdLine> for more information.
 
 =cut
@@ -55,7 +55,7 @@ sub private_non_direct_backend_env_mapping
 
 =head2 $self->private_backend_args()
 
-Makes L<Test::Run::CmdLine> process the C<PERL_HARNESS_VERDICT_COLORS> 
+Makes L<Test::Run::CmdLine> process the C<PERL_HARNESS_VERDICT_COLORS>
 environment variable.
 
 =cut
@@ -77,8 +77,8 @@ by L<Term::ANSIColor>). So for example to specify the color "magenta" for
 success and "blue" for failure use:
 
     export PERL_HARNESS_VERDICT_COLORS="success=magenta;failure=blue"
-    
-As you can see the key/value pairs are separated with "C<;>" and "C<=>" is 
+
+As you can see the key/value pairs are separated with "C<;>" and "C<=>" is
 used for the assignment.
 
 =cut
@@ -89,13 +89,13 @@ sub _get_file_verdicts_color_mappings
 
     if (exists($ENV{PERL_HARNESS_VERDICT_COLORS}))
     {
-        # FIXME 
+        # FIXME
         my $mapping_string = $ENV{PERL_HARNESS_VERDICT_COLORS};
 
         my @assignments = split(/\s*;\s*/, $mapping_string);
-        return 
+        return
         [
-            individual_test_file_verdict_colors => 
+            individual_test_file_verdict_colors =>
             {map { /\A([^=]*)=(.*)\z/ms ? ($1 => $2) : () } @assignments}
         ];
     }
