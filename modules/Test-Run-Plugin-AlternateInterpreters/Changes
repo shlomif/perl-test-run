@@ -2,6 +2,7 @@ Revision history for Test::Run::Plugin::AlternateInterpreters
 
 0.0123
         * Minimum version of perl in META.yml (CPANTS).
+        * Add LICENSE file (CPANTS).
 
 0.0122  Sat 29 Sep 08:18:45 IST 2012
         * Remove a stray "END:" label in one of the tests, which caused

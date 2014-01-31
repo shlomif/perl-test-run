@@ -1,13 +1,15 @@
 Build.PL
 Changes
+LICENSE
+MANIFEST
+META.json
+META.yml # Will be created by "make dist"
+Makefile.PL
+README
 inc/Test/Run/Builder.pm
 lib/Test/Run/CmdLine/Plugin/AlternateInterpreters.pm
 lib/Test/Run/Plugin/AlternateInterpreters.pm
 lib/Test/Run/Plugin/AlternateInterpreters/Straps/AltIntrPlugin.pm
-Makefile.PL
-MANIFEST
-META.yml # Will be created by "make dist"
-README
 t/00-load.t
 t/01-run.t
 t/02-cmdline-run.t
@@ -23,4 +25,3 @@ t/sample-tests/several-oks.t
 t/sample-tests/success1.cat
 t/sample-tests/success1.mok
 t/sample-tests/success2.mok.cat
-META.json
