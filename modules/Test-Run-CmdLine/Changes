@@ -3,6 +3,7 @@ Revision history for Test-Run-CmdLine
 0.0126     Fri 31 Jan 20:12:58 IST 2014
     - Get rid of trailing space with a test - t/style-trailing-space.t .
     - Add scripts/bump-version-number.pl
+    - Separate "LICENSE" file (CPANTS).
 
 0.0125     Wed  5 Sep 20:12:26 IDT 2012
     - Moved away tag-release.pl under scripts to it won't be installed

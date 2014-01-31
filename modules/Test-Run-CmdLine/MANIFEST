@@ -24,6 +24,7 @@ lib/Test/Run/CmdLine/Prove/App.pm
 lib/Test/Run/CmdLine/Prove.pm
 lib/Test/Run/CmdLine/Trap/ProveApp.pm
 lib/Test/Run/CmdLine/Trap/Prove.pm
+LICENSE
 Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
