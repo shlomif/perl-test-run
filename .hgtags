@@ -116,3 +116,4 @@ ac02e993b9f3188de814716a62d3cf762ded8748 releases/modules/plugins/backend/Test-R
 53c64d9d8c0cf6d19e617137ab5a41356e7149d0 releases/modules/Test-Run/0.0301
 b8670b48cb924b1bda3122432410cdc2c48adba6 releases/modules/Test-Run-CmdLine/0.0126
 95e174400dfe8df900a5249b0f79b1ec780d5780 releases/modules/plugins/backend/Test-Run-Plugin-AlternateInterpreters/0.0123
+3b8f0541433039af3f8635ac50693db35969e298 releases/modules/plugins/backend/Test-Run-Plugin-BreakOnFailure/0.0.3
