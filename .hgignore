@@ -1,5 +1,7 @@
 build/test-and-install-all-modules/Modules.mak
 modules/bundles/Task-Test-Run-AllPlugins/Makefile.PL
+modules/bundles/Task-Test-Run-AllPlugins/META.json
+modules/bundles/Task-Test-Run-AllPlugins/META.yml
 modules/bundles/Task-Test-Run-AllPlugins/MYMETA.json
 modules/bundles/Task-Test-Run-AllPlugins/MYMETA.yml
 modules/bundles/Task-Test-Run-AllPlugins/blib
