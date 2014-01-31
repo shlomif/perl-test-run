@@ -17,7 +17,7 @@ package main;
 {
     my $tester = MyTestRun->new(
         {
-            test_files => 
+            test_files =>
             [
                 "t/sample-tests/simple",
                 "t/sample-tests/todo-with-10-tests",

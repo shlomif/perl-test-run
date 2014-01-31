@@ -14,7 +14,7 @@ use Test::Run::Plugin::CollectStats::TestFileData;
 
 =head1 NAME
 
-Test::Run::Plugin::CollectStats - Test::Run plugin to collect statistics and 
+Test::Run::Plugin::CollectStats - Test::Run plugin to collect statistics and
 data.
 
 =head1 VERSION
@@ -54,7 +54,7 @@ sub _run_single_test
 
     $self->_test_files_names_map->{$filename} =
         scalar(@{$self->_recorded_test_files_data()});
-    
+
     push @{$self->_recorded_test_files_data},
         Test::Run::Plugin::CollectStats::TestFileData->new(
             {
@@ -69,7 +69,7 @@ sub _run_single_test
 
 =head2 $tester->get_recorded_test_file_data($index)
 
-Returns the L<Test::Run::Plugin::CollectStats::TestFileData> instance 
+Returns the L<Test::Run::Plugin::CollectStats::TestFileData> instance
 representing the results of test number $index.
 
 =cut
@@ -111,7 +111,7 @@ sub get_num_collected_tests
 
 =head2 $tester->get_filename_test_data($filename)
 
-Returns theL<Test::Run::Plugin::CollectStats::TestFileData> instance 
+Returns theL<Test::Run::Plugin::CollectStats::TestFileData> instance
 representing the results of the (last) test with the filename $filename.
 
 =cut
