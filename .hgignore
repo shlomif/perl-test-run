@@ -52,10 +52,14 @@ modules/Test-Run-Plugin-CollectStats/_build
 modules/Test-Run-Plugin-CollectStats/blib
 modules/Test-Run-Plugin-CollectStats/Test-Run-Plugin-CollectStats-*
 modules/Test-Run-Plugin-ColorFileVerdicts/Build
+modules/Test-Run-Plugin-ColorFileVerdicts/Makefile.PL
+modules/Test-Run-Plugin-ColorFileVerdicts/META.json
+modules/Test-Run-Plugin-ColorFileVerdicts/META.yml
 modules/Test-Run-Plugin-ColorFileVerdicts/MYMETA.json
 modules/Test-Run-Plugin-ColorFileVerdicts/MYMETA.yml
 modules/Test-Run-Plugin-ColorFileVerdicts/_build
 modules/Test-Run-Plugin-ColorFileVerdicts/blib
+modules/Test-Run-Plugin-ColorFileVerdicts/Test-Run-Plugin-ColorFileVerdicts-*
 modules/Test-Run-Plugin-ColorSummary/Build
 modules/Test-Run-Plugin-ColorSummary/MYMETA.json
 modules/Test-Run-Plugin-ColorSummary/MYMETA.yml
