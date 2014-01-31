@@ -21,3 +21,4 @@ t/sample-tests/one-fail.t
 t/sample-tests/one-ok.t
 t/sample-tests/several-oks.t
 t/sample-tests/simple_fail.t
+META.json

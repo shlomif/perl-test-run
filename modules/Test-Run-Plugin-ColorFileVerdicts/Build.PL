@@ -11,6 +11,10 @@ my $builder = Test::Run::Builder->new(
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
     dist_version_from   => 'lib/Test/Run/Plugin/ColorFileVerdicts.pm',
+    configure_requires =>
+    {
+        'Module::Build' => 0.36,
+    },
     build_requires => {
         'Test::More' => 0,
         'Test::Run::Trap::Obj' => 0,
@@ -18,9 +22,11 @@ my $builder = Test::Run::Builder->new(
     },
     requires => {
         "Moose" => 0,
+        "MRO::Compat" => 0,
         "Term::ANSIColor" => 0,
         "Test::Run::Core" => "0.0122",
         "Test::Run::CmdLine" => "0.0121",
+        "perl" => '5.008',
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorFileVerdicts-*' ],
     create_makefile_pl => 'traditional',
