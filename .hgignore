@@ -39,6 +39,7 @@ modules/Test-Run-Plugin-BreakOnFailure/MYMETA.yml
 modules/Test-Run-Plugin-BreakOnFailure/Makefile.PL
 modules/Test-Run-Plugin-BreakOnFailure/_build
 modules/Test-Run-Plugin-BreakOnFailure/blib
+modules/Test-Run-Plugin-BreakOnFailure/Test-Run-Plugin-BreakOnFailure-v*
 modules/Test-Run-Plugin-CollectStats/Build
 modules/Test-Run-Plugin-CollectStats/MYMETA.json
 modules/Test-Run-Plugin-CollectStats/MYMETA.yml
