@@ -29,6 +29,14 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::CmdLine' => '0.0111',
         'perl' => '5.008',
     },
+    meta_merge =>
+    {
+        resources =>
+        {
+            homepage => "http://web-cpan.berlios.de/modules/Test-Run/",
+            repository => "https://bitbucket.org/shlomif/perl-test-run",
+        },
+    },
     add_to_cleanup      => [ 'Test-Run-Plugin-ColorSummary-*' ],
 );
 
