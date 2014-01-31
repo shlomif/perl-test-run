@@ -1,6 +1,7 @@
 Build.PL
 Changes
 Dist/tag-release.pl
+LICENSE
 MANIFEST
 META.json
 META.yml # Will be created by "make dist"

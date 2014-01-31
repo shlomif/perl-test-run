@@ -2,6 +2,8 @@ Revision history for Test::Run::Plugin::AlternateInterpreters
 
 0.0.3   2014-01-31
         - Add t/cpan-changes.t and t/style-trailing-space.t .
+        - Add LICENSE (CPANTS).
+        - Minimum version of perl.
 
 0.0.2   2012-11-17
         - Add Dist/tag-release.pl to tag a release.
