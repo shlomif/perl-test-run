@@ -2,6 +2,7 @@ Revision history for Test-Run-Plugin-ColorFileVerdicts
 
         * Build.PL configure_requires , dep MRO::Compat and min
         dep on perl-5.008 (CPANTS).
+        * Add LICENSE file.
 
 0.0122    Tue Feb  9 20:46:17 IST 2010
         * Got rid of _get_private_fields() _get_simple_params() and
