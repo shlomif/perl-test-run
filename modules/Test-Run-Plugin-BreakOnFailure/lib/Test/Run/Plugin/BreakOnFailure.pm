@@ -3,6 +3,8 @@ package Test::Run::Plugin::BreakOnFailure;
 use warnings;
 use strict;
 
+use 5.008;
+
 use MRO::Compat;
 
 use Moose;
