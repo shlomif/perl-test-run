@@ -4,6 +4,8 @@ Revision history for Task-Latemp:
     - Convert to Module::Build (CPANTS).
     - Add prereq on perl (CPANTS).
     - ADd LICENSE file (CPANTS).
+    - Add t/pod.t , t/pod-coverage.t , t/style-trailing-space.t , and
+    t/cpan-changes.t.
 
 0.0101  2012-10-31
     - Add more plugins and also explicitly specify the non-CmdLine ones.
