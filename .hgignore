@@ -30,6 +30,7 @@ modules/Test-Run-Plugin-AlternateInterpreters/MYMETA.yml
 modules/Test-Run-Plugin-AlternateInterpreters/_build
 modules/Test-Run-Plugin-AlternateInterpreters/blib
 modules/Test-Run-Plugin-AlternateInterpreters/t/data/config-files/mokcat1.yml
+modules/Test-Run-Plugin-AlternateInterpreters/Test-Run-Plugin-AlternateInterpreters-*
 modules/Test-Run-Plugin-BreakOnFailure/Build
 modules/Test-Run-Plugin-BreakOnFailure/META.json
 modules/Test-Run-Plugin-BreakOnFailure/META.yml
