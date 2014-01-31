@@ -1,5 +1,8 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+    * t/cpan-changes.t and t/style-trailing-space.t .
+    * Minimal perl version (CPANTS).
+
 0.0200  2013-06-20
     * Rename the environment variables to HARNESS_SUMMARY_COLOR_SUCCESS
     and HARNESS_SUMMARY_COLOR_FAIL in accordance with
