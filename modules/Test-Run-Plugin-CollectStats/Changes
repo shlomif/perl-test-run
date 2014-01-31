@@ -1,5 +1,9 @@
 Revision history for Test-Run-Plugin-CollectStats
 
+        - Add a prereq on Moose.
+        - Add minimum version of perl - 5.8.
+        - Add configure_requires.
+
 0.0102  Fri Jun 18 16:18:06 IDT 2010
         - Converted to Moose.
         - Updated to latest Test-Run and Moose.
