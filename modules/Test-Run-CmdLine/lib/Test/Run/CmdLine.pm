@@ -3,6 +3,8 @@ package Test::Run::CmdLine;
 use warnings;
 use strict;
 
+use 5.008;
+
 use Carp;
 use UNIVERSAL::require;
 use YAML::XS ();
