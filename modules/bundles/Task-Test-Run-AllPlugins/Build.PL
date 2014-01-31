@@ -1,15 +1,17 @@
 use strict;
 use warnings;
-use ExtUtils::MakeMaker;
+use Module::Build;
 
-WriteMakefile(
-    NAME                => 'Task::Test::Run::AllPlugins',
-    AUTHOR              => 'Shlomi Fish <shlomif@iglu.org.il>',
-    VERSION_FROM        => 'lib/Task/Test/Run/AllPlugins.pm',
-    ABSTRACT_FROM       => 'lib/Task/Test/Run/AllPlugins.pm',
-    PL_FILES            => {},
-    PREREQ_PM =>
-    {
+my $builder = Module::Build->new(
+    module_name         => 'Task::Test::Run::AllPlugins',
+    license             => 'mit',
+    dist_author         => q{Shlomi Fish <shlomif@shlomifish.org>},
+    dist_version_from   => 'lib/Task/Test/Run/AllPlugins.pm',
+    configure_requires => {
+        'Module::Build' => '0.36',
+    },
+    requires => {
+        'perl' => '5.008',
         'Test::Run::Core' => 0,
         'Test::Run::CmdLine' => 0,
         'Test::Run::CmdLine::Plugin::AlternateInterpreters' => 0,
@@ -23,6 +25,11 @@ WriteMakefile(
         'Test::Run::Plugin::ColorSummary' => 0,
         'Test::Run::Plugin::TrimDisplayedFilenames' => 0,
     },
-    dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => 'Task-Latemp-*' },
+    build_requires => {
+        'Test::More' => 0,
+    },
+    add_to_cleanup      => [ 'Task-Test-Run-AllPlugins-*' ],
+    create_makefile_pl => 'traditional',
 );
+
+$builder->create_build_script();

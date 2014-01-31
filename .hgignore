@@ -1,9 +1,12 @@
 build/test-and-install-all-modules/Modules.mak
-modules/bundles/Task-Test-Run-AllPlugins/Makefile
+modules/bundles/Task-Test-Run-AllPlugins/Makefile.PL
 modules/bundles/Task-Test-Run-AllPlugins/MYMETA.json
 modules/bundles/Task-Test-Run-AllPlugins/MYMETA.yml
 modules/bundles/Task-Test-Run-AllPlugins/blib
 modules/bundles/Task-Test-Run-AllPlugins/pm_to_blib
+modules/bundles/Task-Test-Run-AllPlugins/_build
+modules/bundles/Task-Test-Run-AllPlugins/Task-Test-Run-AllPlugins-*
+modules/bundles/Task-Test-Run-AllPlugins/Build
 modules/Test-Run-CmdLine/Build
 modules/Test-Run-CmdLine/Makefile.PL
 modules/Test-Run-CmdLine/MYMETA.json
