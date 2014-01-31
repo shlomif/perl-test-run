@@ -12,7 +12,7 @@ data for a single test file in Test::Run.
 
 =head1 VERSION
 
-Version 0.0102
+Version 0.0103
 
 =cut
 

@@ -19,7 +19,7 @@ data.
 
 =head1 VERSION
 
-Version 0.0102
+Version 0.0103
 
 =cut
 
@@ -31,7 +31,7 @@ has '_test_files_names_map' => (is => "rw", isa => "HashRef",
     default => sub { +{} },
 );
 
-our $VERSION = '0.0102';
+our $VERSION = '0.0103';
 
 =head1 SYNOPSIS
 
