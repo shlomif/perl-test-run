@@ -26,7 +26,7 @@ use Test::More tests => 2;
             class => "MyTestRun",
             args =>
             [
-                test_files => 
+                test_files =>
                 [
                     "t/sample-tests/one-fail.t",
                     "t/sample-tests/one-ok.t",
@@ -37,7 +37,7 @@ use Test::More tests => 2;
         );
 
     # TEST
-    $got->field_unlike("stdout", qr/one-ok/, 
+    $got->field_unlike("stdout", qr/one-ok/,
         "Successful tests were skipped upon failure."
     );
 }
@@ -48,7 +48,7 @@ use Test::More tests => 2;
             class => "MyTestRun",
             args =>
             [
-                test_files => 
+                test_files =>
                 [
                     "t/sample-tests/one-fail.t",
                     "t/sample-tests/one-ok.t",
@@ -59,7 +59,7 @@ use Test::More tests => 2;
         );
 
     # TEST
-    $got->field_like("stdout", qr/one-ok/, 
+    $got->field_like("stdout", qr/one-ok/,
         "Failing test did not break the run of the rest upon no should_break_on_failure."
     );
 }

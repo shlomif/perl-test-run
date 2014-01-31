@@ -1,17 +1,19 @@
 Build.PL
 Changes
 Dist/tag-release.pl
+MANIFEST
+META.json
+META.yml # Will be created by "make dist"
+Makefile.PL
+README
 inc/Test/Run/Builder.pm
 lib/Test/Run/CmdLine/Plugin/BreakOnFailure.pm
 lib/Test/Run/Plugin/BreakOnFailure.pm
-Makefile.PL
-MANIFEST
-META.yml # Will be created by "make dist"
-README
 t/00-load.t
 t/01-run.t
 t/02-cmdline-run.t
 t/boilerplate.t
+t/cpan-changes.t
 t/data/config-files/placeholder
 t/data/interpreters/cat.pl
 t/data/interpreters/mini-ok.pl
@@ -23,4 +25,4 @@ t/sample-tests/several-oks.t
 t/sample-tests/success1.cat
 t/sample-tests/success1.mok
 t/sample-tests/success2.mok.cat
-META.json
+t/style-trailing-space.t
