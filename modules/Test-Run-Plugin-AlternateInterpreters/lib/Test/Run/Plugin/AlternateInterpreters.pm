@@ -3,6 +3,8 @@ package Test::Run::Plugin::AlternateInterpreters;
 use warnings;
 use strict;
 
+use 5.008;
+
 use MRO::Compat;
 
 use Moose;

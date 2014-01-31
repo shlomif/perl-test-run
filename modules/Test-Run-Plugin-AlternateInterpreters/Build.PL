@@ -21,6 +21,7 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::Core' => "0.0120",
         'MRO::Compat' => 0,
         'Moose' => 0,
+        'perl' => '5.008',
     },
     test_requires => {
         'YAML::XS' => 0,
