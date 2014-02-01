@@ -254,7 +254,14 @@ use File::Path ();
 
 sub get_max_system_path_len
 {
-    return List::Util::min(120, POSIX::PATH_MAX());
+    my $MIN_VAL = 120;
+
+    # Some systems don't support PATH_MAX, especially some Windows compilers.
+    # See http://www.cpantesters.org/cpan/report/cfafb504-7709-1014-9112-f72c93e8ee67
+    return List::Util::min(
+        $MIN_VAL,
+        scalar(eval { POSIX::PATH_MAX(); } || $MIN_VAL)
+    );
 }
 
 # Test with an exceptionally long path.

@@ -1,3 +1,8 @@
+0.0302    Sat  1 Feb 10:58:46 IST 2014
+    * Fix PATH_MAX and tests on some ActivePerls in t/output.t.
+        - http://www.cpantesters.org/cpan/report/cfafb504-7709-1014-9112-f72c93e8ee67
+        - Thanks to From: Christian Walde for the CPAN Testers Report.
+
 0.0301    Fri 31 Jan 19:58:27 IST 2014
     * Remove trailing space with a test - t/style-trailing-space.t .
     * Add the README to the distribution.
