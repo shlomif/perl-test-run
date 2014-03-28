@@ -3,7 +3,7 @@ package Test::Run::CmdLine::Trap::Prove;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Trap::Obj');
 

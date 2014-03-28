@@ -3,6 +3,8 @@ package Test::Run::CmdLine;
 use warnings;
 use strict;
 
+use MooX qw( late );
+
 use 5.008;
 
 use Carp;
@@ -23,8 +25,6 @@ Test::Run::CmdLine - Analyze tests from the command line using Test::Run
 use vars (qw($VERSION));
 
 $VERSION = '0.0126';
-
-use Moose;
 
 extends ('Test::Run::Base');
 
@@ -105,7 +105,7 @@ TODO : Write more.
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 

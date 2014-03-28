@@ -3,7 +3,7 @@ package Test::Run::CmdLine::Drivers::CmdLineTest;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 extends("Test::Run::CmdLine");
 

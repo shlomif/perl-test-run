@@ -3,7 +3,7 @@ package Test::Run::CmdLine::Plugin::Super;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 sub BUILD
 {

@@ -3,13 +3,14 @@ package Test::Run::CmdLine::Iface;
 use warnings;
 use strict;
 
+use MooX qw( late );
+
 extends ('Test::Run::Base');
 
 use UNIVERSAL::require;
 
 use Test::Run::CmdLine;
 
-use Moose;
 
 =head1 NAME
 
@@ -115,7 +116,7 @@ Actually runs the tests on the command line.
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 TODO : Write more.
 
@@ -185,7 +186,9 @@ sub _calc_driver
         }
     );
 
+    return $driver;
 }
+
 sub run
 {
     my $self = shift;
