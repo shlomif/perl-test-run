@@ -21,15 +21,23 @@ use Moose;
 
 use Test::Run::Obj::IntOrUnknown;
 
-use Test::Run::Obj::IntOrUnknown::Moose;
-
 extends('Test::Run::Base::Struct');
 
 has 'canon' => (is => "rw", isa => "Str");
 has 'canon_strings' => (is => "rw", isa => "ArrayRef");
 has 'estat' => (is => "rw", isa => "Str");
-has_IntOrUnknown 'failed';
-has_IntOrUnknown 'max';
+has 'failed' => (is => 'rw', isa => 'Test::Run::Obj::IntOrUnknown',
+    handles =>
+    {
+        'failed_str' => 'get_string_val',
+    },
+);
+has 'max' => (is => 'rw', isa => 'Test::Run::Obj::IntOrUnknown',
+    handles =>
+    {
+        'max_str' => 'get_string_val',
+    },
+);
 has 'list_len' => (is => "rw", isa => "Num");
 has 'name' => (is => "rw", isa => "Str");
 has 'percent' => (is => "rw", isa => "Maybe[Str]");
