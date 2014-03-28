@@ -17,7 +17,7 @@ use warnings;
 
 use vars qw(@fields);
 
-use Moose;
+use MooX qw( late );
 
 use Test::Run::Obj::IntOrUnknown;
 

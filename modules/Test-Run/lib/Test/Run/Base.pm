@@ -19,7 +19,7 @@ L<Class::Accessor> and provides some goodies of its own.
 
 =cut
 
-use Moose;
+use MooX qw( late );
 
 use Text::Sprintf::Named;
 use Test::Run::Sprintf::Named::FromAccessors;

@@ -7,7 +7,7 @@ use Carp;
 use Benchmark qw(timestr);
 use MRO::Compat;
 
-use Moose;
+use MooX qw( late );
 extends("Test::Run::Core");
 
 use Test::Run::Output;
@@ -55,7 +55,7 @@ has "+output" => (lazy => 1, builder => "_get_new_output");
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 
@@ -344,8 +344,10 @@ sub _report_single_test_file_start_debug
 
     if ($self->Debug())
     {
+        my $leader = $self->_output_print_leader($args);
+        $self->Strap()->file(defined($leader) ? $leader : '');
         $self->_print(
-            "# Running: " . $self->Strap()->_command_line($self->_output_print_leader($args))
+            "# Running: " . $self->Strap()->_command_line()
         );
     }
 }

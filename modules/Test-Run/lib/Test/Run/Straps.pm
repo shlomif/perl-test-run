@@ -14,7 +14,7 @@ Test::Run::Straps - analyse the test results by using TAP::Parser.
 
 =cut
 
-use Moose;
+use MooX qw( late );
 
 use MRO::Compat;
 
@@ -643,7 +643,7 @@ sub _get_shebang
     my $file = $self->file();
 
     my $test_fh;
-    if (!open($test_fh, $file))
+    if (!open($test_fh, '<', $file))
     {
         $self->_handle_test_file_opening_error(
             {

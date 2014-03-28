@@ -14,7 +14,7 @@ straps class.
 
 use Test::Run::Straps::StrapsDetailsObj;
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Straps::Base');
 

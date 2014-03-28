@@ -18,7 +18,7 @@ Inherits from Test::Run::Base::Struct.
 
 use vars qw(@fields);
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Base::Struct');
 

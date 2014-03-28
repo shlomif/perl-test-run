@@ -14,7 +14,7 @@ L<Test::Run::Straps> and L<Test::Run::Straps::StrapsTotalsObj>.
 
 =cut
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Base::Struct');
 

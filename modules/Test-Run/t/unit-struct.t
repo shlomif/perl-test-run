@@ -9,7 +9,7 @@ use Test::More tests => 6;
 
 package MyClass;
 
-use Moose;
+use MooX qw( late );
 
 extends ('Test::Run::Base::Struct');
 
@@ -62,7 +62,7 @@ package main;
 
 package MyNumClass;
 
-use Moose;
+use MooX qw( late );
 
 extends ('Test::Run::Base::Struct');
 

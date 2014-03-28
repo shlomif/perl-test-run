@@ -3,7 +3,7 @@ package Test::Run::Core;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Base::PlugHelpers');
 
@@ -100,7 +100,7 @@ sub _get_new_strap
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 

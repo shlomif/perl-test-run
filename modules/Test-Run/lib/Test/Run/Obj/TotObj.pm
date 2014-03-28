@@ -19,7 +19,7 @@ use vars qw(@fields @counter_fields %counter_fields_map);
 
 use Benchmark qw();
 
-use Moose;
+use MooX qw( late );
 use MRO::Compat;
 
 extends("Test::Run::Base::Struct");
@@ -64,7 +64,11 @@ sub _pre_init
 
 =head2 BUILD
 
-For Moose.
+For Moo.
+
+=head2 files
+
+For internal use.
 
 =cut
 

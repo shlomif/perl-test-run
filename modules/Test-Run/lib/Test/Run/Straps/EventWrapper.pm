@@ -3,7 +3,7 @@ package Test::Run::Straps::EventWrapper;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 use Test::Run::Base;
 

@@ -11,7 +11,7 @@ Test::Run::Obj::TestObj - results of a single test script.
 
 use vars qw(@fields);
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Base::Struct');
 
@@ -68,7 +68,7 @@ has 'skip_reason' => (is => "rw", isa => "Maybe[Str]");
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 

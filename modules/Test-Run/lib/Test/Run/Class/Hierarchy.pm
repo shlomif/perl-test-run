@@ -25,7 +25,7 @@ the results.
 
 =cut
 
-use Moose;
+use MooX qw( late );
 
 extends('Exporter');
 

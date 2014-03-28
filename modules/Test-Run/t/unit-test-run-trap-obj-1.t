@@ -10,7 +10,7 @@ use Test::Run::Trap::Obj;
 
 package MyPersonClass;
 
-use Moose;
+use MooX qw( late );
 
 has 'name' => (is => "rw", isa => "Str");
 has 'favourite_dish' => (is => "rw", isa => "Str");

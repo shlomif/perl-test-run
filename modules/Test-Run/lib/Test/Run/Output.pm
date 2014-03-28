@@ -3,7 +3,7 @@ package Test::Run::Output;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Base');
 
@@ -23,7 +23,7 @@ harmess.
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 

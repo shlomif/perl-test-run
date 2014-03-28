@@ -14,7 +14,7 @@ use MRO::Compat;
 
 use Carp;
 
-use Moose;
+use MooX qw( late );
 
 extends('Test::Run::Base');
 

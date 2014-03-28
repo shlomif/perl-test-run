@@ -344,7 +344,7 @@ sub get_max_system_path_len
 
 package MyTestRun::Obj::AlwaysTerm;
 
-use Moose;
+use MooX qw( late );
 
 extends(
     "MyTestRun::Plugin::CmdLine::Output::AlwaysTerm",
@@ -353,7 +353,7 @@ extends(
 
 package MyTestRun::Plugin::CmdLine::Output::AlwaysTerm;
 
-use Moose;
+use MooX qw( late );
 
 extends(
     "Test::Run::Plugin::CmdLine::Output",
@@ -368,7 +368,7 @@ sub _get_new_output
 
 package MyTestRun::Output::AlwaysTerm;
 
-use Moose;
+use MooX qw( late );
 
 extends(
     "Test::Run::Output"

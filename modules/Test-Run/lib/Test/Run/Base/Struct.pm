@@ -15,16 +15,16 @@ Inherits from L<Test::Run::Base>.
 =cut
 
 use MRO::Compat;
-use Moose;
+use MooX qw( late );
 
-# We need to put it here before the use MooseX::StrictConstructor due
-# to a Moose mis-feature. Thanks to doy.
+# We need to put it here before the use MooX::StrictConstructor due
+# to a Moo mis-feature. Thanks to doy.
 BEGIN
 {
     extends('Test::Run::Base');
 }
 
-use MooseX::StrictConstructor;
+use MooX::StrictConstructor;
 
 
 sub _pre_init
@@ -35,7 +35,7 @@ use Carp;
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 

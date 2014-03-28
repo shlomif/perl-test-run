@@ -16,7 +16,7 @@ package Test::Run::Obj::Error;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 use Test::Run::Base::Struct;
 
@@ -47,7 +47,7 @@ has 'text' => (is => "rw", isa => "Str");
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 
@@ -77,11 +77,15 @@ sub stringify
 
 package Test::Run::Obj::Error::TestsFail;
 
+$INC{'Test/Run/Obj/Error/TestsFail.pm'} = './Test/Run/Obj/Error/TestsFail.pm';
+
 use vars qw(@ISA);
 
 @ISA = (qw(Test::Run::Obj::Error));
 
 package Test::Run::Obj::Error::TestsFail::NoTestsRun;
+
+$INC{'Test/Run/Obj/Error/TestsFail/NoTestsRun.pm'} = './Test/Run/Obj/Error/TestsFail/NoTestsRun.pm';
 
 use vars qw(@ISA);
 
@@ -89,11 +93,15 @@ use vars qw(@ISA);
 
 package Test::Run::Obj::Error::TestsFail::Other;
 
+$INC{'Test/Run/Obj/Error/TestsFail/Other.pm'} = './Test/Run/Obj/Error/TestsFail/Other.pm';
+
 use vars qw(@ISA);
 
 @ISA = (qw(Test::Run::Obj::Error::TestsFail));
 
 package Test::Run::Obj::Error::TestsFail::NoOutput;
+
+$INC{'Test/Run/Obj/Error/TestsFail/NoOutput.pm'} = './Test/Run/Obj/Error/TestsFail/NoOutput.pm';
 
 use vars qw(@ISA);
 
@@ -101,7 +109,9 @@ use vars qw(@ISA);
 
 package Test::Run::Obj::Error::TestsFail::Bailout;
 
-use Moose;
+$INC{'Test/Run/Obj/Error/TestsFail/Bailout.pm'} = './Test/Run/Obj/Error/TestsFail/Bailout.pm';
+
+use MooX qw( late );
 
 
 extends(qw(Test::Run::Obj::Error::TestsFail));
@@ -120,11 +130,15 @@ sub stringify
 
 package Test::Run::Obj::Error::Straps;
 
+$INC{'Test/Run/Obj/Error/Straps.pm'} = './Test/Run/Obj/Error/Straps.pm';
+
 use vars qw(@ISA);
 
 @ISA = (qw(Test::Run::Obj::Error));
 
 package Test::Run::Obj::Error::Straps::CannotRunPerl;
+
+$INC{'Test/Run/Obj/Error/Straps/CannotRunPerl.pm'} = './Test/Run/Obj/Error/Straps/CannotRunPerl.pm';
 
 use vars qw(@ISA);
 

@@ -35,7 +35,7 @@ inside the sprintf fields (e.g: C<%(varname)s>) are read from the accessors
 
 =cut
 
-use Moose;
+use MooX qw( late );
 
 extends('Text::Sprintf::Named');
 

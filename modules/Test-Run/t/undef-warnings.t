@@ -14,7 +14,7 @@ BEGIN
 
 package MyTestRun;
 
-use Moose;
+use MooX qw( late );
 extends("Test::Run::Obj");
 
 use MRO::Compat;

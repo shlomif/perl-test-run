@@ -3,7 +3,7 @@ package Test::Run::Base::Plugger;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 use MRO::Compat;
 
@@ -37,7 +37,7 @@ $base is the base class and $into is the namespace to put everything into.
 
 =head2 BUILD
 
-For Moose.
+For Moo.
 
 =cut
 

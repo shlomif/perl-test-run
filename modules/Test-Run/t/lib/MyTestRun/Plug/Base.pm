@@ -3,7 +3,7 @@ package MyTestRun::Plug::Base;
 use strict;
 use warnings;
 
-use Moose;
+use MooX qw( late );
 
 extends(qw(
     Test::Run::Base::Struct

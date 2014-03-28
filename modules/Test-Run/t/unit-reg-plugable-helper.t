@@ -7,7 +7,7 @@ use Test::More tests => 4;
 
 package MyClass;
 
-use Moose;
+use MooX qw( late );
 
 extends ('Test::Run::Base::PlugHelpers');
 

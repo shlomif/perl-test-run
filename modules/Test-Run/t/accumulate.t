@@ -5,7 +5,7 @@ use Test::More tests => 2;
 
 package Base1;
 
-use Moose;
+use MooX qw( late );
 
 extends("Test::Run::Base");
 
