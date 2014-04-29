@@ -122,3 +122,4 @@ b8670b48cb924b1bda3122432410cdc2c48adba6 releases/modules/Test-Run-CmdLine/0.012
 959e8070b70724460aa29393171322797e7d43ec releases/modules/plugins/backend/Test-Run-Plugin-ColorSummary/0.0201
 36a6c9145981e23034eea17fd8d1b6ea7670d156 releases/modules/Test-Run/0.0302
 2aaadd673e93159c1c52159e0e580bd5eccd10d0 releases/modules/plugins/backend/Test-Run-Plugin-BreakOnFailure/0.0.4
+9bc7af017fbc57561bb3ea810c06a5e2c5dd9ea2 releases/modules/Test-Run-Plugin-TrimDisplayedFilenames/0.0124
