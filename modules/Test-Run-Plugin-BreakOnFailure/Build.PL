@@ -15,12 +15,12 @@ my $builder = Test::Run::Builder->new(
         'Module::Build' => '0.39',
     },
     build_requires => {
-        'perl' => '5.008',
         'Test::More' => 0,
         'Test::Trap' => 0,
         'Test::Run::CmdLine::Trap::ProveApp' => 0,
     },
     requires => {
+        'perl' => '5.008',
         'Test::Run::CmdLine' => "0.0120",
         'Test::Run::Core' => "0.0120",
         'MRO::Compat' => 0,

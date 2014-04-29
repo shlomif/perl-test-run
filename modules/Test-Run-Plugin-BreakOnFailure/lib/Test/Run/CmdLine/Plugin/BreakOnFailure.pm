@@ -3,6 +3,8 @@ package Test::Run::CmdLine::Plugin::BreakOnFailure;
 use strict;
 use warnings;
 
+use 5.008;
+
 =head1 NAME
 
 Test::Run::CmdLine::Plugin::BreakOnFailure - break on the first test failure.
