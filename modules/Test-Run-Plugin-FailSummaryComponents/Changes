@@ -5,6 +5,7 @@ Revision history for Test-Run-Plugin-FailSummaryComponents
     - Remove _get_simple_params and _get_private_simple_params.
     - Add t/cpan-changes.t
     - Add t/style-trailing-space.t
+    - Minimum version of perl (CPANTS) + Module::Build.
 
 0.0100_02    2006-10-05
     Fixed the tests to compile with the new Test::Run.

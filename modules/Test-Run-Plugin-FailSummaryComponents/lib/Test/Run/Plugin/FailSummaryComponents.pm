@@ -3,6 +3,8 @@ package Test::Run::Plugin::FailSummaryComponents;
 use warnings;
 use strict;
 
+use 5.008;
+
 use Moose;
 
 use MRO::Compat;

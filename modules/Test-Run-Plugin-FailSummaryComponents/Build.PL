@@ -10,11 +10,16 @@ my $builder = Test::Run::Builder->new(
     license             => 'mit',
     dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
     dist_version_from   => 'lib/Test/Run/Plugin/FailSummaryComponents.pm',
+    configure_requires =>
+    {
+        'Module::Build' => '0.36',
+    },
     build_requires =>
     {
         'Test::Trap' => 0,
     },
     requires => {
+        'perl' => '5.008',
         'Test::More' => 0,
         'Term::ANSIColor' => 0,
         'Scalar::Util' => 0,
