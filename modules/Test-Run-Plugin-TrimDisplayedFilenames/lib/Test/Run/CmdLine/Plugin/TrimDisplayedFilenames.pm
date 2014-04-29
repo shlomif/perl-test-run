@@ -38,7 +38,7 @@ our $VERSION = '0.0123';
 
 =head2 $self->private_backend_plugins()
 
-Returns the Backend Plugins as specified by this plugin. See 
+Returns the Backend Plugins as specified by this plugin. See
 L<Test::Run::CmdLine> for more information.
 
 =cut

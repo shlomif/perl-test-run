@@ -25,7 +25,7 @@ my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
 
 {
     local %ENV = %ENV;
-    
+
     $ENV{'PERL5LIB'} = $abs_lib.$Config{'path_sep'}.$ENV{'PERL5LIB'};
     delete($ENV{'HARNESS_FILELEAK_IN_DIR'});
     delete($ENV{'HARNESS_VERBOSE'});
@@ -41,13 +41,13 @@ my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
     delete($ENV{'HARNESS_TRIM_FNS'});
 
     $ENV{'HARNESS_PLUGINS'} = "TrimDisplayedFilenames";
-    
+
     {
         local $ENV{'HARNESS_TRIM_FNS'} = "fromre:long";
 
         my $got = Test::Run::CmdLine::Trap::ProveApp->trap_run(
             {
-                cmdline => 
+                cmdline =>
                 [
                     $one_ok_file,
                     $several_oks_file,
@@ -56,12 +56,12 @@ my $several_oks_file = File::Spec->catfile($sample_tests_dir, "several-oks.t");
         );
 
         # TEST
-        $got->field_like("stdout", qr/^one-ok \.{2}/ms, 
+        $got->field_like("stdout", qr/^one-ok \.{2}/ms,
             "one-ok.t appears alone without the long path."
         );
 
         # TEST
-        $got->field_like("stdout", qr/^several-oks \.{2}/ms, 
+        $got->field_like("stdout", qr/^several-oks \.{2}/ms,
             "several-oks.t appears alone without the long path."
         );
     }

@@ -61,7 +61,7 @@ sub _get_search_from_callback
 {
     my ($self, $options) = @_;
 
-    return 
+    return
         +($options->{search_from} eq "start")
             ? \&List::MoreUtils::firstidx
             : \&List::MoreUtils::lasttidx
@@ -141,9 +141,9 @@ sub _process_output_leader_fn
             return
                 $self->_process_filename_dirs(
                     $fn,
-                    sub { 
-                        my @dirs = @{shift()}; 
-                        return 
+                    sub {
+                        my @dirs = @{shift()};
+                        return
                             +($num_keep <= 1)
                                 ? []
                                 : [splice(@dirs, -($num_keep-1))]
