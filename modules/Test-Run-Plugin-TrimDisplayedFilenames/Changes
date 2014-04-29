@@ -4,6 +4,7 @@ Revision history for Test::Run::Plugin::TrimDisplaysFilenames
         - Add t/style-trailing-space.t .
         - Add t/cpan-changes.t and conver this file to CPAN::Changes.
         - Minimal version of perl (CPANTS).
+        - Add scripts/bump-version-number.pl and scripts/tag-release.pl
 
 0.0123  2012-09-29
         - Remove a stray "END:" label in one of the tests that causes
