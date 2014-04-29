@@ -11,6 +11,7 @@ t/00-load.t
 t/01-run.t
 t/02-cmdline-run.t
 t/boilerplate.t
+t/cpan-changes.t
 t/data/config-files/placeholder
 t/data/interpreters/cat.pl
 t/data/interpreters/mini-ok.pl
