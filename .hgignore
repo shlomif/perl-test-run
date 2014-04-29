@@ -83,6 +83,7 @@ modules/Test-Run-Plugin-TrimDisplayedFilenames/MYMETA.json
 modules/Test-Run-Plugin-TrimDisplayedFilenames/MYMETA.yml
 modules/Test-Run-Plugin-TrimDisplayedFilenames/_build
 modules/Test-Run-Plugin-TrimDisplayedFilenames/blib
+modules/Test-Run-Plugin-TrimDisplayedFilenames/Test-Run-Plugin-TrimDisplayedFilenames-*
 modules/Test-Run/Build
 modules/Test-Run/MYMETA.json
 modules/Test-Run/Makefile.PL
