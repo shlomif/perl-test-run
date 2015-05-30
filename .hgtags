@@ -125,3 +125,4 @@ b8670b48cb924b1bda3122432410cdc2c48adba6 releases/modules/Test-Run-CmdLine/0.012
 9bc7af017fbc57561bb3ea810c06a5e2c5dd9ea2 releases/modules/Test-Run-Plugin-TrimDisplayedFilenames/0.0124
 51d313be40ca49d6c5e3474cb08c08296738eaf3 releases/modules/plugins/backend/Test-Run-Plugin-FailSummaryComponents/0.0100_03
 849e27ce83adc755eafe8d7eed7ae73cb308d7c3 Task-Test-Run-AllPlugins-0.0103
+b2092715369b202831f9fb93512d0f9477c76943 Task-Test-Run-AllPlugins-0.0104
