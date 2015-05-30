@@ -1,5 +1,10 @@
 Revision history for Task-Latemp:
 
+0.0104  2015-05-30
+    - Replace dead links.
+        - https://rt.cpan.org/Ticket/Display.html?id=104800 .
+        - Thanks to ETHER for the report.
+
 0.0103  2015-05-30
     - META.yml: add resources, keywords and homepage.
 

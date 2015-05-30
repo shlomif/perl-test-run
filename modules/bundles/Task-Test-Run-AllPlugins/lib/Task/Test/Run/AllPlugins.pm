@@ -14,7 +14,7 @@ our $VERSION = '0.0103';
 
 =head1 DESCRIPTION
 
-Test::Run ( L<http://web-cpan.berlios.de/modules/Test-Run/> ) is an improved
+L<Test::Run>  is an improved
 harness for running test files based on the "Test Anything Protocol"
 (TAP - L<http://testanything.org/> ), which is commonly used for writing tests
 for Perl code, but is otherwise universal.
@@ -67,6 +67,10 @@ You can find documentation for this module with the perldoc command.
 You can also look for information at:
 
 =over 4
+
+=item * The Test-Run Homepage
+
+( L<http://web-cpan.shlomifish.org/modules/Test-Run/> )
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
