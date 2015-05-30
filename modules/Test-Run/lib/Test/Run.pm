@@ -35,7 +35,7 @@ You can also look for information at:
 
 =item * Homepage
 
-L<http://web-cpan.berlios.de/modules/Test-Run/>
+L<http://web-cpan.shlomifish.org/modules/Test-Run/>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
@@ -52,10 +52,6 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run>
 =item * Search CPAN
 
 L<http://search.cpan.org/dist/Test::Run>
-
-=item * Subversion Repository
-
-L<http://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/trunk/>
 
 =back
 

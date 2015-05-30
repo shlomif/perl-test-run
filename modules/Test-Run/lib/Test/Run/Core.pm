@@ -2101,13 +2101,6 @@ L<http://search.cpan.org/dist/Test::Run>
 
 =back
 
-=head1 SOURCE AVAILABILITY
-
-The latest source of Test::Run is available from its BerliOS Subversion
-repository:
-
-L<https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/>
-
 =head1 LICENSE
 
 This file is licensed under the MIT X11 License:
