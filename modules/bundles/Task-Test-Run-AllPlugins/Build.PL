@@ -30,6 +30,30 @@ my $builder = Module::Build->new(
     },
     add_to_cleanup      => [ 'Task-Test-Run-AllPlugins-*' ],
     create_makefile_pl => 'traditional',
+    meta_merge =>
+    {
+        resources =>
+        {
+            repository => "http://bitbucket.org/shlomif/perl-test-run",
+            homepage => "http://web-cpan.berlios.de/modules/Test-Run/",
+        },
+        keywords =>
+        [
+            "back-end",
+            "harness",
+            "prove",
+            "qa",
+            "QA",
+            "quality assurance",
+            "run",
+            "runprove",
+            "tap",
+            "TAP",
+            "TAP::Harness",
+            "test",
+            "testing",
+        ],
+    },
 );
 
 $builder->create_build_script();
