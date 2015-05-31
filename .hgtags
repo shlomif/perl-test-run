@@ -128,3 +128,4 @@ b8670b48cb924b1bda3122432410cdc2c48adba6 releases/modules/Test-Run-CmdLine/0.012
 b2092715369b202831f9fb93512d0f9477c76943 Task-Test-Run-AllPlugins-0.0104
 53230358e71080fe66321491052838698e550391 releases/modules/Test-Run/0.0303
 2c90d311f2f643796f2890177be7ac733993ec34 releases/modules/plugins/backend/Test-Run-Plugin-AlternateInterpreters/0.0124
+88bc5635fcab3d367229a3af1306020d3edebc77 releases/modules/plugins/backend/Test-Run-Plugin-BreakOnFailure/0.0.5
