@@ -22,7 +22,7 @@ variable and set the C<HARNESS_BREAK> environment variable to a true value.
 
 =cut
 
-our $VERSION = '0.0.4';
+our $VERSION = '0.0.5';
 
 =head2 $self->private_backend_plugins()
 
