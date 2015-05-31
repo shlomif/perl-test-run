@@ -31,6 +31,14 @@ my $builder = Test::Run::Builder->new(
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-BreakOnFailure-*' ],
     create_makefile_pl => 'traditional',
+    meta_merge =>
+    {
+        resources =>
+        {
+            homepage => "http://web-cpan.shlomifish.org/modules/Test-Run/",
+            repository => "https://bitbucket.org/shlomif/perl-test-run",
+        },
+    },
 );
 
 $builder->create_build_script();

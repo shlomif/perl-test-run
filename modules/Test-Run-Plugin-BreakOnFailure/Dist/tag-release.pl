@@ -18,8 +18,6 @@ if (!defined ($version))
 
 my $mod_name = 'Test-Run-Plugin-BreakOnFailure';
 
-my $mini_repos_url = "https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG";
-
 my @cmd = (
     "hg", "tag", "-m",
     "Tagging $mod_name as $version",

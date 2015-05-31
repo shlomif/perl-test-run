@@ -95,9 +95,9 @@ L<http://cpanratings.perl.org/d/Test::Run::Plugin::BreakOnFailure>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::BreakOnFailure>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-BreakOnFailure/>
+L<https://metacpan.org/release/Test-Run-Plugin-BreakOnFailure>
 
 =back
 
