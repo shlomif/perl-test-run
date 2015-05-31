@@ -33,7 +33,7 @@ my $builder = Test::Run::Builder->new(
     {
         resources =>
         {
-            homepage => "http://web-cpan.berlios.de/modules/Test-Run/",
+            homepage => "http://web-cpan.shlomifish.org/modules/Test-Run/",
             repository => "https://bitbucket.org/shlomif/perl-test-run",
         },
     },

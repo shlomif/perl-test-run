@@ -73,10 +73,6 @@ You can also look for information at:
 
 =over 4
 
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Test::Run::Plugin::AlternateInterpreters>
-
 =item * CPAN Ratings
 
 L<http://cpanratings.perl.org/d/Test::Run::Plugin::AlternateInterpreters>
@@ -85,15 +81,15 @@ L<http://cpanratings.perl.org/d/Test::Run::Plugin::AlternateInterpreters>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::AlternateInterpreters>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-AlternateInterpreters/>
+L<https://metacpan.org/release/Test-Run-Plugin-AlternateInterpreters>
 
 =back
 
 =head1 ACKNOWLEDGEMENTS
 
-Curtis "Ovid" Poe ( L<http://search.cpan.org/~ovid/> ) who gave the idea
+Curtis "Ovid" Poe ( L<https://metacpan.org/author/OVID> ) who gave the idea
 of testing several tests from several interpreters in one go here:
 
 L<http://use.perl.org/~Ovid/journal/32092>
