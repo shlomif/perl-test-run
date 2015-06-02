@@ -2,6 +2,7 @@ Revision history for Test-Run-Plugin-ColorFileVerdicts
 
 0.0124  2015-06-02
         * Add a link to the VCS repository in META.yml.
+        * Replace old links.
 
 0.0123  2014-01-31
         * Build.PL configure_requires , dep MRO::Compat and min
