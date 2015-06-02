@@ -3,6 +3,10 @@ package Test::Run::CmdLine::Drivers::Default;
 use strict;
 use warnings;
 
+use vars (qw($VERSION));
+
+$VERSION = '0.0126';
+
 =head1 NAME
 
 Test::Run::CmdLine::Drivers::Default - the default command line driver.

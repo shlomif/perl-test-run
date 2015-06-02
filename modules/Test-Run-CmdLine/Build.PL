@@ -29,6 +29,7 @@ my $build = Test::Run::Builder->new(
         'Test::Run::Core' => "0.0126",
         'UNIVERSAL::require' => 0,
         'YAML::XS' => 0,
+        'parent' => 0,
         'perl' => '5.008',
     },
     dist_version_from => 'lib/Test/Run/CmdLine.pm',

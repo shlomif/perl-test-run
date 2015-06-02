@@ -3,6 +3,10 @@ package Test::Run::CmdLine::Trap::Prove;
 use strict;
 use warnings;
 
+use vars (qw($VERSION));
+
+$VERSION = '0.0126';
+
 use Moose;
 
 extends('Test::Run::Trap::Obj');

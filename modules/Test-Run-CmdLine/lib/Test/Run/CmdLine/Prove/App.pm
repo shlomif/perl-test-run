@@ -3,7 +3,11 @@ package Test::Run::CmdLine::Prove::App;
 use strict;
 use warnings;
 
-use base 'Exporter';
+use parent 'Exporter';
+
+use vars (qw($VERSION));
+
+$VERSION = '0.0126';
 
 use vars qw(@EXPORT);
 

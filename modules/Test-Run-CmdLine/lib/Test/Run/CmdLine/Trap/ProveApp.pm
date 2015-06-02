@@ -3,7 +3,11 @@ package Test::Run::CmdLine::Trap::ProveApp;
 use strict;
 use warnings;
 
-use base 'Test::Run::Trap::Obj';
+use vars (qw($VERSION));
+
+$VERSION = '0.0126';
+
+use parent 'Test::Run::Trap::Obj';
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 

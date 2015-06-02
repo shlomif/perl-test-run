@@ -3,6 +3,10 @@ package Test::Run::CmdLine::Iface;
 use warnings;
 use strict;
 
+use vars (qw($VERSION));
+
+$VERSION = '0.0126';
+
 extends ('Test::Run::Base');
 
 use UNIVERSAL::require;

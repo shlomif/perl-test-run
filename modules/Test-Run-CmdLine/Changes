@@ -1,5 +1,14 @@
 Revision history for Test-Run-CmdLine
 
+0.0127  2015-06-02
+    - Add $VERSION to lib/**.pm modules that were missing it so they'll be
+    indexed
+        - See https://rt.cpan.org/Ticket/Display.html?id=104864
+        - Thanks to CHORNY for the report.
+    - Convert from 'use base' to the more modern 'use parent'.
+        - “Because I’m all about the base, about the base, about the base.
+        No parent!”
+
 0.0126  2014-01-31
     - Get rid of trailing space with a test - t/style-trailing-space.t .
     - Add scripts/bump-version-number.pl
