@@ -7,7 +7,7 @@ use parent 'Exporter';
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0127';
+$VERSION = '0.0128';
 
 use vars qw(@EXPORT);
 
