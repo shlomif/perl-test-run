@@ -1,5 +1,9 @@
 Revision history for Test-Run-CmdLine
 
+0.0128  2015-06-04
+    - Hopefully fix the test failures on Microsoft Windows.
+        - the problem was matching newline as qr/\n/ instead of qr/\r?\n/.
+
 0.0127  2015-06-02
     - Add $VERSION to lib/**.pm modules that were missing it so they'll be
     indexed

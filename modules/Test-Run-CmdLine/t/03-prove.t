@@ -35,6 +35,9 @@ my $no_t_flags_file = File::Spec->catfile($sample_tests_dir, "no-t-flags.t");
 my $lowercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "lowercase-t-flag.t");
 my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-flag.t");
 
+my $NEW_LINE_RE = qr/\r?\n/;
+my $OPT_NEW_LINE_RE = qr/(?:$NEW_LINE_RE)?/;
+
 {
     local %ENV = %ENV;
 
@@ -102,7 +105,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/\nLEAKED FILES: new-file.txt\n/,
+        $got->field_like ("stdout" , qr/${NEW_LINE_RE}LEAKED FILES: new-file.txt${NEW_LINE_RE}/,
             "Checking for files that were leaked");
         rmtree([$leaked_files_dir], 0, 0);
     }
@@ -184,7 +187,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/^\-{79}\n?$/m,
+        $got->field_like ("stdout" , qr/^\-{79}${OPT_NEW_LINE_RE}$/m,
             "Testing that simple fail is formatted for 80 columns");
     }
     {
@@ -197,7 +200,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/^\-{99}\n?$/m,
+        $got->field_like ("stdout" , qr/^\-{99}${OPT_NEW_LINE_RE}$/m,
             "Testing that simple fail is formatted for 100 columns");
     }
     {
@@ -210,7 +213,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/^\-{99}\n?$/m,
+        $got->field_like ("stdout" , qr/^\-{99}${OPT_NEW_LINE_RE}$/m,
             "Testing that simple fail is formatted for 100 columns");
     }
     {
@@ -224,7 +227,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/^\-{79}\n?$/m,
+        $got->field_like ("stdout" , qr/^\-{79}${OPT_NEW_LINE_RE}$/m,
             "Testing that Columns defaults to 80");
     }
     {
@@ -237,7 +240,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/ok\s+\d+(?:\.\d+)?s\n?$/m,
+        $got->field_like ("stdout" , qr/ok\s+\d+(?:\.\d+)?s${OPT_NEW_LINE_RE}$/m,
             "Displays the time if HARNESS_TIMER is 1.");
     }
     {
@@ -249,7 +252,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/ok\s+\d+(?:\.\d+)?s\n?$/m,
+        $got->field_like ("stdout" , qr/ok\s+\d+(?:\.\d+)?s${OPT_NEW_LINE_RE}$/m,
             "Displays the time if --timer was set.");
     }
     {
@@ -261,7 +264,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_like ("stdout" , qr/ok\n?$/m,
+        $got->field_like ("stdout" , qr/ok${OPT_NEW_LINE_RE}$/m,
             "Timer control experiment");
     }
     {
@@ -504,7 +507,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
         );
 
         # TEST
-        $got->field_is("stdout", "$test_file\n$with_myhello_file\n",
+        $got->field_like("stdout", qr#\A\Q$test_file\E${OPT_NEW_LINE_RE}\Q$with_myhello_file\E${OPT_NEW_LINE_RE}\z#,
             "Testing dry run"
         );
     }
@@ -516,7 +519,7 @@ my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-
             },
         );
         # TEST
-        $got->field_unlike("stderr", qr/\n\n$/s,
+        $got->field_unlike("stderr", qr/${NEW_LINE_RE}${NEW_LINE_RE}$/s,
             "Testing that the output does not end with two "
             . "newlines on failure."
         );
