@@ -132,3 +132,4 @@ b2092715369b202831f9fb93512d0f9477c76943 Task-Test-Run-AllPlugins-0.0104
 d5b46bfcab431a7c4cbc0605fe64b9e22a24b626 releases/modules/Test-Run-CmdLine/0.0127
 f1ccd955b4838f534904f686b96b162df1305fae releases/modules/plugins/backend/Test-Run-Plugin-ColorFileVerdicts/0.0124
 73ed8c523b27f9bac6bcd943e75499730fbdc7de releases/modules/Test-Run-CmdLine/0.0128
+01626ba24f7696e9626d934441639d8bbd5e05f8 releases/modules/plugins/backend/Test-Run-Plugin-FailSummaryComponents/0.0100_04
