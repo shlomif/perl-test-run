@@ -1,5 +1,8 @@
 Revision history for Test-Run-Plugin-FailSummaryComponents
 
+0.0100_04   2015-06-16
+    - Add a META.yml link to the repository and some other cleanups.
+
 0.0100_03   2014-04-29
     - Moosified.
     - Remove _get_simple_params and _get_private_simple_params.
