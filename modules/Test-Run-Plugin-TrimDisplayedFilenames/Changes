@@ -23,7 +23,7 @@ Revision history for Test::Run::Plugin::TrimDisplaysFilenames
         - Bumped the dependency on Test-Run-Core to 0.0121.
 
 0.0120  2009-08-06
-        - Converted thet tests to YAML::XS instead of YAML.pm.
+        - Converted the tests to YAML::XS instead of YAML.pm.
         - Converted to Moose.
 
 0.0103  2009-05-04
