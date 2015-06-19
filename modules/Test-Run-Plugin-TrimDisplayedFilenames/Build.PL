@@ -29,6 +29,14 @@ my $builder = Test::Run::Builder->new(
     test_requires => {
         'YAML::XS' => 0,
     },
+    meta_merge =>
+    {
+        resources =>
+        {
+            homepage => "http://web-cpan.shlomifish.org/modules/Test-Run/",
+            repository => "https://bitbucket.org/shlomif/perl-test-run",
+        },
+    },
     add_to_cleanup      => [ 'Test-Run-Plugin-TrimDisplayedFilenames-*' ],
     create_makefile_pl => 'traditional',
 );

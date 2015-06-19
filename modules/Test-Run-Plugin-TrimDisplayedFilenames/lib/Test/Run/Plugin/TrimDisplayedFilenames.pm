@@ -214,9 +214,9 @@ L<http://cpanratings.perl.org/d/Test::Run::Plugin::TrimDisplayedFilenames>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::TrimDisplayedFilenames>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-TrimDisplayedFilenames/>
+L<http://metacpan.org/release/Test-Run-Plugin-TrimDisplayedFilenames>
 
 =back
 
