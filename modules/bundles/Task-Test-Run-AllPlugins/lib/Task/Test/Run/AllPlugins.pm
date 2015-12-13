@@ -10,7 +10,7 @@ Plugins
 
 =cut
 
-our $VERSION = '0.0104';
+our $VERSION = '0.0105';
 
 =head1 DESCRIPTION
 
@@ -48,7 +48,7 @@ hesitate to contact me: L<http://www.shlomifish.org/me/contact-me/> .
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif at iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

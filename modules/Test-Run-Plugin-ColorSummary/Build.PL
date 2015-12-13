@@ -9,7 +9,7 @@ use Test::Run::Builder;
 my $builder = Test::Run::Builder->new(
     module_name         => 'Test::Run::Plugin::ColorSummary',
     license             => 'mit',
-    dist_author         => 'Shlomi Fish <shlomif@iglu.org.il>',
+    dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
     dist_version_from   => 'lib/Test/Run/Plugin/ColorSummary.pm',
     configure_requires =>
     {

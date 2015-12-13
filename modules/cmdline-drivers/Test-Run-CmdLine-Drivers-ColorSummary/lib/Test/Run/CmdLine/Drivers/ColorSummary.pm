@@ -21,7 +21,7 @@ our $VERSION = '0.0100_00';
 
 =head1 SYNOPSIS
 
-    $ TEST_HARNESS_DRIVER=Test::Run::CmdLine::Drivers::ColorSummary \ 
+    $ TEST_HARNESS_DRIVER=Test::Run::CmdLine::Drivers::ColorSummary \
         runprove t/*.t
 
 =head1 EXPORT
@@ -31,7 +31,7 @@ if you don't export anything, such as for a purely object-oriented module.
 
 =head1 FUNCTIONS
 
-=cut 
+=cut
 
 sub _report_success
 {
@@ -43,7 +43,7 @@ sub _report_success
 
 =head2 $tester->runtests()
 
-We override runtests() to colour the errors in red. The rest of the 
+We override runtests() to colour the errors in red. The rest of the
 documentation is the code.
 
 =cut
@@ -75,7 +75,7 @@ sub runtests
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, ( L<http://www.shlomifish.org/> )
 
 =head1 BUGS
 

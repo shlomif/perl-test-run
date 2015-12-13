@@ -556,8 +556,8 @@ Gaal Yahas <gaal@forum2.org> GAAL
 
 =back
 
-Shlomi Fish <shlomif@iglu.org.il> SHLOMIF did the porting to Test::Run. He
-disclaims any ownership on his work.
+Shlomi Fish ( L<http://www.shlomifish.org/> ) SHLOMIF did the porting to
+Test::Run. He disclaims any ownership on his work.
 
 =head1 COPYRIGHT & LICNESE
 
