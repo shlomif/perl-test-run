@@ -135,3 +135,4 @@ f1ccd955b4838f534904f686b96b162df1305fae releases/modules/plugins/backend/Test-R
 01626ba24f7696e9626d934441639d8bbd5e05f8 releases/modules/plugins/backend/Test-Run-Plugin-FailSummaryComponents/0.0100_04
 5b2ed458915794eeba78a81340520b56d72c8b78 releases/modules/Test-Run-Plugin-TrimDisplayedFilenames/0.0125
 93de19ad88d09ffb79974dd0995247aebb8fc661 releases/modules/Test-Run-CmdLine/0.0129
+933aa277877c01db345f5d068d69120dfef6a92d releases/modules/Test-Run/0.0304
