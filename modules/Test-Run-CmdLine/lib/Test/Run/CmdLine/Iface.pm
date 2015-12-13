@@ -5,7 +5,7 @@ use strict;
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0128';
+$VERSION = '0.0129';
 
 extends ('Test::Run::Base');
 
@@ -265,7 +265,7 @@ sub _calc_single_plugin_for_ISA
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

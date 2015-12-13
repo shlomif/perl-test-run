@@ -97,7 +97,7 @@ use File::Spec;
 
 use vars qw($VERSION);
 
-$VERSION = '0.0128';
+$VERSION = '0.0129';
 
 
 =head1 NAME
@@ -588,7 +588,7 @@ sub _get_test_files_from_file_path
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

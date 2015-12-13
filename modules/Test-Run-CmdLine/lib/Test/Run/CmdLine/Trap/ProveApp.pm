@@ -5,7 +5,7 @@ use warnings;
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0128';
+$VERSION = '0.0129';
 
 use parent 'Test::Run::Trap::Obj';
 
@@ -51,7 +51,7 @@ Returns the object. To be used as a constructor.
 
 =head1 AUTHORS
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/>.
 
 =head1 BUGS
 

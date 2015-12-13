@@ -1,5 +1,8 @@
 Revision history for Test-Run-CmdLine
 
+0.0129  2015-12-13
+    - Update an old E-mail address.
+
 0.0128  2015-06-04
     - Hopefully fix the test failures on Microsoft Windows.
         - the problem was matching newline as qr/\n/ instead of qr/\r?\n/.

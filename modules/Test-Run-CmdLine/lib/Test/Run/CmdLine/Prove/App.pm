@@ -7,7 +7,7 @@ use parent 'Exporter';
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0128';
+$VERSION = '0.0129';
 
 use vars qw(@EXPORT);
 
@@ -52,7 +52,7 @@ Actually executed the command-line application.
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

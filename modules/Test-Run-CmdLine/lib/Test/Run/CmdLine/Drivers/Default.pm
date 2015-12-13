@@ -5,7 +5,7 @@ use warnings;
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0128';
+$VERSION = '0.0129';
 
 =head1 NAME
 
@@ -17,7 +17,7 @@ This is a class for the Test::Run internal use.
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 
