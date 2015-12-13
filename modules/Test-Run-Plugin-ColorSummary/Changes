@@ -1,5 +1,8 @@
 Revision history for Test-Run-Plugin-ColorSummary
 
+0.0202  2015-12-31
+    * Update old E-mail addresses.
+
 0.0201  2014-01-30
     * t/cpan-changes.t and t/style-trailing-space.t .
     * Minimal perl version (CPANTS).
