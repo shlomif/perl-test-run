@@ -138,3 +138,4 @@ f1ccd955b4838f534904f686b96b162df1305fae releases/modules/plugins/backend/Test-R
 933aa277877c01db345f5d068d69120dfef6a92d releases/modules/Test-Run/0.0304
 1c61ddaa55fdb65db733c473de3b22e3946adde4 Task-Test-Run-AllPlugins-0.0105
 a6f2161412e0eb1623cf298e18c063e5cd4805b9 releases/modules/plugins/backend/Test-Run-Plugin-ColorSummary/0.0202
+e32d5c6ca9cf6ab33675347ef96dd89967db1f35 releases/modules/Test-Run-CmdLine/0.0130
