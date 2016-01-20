@@ -5,7 +5,7 @@ use strict;
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0130';
+$VERSION = '0.0131';
 
 extends ('Test::Run::Base');
 

@@ -36,7 +36,15 @@ my $lowercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "lowercase-t-
 my $uppercase_t_flag_file = File::Spec->catfile($sample_tests_dir, "uppercase-t-flag.t");
 
 my $NEW_LINE_RE = qr/\r?\n/;
-my $OPT_NEW_LINE_RE = qr/(?:$NEW_LINE_RE)?/;
+
+# This does not work in MS Windows for some reason so I'm trying a different
+# approach
+# my $OPT_NEW_LINE_RE = qr/(?:$NEW_LINE_RE)?/;
+
+my $OPT_NEW_LINE_RE = qr/\r?\n?/;
+
+# "Real men don't write workarounds. They expect their user to upgrade their
+# software" -- Shlomi Fish (= me), who is now officially not a real man.
 
 {
     local %ENV = %ENV;
