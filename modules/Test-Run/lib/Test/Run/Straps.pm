@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '0.0302';
+$VERSION = '0.0304';
 
 =head1 NAME
 
@@ -865,4 +865,4 @@ http://www.opensource.org/licenses/mit-license.php
 
 =head1 AUTHOR
 
-Shlomi Fish <shlomif@iglu.org.il>
+Shlomi Fish, L<http://www.shlomifish.org/> .

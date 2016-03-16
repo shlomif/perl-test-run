@@ -27,7 +27,7 @@ interpreters and their regular expressions. A sample one is:
 
 =cut
 
-our $VERSION = '0.0123';
+our $VERSION = '0.0124';
 
 =head2 $self->private_backend_plugins()
 
@@ -98,15 +98,15 @@ L<http://cpanratings.perl.org/d/Test::Run::Plugin::AlternateInterpreters>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::AlternateInterpreters>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-AlternateInterpreters/>
+L<https://metacpan.org/release/Test-Run-Plugin-AlternateInterpreters>
 
 =back
 
 =head1 ACKNOWLEDGEMENTS
 
-Curtis "Ovid" Poe ( L<http://search.cpan.org/~ovid/> ) who gave the idea
+Curtis "Ovid" Poe ( L<https://metacpan.org/author/OVID> ) who gave the idea
 of testing several tests from several interpreters in one go here:
 
 L<http://use.perl.org/~Ovid/journal/32092>

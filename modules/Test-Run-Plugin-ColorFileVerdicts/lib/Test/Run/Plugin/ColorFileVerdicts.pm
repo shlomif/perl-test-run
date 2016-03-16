@@ -20,11 +20,11 @@ colorful.
 
 =head1 VERSION
 
-Version 0.0123
+Version 0.0124
 
 =cut
 
-our $VERSION = '0.0123';
+our $VERSION = '0.0124';
 
 =head1 SYNOPSIS
 
@@ -138,9 +138,9 @@ L<http://cpanratings.perl.org/d/Test-Run-Plugin-ColorFileVerdicts>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Run-Plugin-ColorFileVerdicts>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-ColorFileVerdicts>
+L<http://metacpan.org/releaseTest-Run-Plugin-ColorFileVerdicts>
 
 =back
 

@@ -181,7 +181,7 @@ Shuffled tests must be recreatable
 =head1 AUTHORS
 
 Andy Lester C<< <andy@petdance.com> >>
-(Adapted to runprove by Shlomi Fish C<< <shlomif@iglu.org.il> >>)
+(Adapted to runprove by Shlomi Fish, L<http://www.shlomifish.org/> ).
 
 =head1 COPYRIGHT
 

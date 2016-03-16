@@ -20,6 +20,7 @@ my $builder = Test::Run::Builder->new(
         'Test::Run::CmdLine::Trap::ProveApp' => 0,
     },
     requires => {
+        'perl' => '5.008',
         'Test::Run::CmdLine' => "0.0121",
         'Test::Run::Core' => "0.0122",
         'MRO::Compat' => 0,
@@ -27,6 +28,14 @@ my $builder = Test::Run::Builder->new(
     },
     test_requires => {
         'YAML::XS' => 0,
+    },
+    meta_merge =>
+    {
+        resources =>
+        {
+            homepage => "http://web-cpan.shlomifish.org/modules/Test-Run/",
+            repository => "https://bitbucket.org/shlomif/perl-test-run",
+        },
     },
     add_to_cleanup      => [ 'Test-Run-Plugin-TrimDisplayedFilenames-*' ],
     create_makefile_pl => 'traditional',

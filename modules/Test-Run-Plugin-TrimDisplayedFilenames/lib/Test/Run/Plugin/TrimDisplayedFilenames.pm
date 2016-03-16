@@ -3,6 +3,8 @@ package Test::Run::Plugin::TrimDisplayedFilenames;
 use warnings;
 use strict;
 
+use 5.008;
+
 use Moose;
 
 use MRO::Compat;
@@ -19,11 +21,11 @@ of the displayed filename to deal with excessively long ones.
 
 =head1 VERSION
 
-Version 0.0123
+Version 0.0125
 
 =cut
 
-our $VERSION = '0.0123';
+our $VERSION = '0.0125';
 
 has 'trim_displayed_filenames_query' => (is => "rw", isa => "Str");
 
@@ -61,7 +63,7 @@ sub _get_search_from_callback
 {
     my ($self, $options) = @_;
 
-    return 
+    return
         +($options->{search_from} eq "start")
             ? \&List::MoreUtils::firstidx
             : \&List::MoreUtils::lasttidx
@@ -141,9 +143,9 @@ sub _process_output_leader_fn
             return
                 $self->_process_filename_dirs(
                     $fn,
-                    sub { 
-                        my @dirs = @{shift()}; 
-                        return 
+                    sub {
+                        my @dirs = @{shift()};
+                        return
                             +($num_keep <= 1)
                                 ? []
                                 : [splice(@dirs, -($num_keep-1))]
@@ -212,9 +214,9 @@ L<http://cpanratings.perl.org/d/Test::Run::Plugin::TrimDisplayedFilenames>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run::Plugin::TrimDisplayedFilenames>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-TrimDisplayedFilenames/>
+L<http://metacpan.org/release/Test-Run-Plugin-TrimDisplayedFilenames>
 
 =back
 

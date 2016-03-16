@@ -10,13 +10,13 @@ verdicts in Test::Run::CmdLine.
 
 =head1 VERSION
 
-0.0123
+0.0124
 
 =head1 METHODS
 
 =cut
 
-our $VERSION = '0.0123';
+our $VERSION = '0.0124';
 
 =head2 $self->private_backend_plugins()
 
@@ -144,9 +144,9 @@ L<http://cpanratings.perl.org/d/Test-Run-Plugin-ColorFileVerdicts>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Run-Plugin-ColorFileVerdicts>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-ColorFileVerdicts>
+L<http://metacpan.org/releaseTest-Run-Plugin-ColorFileVerdicts>
 
 =back
 

@@ -32,11 +32,11 @@ Test::Run::Core - Base class to run standard TAP scripts.
 
 =head1 VERSION
 
-Version 0.0302
+Version 0.0304
 
 =cut
 
-$VERSION = '0.0302';
+$VERSION = '0.0304';
 
 $ENV{HARNESS_ACTIVE} = 1;
 $ENV{HARNESS_NG_VERSION} = $VERSION;
@@ -2060,7 +2060,7 @@ Test::Harness was then maintained by Andy Lester C<< <andy at petdance.com> >>.
 
 =head2 Test::Run::Obj Authors
 
-Shlomi Fish C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 Note: this file is a rewrite of the original Test::Run code in order to
 change to a more liberal license.
@@ -2100,13 +2100,6 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test::Run>
 L<http://search.cpan.org/dist/Test::Run>
 
 =back
-
-=head1 SOURCE AVAILABILITY
-
-The latest source of Test::Run is available from its BerliOS Subversion
-repository:
-
-L<https://svn.berlios.de/svnroot/repos/web-cpan/Test-Harness-NG/>
 
 =head1 LICENSE
 

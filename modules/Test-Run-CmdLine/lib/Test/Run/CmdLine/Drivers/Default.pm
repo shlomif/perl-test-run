@@ -3,6 +3,10 @@ package Test::Run::CmdLine::Drivers::Default;
 use strict;
 use warnings;
 
+use vars (qw($VERSION));
+
+$VERSION = '0.0131';
+
 =head1 NAME
 
 Test::Run::CmdLine::Drivers::Default - the default command line driver.
@@ -13,7 +17,7 @@ This is a class for the Test::Run internal use.
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

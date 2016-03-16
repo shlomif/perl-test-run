@@ -22,10 +22,10 @@ use Test::More tests => 8;
 
 {
     # TEST:$num_queries=4
-    
-    foreach my $query 
+
+    foreach my $query
     (
-        'fromre:long', 
+        'fromre:long',
         'fromre:\Areally-really-really-long-dir-name\z',
         'fromre:re.l+y',
         'keep:1',
@@ -36,7 +36,7 @@ use Test::More tests => 8;
                 class => "MyTestRun",
                 args =>
                 [
-                    test_files => 
+                    test_files =>
                     [
                         "t/sample-tests/really-really-really-long-dir-name/one-ok.t",
                         "t/sample-tests/really-really-really-long-dir-name/several-oks.t"
@@ -47,12 +47,12 @@ use Test::More tests => 8;
         );
 
         # TEST*$num_queries
-        $got->field_like("stdout", qr/^one-ok \.{2,8} ok/ms, 
+        $got->field_like("stdout", qr/^one-ok \.{2,8} ok/ms,
             "one-ok.t appears alone without the long path."
         );
 
         # TEST*$num_queries
-        $got->field_like("stdout", qr/^several-oks \.{2,8} ok/ms, 
+        $got->field_like("stdout", qr/^several-oks \.{2,8} ok/ms,
             "several-oks.t appears alone without the long path."
         );
     }

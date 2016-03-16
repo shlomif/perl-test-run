@@ -24,7 +24,7 @@ Test::Run::CmdLine - Analyze tests from the command line using Test::Run
 
 use vars (qw($VERSION));
 
-$VERSION = '0.0126';
+$VERSION = '0.0131';
 
 extends ('Test::Run::Base');
 
@@ -465,7 +465,7 @@ sub add_to_backend_plugins
 
 =head1 AUTHORS
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

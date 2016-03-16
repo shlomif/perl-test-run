@@ -3,7 +3,11 @@ package Test::Run::CmdLine::Trap::ProveApp;
 use strict;
 use warnings;
 
-use base 'Test::Run::Trap::Obj';
+use vars (qw($VERSION));
+
+$VERSION = '0.0131';
+
+use parent 'Test::Run::Trap::Obj';
 
 use Test::Trap qw( trap $trap :flow:stderr(systemsafe):stdout(systemsafe):warn );
 
@@ -47,7 +51,7 @@ Returns the object. To be used as a constructor.
 
 =head1 AUTHORS
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/>.
 
 =head1 BUGS
 

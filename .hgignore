@@ -75,6 +75,7 @@ modules/Test-Run-Plugin-FailSummaryComponents/MYMETA.json
 modules/Test-Run-Plugin-FailSummaryComponents/MYMETA.yml
 modules/Test-Run-Plugin-FailSummaryComponents/_build
 modules/Test-Run-Plugin-FailSummaryComponents/blib
+modules/Test-Run-Plugin-FailSummaryComponents/Test-Run-Plugin-FailSummaryComponents-*
 modules/Test-Run-Plugin-TrimDisplayedFilenames/Build
 modules/Test-Run-Plugin-TrimDisplayedFilenames/Makefile.PL
 modules/Test-Run-Plugin-TrimDisplayedFilenames/META.json
@@ -83,6 +84,7 @@ modules/Test-Run-Plugin-TrimDisplayedFilenames/MYMETA.json
 modules/Test-Run-Plugin-TrimDisplayedFilenames/MYMETA.yml
 modules/Test-Run-Plugin-TrimDisplayedFilenames/_build
 modules/Test-Run-Plugin-TrimDisplayedFilenames/blib
+modules/Test-Run-Plugin-TrimDisplayedFilenames/Test-Run-Plugin-TrimDisplayedFilenames-*
 modules/Test-Run/Build
 modules/Test-Run/MYMETA.json
 modules/Test-Run/Makefile.PL

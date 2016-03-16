@@ -76,9 +76,9 @@ L<http://cpanratings.perl.org/d/Test-Run-Plugin-ColorFileVerdicts>
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Run-Plugin-ColorFileVerdicts>
 
-=item * Search CPAN
+=item * MetaCPAN
 
-L<http://search.cpan.org/dist/Test-Run-Plugin-ColorFileVerdicts>
+L<http://metacpan.org/releaseTest-Run-Plugin-ColorFileVerdicts>
 
 =back
 

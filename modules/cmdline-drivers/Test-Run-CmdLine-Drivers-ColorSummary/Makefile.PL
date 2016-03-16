@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME                => 'Test::Run::CmdLine::Drivers::ColorSummary',
-    AUTHOR              => 'Shlomi Fish <shlomif@iglu.org.il>',
+    AUTHOR              => 'Shlomi Fish <shlomif@cpan.org>',
     VERSION_FROM        => 'lib/Test/Run/CmdLine/Drivers/ColorSummary.pm',
     ABSTRACT_FROM       => 'lib/Test/Run/CmdLine/Drivers/ColorSummary.pm',
     PL_FILES            => {},

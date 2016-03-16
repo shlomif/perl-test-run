@@ -118,8 +118,7 @@ See F<examples/mini_harness.plx> for an example of use.
 Michael G Schwern C<< <schwern@pobox.com> >>, later maintained by
 Andy Lester C<< <andy@petdance.com> >>.
 
-Converted to Test::Run::Straps by Shlomi Fish
-C<< <shlomif@iglu.org.il> >>.
+Converted to Test::Run::Straps by Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 LICENSE
 

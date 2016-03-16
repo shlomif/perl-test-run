@@ -1,5 +1,28 @@
 Revision history for Test-Run-CmdLine
 
+0.0131  2015-01-20
+    - Hopefully fix t/03-prove.t on MS Windows and other \r\n systems.
+        - The problem appeared to be a bug in the perl 5 regex engine.
+
+0.0130  2015-12-28
+    - Resubmit.
+
+0.0129  2015-12-13
+    - Update an old E-mail address.
+
+0.0128  2015-06-04
+    - Hopefully fix the test failures on Microsoft Windows.
+        - the problem was matching newline as qr/\n/ instead of qr/\r?\n/.
+
+0.0127  2015-06-02
+    - Add $VERSION to lib/**.pm modules that were missing it so they'll be
+    indexed
+        - See https://rt.cpan.org/Ticket/Display.html?id=104864
+        - Thanks to CHORNY for the report.
+    - Convert from 'use base' to the more modern 'use parent'.
+        - “Because I’m all about the base, about the base, about the base.
+        No parent!”
+
 0.0126  2014-01-31
     - Get rid of trailing space with a test - t/style-trailing-space.t .
     - Add scripts/bump-version-number.pl

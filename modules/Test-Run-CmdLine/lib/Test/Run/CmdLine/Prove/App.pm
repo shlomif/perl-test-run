@@ -3,7 +3,11 @@ package Test::Run::CmdLine::Prove::App;
 use strict;
 use warnings;
 
-use base 'Exporter';
+use parent 'Exporter';
+
+use vars (qw($VERSION));
+
+$VERSION = '0.0131';
 
 use vars qw(@EXPORT);
 
@@ -48,7 +52,7 @@ Actually executed the command-line application.
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

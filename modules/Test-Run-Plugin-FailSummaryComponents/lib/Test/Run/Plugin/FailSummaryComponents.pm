@@ -3,6 +3,8 @@ package Test::Run::Plugin::FailSummaryComponents;
 use warnings;
 use strict;
 
+use 5.008;
+
 use Moose;
 
 use MRO::Compat;
@@ -18,7 +20,7 @@ customizes the failure summary line.
 
 =cut
 
-our $VERSION = '0.0100_03';
+our $VERSION = '0.0100_04';
 
 my @params = (qw(
     failsumm_remove_test_scripts_number
@@ -113,7 +115,7 @@ sub _get_sub_percent_msg
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 

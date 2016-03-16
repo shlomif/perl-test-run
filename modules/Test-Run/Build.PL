@@ -40,7 +40,7 @@ my $build = Test::Run::Builder->new(
         resources =>
         {
             repository => "http://bitbucket.org/shlomif/perl-test-run",
-            homepage => "http://web-cpan.berlios.de/modules/Test-Run/",
+            homepage => "http://web-cpan.shlomifish.org/modules/Test-Run/",
         },
         keywords =>
         [

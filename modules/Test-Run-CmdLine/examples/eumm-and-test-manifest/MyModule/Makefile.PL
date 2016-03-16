@@ -30,7 +30,7 @@ MAKE_FRAG
 
 WriteMakefile(
     NAME                => 'MyModule',
-    AUTHOR              => 'Shlomi Fish <shlomif@iglu.org.il>',
+    AUTHOR              => 'Shlomi Fish <shlomif@cpan.org>',
     VERSION_FROM        => 'lib/MyModule.pm',
     ABSTRACT_FROM       => 'lib/MyModule.pm',
     PL_FILES            => {},

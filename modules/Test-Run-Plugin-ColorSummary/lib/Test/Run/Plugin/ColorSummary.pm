@@ -21,11 +21,11 @@ colors the summary.
 
 =head1 VERSION
 
-0.0201
+0.0202
 
 =cut
 
-our $VERSION = '0.0201';
+our $VERSION = '0.0202';
 
 has 'summary_color_failure' => (is => "rw", isa => "Str");
 has 'summary_color_success' => (is => "rw", isa => "Str");
@@ -124,7 +124,7 @@ sub _handle_runtests_error_text
 
 =head1 AUTHOR
 
-Shlomi Fish, C<< <shlomif@iglu.org.il> >>
+Shlomi Fish, L<http://www.shlomifish.org/> .
 
 =head1 BUGS
 
