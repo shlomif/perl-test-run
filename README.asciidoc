@@ -1,4 +1,4 @@
-Test-Run
+= Test-Run
 
 This module is an improved test harness based on Test::Harness, but more
 modular, extensible and object-oriented.
@@ -6,17 +6,24 @@ modular, extensible and object-oriented.
 There are other modules in the Test::Run namespace that extend it or
 provide a front-end to it.
 
-INSTALLATION
+== INSTALLATION
 
 To install this module, run the following commands:
 
-    perl Makefile.PL
-    make
-    make test
-    make install
+--------------------
+perl Makefile.PL
+make
+make test
+make install
+--------------------
 
+== Thanks
 
-COPYRIGHT AND LICENCE
+We used http://www.catb.org/~esr/reposurgeon/[repoosurgeon] by
+http://www.catb.org/~esr/[Eric S. Raymond] and other contributors,
+to convert the old mercurial repository to git.
+
+== COPYRIGHT AND LICENCE
 
 * A lot of the code here is derived from the code of Test::Harness, which is
 in turn derived from the code of t/TEST in the Perl distribution which dates
