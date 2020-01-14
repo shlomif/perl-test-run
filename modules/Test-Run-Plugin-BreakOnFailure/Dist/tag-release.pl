@@ -3,15 +3,13 @@
 use strict;
 use warnings;
 
-use IO::All;
+use IO::All qw/ io /;
 
 my ($version) =
-    (map { m{\$VERSION *= *'([^']+)'} ? ($1) : () }
-    io->file("./lib/Test/Run/Plugin/BreakOnFailure.pm")->getlines()
-    )
-    ;
+    ( map { m{\$VERSION *= *'([^']+)'} ? ($1) : () }
+        io->file("./lib/Test/Run/Plugin/BreakOnFailure.pm")->getlines() );
 
-if (!defined ($version))
+if ( !defined($version) )
 {
     die "Version is undefined!";
 }
@@ -19,10 +17,10 @@ if (!defined ($version))
 my $mod_name = 'Test-Run-Plugin-BreakOnFailure';
 
 my @cmd = (
-    "hg", "tag", "-m",
+    "git", "tag", "-m",
     "Tagging $mod_name as $version",
     "releases/modules/plugins/backend/$mod_name/$version",
 );
 
-print join(" ", map { /\s/ ? qq{"$_"} : $_ } @cmd), "\n";
+print join( " ", map { /\s/ ? qq{"$_"} : $_ } @cmd ), "\n";
 exec(@cmd);
