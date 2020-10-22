@@ -3,11 +3,11 @@
 use strict;
 use warnings;
 
-use IO::All qw/ io /;
+use Path::Tiny qw/ path /;
 
 my ($version) =
     ( map { m{\$VERSION *= *'([^']+)'} ? ($1) : () }
-        io->file('lib/Test/Run/Plugin/TrimDisplayedFilenames.pm')->getlines() );
+        path('lib/Test/Run/Plugin/TrimDisplayedFilenames.pm')->lines_utf8() );
 
 if ( !defined($version) )
 {
@@ -23,4 +23,3 @@ my @cmd      = (
 
 print join( " ", map { /\s/ ? qq{"$_"} : $_ } @cmd ), "\n";
 exec(@cmd);
-
