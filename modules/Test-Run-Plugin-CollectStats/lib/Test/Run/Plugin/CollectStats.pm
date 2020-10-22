@@ -139,9 +139,9 @@ Shlomi Fish, C<< <shlomif at cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007 Shlomi Fish, all rights reserved.
+Copyright 2007 Shlomi Fish.
 
-This program is released under the following license: MIT/X11.
+This program is released under the following license: MIT/Expat.
 
 =cut
 
