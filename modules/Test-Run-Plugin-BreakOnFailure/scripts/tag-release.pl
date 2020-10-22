@@ -3,11 +3,11 @@
 use strict;
 use warnings;
 
-use IO::All qw/ io /;
+use Path::Tiny qw/ path /;
 
 my ($version) =
     ( map { m{\$VERSION *= *'([^']+)'} ? ($1) : () }
-        io->file("./lib/Test/Run/Plugin/BreakOnFailure.pm")->getlines() );
+        path('lib/Test/Run/Plugin/BreakOnFailure.pm')->lines_utf8() );
 
 if ( !defined($version) )
 {
@@ -15,11 +15,10 @@ if ( !defined($version) )
 }
 
 my $mod_name = 'Test-Run-Plugin-BreakOnFailure';
-
-my @cmd = (
+my @cmd      = (
     "git", "tag", "-m",
-    "Tagging $mod_name as $version",
-    "releases/modules/plugins/backend/$mod_name/$version",
+    "Tagging the $mod_name release as $version",
+    "releases/modules/$mod_name/$version",
 );
 
 print join( " ", map { /\s/ ? qq{"$_"} : $_ } @cmd ), "\n";
