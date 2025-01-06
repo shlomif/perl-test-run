@@ -10,7 +10,7 @@ use Moose;
 use MRO::Compat;
 use File::Spec ();
 use File::Basename qw/ basename dirname /;
-use List::MoreUtils ();
+use List::SomeUtils ();
 
 extends('Test::Run::Base');
 
@@ -60,8 +60,8 @@ sub _get_search_from_callback
     my ( $self, $options ) = @_;
 
     return +( $options->{search_from} eq "start" )
-        ? \&List::MoreUtils::firstidx
-        : \&List::MoreUtils::lasttidx;
+        ? \&List::SomeUtils::firstidx
+        : \&List::SomeUtils::lasttidx;
 }
 
 sub _get_array_portion
