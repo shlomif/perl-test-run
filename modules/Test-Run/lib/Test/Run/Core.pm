@@ -12,8 +12,6 @@ use vars qw($VERSION);
 
 use MRO::Compat;
 
-use List::MoreUtils ();
-
 use Fatal qw(opendir);
 
 use Time::HiRes ();
@@ -838,7 +836,7 @@ sub _canonfailed
 sub _filter_failed
 {
     my ($self, $failed_ref) = @_;
-    return [ List::MoreUtils::uniq(sort { $a <=> $b } @$failed_ref) ];
+    return [ List::Util::uniq(sort { $a <=> $b } @$failed_ref) ];
 }
 
 sub _canonfailed_get_failed

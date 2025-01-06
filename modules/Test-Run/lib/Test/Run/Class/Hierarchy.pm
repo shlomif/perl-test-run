@@ -29,7 +29,7 @@ use Moose;
 
 extends('Exporter');
 
-use List::MoreUtils (qw(uniq));
+use List::Util (qw(uniq));
 
 our @EXPORT_OK = (qw(hierarchy_of rev_hierarchy_of));
 
