@@ -15,7 +15,7 @@ use MRO::Compat;
 use Fatal qw(opendir);
 
 use Time::HiRes ();
-use List::Util ();
+use List::Util 1.45 ();
 
 use File::Spec;
 
